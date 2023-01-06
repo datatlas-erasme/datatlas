@@ -13,7 +13,6 @@ jobs:
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
-      - run: npm ci
 
       - run: npx nx build doc
       # Popular action to deploy to GitHub Pages:
