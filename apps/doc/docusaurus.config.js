@@ -6,15 +6,15 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'Datatlas',
+  tagline: 'DatAtlas allows you to create a map of the territory on the fly by embedding data from different sources, by choosing your favorite map style and features',
   url: 'https://your-docusaurus-test-site.com',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'Erasme', // Usually your GitHub org/user name.
+  projectName: 'datatlas', // Usually your repo name.
 
   presets: [
     [
@@ -24,12 +24,13 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/',
+          editUrl: 'https://github.com/datatlas-erasme/datatlas/blob/docs-init-doc/apps/doc/docs/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl: 'https://github.com/facebook/docusaurus/edit/main/website/blog/',
+          editUrl:
+            'https://github.com/datatlas-erasme/datatlas/tree/docs-init-doc/apps/doc/blog',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
