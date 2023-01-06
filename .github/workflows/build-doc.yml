@@ -13,15 +13,15 @@ jobs:
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
-
+        with:
+            main-branch-name: 'docs-init-doc'
+            workflow-id: 'build-doc.yml'
       - run: npx nx build doc
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          main-branch-name: 'docs-init-doc'
-          workflow-id: 'build-doc.yml'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Build output to publish to the `gh-pages` branch:
           publish_dir: ./dist/doc
