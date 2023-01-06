@@ -9,7 +9,7 @@ const config = {
   title: 'Datatlas',
   tagline: 'DatAtlas allows you to create a map of the territory on the fly by embedding data from different sources, by choosing your favorite map style and features',
   url: 'https://datatlas-erasme.github.io',
-  baseUrl: '/datatlas/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -55,7 +55,6 @@ const config = {
             position: 'left',
             label: 'Tutorial',
           },
-          { to: '/blog', label: 'Blog', position: 'left' },
           {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
@@ -106,7 +105,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Datagora, Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,
@@ -115,4 +114,10 @@ const config = {
     }),
 };
 
-module.exports = config;
+module.exports = {
+  ...config,
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
+};
