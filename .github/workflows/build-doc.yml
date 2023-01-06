@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - docs-init-doc
+      - dev
+      - main
   pull_request:
 
 jobs:
