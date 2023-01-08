@@ -5,45 +5,13 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/vite:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
-      "options": {
-        "outputPath": "dist/apps/frontend"
-      },
-      "configurations": {
-        "development": {
-          "mode": "development"
-        },
-        "production": {
-          "mode": "production"
-        }
-      }
+      "command": "cross-env BUILD_PATH=apps/frontend/dist react-app-rewired build"
     },
     "serve": {
-      "executor": "@nrwl/vite:dev-server",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "frontend:build"
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "frontend:build:development",
-          "hmr": true
-        },
-        "production": {
-          "buildTarget": "frontend:build:production",
-          "hmr": false
-        }
-      }
+      "command": "react-app-rewired start"
     },
     "test": {
-      "executor": "@nrwl/vite:test",
-      "outputs": ["{projectRoot}/coverage"],
-      "options": {
-        "passWithNoTests": true,
-        "reportsDirectory": "{workspaceRoot}/coverage/{projectRoot}"
-      }
+      "command": "react-app-rewired test"
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
