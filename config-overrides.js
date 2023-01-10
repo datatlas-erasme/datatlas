@@ -15,9 +15,7 @@ module.exports = {
 
     // Remove guard against importing modules outside of `src`.
     // Needed for workspace projects.
-    config.resolve.plugins = config.resolve.plugins.filter(
-      (plugin) => !(plugin instanceof ModuleScopePlugin)
-    );
+    config.resolve.plugins = config.resolve.plugins.filter((plugin) => !(plugin instanceof ModuleScopePlugin));
     // Add support for importing workspace projects.
     config.resolve.plugins.push(
       new TsConfigPathsPlugin({
@@ -55,9 +53,7 @@ module.exports = {
       config.testPathIgnorePatterns = [];
     }
     if (!process.env.RUN_COMPONENT_TESTS) {
-      config.testPathIgnorePatterns.push(
-        '<rootDir>/src/components/**/*.test.js'
-      );
+      config.testPathIgnorePatterns.push('<rootDir>/src/components/**/*.test.js');
     }
     if (!process.env.RUN_REDUCER_TESTS) {
       config.testPathIgnorePatterns.push('<rootDir>/src/reducers/**/*.test.js');
