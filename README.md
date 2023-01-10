@@ -16,6 +16,8 @@ nx run-many --target=lint
 
 ### Frontend
 
+kepler.gl uses mapbox-gl.js to render its base maps. You need to add `mapboxApiAccessToken` in the `.env` (cf: `.env.example`), locate at `apps/frontend`.
+
 ```
 nx serve frontend
 ```
