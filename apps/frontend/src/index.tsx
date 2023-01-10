@@ -1,14 +1,34 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { LoginPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <ProjectsPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/project',
+    element: <ProjectPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+    errorElement: <ErrorPage />,
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
   <Provider store={store}>
-    <App />
+    <RouterProvider router={router} />
   </Provider>
 );
 
