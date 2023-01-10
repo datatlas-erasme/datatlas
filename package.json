@@ -2,7 +2,10 @@
   "name": "datatlas",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "lint": "nx run-many --target=lint",
+    "format:check": "nx format:check"
+  },
   "private": true,
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
