@@ -1,8 +1,17 @@
 import React from 'react';
 import KeplerGl from 'kepler.gl';
+import { AutoSizer } from 'react-virtualized';
 
 const KeplerMap = () => (
-  <KeplerGl mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN || ''} />
+  <AutoSizer>
+    {({ height, width }) => (
+      <KeplerGl
+        width={width}
+        height={height}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN || ''}
+      />
+    )}
+  </AutoSizer>
 );
 
 export default KeplerMap;
