@@ -2,6 +2,18 @@
 
 ## Development
 
+Run `prettier` on whole repository:
+
+```
+nx format:write
+```
+
+Run `lint` on whole repository
+
+```
+nx run-many --target=lint
+```
+
 ### Frontend
 
 ```
