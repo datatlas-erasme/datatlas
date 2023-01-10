@@ -1,0 +1,21 @@
+name: Lint, test & build
+on:
+  push:
+    branches:
+      - dev
+      - main
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
+      - run: npm ci --legacy-peer-deps
+      - run: npx nx format:check
+      - run: npx nx affected --target=lint --parallel=3 --base=main
+      - run: npx nx affected --target=test --parallel=3 --ci --code-coverage --base=main
+      - run: npx nx affected --target=build --parallel=3 --base=main

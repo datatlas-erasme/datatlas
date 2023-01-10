@@ -11,7 +11,12 @@
       "command": "react-app-rewired start"
     },
     "test": {
-      "command": "react-app-rewired test"
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/frontend/jest.config.ts",
+        "passWithNoTests": true
+      }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
