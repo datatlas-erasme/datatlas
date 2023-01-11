@@ -64,6 +64,7 @@ module.exports = {
   // https://github.com/facebook/create-react-app/blob/main/packages/react-scripts/config/paths.js#L62-L81
   paths: function (paths) {
     paths.appPath = appPath;
+    paths.appBuild = path.resolve(__dirname, 'dist/apps/frontend');
     paths.appPublic = path.resolve(appPath, 'public');
     paths.appHtml = path.resolve(paths.appPublic, 'index.html');
     paths.appSrc = path.resolve(paths.appPath, 'src');
