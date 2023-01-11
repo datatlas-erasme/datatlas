@@ -6,6 +6,9 @@ on:
       - main
   pull_request:
 
+env:
+  BASE_BRANCH: dev
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,9 +18,9 @@ jobs:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
-          main-branch-name: dev
+          main-branch-name: $BASE_BRANCH
       - run: npm ci --legacy-peer-deps
-      - run: npx nx format:check
-      - run: npx nx affected --target=lint --parallel=3 --base=dev
-      - run: npx nx affected --target=test --parallel=3 --ci --code-coverage --base=dev
-      - run: npx nx affected --target=build --parallel=3 --base=dev
+      - run: npx nx format:check --base=$BASE_BRANCH
+      - run: npx nx affected --target=lint --parallel=3 --base=$BASE_BRANCH
+      - run: npx nx affected --target=test --parallel=3 --ci --code-coverage --base=$BASE_BRANCH
+      - run: npx nx affected --target=build --parallel=3 --base=$BASE_BRANCH
