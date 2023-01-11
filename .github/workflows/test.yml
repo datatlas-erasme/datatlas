@@ -14,6 +14,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
+        with:
+          main-branch-name: dev
       - run: npm ci --legacy-peer-deps
       - run: npx nx format:check
       - run: npx nx affected --target=lint --parallel=3 --base=dev
