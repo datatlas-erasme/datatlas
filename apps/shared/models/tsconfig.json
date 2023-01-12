@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "files": [],
+  "include": ["**/*.ts"],
+  "compilerOptions": {
+    "outDir": "../../../dist/out-tsc",
+    "declaration": true,
+    "types": [],
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "exclude": ["**/*.spec.ts"]
+}
