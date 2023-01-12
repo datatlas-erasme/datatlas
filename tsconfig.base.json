@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@datatlas/models": ["libs/models/src/index.ts"],
+      "@datatlas/shared/data-access": ["apps/shared/data-access/src/index.ts"],
+      "@datatlas/shared/models": ["apps/shared/models/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

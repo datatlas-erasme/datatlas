@@ -5,7 +5,7 @@ import reducer from './reducers';
 
 const actionsBlacklist = ['@@kepler.gl/MOUSE_MOVE', '@@kepler.gl/UPDATE_MAP', '@@kepler.gl/LAYER_HOVER'];
 
-export default configureStore({
+const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware({
@@ -20,3 +20,7 @@ export default configureStore({
   ],
   devTools: process.env.NODE_ENV !== 'production',
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export default store;
