@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { LoginPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
+import { LoginPage, ProjectPage, ProjectsPage, ErrorPage, ComponentsPage } from './pages';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +20,11 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/Components',
+    element: <ComponentsPage />,
     errorElement: <ErrorPage />,
   },
 ]);
