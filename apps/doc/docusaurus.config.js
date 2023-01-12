@@ -26,12 +26,6 @@ const config = {
           // Please change this to your repo.
           editUrl: 'https://github.com/datatlas-erasme/datatlas/blob/docs-init-doc/apps/doc/docs/',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/datatlas-erasme/datatlas/tree/docs-init-doc/apps/doc/blog',
-        },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
@@ -53,7 +47,7 @@ const config = {
             type: 'doc',
             docId: 'intro',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Getting started',
           },
           {
             href: 'https://github.com/datatlas-erasme/datatlas',
@@ -94,10 +88,6 @@ const config = {
           {
             title: 'More',
             items: [
-              {
-                label: 'Blog',
-                to: '/blog',
-              },
               {
                 label: 'GitHub',
                 href: 'https://github.com/facebook/docusaurus',
