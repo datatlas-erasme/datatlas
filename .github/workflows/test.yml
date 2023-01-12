@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  BASE_BRANCH: origin/dev
+  BASE_BRANCH: dev
 
 jobs:
   test:
