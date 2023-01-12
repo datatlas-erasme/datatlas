@@ -7,7 +7,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Datatlas',
-  tagline: 'DatAtlas allows you to create a map of the territory on the fly by embedding data from different sources, by choosing your favorite map style and features',
+  tagline:
+    'DatAtlas allows you to create a map of the territory on the fly by embedding data from different sources, by choosing your favorite map style and features',
   url: 'https://datatlas-erasme.github.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',

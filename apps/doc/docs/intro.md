@@ -13,6 +13,7 @@ Get started by **creating a new site**.
 Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
 
 dfdfd
+
 ```mermaid
   graph TD;
       A-->B;
@@ -20,6 +21,7 @@ dfdfd
       B-->D;
       C-->D;
 ```
+
 eee
 
 ### What you'll need
