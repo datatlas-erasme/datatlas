@@ -56,7 +56,7 @@ const config = {
             label: 'Tutorial',
           },
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/datatlas-erasme/datatlas',
             label: 'GitHub',
             position: 'right',
           },
