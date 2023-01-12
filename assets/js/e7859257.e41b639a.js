@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdatatlas=self.webpackChunkdatatlas||[]).push([[263],{170:function(a){a.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"default"}')}}]);
