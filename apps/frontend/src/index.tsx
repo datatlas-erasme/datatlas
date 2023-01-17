@@ -1,10 +1,12 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
+import { PersistGate } from 'redux-persist/integration/react';
 import reportWebVitals from './reportWebVitals';
-import store from './store';
+import { store, persistor } from './store';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoginPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
+import { Loader } from './components/Loader';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +37,9 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
   <Provider store={store}>
-    <RouterProvider router={router} />
+    <PersistGate loading={<Loader />} persistor={persistor}>
+      <RouterProvider router={router} />
+    </PersistGate>
   </Provider>
 );
 

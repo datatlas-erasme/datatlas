@@ -4,8 +4,7 @@ import type { RenderOptions } from '@testing-library/react';
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import type { PreloadedState } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import type { RootState } from '../store';
-import { initialState, reducer } from '../store/reducers';
+import { initialState, reducer, RootState } from '../store/reducers';
 import { BrowserRouter } from 'react-router-dom';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
