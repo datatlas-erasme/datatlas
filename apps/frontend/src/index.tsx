@@ -24,6 +24,13 @@ const router = createBrowserRouter([
   },
 ]);
 
+// Start the mocking conditionally.
+if (process.env.NODE_ENV === 'test') {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { worker } = require('./test/mocks/browser');
+  worker.start();
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(

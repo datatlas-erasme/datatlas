@@ -6,7 +6,7 @@ export const adapter = createEntityAdapter<ProjectInterface>();
 
 export type ProjectsState = EntityState<ProjectInterface>;
 
-export const initialState = adapter.getInitialState({
+export const initialState: ProjectsState = adapter.getInitialState({
   ids: [1],
   entities: {
     1: {

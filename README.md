@@ -25,6 +25,18 @@ You must configure the `REACT_APP_MAPBOX_ACCESS_TOKEN` environment variable in a
 nx serve frontend
 ```
 
+### Test
+
+```shell
+npx nx run frontend:test
+```
+
+> Some useful resources to understand the **frontend** testing strategy :
+>
+> - https://redux.js.org/usage/writing-tests
+> - https://mswjs.io/
+> - https://github.com/mswjs/examples/tree/master/examples/rest-react/src
+
 ### Backend
 
 ```
