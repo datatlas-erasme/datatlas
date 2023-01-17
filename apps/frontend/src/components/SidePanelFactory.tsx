@@ -1,5 +1,6 @@
 import { Icons, SidePanelFactory as KeplerSidePanelFactory } from 'kepler.gl/components';
 import PublicFilterManager from './side-panel/PublicFilterManager';
+
 export function SidePanelFactory(...args) {
   const DatatlasSidePanel = KeplerSidePanelFactory(...args);
   DatatlasSidePanel.defaultProps.sidebarComponents = {
