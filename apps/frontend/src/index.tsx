@@ -43,7 +43,6 @@ if (process.env.NODE_ENV === 'test') {
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-console.log('locale', selectLocale(store.getState()));
 root.render(
   <Provider store={store}>
     <PersistGate loading={<Loader />} persistor={persistor}>

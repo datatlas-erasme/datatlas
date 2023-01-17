@@ -1,11 +1,6 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
-import { useIntl } from 'react-intl';
+import { Outlet } from 'react-router-dom';
+
 export const AppLayout = () => {
-  const intl = useIntl();
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+  return <Outlet />;
 };
