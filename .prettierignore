@@ -1,2 +1,4 @@
 .prettierignore
 .docusaurus/
+coverage/
+dist/

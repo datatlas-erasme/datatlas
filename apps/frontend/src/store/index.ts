@@ -1,12 +1,14 @@
 import { createLogger } from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
 import { enhanceReduxMiddleware } from 'kepler.gl';
-import reducer from './reducers';
+import { reducer } from './reducers';
+import { initialState } from './reducers';
 
 const actionsBlacklist = ['@@kepler.gl/MOUSE_MOVE', '@@kepler.gl/UPDATE_MAP', '@@kepler.gl/LAYER_HOVER'];
 
 const store = configureStore({
   reducer,
+  preloadedState: initialState,
   middleware: (getDefaultMiddleware) => [
     ...getDefaultMiddleware({
       serializableCheck: false,

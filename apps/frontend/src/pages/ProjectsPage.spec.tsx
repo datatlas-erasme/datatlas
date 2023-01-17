@@ -1,15 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import { ProjectsPage } from './ProjectsPage';
+import { renderWithProviders } from '../test/utils';
 
 describe('ProjectsPage', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(
-      <BrowserRouter>
-        <ProjectsPage />
-      </BrowserRouter>
-    );
+    const { baseElement } = renderWithProviders(<ProjectsPage />);
     expect(baseElement).toBeTruthy();
   });
 });
