@@ -1,6 +1,6 @@
 import React from 'react';
-import KeplerGl from 'kepler.gl';
 import { AutoSizer } from 'react-virtualized';
+import { KeplerGl } from './KeplerGl';
 
 const KeplerMap = () => (
   <AutoSizer>
