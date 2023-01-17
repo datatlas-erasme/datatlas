@@ -25,6 +25,14 @@ You must configure the `REACT_APP_MAPBOX_ACCESS_TOKEN` environment variable in a
 nx serve frontend
 ```
 
+**Dataset example :**
+
+To have an idea of vizualisation of data with the **Kepler.gl** Map, you could download a set on **data.grandlyon.com** : `https://data.grandlyon.com/jeux-de-donnees/producteurs-locaux-geolocalises-metropole-lyon/telechargements`.
+
+#### Style
+
+**Figma** sketch : `https://www.figma.com/proto/lVX7Lycox3AGixBhhbhQsQ/DatAtlas?page-id=592%3A7135&node-id=600%3A8166&viewport=727%2C1558%2C0.5&scaling=min-zoom&starting-point-node-id=600%3A8044`.
+
 ### Backend
 
 ```

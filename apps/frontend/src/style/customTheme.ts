@@ -1,3 +1,5 @@
+import { themeLT } from 'kepler.gl/dist/styles';
+
 interface DatatlasTheme {
   [key: string]: string | number;
 }
@@ -16,6 +18,8 @@ export const blueLight = '#5AB6EB';
 export const yellow = '#FFC93C';
 
 export const datatlasTheme: DatatlasTheme = {
+  ...themeLT,
+
   //TEXT
   fontWeight: 400,
   fontSize: '10px',
