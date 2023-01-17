@@ -7,17 +7,25 @@ import { store, persistor } from './store';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoginPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
 import { Loader } from './components/Loader';
+import { IntlProvider } from 'react-intl';
+import { AppLayout } from './pages/AppLayout';
+import { selectLocale } from './store/selectors';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <ProjectsPage />,
+    element: <AppLayout />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: '/project',
-    element: <ProjectPage />,
-    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <ProjectsPage />,
+      },
+      {
+        path: 'projects/:id',
+        element: <ProjectPage />,
+      },
+    ],
   },
   {
     path: '/login',
@@ -38,7 +46,9 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <Provider store={store}>
     <PersistGate loading={<Loader />} persistor={persistor}>
-      <RouterProvider router={router} />
+      <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
+        <RouterProvider router={router} />
+      </IntlProvider>
     </PersistGate>
   </Provider>
 );
