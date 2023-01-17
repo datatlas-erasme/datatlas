@@ -7,6 +7,7 @@ import { store, persistor } from './store';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoginPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
 import { Loader } from './components/Loader';
+import { IntlProvider } from 'react-intl';
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,9 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <Provider store={store}>
     <PersistGate loading={<Loader />} persistor={persistor}>
-      <RouterProvider router={router} />
+      <IntlProvider locale={`fr-FR`} messages={{}}>
+        <RouterProvider router={router} />
+      </IntlProvider>
     </PersistGate>
   </Provider>
 );
