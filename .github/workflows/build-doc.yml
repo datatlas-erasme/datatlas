@@ -8,8 +8,11 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  BASE_BRANCH: dev
+
 jobs:
-  main:
+  docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,7 +20,7 @@ jobs:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v3
         with:
-          main-branch-name: 'docs-init-doc'
+          main-branch-name: $BASE_BRANCH
           workflow-id: 'build-doc.yml'
       - run: npm ci --legacy-peer-deps
       - run: npx nx build doc
