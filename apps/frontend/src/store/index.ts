@@ -10,6 +10,7 @@ const actionsBlacklist = ['@@kepler.gl/MOUSE_MOVE', '@@kepler.gl/UPDATE_MAP', '@
 
 const persistConfig = {
   key: 'root',
+  blacklist: ['keplerGl'],
   storage,
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
