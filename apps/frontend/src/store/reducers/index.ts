@@ -1,18 +1,14 @@
-import keplerGlReducer from 'kepler.gl/reducers';
-import { reducer as appReducer, initialState as appInitialState, AppState } from './app';
 import { combineReducers } from '@reduxjs/toolkit';
-
-export interface RootState {
-  app: AppState;
-  keplerGl: unknown;
-}
-
-export const initialState = {
-  app: appInitialState,
-  keplerGl: {},
-};
+import { reducer as appReducer, initialState as appInitialState } from './app';
+import { reducer as keplerGlReducer } from './keplerGl';
 
 export const reducer = combineReducers({
   keplerGl: keplerGlReducer,
   app: appReducer,
 });
+
+export type RootState = ReturnType<typeof reducer>;
+
+export const initialState: Partial<RootState> = {
+  app: appInitialState,
+};
