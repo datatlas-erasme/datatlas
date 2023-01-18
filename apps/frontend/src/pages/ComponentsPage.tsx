@@ -23,16 +23,13 @@ import {
   SelectText,
   PanelHeaderTitle,
 } from 'kepler.gl/dist/components/common/styled-components';
-import { Trash, Copy } from 'kepler.gl/dist/components/common/icons';
+import { Trash, Copy, Add } from 'kepler.gl/dist/components/common/icons';
 import KeplerGlLogo from 'kepler.gl/dist/components/common/logo';
 import Toolbar from 'kepler.gl/dist/components/common/toolbar';
 import LoadingSpinner from 'kepler.gl/dist/components/common/loading-spinner';
 import ImagePreview from 'kepler.gl/dist/components/common/image-preview';
 import ProgressBar from 'kepler.gl/dist/components/common/progress-bar';
 import ModalDialog from 'kepler.gl/dist/components/common/modal';
-import FieldSelector from 'kepler.gl/dist/components/common/field-selector';
-import { Add } from 'kepler.gl/dist/components/common/icons';
-import { theme as basicTheme } from 'kepler.gl/dist/styles/base';
 import { datatlasTheme } from '../style/customTheme';
 
 const Container = styled.div`

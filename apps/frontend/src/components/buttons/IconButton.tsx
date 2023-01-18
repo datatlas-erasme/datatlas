@@ -1,17 +1,10 @@
-import React, { Component, ReactNode } from 'react';
-import { Button } from 'kepler.gl/dist/components/common/styled-components';
+import React, { MouseEventHandler, ReactElement } from 'react';
+import { MapControlButton } from 'kepler.gl/dist/components/common/styled-components';
 
 interface IconButtonProps {
-  children: ReactNode;
-  Icon: typeof Component;
+  Icon: ReactElement;
+  onClick: MouseEventHandler;
 }
-const IconButton = ({ children, Icon }: IconButtonProps) => {
-  {
-    <Button>
-      <Icon />
-      {children}
-    </Button>;
-  }
+export const IconButton = ({ Icon, onClick }: IconButtonProps) => {
+  return <MapControlButton onClick={onClick}>{Icon}</MapControlButton>;
 };
-
-export default IconButton;
