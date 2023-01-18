@@ -2,12 +2,17 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { projectsSelectors } from '../store/selectors';
+import { useGetProjectsQuery } from '../api';
 
 export const ProjectsPage = () => {
-  const projects = useSelector(projectsSelectors.selectAll);
+  const { data: projects, isLoading, isSuccess, isError, error } = useGetPostsQuery();
+
+  // const projects = useSelector(projectsSelectors.selectAll);
   return (
     <main>
       <h1>Projects</h1>
+
+
       {projects.map(({ id, name }) => (
         <article key={id}>
           <h2>{name}</h2>
