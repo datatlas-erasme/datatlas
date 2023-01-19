@@ -2,9 +2,9 @@ import { UserInterface } from './UserInterface';
 import { DatasetInterface } from './DatasetInterface';
 
 export interface ProjectInterface {
-  id: number;
+  id: number | string;
   name: string;
-  published: boolean;
+  draft: boolean;
   datasets: DatasetInterface[];
   owner: UserInterface;
 }
