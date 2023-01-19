@@ -1,13 +1,15 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { ProjectsState, reducer as projectsReducer, initialState as projectsInitialState } from './projects';
+import { reducer as draftsReducer, initialState as draftsInitialState } from './drafts';
+import { reducer as userReducer } from './user';
 
-export interface AppState {
-  projects: ProjectsState;
-}
+export const reducer = combineReducers({
+  drafts: draftsReducer,
+  user: userReducer,
+});
+
+export type AppState = ReturnType<typeof reducer>;
 
 export const initialState: AppState = {
-  projects: projectsInitialState,
+  drafts: draftsInitialState,
+  user: null,
 };
-export const reducer = combineReducers({
-  projects: projectsReducer,
-});

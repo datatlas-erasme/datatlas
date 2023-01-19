@@ -6,10 +6,17 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
   tagTypes: ['Post'],
   endpoints: (builder) => ({
-    getProjects: builder.query<ProjectInterface[], void>({
+    getSavedProjects: builder.query<ProjectInterface[], void>({
       query: () => '/projects',
+      transformResponse: (projects: ProjectInterface[]) => {
+        // projectsAdapter.upsertMany(projectsInitialState, projects.map(Project.normalize));
+        return projects;
+      },
+    }),
+    getUser: builder.query({
+      query: (id) => `/users/${id}`,
     }),
   }),
 });
 
-export const { useGetProjectsQuery } = api;
+export const { useGetSavedProjectsQuery } = api;
