@@ -25,7 +25,6 @@ import {
 } from 'kepler.gl/dist/components/common/styled-components';
 import { Trash, Copy, Add } from 'kepler.gl/dist/components/common/icons';
 import KeplerGlLogo from 'kepler.gl/dist/components/common/logo';
-import Toolbar from 'kepler.gl/dist/components/common/toolbar';
 import LoadingSpinner from 'kepler.gl/dist/components/common/loading-spinner';
 import ImagePreview from 'kepler.gl/dist/components/common/image-preview';
 import ProgressBar from 'kepler.gl/dist/components/common/progress-bar';
