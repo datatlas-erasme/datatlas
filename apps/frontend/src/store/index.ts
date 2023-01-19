@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { enhanceReduxMiddleware } from 'kepler.gl';
 import { reducer as rootReducer } from './reducers';
 import { initialState } from './reducers';
+import { api } from '../api';
 
 const actionsBlacklist = ['@@kepler.gl/MOUSE_MOVE', '@@kepler.gl/UPDATE_MAP', '@@kepler.gl/LAYER_HOVER'];
 
@@ -27,6 +28,7 @@ const store = configureStore({
       predicate: (getState, { type }) => !actionsBlacklist.includes(type),
       collapsed: (getState, action, logEntry) => !(logEntry && logEntry.error),
     }),
+    api.middleware,
     ...enhanceReduxMiddleware([]),
   ],
   devTools: process.env.NODE_ENV !== 'production',
