@@ -6,15 +6,7 @@ export const adapter = createEntityAdapter<ProjectInterface>();
 
 export type ProjectsState = EntityState<ProjectInterface>;
 
-export const initialState: ProjectsState = adapter.getInitialState({
-  ids: [1],
-  entities: {
-    1: {
-      id: 1,
-      name: 'Dummy project',
-    },
-  },
-});
+export const initialState: ProjectsState = adapter.getInitialState();
 
 const slice = createSlice({
   name: 'projects',
