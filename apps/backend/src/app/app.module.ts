@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { configService } from '../config/config.service';
 import { ProjectModule } from '../project/project.module';
+import { ProjectController } from '../project/project.controller';
 
 
 @Module({
@@ -12,7 +13,7 @@ import { ProjectModule } from '../project/project.module';
       TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
       ProjectModule
   ],
-  controllers: [AppController],
+  controllers: [AppController, ProjectController],
   providers: [AppService],
 })
 export class AppModule {
