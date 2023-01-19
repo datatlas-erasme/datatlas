@@ -25,6 +25,18 @@ You must configure the `REACT_APP_MAPBOX_ACCESS_TOKEN` environment variable in a
 nx serve frontend
 ```
 
+#### Stack
+
+- [redux-toolkit](https://redux-toolkit.js.org/) to handle `redux` related stuff.
+- [RTK Query](https://redux.js.org/tutorials/essentials/part-7-rtk-query-basics) is used to make API calls.
+
+> We're querying the `api` state slice to display data in components.
+> So the previous `projects` state slice isn't used right now but be used in the future if state normalization is required.
+>
+> - https://redux-toolkit.js.org/api/createEntityAdapter
+> - https://redux.js.org/tutorials/essentials/part-8-rtk-query-advanced#transforming-responses
+> - https://dev.to/srmagura/the-great-redux-toolkit-debate-5045
+
 ### Test
 
 ```shell
