@@ -5,7 +5,7 @@ FROM node:18 as builder
 # Create app directory
 WORKDIR /build
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# Install app dependencies
 COPY package.json ./
 
 # Install app dependencies
@@ -20,7 +20,6 @@ RUN ls -la
 # Creates a "dist" folder with the production build
 RUN npx nx build backend
 
-
 FROM node:18-alpine
 WORKDIR /app
 
@@ -32,4 +31,3 @@ RUN npm i @nestjs/platform-express
 
 # Start the server using the production build
 CMD [ "node", "dist/main.js" ]
-
