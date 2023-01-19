@@ -19,7 +19,7 @@ const projectHandlers = [
 
 const userHandlers = [
   rest.get('/api/me', (req, res, ctx) => {
-    return res(ctx.json<UserInterface[]>(generateFakeUser()));
+    return res(ctx.json<UserInterface>(generateFakeUser()));
   }),
 
   rest.post('/api/login', async (req, res, ctx) => {
