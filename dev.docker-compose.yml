@@ -9,5 +9,6 @@ services:
       - POSTGRES_DB=gis
       - POSTGRES_USER=docker
       - POSTGRES_PASS=docker
+      - ALLOW_IP_RANGE=0.0.0.0/0
     ports:
-      - '5432'
+      - 5432:5432
