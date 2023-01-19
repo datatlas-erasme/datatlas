@@ -57,6 +57,13 @@ nx serve backend
 
 > Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
+## Design
+
+**Figma** sketch :
+`https://www.figma.com/proto/lVX7Lycox3AGixBhhbhQsQ/DatAtlas`
+
+> _Made by [SiaPartners](https://www.sia-partners.com/)._
+
 ## nx
 
 <a href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
