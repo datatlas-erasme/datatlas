@@ -2,7 +2,7 @@ import React from 'react';
 import { Hash } from 'kepler.gl/dist/components/common/icons';
 import styled from 'styled-components';
 
-const BadgeContainer = styled.a`
+const BadgesContainer = styled.a`
   display: flex;
   align-items: center;
   margin: 10px;
@@ -19,21 +19,19 @@ const BadgeOutlines = styled.span`
   margin-left: 10px;
 `;
 
-const adminInitial = 'AG';
-const editorNumber = 4;
-const InfoProjectButton = () => {
+const InfoProjectBadges = ({ adminInitial, editorsNumber }) => {
   return (
     <>
-      <BadgeContainer>
+      <BadgesContainer>
         <Hash />
         <BadgeOutlines>{adminInitial}</BadgeOutlines>
-      </BadgeContainer>
-      <BadgeContainer>
+      </BadgesContainer>
+      <BadgesContainer>
         <Hash />
-        <BadgeOutlines>{editorNumber}</BadgeOutlines>
-      </BadgeContainer>
+        <BadgeOutlines>{editorsNumber}</BadgeOutlines>
+      </BadgesContainer>
     </>
   );
 };
 
-export default InfoProjectButton;
+export default InfoProjectBadges;

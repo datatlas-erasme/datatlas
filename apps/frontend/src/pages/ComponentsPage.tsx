@@ -96,9 +96,9 @@ export const ComponentsPage = () => {
                 <Add height="12px" />
                 Click me !
               </Button>
-              <SelectionButton>J'te select</SelectionButton>
-              <SelectionButton>J'te select non toi</SelectionButton>
-              <SelectionButton>J'te select ou toi</SelectionButton>
+              <SelectionButton>select button</SelectionButton>
+              <SelectionButton>Select button option 1</SelectionButton>
+              <SelectionButton>Select button option 2</SelectionButton>
               <MapControlButton>
                 <Trash height="18px" />
               </MapControlButton>

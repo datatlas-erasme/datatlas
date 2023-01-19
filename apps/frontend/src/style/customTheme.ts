@@ -22,8 +22,10 @@ export const datatlasTheme: DatatlasTheme = {
 
   //TEXT
   fontWeight: 400,
-  fontSize: '10px',
+  fontSize: '15px',
   lineHeight: '14px',
+
+  fontSizeH2: '36px',
 
   textColor: primaryColor,
   subtextColor: primaryColor,

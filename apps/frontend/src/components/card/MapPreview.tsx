@@ -2,6 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Trash, Delete, MapIcon } from 'kepler.gl/dist/components/common/icons';
 import { IconButton, IconTextButton } from '../buttons';
+
+interface MapPreviewProps {
+  status: boolean;
+}
+
 const MapPreviewContainer = styled.div`
   display: flex;
   width: 70vw;
@@ -16,7 +21,7 @@ const ActionsContainer = styled.div`
   height: 40px;
 `;
 
-const MapPreview = () => {
+const MapPreview = ({ status }: MapPreviewProps) => {
   const removeProject = (e) => {
     e.preventDefault();
     console.log('DELETE');
@@ -34,7 +39,7 @@ const MapPreview = () => {
     <MapPreviewContainer>
       <ActionsContainer>
         <IconTextButton Icon={<MapIcon />} onClick={editProject}>
-          PUBLIER
+          {status ? 'Publié' : 'Brouillon'}
         </IconTextButton>
         <IconButton Icon={<Delete />} onClick={removeProject} />
         <IconButton Icon={<Trash />} onClick={duplicateProject} />
