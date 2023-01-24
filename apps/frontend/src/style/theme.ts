@@ -1,6 +1,6 @@
 import { themeLT } from 'kepler.gl/dist/styles';
 
-interface DatatlasTheme {
+interface ThemeDefault {
   [key: string]: string | number;
 }
 
@@ -19,6 +19,7 @@ export const themeColor = {
   yellow: '#FFC93C',
 };
 
+// FONT SIZE
 export const themeFontSize = {
   xsText: '10px',
   sText: '12px',
@@ -27,12 +28,8 @@ export const themeFontSize = {
   xlText: '36px',
 };
 
-export const datatlasTheme: DatatlasTheme = {
+export const theme: ThemeDefault = {
   ...themeLT,
-
-  cardHeight: '20vh',
-  cardWidth: '30vw',
-  cardPadding: '15px',
 
   //TEXT
   fontWeight: 400,
@@ -58,7 +55,7 @@ export const datatlasTheme: DatatlasTheme = {
   errorColor: themeColor.yellow,
   logoColor: themeColor.primaryColor,
 
-  // Button
+  // BUTTON
   btnFontFamily: fontFamily,
   primaryBtnBgd: themeColor.primaryColor,
   primaryBtnActBgd: themeColor.greyDark,
@@ -97,22 +94,22 @@ export const datatlasTheme: DatatlasTheme = {
   negativeBtnColor: themeColor.secondaryColor,
   negativeBtnActColor: themeColor.secondaryColor,
 
-  floatingBtnBgd: '#29323C',
-  floatingBtnActBgd: '#3A4552',
-  floatingBtnBgdHover: '#3A4552',
+  floatingBtnBgd: themeColor.greyDark,
+  floatingBtnActBgd: themeColor.greyDark,
+  floatingBtnBgdHover: themeColor.greyDark,
   floatingBtnBorder: '0',
   floatingBtnBorderHover: '0',
-  floatingBtnColor: 'subtextColor',
-  floatingBtnActColor: 'subtextColorActive',
+  floatingBtnColor: themeColor.primaryColor,
+  floatingBtnActColor: themeColor.primaryColor,
 
   selectionBtnBgd: 'transparent',
   selectionBtnActBgd: 'transparent',
-  selectionBtnColor: '#D3D8E0',
-  selectionBtnActColor: '#0F9668',
-  selectionBtnBgdHover: '#0F9668',
+  selectionBtnColor: themeColor.greyLight,
+  selectionBtnActColor: themeColor.yellow,
+  selectionBtnBgdHover: themeColor.yellow,
   selectionBtnBorder: '1',
-  selectionBtnBorderColor: '#D3D8E0',
-  selectionBtnBorderActColor: '#0F9668',
+  selectionBtnBorderColor: themeColor.greyLight,
+  selectionBtnBorderActColor: themeColor.yellow,
 
   // Input
   inputBoxHeight: '35px',
@@ -143,15 +140,15 @@ export const datatlasTheme: DatatlasTheme = {
   inputBoxShadow: 'none',
   inputBoxShadowActive: 'none',
   inputBoxShadowActiveLT: 'none',
-  secondaryInputBgd: '#242730',
-  secondaryInputBgdHover: '#3A414C',
-  secondaryInputBgdActive: '#3A414C',
-  secondaryInputColor: '#A0A7B4',
-  secondaryInputBorderColor: '#242730',
-  secondaryInputBorderActiveColor: '#D3D8E0',
+  secondaryInputBgd: themeColor.secondaryColor,
+  secondaryInputBgdHover: themeColor.greyMedium,
+  secondaryInputBgdActive: themeColor.greyMedium,
+  secondaryInputColor: themeColor.greyLight,
+  secondaryInputBorderColor: themeColor.greyDark,
+  secondaryInputBorderActiveColor: themeColor.greyLight,
   dropdownSelectHeight: 30,
 
-  // Side Panel
+  // SIDE PANEL PROJECT PAGE
   sidePanelHeaderBg: themeColor.greyExtraLight,
   sidePanelHeaderBorder: 'transparent',
   layerConfigGroupMarginBottom: 12,
@@ -164,7 +161,7 @@ export const datatlasTheme: DatatlasTheme = {
   sidePanelScrollBarWidth: 10,
   sidePanelScrollBarHeight: 10,
   sideBarCloseBtnBgd: themeColor.secondaryColor,
-  sideBarCloseBtnColor: '#29323C',
+  sideBarCloseBtnColor: themeColor.greyDark,
   sideBarCloseBtnBgdHover: themeColor.secondaryColor,
   sidePanelTitleFontsize: themeFontSize.lText,
   sidePanelTitleLineHeight: '1.71429',
@@ -179,6 +176,8 @@ export const datatlasTheme: DatatlasTheme = {
   panelHeaderIconHover: themeColor.greyMedium,
   panelHeaderHeight: 48,
   layerPanelHeaderHeight: 48,
+  layerPanelToggleOptionColor: themeColor.yellow,
+  layerPanelToggleOptionColorActive: themeColor.greyLight,
   panelBoxShadow: '0 6px 12px 0 rgba(0,0,0,0.16)',
   panelBorderRadius: '2px',
   panelBackgroundLT: themeColor.secondaryColor,
@@ -189,9 +188,9 @@ export const datatlasTheme: DatatlasTheme = {
   panelBorder: `1px solid ${themeColor.greyDark}`,
   panelBorderLT: `1px solid ${themeColor.greyLight}`,
 
-  mapPanelBackgroundColor: 'red',
-  mapPanelHeaderBackgroundColor: 'green',
-  tooltipBg: 'green',
+  mapPanelBackgroundColor: themeColor.blueDark,
+  mapPanelHeaderBackgroundColor: themeColor.yellow,
+  tooltipBg: themeColor.blueLight,
   tooltipColor: themeColor.secondaryColor,
   tooltipBoxShadow: themeColor.greyLight,
   tooltipFontSize: themeFontSize.xsText,
@@ -200,11 +199,88 @@ export const datatlasTheme: DatatlasTheme = {
   layerTypeIconPdL: 12,
   layerTypeIconSizeSM: 28,
 
-  layerPanelToggleOptionColor: 'green',
-  layerPanelToggleOptionColorActive: '#F0F0F0',
-
-  // Sidepanel divider
   sidepanelDividerBorder: '1px',
   sidepanelDividerMargin: 12,
   sidepanelDividerHeight: 12,
+
+  // SELECT
+  selectColor: themeColor.primaryColor,
+  selectColorLT: themeColor.primaryColor,
+
+  selectActiveBorderColor: themeColor.greyMedium,
+  selectFontSize: '11px',
+  selectFontWeight: '400',
+  selectFontWeightBold: '500',
+
+  selectColorPlaceHolder: themeColor.greyDark,
+  selectColorPlaceHolderLT: themeColor.primaryColor,
+  selectBackground: themeColor.greyLight,
+  selectBackgroundHover: themeColor.greyExtraLight,
+  selectBackgroundLT: themeColor.secondaryColor,
+  selectBackgroundHoverLT: themeColor.greyExtraLight,
+  selectBorderColor: themeColor.greyLight,
+  selectBorderColorLT: themeColor.greyLight,
+  selectBorderRadius: '1px',
+  selectBorder: 0,
+  panelTabColor: themeColor.primaryColor,
+  dropdownListHighlightBg: themeColor.greyMedium,
+  dropdownListHighlightBgLT: themeColor.greyExtraLight,
+  dropdownListShadow: '0 6px 12px 0 rgba(0,0,0,0.16)',
+  dropdownListBgd: themeColor.greyDark,
+  toolbarItemBgdHover: themeColor.greyDark,
+  toolbarItemIconHover: themeColor.greyMedium,
+  toolbarItemBorderHover: 'transparent',
+  toolbarItemBorderRaddius: '0px',
+  dropdownListBgdLT: themeColor.secondaryColor,
+  dropdownListBorderTop: themeColor.greyDark,
+  dropdownListBorderTopLT: themeColor.greyLight,
+  dropdownListLineHeight: 20,
+  dropdownWrapperZ: 100,
+  dropdownWapperMargin: 4,
+
+  // Switch
+  switchWidth: 24,
+  switchHeight: 12,
+  switchLabelMargin: 12,
+
+  switchTrackBgd: themeColor.greyDark,
+  switchTrackBgdActive: themeColor.yellow,
+  switchTrackBorderRadius: '1px',
+  switchBtnBgd: themeColor.greyMedium,
+  switchBtnBgdActive: themeColor.greyLight,
+  switchBtnBoxShadow: '0 2px 4px 0 rgba(0,0,0,0.40)',
+  switchBtnBorderRadius: '0',
+  switchBtnWidth: 12,
+  switchBtnHeight: 12,
+
+  secondarySwitchTrackBgd: themeColor.greyDark,
+  secondarySwitchBtnBgd: themeColor.greyMedium,
+
+  // CHECKBOX
+  checkboxWidth: 16,
+  checkboxHeight: 16,
+  checkboxMargin: 12,
+  checkboxBorderColor: themeColor.greyLight,
+  checkboxBorderRadius: '2px',
+  checkboxBorderColorLT: themeColor.greyLight,
+  checkboxBoxBgd: 'white',
+  checkboxBoxBgdChecked: themeColor.primaryColor,
+
+  // RADIO
+  radioRadius: 8,
+  radioBorderRadius: 100,
+  radioBorderColor: 'transparent',
+  radioButtonRadius: 4,
+  radioButtonBgdColor: themeColor.greyLight,
+
+  // BOX CONTAINER
+  layoutsBoxContainer: '20px 40px',
+  cardBoxContainer: '15px',
+
+  // NAV
+  navBackgroundColor: themeColor.greyMedium,
+
+  // CARD
+  cardHeight: '20vh',
+  cardWidth: '30vw',
 };
