@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectCard from '../components/card/ProjectCard';
 import styled, { ThemeProvider } from 'styled-components';
-import { datatlasTheme } from '../style/customTheme';
+import { theme } from '../style/theme';
 import { useSelector } from 'react-redux';
 import { ProjectList } from '../components/ProjectList';
 import { useGetSavedProjectsQuery } from '../api';
@@ -22,7 +22,6 @@ const testProjectsProps = {
   editorsNumber: 3,
 };
 
-
 const LayoutProjects = styled.div`
   display: grid;
   height: 100vh;
@@ -36,6 +35,11 @@ const LayoutProjects = styled.div`
   transition: all 0.25s ease-in-out;
 `;
 
+const ProjectsContainer = styled.main`
+  grid-area: main;
+  padding: ${(props) => props.theme.layoutsBoxContainer};
+`;
+
 export const ProjectsPage = () => {
   const { isLoading, isSuccess, isError, error } = useGetSavedProjectsQuery();
   const projects = useSelector(selectCurrentUserProjects);
@@ -43,25 +47,26 @@ export const ProjectsPage = () => {
 
   return (
     <React.StrictMode>
-      <ThemeProvider theme={datatlasTheme}>
-        <LayoutProjects>
-          <Navbar>NavBar</Navbar>
-          <main style={{ gridArea: 'main' }}>
-            <h1>Projects</h1>
-            <ProjectList
-              projects={projects}
-              isLoading={isLoading}
-              isSuccess={isSuccess}
-              isError={isError}
-              error={error}
-            />
-            <ProjectCard {...testProjectsProps} />
-          </main>
-          <Sidebar>SideBar</Sidebar>
-          <Footer>Footer</Footer>
-        </LayoutProjects>
-        <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
-      </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <LayoutProjects>
+        <Navbar>NavBar</Navbar>
+        <ProjectsContainer>
+          <h1>Projects</h1>
+          <ProjectList
+            projects={projects}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            isError={isError}
+            error={error}
+          />
+          <ProjectCard {...testProjectsDatas} />
+        </ProjectsContainer>
+        <Sidebar>SideBar</Sidebar>
+        <Footer>Footer</Footer>
+      </LayoutProjects>
+      <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
+    </ThemeProvider>
     </React.StrictMode>
+
   );
 };

@@ -1,8 +1,15 @@
 import React, { ReactNode } from 'react';
+import styled from 'styled-components';
 
 type SidebarProps = {
   children: ReactNode;
 };
-const Sidebar = (SidebarProps) => <aside style={{ gridArea: 'aside' }}>Je suis la SideBar</aside>;
+
+const SideBarContainer = styled.aside`
+  grid-area: aside;
+  padding: ${(props) => props.theme.layoutsBoxContainer};
+`;
+
+const Sidebar = (SidebarProps) => <SideBarContainer>Je suis la SideBar</SideBarContainer>;
 
 export default Sidebar;
