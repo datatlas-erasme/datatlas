@@ -8,13 +8,14 @@ import { useGetSavedProjectsQuery } from '../api';
 import { StartNewProjectForm } from '../components/forms/StartNewProjectForm';
 import { startNewProject } from '../store/reducers/app/drafts';
 import { selectCurrentUserProjects } from '../store/selectors';
-import { useAppDispatch } from '../store';import Footer from '../components/footer/footer';
+import { useAppDispatch } from '../store';
+import Footer from '../components/footer/footer';
 import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/nav/Navbar';
 
-const testProjectsProps = {
+const testProjectsDatas = {
   id: 'p012',
-  published: true,
+  draft: true,
   titleCard: 'Titre de projet',
   infoStatus: 'Modidifié le 6 janvier 2033',
   desc: 'Sed ornare, diam eu dictum pulvinar, elit nisi varius felis, vel accumsan felis erat vel mauris. Nulla consectetur tellus vulputate neque pharetra, sit amet consectetur diam auctor. Praesent imperdiet nisl et vulputate maximus. Etiam viverra consectetur leo, a vehicula odio ornare sed.',
@@ -47,26 +48,25 @@ export const ProjectsPage = () => {
 
   return (
     <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <LayoutProjects>
-        <Navbar>NavBar</Navbar>
-        <ProjectsContainer>
-          <h1>Projects</h1>
-          <ProjectList
-            projects={projects}
-            isLoading={isLoading}
-            isSuccess={isSuccess}
-            isError={isError}
-            error={error}
-          />
-          <ProjectCard {...testProjectsDatas} />
-        </ProjectsContainer>
-        <Sidebar>SideBar</Sidebar>
-        <Footer>Footer</Footer>
-      </LayoutProjects>
-      <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <LayoutProjects>
+          <Navbar>NavBar</Navbar>
+          <ProjectsContainer>
+            <h1>Projects</h1>
+            <ProjectList
+              projects={projects}
+              isLoading={isLoading}
+              isSuccess={isSuccess}
+              isError={isError}
+              error={error}
+            />
+            <ProjectCard {...testProjectsDatas} />
+          </ProjectsContainer>
+          <Sidebar>SideBar</Sidebar>
+          <Footer>Footer</Footer>
+        </LayoutProjects>
+        <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
+      </ThemeProvider>
     </React.StrictMode>
-
   );
 };
