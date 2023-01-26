@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import InfoProjectBadges from '../badges/InfoProjectBadges';
 import CardContent from '../content/CardContent';
 
+interface CardDetailsInterface {
+  name: string;
+}
 const ContentCardContainer = styled.div`
   padding: 10px;
   background-color: white;
@@ -18,12 +21,12 @@ const ActionsCardContainer = styled.div`
   margin: 10px 0;
 `;
 
-const CardDetails = ({ name }) => {
+const CardDetails = ({ name }: CardDetailsInterface) => {
   return (
     <ContentCardContainer>
       <CardContent titleCard={name} />
       <ActionsCardContainer>
-        <InfoProjectBadges />
+        <InfoProjectBadges editorsNumber={1} adminInitial={'AG'} />
       </ActionsCardContainer>
     </ContentCardContainer>
   );
