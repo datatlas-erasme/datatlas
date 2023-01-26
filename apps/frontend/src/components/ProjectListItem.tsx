@@ -1,6 +1,5 @@
 import React from 'react';
 import ProjectCard from './card/ProjectCard';
-import { Link } from 'react-router-dom';
 import { NormalizedProjectInterface } from '@datatlas/shared/models';
 
 export type ProjectListItemProps = NormalizedProjectInterface;
