@@ -2,7 +2,7 @@ import React from 'react';
 import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
 import styled from 'styled-components';
-import { DatasetInterface, NormalizedProjectInterface } from '@datatlas/shared/models';
+import { NormalizedProjectInterface } from '@datatlas/shared/models';
 import { Link } from 'react-router-dom';
 
 export type ProjectCardProps = NormalizedProjectInterface;
