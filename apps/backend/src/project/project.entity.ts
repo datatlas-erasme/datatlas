@@ -1,6 +1,8 @@
-import { PrimaryGeneratedColumn, Column, UpdateDateColumn } from 'typeorm';
+import {PrimaryGeneratedColumn, Column, UpdateDateColumn, Entity } from 'typeorm';
 
-export abstract class Project {
+
+@Entity()
+export  class Project {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 

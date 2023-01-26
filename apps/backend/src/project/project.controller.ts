@@ -1,14 +1,23 @@
-import { Controller, Get, Res } from '@nestjs/common';
-import { AppService } from '../app/app.service';
-import { Project } from './project.entity';
+import { Controller, Get, Post, Put, Delete, Res, Body } from '@nestjs/common';
+import { Repository } from 'typeorm';
+//import { AppService } from '../app/app.service';
+import { ProjectService } from './project.service';
+import { Project} from './project.entity';
 
-@Controller('project')
+
+@Controller('projects')
 export class ProjectController {
-    constructor(private readonly appService: AppService) { }
+    constructor(private readonly projectService: ProjectService) { }
 
     @Get()
-    async fetchAll(@Res() response) {
-        return 'project'
+    async fetchAll(): Promise<Project[]> {
+        return await this.projectService.findAll();
     }
+
+    @Post()
+    async create(@Body() project: Project): Promise<Project> {
+        return await this.projectService.create(project);
+    }
+
 
 }

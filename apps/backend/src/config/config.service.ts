@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import {Project} from '../project/project.entity';
 
 const postGresHost = process.env.POSTGRES_HOST || 'localhost';
 const postGresPort = parseInt(process.env.POSTGRES_PORT) || 5432;
@@ -22,7 +23,9 @@ export class ConfigService {
           username: postGresUser,
           password: postGresPassword,
           database: postGresDatabase,
-
+          entities: [Project],
+          synchronize: true,
+          migrations: ['./migrations/*.ts']
         };
       }
 }

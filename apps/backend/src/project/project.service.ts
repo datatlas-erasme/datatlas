@@ -14,11 +14,11 @@ export class ProjectService {
         return await this.projectRepository.find();
     }
 
-    async findOne(id: number): Promise<Project> {
-        return await this.projectRepository.findOne(id);
+    async findOne(id: string): Promise<Project> {
+        return await this.projectRepository.findOneBy({id});
     }
 
-    async create(project: Project): Promise<Project> {
+    async create(project: Project) {
         return await this.projectRepository.save(project);
     }
 
@@ -28,7 +28,5 @@ export class ProjectService {
 
     async delete(id: number): Promise<void> {
         await this.projectRepository.delete(id);
-    }
-        
-
+    } 
 }
