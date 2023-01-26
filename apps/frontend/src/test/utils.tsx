@@ -6,6 +6,7 @@ import type { PreloadedState } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { initialState, reducer, RootState } from '../store/reducers';
 import { BrowserRouter } from 'react-router-dom';
+import { api } from '../api';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
@@ -17,7 +18,11 @@ export function renderWithProviders(
   {
     preloadedState = initialState,
     // Automatically create a store instance if no store was passed in
-    store = configureStore({ reducer, preloadedState }),
+    store = configureStore({
+      reducer,
+      preloadedState,
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+    }),
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {

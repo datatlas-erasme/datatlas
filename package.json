@@ -14,6 +14,7 @@
     "@commitlint/config-conventional": "^17.4.0",
     "@commitlint/config-nx-scopes": "^17.4.0",
     "@docusaurus/module-type-aliases": "2.1.0",
+    "@faker-js/faker": "^7.6.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@nrwl/cypress": "15.4.5",
@@ -74,7 +75,8 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^4.0.2",
     "vitest": "^0.25.8",
-    "web-vitals": "^3.1.0"
+    "web-vitals": "^3.1.0",
+    "whatwg-fetch": "^3.6.2"
   },
   "dependencies": {
     "@docusaurus/core": "^2.1.0",
@@ -99,6 +101,7 @@
     "querystring-es3": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.42.1",
     "react-intl": "^6.2.5",
     "react-is": "18.2.0",
     "react-router": "^6.6.2",
@@ -124,5 +127,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "msw": {
+    "workerDirectory": "apps/frontend/public"
   }
 }

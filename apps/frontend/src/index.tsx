@@ -10,6 +10,7 @@ import { Loader } from './components/Loader';
 import { IntlProvider } from 'react-intl';
 import { AppLayout } from './pages/AppLayout';
 import { selectLocale } from './store/selectors';
+import { ComponentsPage } from './pages/ComponentsPage';
 
 const router = createBrowserRouter([
   {
@@ -32,10 +33,15 @@ const router = createBrowserRouter([
     element: <LoginPage />,
     errorElement: <ErrorPage />,
   },
+  {
+    path: '/components',
+    element: <ComponentsPage />,
+    errorElement: <ErrorPage />,
+  },
 ]);
 
 // Start the mocking conditionally.
-if (process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { worker } = require('./test/mocks/browser');
   worker.start();
