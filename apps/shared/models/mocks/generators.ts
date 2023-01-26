@@ -13,7 +13,7 @@ export const generateFakeProject = (partialUser: Partial<ProjectInterface> = {})
   name: faker.animal.insect(),
   datasets: [],
   owner: generateFakeUser(),
-  published: faker.datatype.boolean(),
+  draft: faker.datatype.boolean(),
   ...partialUser,
 });
 
