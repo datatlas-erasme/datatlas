@@ -18,16 +18,16 @@ const BadgeOutlines = styled.span`
   margin-left: 10px;
 `;
 
-const InfoProjectBadges = ({ adminInitial, editorsNumber }) => {
+const InfoProjectBadges = () => {
   return (
     <>
       <BadgesContainer>
         <Hash />
-        <BadgeOutlines>{adminInitial}</BadgeOutlines>
+        <BadgeOutlines>adminInitial</BadgeOutlines>
       </BadgesContainer>
       <BadgesContainer>
         <Hash />
-        <BadgeOutlines>{editorsNumber}</BadgeOutlines>
+        <BadgeOutlines>editorsNumber</BadgeOutlines>
       </BadgesContainer>
     </>
   );

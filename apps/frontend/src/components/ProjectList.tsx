@@ -1,5 +1,6 @@
 import React from 'react';
-import { ProjectListItem } from './ProjectListItem';
+// import { ProjectListItem } from './ProjectListItem';
+import ProjectCard from './card/ProjectCard';
 import { Loader } from './Loader';
 import { DraftProjectInterface, NormalizedProjectInterface } from '@datatlas/shared/models';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
@@ -18,7 +19,7 @@ export const ProjectList = ({ projects, isLoading, isSuccess, isError, error }: 
   if (isLoading) {
     content = <Loader />;
   } else if (isSuccess) {
-    content = projects.map((project) => <ProjectListItem key={project.id} {...project} />);
+    content = projects.map((project) => <ProjectCard key={project.id} {...project} />);
   } else if (isError && error) {
     content = <div>{error.toString()}</div>;
   }

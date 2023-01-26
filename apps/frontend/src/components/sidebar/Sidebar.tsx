@@ -10,6 +10,11 @@ const SideBarContainer = styled.aside`
   padding: ${(props) => props.theme.layoutsBoxContainer};
 `;
 
-const Sidebar = (SidebarProps) => <SideBarContainer>Je suis la SideBar</SideBarContainer>;
+const Sidebar = ({ children }) => (
+  <SideBarContainer>
+    <h3>Je suis la SideBar</h3>
+    {children}
+  </SideBarContainer>
+);
 
 export default Sidebar;

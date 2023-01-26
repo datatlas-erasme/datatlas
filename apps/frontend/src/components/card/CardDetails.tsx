@@ -18,12 +18,12 @@ const ActionsCardContainer = styled.div`
   margin: 10px 0;
 `;
 
-const CardDetails = ({ titleCard, infoStatus, desc, adminInitial, editorsNumber }) => {
+const CardDetails = ({ name }) => {
   return (
     <ContentCardContainer>
-      <CardContent desc={desc} titleCard={titleCard} infoStatus={infoStatus} />
+      <CardContent titleCard={name} />
       <ActionsCardContainer>
-        <InfoProjectBadges adminInitial={adminInitial} editorsNumber={editorsNumber} />
+        <InfoProjectBadges />
       </ActionsCardContainer>
     </ContentCardContainer>
   );

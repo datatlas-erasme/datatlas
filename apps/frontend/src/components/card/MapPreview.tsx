@@ -17,7 +17,8 @@ const ActionsContainer = styled.div`
   height: 40px;
 `;
 
-const MapPreview = ({ draft }) => {
+const MapPreview = ({ published }) => {
+  console.log(published);
   const removeProject = (e) => {
     e.preventDefault();
     console.log('DELETE');
@@ -35,7 +36,7 @@ const MapPreview = ({ draft }) => {
     <MapPreviewContainer>
       <ActionsContainer>
         <IconTextButton Icon={<MapIcon />} onClick={editProject}>
-          {draft ? 'Publié' : 'Brouillon'}
+          {published ? 'Publié' : 'Brouillon'}
         </IconTextButton>
         <IconButton Icon={<Delete />} onClick={removeProject} />
         <IconButton Icon={<Trash />} onClick={duplicateProject} />

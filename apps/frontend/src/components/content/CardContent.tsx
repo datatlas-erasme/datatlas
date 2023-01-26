@@ -5,12 +5,12 @@ const CardStatusInfos = styled.p`
   color: #cecece;
   margin: 0;
 `;
-const CardContent = ({ titleCard, infoStatus, desc }) => {
+const CardContent = ({ titleCard }) => {
   return (
     <>
       <h3>{titleCard}</h3>
-      <CardStatusInfos>{infoStatus}</CardStatusInfos>
-      <CardStatusInfos>{desc}</CardStatusInfos>
+      <CardStatusInfos>infoStatus</CardStatusInfos>
+      <CardStatusInfos>desc</CardStatusInfos>
     </>
   );
 };

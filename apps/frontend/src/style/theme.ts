@@ -68,7 +68,7 @@ export const theme: ThemeDefault = {
   primaryBtnFontSizeLarge: themeFontSize.mText,
 
   secondaryBtnBgd: themeColor.primaryColor,
-  secondaryBtnActBgd: themeColor.greyDark,
+  secondaryBtnActBgd: themeColor.primaryColor,
   secondaryBtnColor: themeColor.secondaryColor,
   secondaryBtnActColor: themeColor.secondaryColor,
   secondaryBtnBgdHover: themeColor.greyDark,
@@ -94,13 +94,13 @@ export const theme: ThemeDefault = {
   negativeBtnColor: themeColor.secondaryColor,
   negativeBtnActColor: themeColor.secondaryColor,
 
-  floatingBtnBgd: themeColor.greyDark,
+  floatingBtnBgd: themeColor.primaryColor,
   floatingBtnActBgd: themeColor.greyDark,
   floatingBtnBgdHover: themeColor.greyDark,
   floatingBtnBorder: '0',
   floatingBtnBorderHover: '0',
-  floatingBtnColor: themeColor.primaryColor,
-  floatingBtnActColor: themeColor.primaryColor,
+  floatingBtnColor: themeColor.secondaryColor,
+  floatingBtnActColor: themeColor.secondaryColor,
 
   selectionBtnBgd: 'transparent',
   selectionBtnActBgd: 'transparent',
