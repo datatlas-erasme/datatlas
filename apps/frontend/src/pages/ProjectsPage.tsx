@@ -52,7 +52,7 @@ export const ProjectsPage = () => {
           <Sidebar>
             <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
           </Sidebar>
-          <Footer>Footer</Footer>
+          <Footer />
         </LayoutProjects>
       </ThemeProvider>
     </React.StrictMode>
