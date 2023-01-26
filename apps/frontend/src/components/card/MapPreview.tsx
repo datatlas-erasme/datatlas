@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import { Trash, Delete, MapIcon } from 'kepler.gl/dist/components/common/icons';
 import { IconButton, IconTextButton } from '../buttons';
 
+interface MapPreviewInterface {
+  published: boolean;
+}
+
 const MapPreviewContainer = styled.div`
   display: flex;
   width: 70vw;
@@ -17,8 +21,7 @@ const ActionsContainer = styled.div`
   height: 40px;
 `;
 
-const MapPreview = ({ published }) => {
-  console.log(published);
+const MapPreview = ({ published }: MapPreviewInterface) => {
   const removeProject = (e) => {
     e.preventDefault();
     console.log('DELETE');

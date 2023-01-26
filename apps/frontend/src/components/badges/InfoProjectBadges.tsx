@@ -2,6 +2,11 @@ import React from 'react';
 import { Hash } from 'kepler.gl/dist/components/common/icons';
 import styled from 'styled-components';
 
+interface InfoProjectBadgesInterface {
+  adminInitial: string;
+  editorsNumber: number;
+}
+
 const BadgesContainer = styled.a`
   display: flex;
   align-items: center;
@@ -18,16 +23,16 @@ const BadgeOutlines = styled.span`
   margin-left: 10px;
 `;
 
-const InfoProjectBadges = () => {
+const InfoProjectBadges = ({ adminInitial, editorsNumber }: InfoProjectBadgesInterface) => {
   return (
     <>
       <BadgesContainer>
         <Hash />
-        <BadgeOutlines>adminInitial</BadgeOutlines>
+        <BadgeOutlines>{adminInitial}</BadgeOutlines>
       </BadgesContainer>
       <BadgesContainer>
         <Hash />
-        <BadgeOutlines>editorsNumber</BadgeOutlines>
+        <BadgeOutlines>{editorsNumber}</BadgeOutlines>
       </BadgesContainer>
     </>
   );

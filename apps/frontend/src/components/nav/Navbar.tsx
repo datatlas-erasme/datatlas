@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
-type NavbarProps = {
+interface NavbarInterface {
   children: ReactNode;
-};
+}
 
 const NavStyle = styled.nav`
   grid-area: nav;
@@ -12,6 +12,6 @@ const NavStyle = styled.nav`
   background-color: ${(props) => props.theme.navBackgroundColor};
 `;
 
-const Navbar = (NavbarProps) => <NavStyle>Je suis la Navigation</NavStyle>;
+const Navbar = ({ children }: NavbarInterface) => <NavStyle>Je suis la Navigation</NavStyle>;
 
 export default Navbar;

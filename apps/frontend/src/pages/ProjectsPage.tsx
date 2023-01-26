@@ -1,5 +1,4 @@
 import React from 'react';
-import ProjectCard from '../components/card/ProjectCard';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../style/theme';
 import { useSelector } from 'react-redux';
@@ -13,16 +12,6 @@ import Footer from '../components/footer/footer';
 import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/nav/Navbar';
 
-const testProjectsDatas = {
-  id: 'p012',
-  draft: true,
-  titleCard: 'Titre de projet',
-  infoStatus: 'Modidifié le 6 janvier 2033',
-  desc: 'Sed ornare, diam eu dictum pulvinar, elit nisi varius felis, vel accumsan felis erat vel mauris. Nulla consectetur tellus vulputate neque pharetra, sit amet consectetur diam auctor. Praesent imperdiet nisl et vulputate maximus. Etiam viverra consectetur leo, a vehicula odio ornare sed.',
-  adminInitial: 'AA',
-  editorsNumber: 3,
-};
-
 const LayoutProjects = styled.div`
   display: grid;
   height: 100vh;
@@ -31,7 +20,6 @@ const LayoutProjects = styled.div`
     'nav nav nav nav'
     'main main main aside'
     'footer footer footer footer';
-  //text-align: center;
   grid-gap: 0.25rem;
   transition: all 0.25s ease-in-out;
 `;
@@ -60,7 +48,6 @@ export const ProjectsPage = () => {
               isError={isError}
               error={error}
             />
-            {/*<ProjectCard projects={projects} />*/}
           </ProjectsContainer>
           <Sidebar>
             <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
