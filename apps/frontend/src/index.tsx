@@ -10,6 +10,7 @@ import { Loader } from './components/Loader';
 import { IntlProvider } from 'react-intl';
 import { AppLayout } from './pages/AppLayout';
 import { selectLocale } from './store/selectors';
+import { ComponentsPage } from './pages/ComponentsPage';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        path: 'projects',
         index: true,
         element: <ProjectsPage />,
       },
@@ -30,6 +32,11 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/components',
+    element: <ComponentsPage />,
     errorElement: <ErrorPage />,
   },
 ]);

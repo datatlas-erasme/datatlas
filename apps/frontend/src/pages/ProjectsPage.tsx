@@ -60,12 +60,13 @@ export const ProjectsPage = () => {
               isError={isError}
               error={error}
             />
-            <ProjectCard {...testProjectsDatas} />
+            {/*<ProjectCard projects={projects} />*/}
           </ProjectsContainer>
-          <Sidebar>SideBar</Sidebar>
+          <Sidebar>
+            <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
+          </Sidebar>
           <Footer>Footer</Footer>
         </LayoutProjects>
-        <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
       </ThemeProvider>
     </React.StrictMode>
   );

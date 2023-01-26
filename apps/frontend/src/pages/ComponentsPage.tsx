@@ -78,7 +78,9 @@ export const ComponentsPage = () => {
               Click me !
             </Button>
             <StyledFilteredOption>
-              <SelectionButton>J'te select</SelectionButton>
+              <SelectionButton>Select Option 1</SelectionButton>
+              <SelectionButton>Select Option 2</SelectionButton>
+              <SelectionButton>Select Option 3</SelectionButton>
             </StyledFilteredOption>
 
             <MapControlButton>
