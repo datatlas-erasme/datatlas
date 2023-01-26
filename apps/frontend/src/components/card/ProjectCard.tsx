@@ -3,6 +3,7 @@ import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
 import styled from 'styled-components';
 import { DatasetInterface, NormalizedProjectInterface } from '@datatlas/shared/models';
+import { Link } from 'react-router-dom';
 
 export type ProjectCardProps = NormalizedProjectInterface;
 
@@ -17,6 +18,7 @@ const ProjectCard = ({ id, name, draft }: ProjectCardProps) => {
     <CardContainer key={id}>
       <MapPreview published={draft} />
       <CardDetails name={name} />
+      <Link to={`/projects/${id}`}>Voir le projet</Link>
     </CardContainer>
   );
 };

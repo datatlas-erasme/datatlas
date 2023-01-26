@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import InfoProjectBadges from '../badges/InfoProjectBadges';
 import CardContent from '../content/CardContent';
 
-interface CardDetailsInterface {
+interface CardProjectDetailsInterface {
   name: string;
 }
 const ContentCardContainer = styled.div`
@@ -21,7 +21,7 @@ const ActionsCardContainer = styled.div`
   margin: 10px 0;
 `;
 
-const CardDetails = ({ name }: CardDetailsInterface) => {
+const CardProjectDetails = ({ name }: CardProjectDetailsInterface) => {
   return (
     <ContentCardContainer>
       <CardContent titleCard={name} />
@@ -32,4 +32,4 @@ const CardDetails = ({ name }: CardDetailsInterface) => {
   );
 };
 
-export default CardDetails;
+export default CardProjectDetails;
