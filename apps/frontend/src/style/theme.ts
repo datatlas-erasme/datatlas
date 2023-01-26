@@ -35,6 +35,7 @@ export const theme: ThemeDefault = {
   fontWeight: 400,
   fontSize: themeFontSize.sText,
   lineHeight: '14px',
+  fontFamily: fontFamily,
 
   textColor: themeColor.primaryColor,
   subtextColor: themeColor.primaryColor,
@@ -278,9 +279,12 @@ export const theme: ThemeDefault = {
   cardBoxContainer: '15px',
 
   // NAV
-  navBackgroundColor: themeColor.greyMedium,
+  navBackgroundColor: themeColor.greyExtraLight,
 
   // CARD
   cardHeight: '20vh',
   cardWidth: '30vw',
+
+  // DIVIDER
+  dividerNavColor: themeColor.greyLight,
 };
