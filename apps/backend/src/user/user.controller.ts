@@ -9,11 +9,11 @@ export class UserController {
   @HttpCode(204)
   @Header('Cache-Control', 'none')
   async create(@Body() createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    return 'This action adds a new cat';
   }
 
   @Get()
   findAll(@Req() request: Request): string {
-    return 'This action returns all users';
+    return 'This action returns all cats';
   }
 }
