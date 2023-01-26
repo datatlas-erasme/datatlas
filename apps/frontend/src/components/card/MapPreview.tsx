@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Trash, Delete, MapIcon } from 'kepler.gl/dist/components/common/icons';
-import { IconButton, IconTextButton } from '../buttons';
+import { IconButton, Button } from '../buttons';
 
 interface MapPreviewInterface {
   published: boolean;
@@ -38,9 +38,9 @@ const MapPreview = ({ published }: MapPreviewInterface) => {
   return (
     <MapPreviewContainer>
       <ActionsContainer>
-        <IconTextButton Icon={<MapIcon />} onClick={editProject}>
+        <Button Icon={<MapIcon />} onClick={editProject}>
           {published ? 'Publié' : 'Brouillon'}
-        </IconTextButton>
+        </Button>
         <IconButton Icon={<Delete />} onClick={removeProject} />
         <IconButton Icon={<Trash />} onClick={duplicateProject} />
       </ActionsContainer>
