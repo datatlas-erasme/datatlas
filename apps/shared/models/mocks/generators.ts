@@ -14,7 +14,6 @@ export const generateFakeProject = (partialUser: Partial<ProjectInterface> = {})
   datasets: [],
   owner: generateFakeUser(),
   draft: faker.datatype.boolean(),
-  updatedDate: faker.date.recent(),
   ...partialUser,
 });
 
