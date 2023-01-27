@@ -51,7 +51,7 @@ const Footer = () => (
   <FooterContainer>
     <div>
       <LogoContainer>
-        <a href={'#'} target={'_blank'} rel={'noreferrer'}>
+        <a href={'/'} target={'_blank'} rel={'noreferrer'}>
           <DatatlasLogo />
         </a>
         <a href={'https://www.erasme.org/'} target={'_blank'} rel={'noreferrer'}>
@@ -66,7 +66,7 @@ const Footer = () => (
       </LogoContainer>
       <div className={'githublink'}>
         <p>Lien vers le Github du projet :</p>
-        <a href={'#'} target={'_blank'} rel={'noreferrer'}>
+        <a href={'/'} target={'_blank'} rel={'noreferrer'}>
           <GithubLogo />
         </a>
       </div>
@@ -78,10 +78,10 @@ const Footer = () => (
       </p>
       <ul>
         <li>
-          <a href={'#'}>© Datatlas</a>
+          <a href={'/'}>© Datatlas</a>
         </li>
         <li>
-          <a href={'#'}>Mentions Légales</a>
+          <a href={'/'}>Mentions Légales</a>
         </li>
       </ul>
     </div>
