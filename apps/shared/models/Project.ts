@@ -22,11 +22,11 @@ export class Project implements ProjectInterface {
 
   static normalize({ id, name, owner, draft }: ProjectInterface): NormalizedProjectInterface {
     return {
+      datasets: [],
       id,
       ownerId: owner.id,
       name,
       draft,
-      datasets: [],
     };
   }
 
@@ -41,7 +41,13 @@ export class Project implements ProjectInterface {
     return Project.isDraft(this);
   }
 
-  static createDraft({ ownerId, name }: { ownerId: UserInterface['id'], name: ProjectInterface['name'] }): DraftProjectInterface {
+  static createDraft({
+    ownerId,
+    name,
+  }: {
+    ownerId: UserInterface['id'];
+    name: ProjectInterface['name'];
+  }): DraftProjectInterface {
     return {
       id: faker.datatype.uuid(),
       name,
