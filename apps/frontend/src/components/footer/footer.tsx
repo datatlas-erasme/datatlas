@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DatatlasLogo, MetropoleLogo, ErasmeLogo, FranceRelanceLogo, GitghubLogo } from '../../assets/Logo';
+import { DatatlasLogo, MetropoleLogo, ErasmeLogo, FranceRelanceLogo, GithubLogo } from '../logos';
 
 const FooterContainer = styled.footer`
   grid-area: footer;
@@ -51,23 +51,23 @@ const Footer = () => (
   <FooterContainer>
     <div>
       <LogoContainer>
-        <a href={'#'} target={'_blank'}>
+        <a href={'#'} target={'_blank'} rel={'noreferrer'}>
           <DatatlasLogo />
         </a>
-        <a href={'https://www.erasme.org/'} target={'_blank'}>
+        <a href={'https://www.erasme.org/'} target={'_blank'} rel={'noreferrer'}>
           <ErasmeLogo />
         </a>
-        <a href={'https://www.grandlyon.com/'} target={'_blank'}>
+        <a href={'https://www.grandlyon.com/'} target={'_blank'} rel={'noreferrer'}>
           <MetropoleLogo />
         </a>
-        <a href={'https://www.economie.gouv.fr/plan-de-relance'} target={'_blank'}>
+        <a href={'https://www.economie.gouv.fr/plan-de-relance'} target={'_blank'} rel={'noreferrer'}>
           <FranceRelanceLogo />
         </a>
       </LogoContainer>
       <div className={'githublink'}>
         <p>Lien vers le Github du projet :</p>
-        <a href={'#'} target={'_blank'}>
-          <GitghubLogo />
+        <a href={'#'} target={'_blank'} rel={'noreferrer'}>
+          <GithubLogo />
         </a>
       </div>
     </div>
