@@ -73,19 +73,19 @@ const Navbar = ({ children }: NavbarInterface) => (
     </NavContainerLogo>
     <NavItemsList>
       <li>
-        <Link to={'#'}>
+        <Link to={'/'}>
           <Info style={{ height: 15, width: 15, paddingRight: '5px' }} />
           Aide
         </Link>
       </li>
       <li>
-        <Link to={'#'}>
+        <Link to={'/'}>
           <Settings style={{ height: 15, width: 15, paddingRight: '5px' }} />
           Réglage
         </Link>
       </li>
       <li>
-        <Link to={'#'}>
+        <Link to={'/'}>
           <Play style={{ height: 15, width: 15, paddingRight: '5px' }} />
           Mon Compte
         </Link>
