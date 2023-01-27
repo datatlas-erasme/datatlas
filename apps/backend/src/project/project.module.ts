@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProjectSchema} from './project.schema';
+import { ProjectSchema } from './project.schema';
 import { ProjectService } from './project.service';
 import { ProjectController } from './project.controller';
 
