@@ -11,6 +11,7 @@ import { useAppDispatch } from '../store';
 import Footer from '../components/footer/footer';
 import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/nav/Navbar';
+import { logout } from '../store/reducers/app/user';
 
 const LayoutProjects = styled.div`
   display: grid;
@@ -38,7 +39,10 @@ export const ProjectsPage = () => {
     <React.StrictMode>
       <ThemeProvider theme={theme}>
         <LayoutProjects>
-          <Navbar>NavBar</Navbar>
+          <Navbar>
+            NavBar
+            <button onClick={() => dispatch(logout())}>logout</button>
+          </Navbar>
           <ProjectsContainer>
             <h1>Projects</h1>
             <ProjectList
