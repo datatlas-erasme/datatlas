@@ -1,13 +1,14 @@
 const path = require('path');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const { useBabelRc, override } = require('customize-cra');
 
 const appPath = path.resolve(__dirname, 'apps/frontend/');
 const appTsConfig = path.resolve(appPath, 'tsconfig.app.json');
 
 module.exports = {
   // The Webpack config to use when compiling your react app for development or production.
-  webpack: function (config, env) {
+  webpack: override(useBabelRc(), (config, env) => {
     config.resolve.fallback = {
       querystring: require.resolve('querystring-es3'),
       url: false,
@@ -43,7 +44,7 @@ module.exports = {
     }
 
     return config;
-  },
+  }),
   // The Jest config to use when running your jest tests - note that the normal rewires do not
   // work here.
   jest: function (config) {
