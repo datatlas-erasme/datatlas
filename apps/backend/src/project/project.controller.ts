@@ -4,11 +4,10 @@ import { Project } from './project.entity';
 
 @Controller('project')
 export class ProjectController {
-    constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
-    @Get()
-    async fetchAll(@Res() response) {
-        return 'project'
-    }
-
+  @Get()
+  async fetchAll(@Res() response) {
+    return 'project';
+  }
 }

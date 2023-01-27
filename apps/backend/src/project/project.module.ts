@@ -4,11 +4,9 @@ import { Project } from './project.entity';
 import { ProjectService } from './project.service';
 import { ProjectController } from './project.controller';
 
-
-
 @Module({
   imports: [TypeOrmModule.forFeature([Project])],
   providers: [ProjectService],
-  controllers: [ProjectController]
+  controllers: [ProjectController],
 })
 export class ProjectModule {}

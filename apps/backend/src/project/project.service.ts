@@ -5,30 +5,28 @@ import { Project } from './project.entity';
 
 @Injectable()
 export class ProjectService {
-    constructor(
-        @InjectRepository(Project)
-        private readonly projectRepository: Repository<Project>,
-    ) {}
+  constructor(
+    @InjectRepository(Project)
+    private readonly projectRepository: Repository<Project>
+  ) {}
 
-    async findAll(): Promise<Project[]> {
-        return await this.projectRepository.find();
-    }
+  async findAll(): Promise<Project[]> {
+    return await this.projectRepository.find();
+  }
 
-    async findOne(id: number): Promise<Project> {
-        return await this.projectRepository.findOne(id);
-    }
+  async findOne(id: number): Promise<Project> {
+    return await this.projectRepository.findOne(id);
+  }
 
-    async create(project: Project): Promise<Project> {
-        return await this.projectRepository.save(project);
-    }
+  async create(project: Project): Promise<Project> {
+    return await this.projectRepository.save(project);
+  }
 
-    async update(project: Project): Promise<Project> {
-        return await this.projectRepository.save(project);
-    }
+  async update(project: Project): Promise<Project> {
+    return await this.projectRepository.save(project);
+  }
 
-    async delete(id: number): Promise<void> {
-        await this.projectRepository.delete(id);
-    }
-        
-
+  async delete(id: number): Promise<void> {
+    await this.projectRepository.delete(id);
+  }
 }

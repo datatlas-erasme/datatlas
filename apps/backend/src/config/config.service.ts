@@ -8,23 +8,22 @@ const postGresPassword = process.env.POSTGRES_PASSWORD || 'postgres';
 const postGresDatabase = process.env.POSTGRES_DATABASE || 'postgres';
 
 // convert string to int if possible
-postGresPort
+postGresPort;
 
 @Injectable()
 export class ConfigService {
-    constructor (private readonly env: { [k: string]: string | undefined }) {}
+  constructor(private readonly env: { [k: string]: string | undefined }) {}
 
-    public getTypeOrmConfig(): TypeOrmModuleOptions {
-        return {
-          type: 'postgres',
-          host: postGresHost,
-          port: postGresPort,
-          username: postGresUser,
-          password: postGresPassword,
-          database: postGresDatabase,
-
-        };
-      }
+  public getTypeOrmConfig(): TypeOrmModuleOptions {
+    return {
+      type: 'postgres',
+      host: postGresHost,
+      port: postGresPort,
+      username: postGresUser,
+      password: postGresPassword,
+      database: postGresDatabase,
+    };
+  }
 }
 
 const configService = new ConfigService(process.env);

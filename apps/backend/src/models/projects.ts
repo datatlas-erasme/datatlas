@@ -1,16 +1,15 @@
 import { PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn } from 'typeorm';
 
 export abstract class Project {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column({ type: 'varchar', length: 255, nullable: true })
-    name: string;
-    
-    @UpdateDateColumn()
-    published: boolean;
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  name: string;
 
-    @Column({ type: 'uuid', nullable: true })
-    ownerId: string;
+  @UpdateDateColumn()
+  published: boolean;
 
-    }
+  @Column({ type: 'uuid', nullable: true })
+  ownerId: string;
+}
