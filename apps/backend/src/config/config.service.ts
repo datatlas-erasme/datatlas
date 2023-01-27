@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import {Project} from '../project/project.entity';
+import {Project} from '@datatlas/shared/models';
 
 const postGresHost = process.env.POSTGRES_HOST || 'localhost';
 const postGresPort = parseInt(process.env.POSTGRES_PORT) || 5432;
@@ -24,7 +24,7 @@ export class ConfigService {
           password: postGresPassword,
           database: postGresDatabase,
           entities: [Project],
-          synchronize: true,
+          synchronize: false,
           migrations: ['./migrations/*.ts']
         };
       }

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Put, Delete, Res, Body, Param } from '@nestjs/co
 import { Repository } from 'typeorm';
 //import { AppService } from '../app/app.service';
 import { ProjectService } from './project.service';
-import { Project} from './project.entity';
+import { Project} from '@datatlas/shared/models';
 
 
 @Controller()
