@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { SVGProps } from 'react';
 
-export const GitghubLogo = (props: SVGProps<SVGSVGElement>) => (
+export const GithubLogo = (props: SVGProps<SVGSVGElement>) => (
   <svg width={32} height={32} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path
       fillRule="evenodd"
