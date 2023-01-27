@@ -16,7 +16,7 @@ const CardContainer = styled.article`
 const ProjectCard = ({ id, name, draft }: ProjectCardProps) => {
   return (
     <CardContainer key={id}>
-      <MapPreview published={draft} />
+      <MapPreview draft={draft} />
       <CardDetails name={name} />
       <Link to={`/projects/${id}`}>Voir le projet</Link>
     </CardContainer>
