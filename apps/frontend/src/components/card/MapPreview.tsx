@@ -4,7 +4,7 @@ import { Trash, Delete, MapIcon } from 'kepler.gl/dist/components/common/icons';
 import { IconButton, Button } from '../buttons';
 
 interface MapPreviewInterface {
-  published: boolean;
+  draft: boolean;
 }
 
 const MapPreviewContainer = styled.div`
@@ -21,7 +21,7 @@ const ActionsContainer = styled.div`
   height: 40px;
 `;
 
-const MapPreview = ({ published }: MapPreviewInterface) => {
+const MapPreview = ({ draft }: MapPreviewInterface) => {
   const removeProject = (e) => {
     e.preventDefault();
     console.log('DELETE');
@@ -39,7 +39,7 @@ const MapPreview = ({ published }: MapPreviewInterface) => {
     <MapPreviewContainer>
       <ActionsContainer>
         <Button Icon={<MapIcon />} onClick={editProject}>
-          {published ? 'Publié' : 'Brouillon'}
+          {draft ? 'Brouillon' : 'Publié'}
         </Button>
         <IconButton Icon={<Delete />} onClick={removeProject} />
         <IconButton Icon={<Trash />} onClick={duplicateProject} />
