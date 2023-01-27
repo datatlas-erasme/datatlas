@@ -11,6 +11,7 @@ import { IntlProvider } from 'react-intl';
 import { AppLayout } from './pages/AppLayout';
 import { selectLocale } from './store/selectors';
 import { ComponentsPage } from './pages/ComponentsPage';
+import { GlobalStyle } from './style/GlobalStyle';
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
   <Provider store={store}>
+    <GlobalStyle />
     <PersistGate loading={<Loader />} persistor={persistor}>
       <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
         <RouterProvider router={router} />
