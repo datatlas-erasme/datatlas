@@ -7,5 +7,5 @@ export interface ProjectInterface {
   draft: boolean;
   datasets: DatasetInterface[];
   owner: UserInterface;
-  updatedDate: Date;
+  updatedAt: Date;
 }
