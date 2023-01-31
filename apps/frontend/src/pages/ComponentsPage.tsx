@@ -29,6 +29,7 @@ import LoadingSpinner from 'kepler.gl/dist/components/common/loading-spinner';
 import ImagePreview from 'kepler.gl/dist/components/common/image-preview';
 import ProgressBar from 'kepler.gl/dist/components/common/progress-bar';
 import ModalDialog from 'kepler.gl/dist/components/common/modal';
+import DropdownList from 'kepler.gl/dist/components/common/item-selector/dropdown-list';
 import { theme } from '../style/theme';
 
 const Container = styled.div`
@@ -164,6 +165,10 @@ export const ComponentsPage = () => {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in eleifend dolor, efficitur lobortis
               quam. Fusce sollicitudin ullamcorper lacinia. Curabitur.
             </PanelContent>
+          </Spaced>
+          <Spaced>
+            <h3>Dropdown</h3>
+            <DropdownList />
           </Spaced>
         </Container>
       </ThemeProvider>

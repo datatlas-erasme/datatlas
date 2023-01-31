@@ -23,7 +23,7 @@ export const themeColor = {
 export const themeFontSize = {
   xsText: '10px',
   sText: '12px',
-  mText: '12px',
+  mText: '18px',
   lText: '24px',
   xlText: '36px',
 };
@@ -280,6 +280,7 @@ export const theme: ThemeDefault = {
 
   // NAV
   navBackgroundColor: themeColor.greyExtraLight,
+  navItemsFontSize: themeFontSize.mText,
 
   // CARD
   cardHeight: '20vh',
