@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useAppDispatch } from '../../store';
 import { Rocket, Info, Settings, Play, Clock } from 'kepler.gl/dist/components/common/icons';
 import { Link } from 'react-router-dom';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { logout } from '../../store/reducers/app/user';
 import { DatatlasLogo } from '../logos';
 
@@ -37,7 +38,6 @@ const NavItemsList = styled.ul`
     button {
       display: flex;
       align-items: center;
-      text-decoration: none;
       font-family: ${(props) => props.theme.fontFamily};
       font-size: ${(props) => props.theme.navItemsFontSize};
     }
@@ -47,12 +47,17 @@ const NavItemsList = styled.ul`
     }
   }
 `;
-const IconWidth = {
-  height: 20,
-  width: 20,
-};
+const NavItem = styled(Link)`
+  text-decoration: none;
+  svg {
+    height: 20px;
+    width: 20px;
+    padding-right: 5px;
+  }
+`;
 
 const Navbar = () => {
+  const intl = useIntl();
   const dispatch = useAppDispatch();
 
   return (
@@ -63,27 +68,27 @@ const Navbar = () => {
       </NavContainerLogo>
       <NavItemsList>
         <li>
-          <Link to={'/'}>
-            <Info style={{ height: IconWidth.height, width: IconWidth.width, paddingRight: '5px' }} />
-            Aide
-          </Link>
+          <NavItem to={'/'}>
+            <Info />
+            <FormattedMessage defaultMessage={'Aide'} />
+          </NavItem>
         </li>
         <li>
-          <Link to={'/'}>
-            <Settings style={{ height: IconWidth.height, width: IconWidth.width, paddingRight: '5px' }} />
-            Réglage
-          </Link>
+          <NavItem to={'/'}>
+            <Settings />
+            <FormattedMessage defaultMessage={'Réglages'} />
+          </NavItem>
         </li>
         <li>
-          <Link to={'/'}>
-            <Play style={{ height: IconWidth.height, width: IconWidth.width, paddingRight: '5px' }} />
-            Mon Compte
-          </Link>
+          <NavItem to={'/'}>
+            <Play />
+            <FormattedMessage defaultMessage={'Mon Compte'} />
+          </NavItem>
         </li>
         <li>
           <button onClick={() => dispatch(logout())}>
             <Clock style={{ height: 30, width: 30, paddingLeft: '10px' }} />
-            Logout
+            <FormattedMessage defaultMessage={'Logout'} />
           </button>
         </li>
       </NavItemsList>
