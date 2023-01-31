@@ -2,14 +2,14 @@ import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
   * {
-    box-sizing: border-box;
+    box-sizing: content-box;
     margin: 0;
     padding: 0;
   }
   li{
     list-style: none;
   }
-  a{
+  a, button{
     cursor: pointer;
   }
 `;
