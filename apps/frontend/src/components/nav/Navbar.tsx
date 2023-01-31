@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useAppDispatch } from '../../store';
 import { Rocket, Info, Settings, Play, Clock } from 'kepler.gl/dist/components/common/icons';
 import { Link } from 'react-router-dom';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { logout } from '../../store/reducers/app/user';
 import { DatatlasLogo } from '../logos';
 
@@ -57,7 +57,6 @@ const NavItem = styled(Link)`
 `;
 
 const Navbar = () => {
-  const intl = useIntl();
   const dispatch = useAppDispatch();
 
   return (
