@@ -33,7 +33,7 @@ export const selectSavedProjectsByOwnerId = createSelector(
 );
 
 export const selectUserById = (state, id) => api.endpoints.getUser.select(id)(state)?.data ?? {};
-const selectCurrentUserId = createSelector(selectAppState, (state) => state.user);
+export const selectCurrentUserId = createSelector(selectAppState, (state) => state.user);
 const selectCurrentUser = createSelector(selectState, selectCurrentUserId, (state, userId) =>
   selectUserById(state, userId)
 );

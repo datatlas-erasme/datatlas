@@ -40,7 +40,7 @@ const config = {
       navbar: {
         title: 'Datatlas',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'My Site logos',
           src: 'img/logo.svg',
         },
         items: [
