@@ -7,6 +7,9 @@ import { Provider } from 'react-redux';
 import { initialState, reducer, RootState } from '../store/reducers';
 import { BrowserRouter } from 'react-router-dom';
 import { api } from '../api';
+import { selectLocale } from '../store/selectors';
+import { IntlProvider } from 'react-intl';
+import { store } from '../store';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
@@ -29,7 +32,9 @@ export function renderWithProviders(
   function Wrapper({ children }: PropsWithChildren<object>) {
     return (
       <Provider store={store}>
-        <BrowserRouter>{children}</BrowserRouter>
+        <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
+          <BrowserRouter>{children}</BrowserRouter>
+        </IntlProvider>
       </Provider>
     );
   }
