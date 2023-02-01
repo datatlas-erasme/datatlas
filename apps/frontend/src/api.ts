@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ProjectInterface, UserInterface } from '@datatlas/shared/models';
-import { loggedIn } from './store/reducers/app/user';
+import { loggedIn } from './store/reducers/user';
 import { LoginFormData } from './components/forms/LoginForm';
 
 export const api = createApi({

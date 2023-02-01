@@ -2,10 +2,10 @@ import React from 'react';
 import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
 import styled from 'styled-components';
-import { NormalizedProjectInterface } from '@datatlas/shared/models';
+import { ProjectInterface } from '@datatlas/shared/models';
 import { Link } from 'react-router-dom';
 
-export type ProjectCardProps = NormalizedProjectInterface;
+export type ProjectCardProps = ProjectInterface;
 
 const CardContainer = styled.article`
   display: flex;
@@ -13,11 +13,11 @@ const CardContainer = styled.article`
   width: ${(props) => props.theme.cardWidth};
   padding: ${(props) => props.theme.cardBoxContainer};
 `;
-const ProjectCard = ({ id, name, draft, updatedAt }: ProjectCardProps) => {
+const ProjectCard = ({ id, title, draft }: ProjectCardProps) => {
   return (
     <CardContainer key={id}>
       <MapPreview draft={draft} />
-      <CardDetails name={name} />
+      <CardDetails title={title} />
       <Link to={`/projects/${id}`}>Voir le projet</Link>
     </CardContainer>
   );

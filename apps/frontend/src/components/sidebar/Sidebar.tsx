@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { StartNewProjectForm } from '../forms/StartNewProjectForm';
-import { startNewProject } from '../../store/reducers/app/drafts';
+import { createMap } from '../../store/reducers/keplerGl';
 
 const SideBarContainer = styled.aside`
   grid-area: aside;
@@ -15,14 +15,13 @@ const SideBarContainer = styled.aside`
 `;
 
 const Sidebar = () => {
-  const intl = useIntl();
   const dispatch = useDispatch();
   return (
     <SideBarContainer>
       <h2>
         <FormattedMessage defaultMessage={'Démarrer un nouveau projet :'} />
       </h2>
-      <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
+      <StartNewProjectForm onSubmit={(data) => dispatch(createMap(data))} />
     </SideBarContainer>
   );
 };

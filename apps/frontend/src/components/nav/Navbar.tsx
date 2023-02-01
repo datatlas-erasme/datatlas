@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../store';
 import { Rocket, Info, Settings, Play, Clock } from 'kepler.gl/dist/components/common/icons';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { logout } from '../../store/reducers/app/user';
+import { logout } from '../../store/reducers/user';
 import { DatatlasLogo } from '../logos';
 
 const NavContainer = styled.nav`
