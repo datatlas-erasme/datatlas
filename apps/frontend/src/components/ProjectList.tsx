@@ -1,12 +1,12 @@
 import React from 'react';
 import { ProjectListItem } from './ProjectListItem';
 import { Loader } from './Loader';
-import { DraftProjectInterface, NormalizedProjectInterface } from '@datatlas/shared/models';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { ProjectInterface } from '@datatlas/shared/models';
 import { SerializedError } from '@reduxjs/toolkit';
 
 export interface ProjectListProps {
-  projects: (NormalizedProjectInterface | DraftProjectInterface)[];
+  projects: ProjectInterface[];
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { ProjectInterface, UserInterface } from '../';
+import { KeplerMapConfig, ProjectInterface, UserInterface } from '../';
 
 export const generateFakeUser = (partialUser: Partial<UserInterface> = {}): UserInterface => ({
   id: faker.datatype.number(100),
@@ -8,14 +8,18 @@ export const generateFakeUser = (partialUser: Partial<UserInterface> = {}): User
   ...partialUser,
 });
 
-export const generateFakeProject = (partialUser: Partial<ProjectInterface> = {}): ProjectInterface => ({
+export const generateFakeProject = (partialProject: Partial<ProjectInterface> = {}): ProjectInterface => ({
   id: faker.datatype.number(100),
-  name: faker.animal.insect(),
+  title: faker.animal.insect(),
+  description: faker.lorem.lines(1),
   datasets: [],
   owner: generateFakeUser(),
+  createdAt: faker.date.past(),
   draft: faker.datatype.boolean(),
-  updatedAt: faker.datatype.datetime(),
-  ...partialUser,
+  updatedAt: faker.date.past(),
+  version: 'v1' as const,
+  config: new KeplerMapConfig(),
+  ...partialProject,
 });
 
 export const generateFakeProjects = () =>

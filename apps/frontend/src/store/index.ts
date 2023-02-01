@@ -7,13 +7,16 @@ import { enhanceReduxMiddleware } from 'kepler.gl';
 import { reducer as rootReducer } from './reducers';
 import { initialState } from './reducers';
 import { api } from '../api';
+import { listenerMiddleware } from './listenerMiddleware';
+import { KeplerGlTransform } from './transforms/KeplerGlTransform';
 
 const actionsBlacklist = ['@@kepler.gl/MOUSE_MOVE', '@@kepler.gl/UPDATE_MAP', '@@kepler.gl/LAYER_HOVER'];
 
 const persistConfig = {
   key: 'root',
-  blacklist: ['keplerGl', 'api'],
+  blacklist: ['api'],
   storage,
+  transforms: [KeplerGlTransform],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -33,6 +36,7 @@ const store = configureStore({
         }),
       api.middleware,
       ...enhanceReduxMiddleware([]),
+      listenerMiddleware.middleware,
     ].filter((truthy) => truthy),
   devTools: process.env.NODE_ENV === 'development',
 });

@@ -4,7 +4,7 @@ import InfoProjectBadges from '../badges/InfoProjectBadges';
 import CardContent from '../content/CardContent';
 
 interface CardProjectDetailsInterface {
-  name: string;
+  title: string;
 }
 const ContentCardContainer = styled.div`
   padding: 10px;
@@ -21,10 +21,10 @@ const ActionsCardContainer = styled.div`
   margin: 10px 0;
 `;
 
-const CardProjectDetails = ({ name }: CardProjectDetailsInterface) => {
+const CardProjectDetails = ({ title }: CardProjectDetailsInterface) => {
   return (
     <ContentCardContainer>
-      <CardContent titleCard={name} />
+      <CardContent titleCard={title} />
       <ActionsCardContainer>
         <InfoProjectBadges editorsNumber={1} adminInitial={'AG'} />
       </ActionsCardContainer>

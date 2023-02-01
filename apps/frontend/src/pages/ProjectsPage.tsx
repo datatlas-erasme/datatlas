@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { ProjectList } from '../components/ProjectList';
 import { useGetSavedProjectsQuery } from '../api';
 import { selectCurrentUserProjects } from '../store/selectors';
-import { useAppDispatch } from '../store';
 import Footer from '../components/footer/footer';
 import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/nav/Navbar';
@@ -30,7 +29,6 @@ const ProjectsContainer = styled.main`
 export const ProjectsPage = () => {
   const { isLoading, isSuccess, isError, error } = useGetSavedProjectsQuery();
   const projects = useSelector(selectCurrentUserProjects);
-  const dispatch = useAppDispatch();
 
   return (
     <React.StrictMode>

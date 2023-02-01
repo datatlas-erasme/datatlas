@@ -3,7 +3,7 @@ import { UserInterface } from '@datatlas/shared/models';
 
 export type UserState = null | UserInterface['id'];
 
-const initialState = null as UserState;
+export const initialState = null as UserState;
 
 const slice = createSlice({
   name: 'user',

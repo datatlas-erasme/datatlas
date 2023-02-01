@@ -15,8 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@datatlas/models": ["libs/models/src/index.ts"],
-      "@datatlas/shared/data-access": ["apps/shared/data-access/src/index.ts"],
+      "@datatlas/models": ["apps/shared/models/index.ts"],
       "@datatlas/shared/models": ["apps/shared/models/index.ts"]
     }
   },
