@@ -4,6 +4,6 @@ import { NormalizedProjectInterface } from '@datatlas/shared/models';
 
 export type ProjectListItemProps = NormalizedProjectInterface;
 
-export const ProjectListItem = ({ id, name, draft, updatedDate }: ProjectListItemProps) => {
-  return <ProjectCard id={id} name={name} draft={draft} datasets={[]} ownerId={4} updatedDate={updatedDate} />;
+export const ProjectListItem = ({ id, name, draft, updatedAt }: ProjectListItemProps) => {
+  return <ProjectCard id={id} name={name} draft={draft} datasets={[]} ownerId={4} updatedAt={updatedAt} />;
 };
