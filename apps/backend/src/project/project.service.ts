@@ -1,33 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Project} from '@datatlas/shared/models';
+import { Injectable} from '@nestjs/common';
+import { InjectRepository} from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/core';
+import { ProjectEntity } from '../entities/project.entity';
 
 
 @Injectable()
 export class ProjectService {
     constructor(
-        @InjectRepository(Project)
-        private readonly projectRepository: Repository<Project>,
+        @InjectRepository(ProjectEntity)
+        private readonly projectRepository: EntityRepository<ProjectEntity>,
     ) {}
-
-    async findAll(): Promise<Project[]> {
-        return await this.projectRepository.find();
+    
+    async findAll(): Promise<ProjectEntity[]> {
+        return this.projectRepository.findAll();
+    }
+    async findOneById(id: number): Promise<ProjectEntity> {
+        return this.projectRepository.findOne(id);
     }
 
-    async findOne(id: string): Promise<Project> {
-        return await this.projectRepository.findOneBy({id});
+    async update(id: number, project: ProjectEntity): Promise<ProjectEntity> {
+        const projectToUpdate = await this.projectRepository.findOne(id);
+        this.projectRepository.assign(projectToUpdate, project);
+        await this.projectRepository.persistAndFlush(projectToUpdate);
+        return projectToUpdate;
     }
 
-    async create(project: Project) {
-        return await this.projectRepository.save(project);
+    async delete(id: number): Promise<boolean> {
+        const projectToDelete = await this.projectRepository.findOne(id);
+        await this.projectRepository.removeAndFlush(projectToDelete);
+        return true;
     }
 
-    async update(project: Project): Promise<Project> {
-        return await this.projectRepository.save(project);
+    // Return id of new project <Promoise<number>>
+    async create(project: ProjectEntity){
+        const newProject = await this.projectRepository.create(project);
+        await this.projectRepository.persistAndFlush(newProject);
+        return newProject;
     }
-
-    async delete(id: number): Promise<void> {
-        await this.projectRepository.delete(id);
-    } 
 }
+    

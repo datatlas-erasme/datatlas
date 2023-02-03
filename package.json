@@ -85,12 +85,14 @@
     "@docusaurus/theme-common": "^2.2.0",
     "@docusaurus/theme-mermaid": "^2.2.0",
     "@mdx-js/react": "^1.6.22",
+    "@mikro-orm/core": "^5.6.8",
+    "@mikro-orm/nestjs": "^5.1.6",
+    "@mikro-orm/postgresql": "^5.6.8",
     "@nestjs/cli": "^9.1.8",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.4",
-    "@nestjs/typeorm": "^9.0.1",
     "@reduxjs/toolkit": "^1.9.1",
     "assert": "^2.0.0",
     "babel-plugin-formatjs": "^10.3.35",
@@ -115,8 +117,7 @@
     "regenerator-runtime": "0.13.7",
     "rxjs": "^7.0.0",
     "styled-components": "5.3.6",
-    "tslib": "^2.3.0",
-    "typeorm": "^0.3.11"
+    "tslib": "^2.3.0"
   },
   "browserslist": {
     "production": [
