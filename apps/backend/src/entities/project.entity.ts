@@ -11,11 +11,4 @@ export class ProjectEntity {
   @Property()
   description: string;
 
-  @Property()
-  createdAt = new Date();
-
-  @Property({ onUpdate: () => new Date() })
-  updatedAt = new Date();
-
-
 }
