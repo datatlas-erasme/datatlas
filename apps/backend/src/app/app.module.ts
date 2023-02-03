@@ -5,9 +5,7 @@ import { AppService } from './app.service';
 //import { configService } from '../config/config.service';
 import { ProjectModule } from '../project/project.module';
 import config from '../config/mikro-orm';
-import { UserModule } from '../user/user.module';
-import { AuthService } from '../auth/auth.service';
-import { JwtService } from '@nestjs/jwt';
+
 
 @Module({
   imports: [
@@ -15,10 +13,8 @@ import { JwtService } from '@nestjs/jwt';
       ...config,
       autoLoadEntities: true,
     }),
-    ProjectModule,
-    UserModule,
-  ],
+    ProjectModule],
   controllers: [AppController],
-  providers: [AppService, AuthService, JwtService],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
