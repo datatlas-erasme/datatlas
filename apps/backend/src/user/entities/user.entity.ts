@@ -2,7 +2,7 @@ import { Entity, EntityRepositoryType, PrimaryKey, Property } from '@mikro-orm/c
 import { UserRepository } from '../user.repository';
 
 @Entity({ customRepository: () => UserRepository })
-export class User {
+export class UserEntity {
   [EntityRepositoryType]?: UserRepository;
 
   @PrimaryKey()
@@ -16,6 +16,6 @@ export class User {
 
   constructor(username: string, password: string) {
     this.username = username;
-    this.password = crypto.createHmac('sha256', password).digest('hex');
+    this.password = password;
   }
 }
