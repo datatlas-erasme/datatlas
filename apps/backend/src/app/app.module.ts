@@ -8,6 +8,8 @@ import config from '../config/mikro-orm';
 import { AuthService } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
+import { UserController } from '../user/user.controller';
+import { UserModule } from '../user/user.module';
 @Module({
   imports: [
     MikroOrmModule.forRoot({
@@ -15,8 +17,9 @@ import { UserService } from '../user/user.service';
       autoLoadEntities: true,
     }),
     ProjectModule,
+    UserModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, UserController],
   providers: [AppService, AuthService, JwtService, UserService],
 })
 export class AppModule {}

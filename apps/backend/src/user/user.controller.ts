@@ -1,14 +1,16 @@
 import { Body, Controller, Get, Header, HttpCode, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
-import { CreateUserDto } from './create-user.dto';
+import { CreateAdminDto } from './dto/create-admin.dto';
+import { Logger } from '@nestjs/common';
 
 @Controller('user')
 export class UserController {
   @Post()
   @HttpCode(204)
   @Header('Cache-Control', 'none')
-  async create(@Body() createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async createAdmin(@Body() createAdminDto: CreateAdminDto) {
+    Logger.log('info');
+    return 'This action creates an admin user.';
   }
 
   @Get()
