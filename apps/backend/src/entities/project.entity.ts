@@ -1,7 +1,6 @@
-import {Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 @Entity()
 export class ProjectEntity {
-
   @PrimaryKey()
   id: number;
 
@@ -10,5 +9,4 @@ export class ProjectEntity {
 
   @Property()
   description: string;
-
 }

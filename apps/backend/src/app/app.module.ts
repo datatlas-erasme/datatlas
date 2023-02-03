@@ -5,16 +5,18 @@ import { AppService } from './app.service';
 //import { configService } from '../config/config.service';
 import { ProjectModule } from '../project/project.module';
 import config from '../config/mikro-orm';
-
-
+import { AuthService } from '../auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
+import { UserService } from '../user/user.service';
 @Module({
   imports: [
     MikroOrmModule.forRoot({
       ...config,
       autoLoadEntities: true,
     }),
-    ProjectModule],
+    ProjectModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService, JwtService, UserService],
 })
-export class AppModule { }
+export class AppModule {}
