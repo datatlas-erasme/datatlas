@@ -1,9 +1,10 @@
 import React from 'react';
 import { ProjectListItem } from './ProjectListItem';
 import { Loader } from './Loader';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { ProjectInterface } from '@datatlas/shared/models';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
+import styled from 'styled-components';
 
 export interface ProjectListProps {
   projects: ProjectInterface[];
@@ -12,6 +13,11 @@ export interface ProjectListProps {
   isError: boolean;
   error?: FetchBaseQueryError | SerializedError;
 }
+
+const ContainerProjectList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 export const ProjectList = ({ projects, isLoading, isSuccess, isError, error }: ProjectListProps) => {
   let content;
@@ -23,5 +29,5 @@ export const ProjectList = ({ projects, isLoading, isSuccess, isError, error }: 
     content = <div>{error.toString()}</div>;
   }
 
-  return <div>{content}</div>;
+  return <ContainerProjectList> {content};</ContainerProjectList>;
 };

@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import { ProjectInterface } from '@datatlas/shared/models';
 import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
+import styled from 'styled-components';
+import { ProjectInterface } from '@datatlas/shared/models';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../store';
 
 export type ProjectCardProps = ProjectInterface;
@@ -15,9 +18,17 @@ const CardContainer = styled.article`
   width: ${(props) => props.theme.cardWidth};
   padding: ${(props) => props.theme.cardBoxContainer};
 `;
+
+const ProjectCard = ({ id, name, draft, owner, updatedAt, description }: ProjectCardProps) => {
 const ProjectCard = ({ id, title, draft }: ProjectCardProps) => {
   const dispatch = useAppDispatch();
   return (
+    <Link to={`/projects/${id}`}>
+      <CardContainer key={id}>
+        <CardDetails name={name} nameOwner={owner.name} updatedAt={updatedAt} description={description} />
+        <MapPreview draft={draft} />
+      </CardContainer>
+    </Link>
     <CardContainer key={id}>
       <MapPreview draft={draft} handleRemove={() => dispatch(deleteEntry(id))} />
       <CardDetails title={title} />
