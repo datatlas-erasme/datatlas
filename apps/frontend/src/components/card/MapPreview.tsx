@@ -5,6 +5,7 @@ import { IconButton, Button } from '../buttons';
 
 interface MapPreviewInterface {
   draft: boolean;
+  handleRemove: (e) => void;
 }
 
 const MapPreviewContainer = styled.div`
@@ -21,11 +22,7 @@ const ActionsContainer = styled.div`
   height: 40px;
 `;
 
-const MapPreview = ({ draft }: MapPreviewInterface) => {
-  const removeProject = (e) => {
-    e.preventDefault();
-    console.log('DELETE');
-  };
+const MapPreview = ({ draft, handleRemove }: MapPreviewInterface) => {
   const duplicateProject = (e) => {
     e.preventDefault();
     console.log('DUPLICATE');
@@ -41,7 +38,7 @@ const MapPreview = ({ draft }: MapPreviewInterface) => {
         <Button Icon={<MapIcon />} onClick={editProject}>
           {draft ? 'Brouillon' : 'Publié'}
         </Button>
-        <IconButton Icon={<Delete />} onClick={removeProject} />
+        <IconButton Icon={<Delete />} onClick={handleRemove} />
         <IconButton Icon={<Trash />} onClick={duplicateProject} />
       </ActionsContainer>
     </MapPreviewContainer>
