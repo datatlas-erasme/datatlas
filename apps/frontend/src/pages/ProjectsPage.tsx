@@ -1,23 +1,27 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../style/theme';
-import { useSelector } from 'react-redux';
 import { ProjectList } from '../components/ProjectList';
 import { useGetSavedProjectsQuery } from '../api';
 import { selectCurrentUserProjects } from '../store/selectors';
+import { StartNewProjectForm } from '../components/forms/StartNewProjectForm';
+import { startNewProject } from '../store/reducers/app/drafts';
+import { useAppDispatch } from '../store';
 import Footer from '../components/footer/footer';
 import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/nav/Navbar';
+import { logout } from '../store/reducers/app/user';
+import { generateFakeProjects } from '@datatlas/shared/models';
 
 const LayoutProjects = styled.div`
   display: grid;
   height: 100vh;
+  margin: auto;
   grid-template-rows: 0.2fr 1fr 0.5fr 0.5fr;
   grid-template-areas:
     'nav nav nav nav'
     'main main main aside'
     'footer footer footer footer';
-  grid-gap: 0.25rem;
   transition: all 0.25s ease-in-out;
 `;
 
@@ -29,6 +33,7 @@ const ProjectsContainer = styled.main`
 export const ProjectsPage = () => {
   const { isLoading, isSuccess, isError, error } = useGetSavedProjectsQuery();
   const projects = useSelector(selectCurrentUserProjects);
+  const dispatch = useAppDispatch();
 
   return (
     <React.StrictMode>
@@ -36,7 +41,7 @@ export const ProjectsPage = () => {
         <LayoutProjects>
           <Navbar />
           <ProjectsContainer>
-            <h1>Projects</h1>
+            <h1>Mes Projets</h1>
             <ProjectList
               projects={projects}
               isLoading={isLoading}

@@ -23,7 +23,7 @@ export const themeColor = {
 export const themeFontSize = {
   xsText: '10px',
   sText: '12px',
-  mText: '18px',
+  mText: '12px',
   lText: '24px',
   xlText: '36px',
 };
@@ -33,9 +33,9 @@ export const theme: ThemeDefault = {
 
   //TEXT
   fontWeight: 400,
-  fontSize: themeFontSize.sText,
-  lineHeight: '14px',
-  fontFamily: fontFamily,
+  fontSizeS: themeFontSize.sText,
+  fontSizeXs: themeFontSize.xsText,
+  lineHeightSText: '14px',
 
   textColor: themeColor.primaryColor,
   subtextColor: themeColor.primaryColor,
@@ -275,17 +275,13 @@ export const theme: ThemeDefault = {
   radioButtonBgdColor: themeColor.greyLight,
 
   // BOX CONTAINER
-  layoutsBoxContainer: '20px 40px',
-  cardBoxContainer: '15px',
+  layoutsBoxContainer: '20px 20px',
+  cardBoxContainer: '10px',
 
   // NAV
-  navBackgroundColor: themeColor.greyExtraLight,
-  navItemsFontSize: themeFontSize.mText,
+  navBackgroundColor: themeColor.greyMedium,
 
   // CARD
   cardHeight: '20vh',
-  cardWidth: '30vw',
-
-  // DIVIDER
-  dividerNavColor: themeColor.greyLight,
+  cardWidth: '35vw',
 };

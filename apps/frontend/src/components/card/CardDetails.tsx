@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import InfoProjectBadges from '../badges/InfoProjectBadges';
-import CardContent from '../content/CardContent';
 
 interface CardProjectDetailsInterface {
+  name: string;
+  nameOwner: string;
+  description: string;
+  updatedAt: Date;
   title: string;
 }
 const ContentCardContainer = styled.div`
   padding: 10px;
   background-color: white;
+  width: 40%;
 
   h3 {
-    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 17px;
+  }
+  h4 {
+    margin: 14px 0;
+    font-size: ${(props) => props.theme.fontSizeXs};
+    font-weight: 600;
+  }
+  p {
+    font-size: ${(props) => props.theme.fontSizeXs};
+    line-height: 12px;
+    color: #cecece;
   }
 `;
 const ActionsCardContainer = styled.div`
@@ -21,12 +37,34 @@ const ActionsCardContainer = styled.div`
   margin: 10px 0;
 `;
 
-const CardProjectDetails = ({ title }: CardProjectDetailsInterface) => {
+const CardProjectDetails = ({ name, nameOwner, updatedAt }: CardProjectDetailsInterface) => {
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const timeStatus = updatedAt.getTime();
+
+  const modifiedTime = (timeStatus) => {
+    const time = Date.now() - timeStatus;
+    setDays(Math.floor(time / (1000 * 60 * 60 * 24)));
+    setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
+    setMinutes(Math.floor((time / 1000 / 60) % 60));
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => modifiedTime(timeStatus), 1000);
+    return () => clearInterval(interval);
+  }, [timeStatus]);
+
   return (
     <ContentCardContainer>
-      <CardContent titleCard={title} />
+      <h4>{nameOwner}</h4>
+      <h3>{name}</h3>
+      <p>
+        Modifié il y a {days}j-{hours}h-{minutes}min
+      </p>
       <ActionsCardContainer>
-        <InfoProjectBadges editorsNumber={1} adminInitial={'AG'} />
+        <p>Contributeurs</p>
+        <InfoProjectBadges editorsNumber={1} />
       </ActionsCardContainer>
     </ContentCardContainer>
   );

@@ -3,7 +3,6 @@ import { Hash } from 'kepler.gl/dist/components/common/icons';
 import styled from 'styled-components';
 
 interface InfoProjectBadgesInterface {
-  adminInitial: string;
   editorsNumber: number;
 }
 
@@ -23,18 +22,12 @@ const BadgeOutlines = styled.span`
   margin-left: 10px;
 `;
 
-const InfoProjectBadges = ({ adminInitial, editorsNumber }: InfoProjectBadgesInterface) => {
+const InfoProjectBadges = ({ editorsNumber }: InfoProjectBadgesInterface) => {
   return (
-    <>
-      <BadgesContainer>
-        <Hash />
-        <BadgeOutlines>{adminInitial}</BadgeOutlines>
-      </BadgesContainer>
-      <BadgesContainer>
-        <Hash />
-        <BadgeOutlines>{editorsNumber}</BadgeOutlines>
-      </BadgesContainer>
-    </>
+    <BadgesContainer>
+      <Hash />
+      <BadgeOutlines>{editorsNumber}</BadgeOutlines>
+    </BadgesContainer>
   );
 };
 

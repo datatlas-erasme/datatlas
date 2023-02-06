@@ -5,6 +5,7 @@ export const generateFakeUser = (partialUser: Partial<UserInterface> = {}): User
   id: faker.datatype.number(100),
   email: faker.internet.email(),
   password: faker.internet.password(),
+  name: faker.name.fullName(),
   ...partialUser,
 });
 
