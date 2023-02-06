@@ -1,9 +1,11 @@
 import React from 'react';
-import MapPreview from './MapPreview';
-import CardDetails from './CardDetails';
+import { deleteEntry } from 'kepler.gl/actions';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ProjectInterface } from '@datatlas/shared/models';
-import { Link } from 'react-router-dom';
+import MapPreview from './MapPreview';
+import CardDetails from './CardDetails';
+import { useAppDispatch } from '../../store';
 
 export type ProjectCardProps = ProjectInterface;
 
@@ -14,9 +16,10 @@ const CardContainer = styled.article`
   padding: ${(props) => props.theme.cardBoxContainer};
 `;
 const ProjectCard = ({ id, title, draft }: ProjectCardProps) => {
+  const dispatch = useAppDispatch();
   return (
     <CardContainer key={id}>
-      <MapPreview draft={draft} />
+      <MapPreview draft={draft} handleRemove={() => dispatch(deleteEntry(id))} />
       <CardDetails title={title} />
       <Link to={`/projects/${id}`}>Voir le projet</Link>
     </CardContainer>
