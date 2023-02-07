@@ -10,6 +10,7 @@ import config from '../config/mikro-orm';
   imports: [
     MikroOrmModule.forRoot({
       ...config,
+      autoLoadEntities: true,
     }),
     ProjectModule,
   ],
