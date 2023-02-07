@@ -54,6 +54,13 @@
         "jestConfig": "apps/backend/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "migrate": {
+      "executor": "@mikro-orm/nx:migrate",
+      "options": {
+        "useTsNode": true,
+        "configPaths": ["./src/config/mikro-orm.ts"]
+      }
     }
   },
   "tags": []

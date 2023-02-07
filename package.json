@@ -68,7 +68,7 @@
     "react-scripts": "^5.0.1",
     "react-test-renderer": "18.2.0",
     "ts-jest": "28.0.5",
-    "ts-node": "10.9.1",
+    "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "~4.8.2",
     "url-loader": "^4.1.1",
@@ -85,6 +85,7 @@
     "@docusaurus/theme-common": "^2.2.0",
     "@docusaurus/theme-mermaid": "^2.2.0",
     "@mdx-js/react": "^1.6.22",
+    "@mikro-orm/cli": "^5.6.8",
     "@mikro-orm/core": "^5.6.8",
     "@mikro-orm/nestjs": "^5.1.6",
     "@mikro-orm/postgresql": "^5.6.8",
@@ -133,5 +134,10 @@
   },
   "msw": {
     "workerDirectory": "apps/frontend/public"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "tsConfigPath": "apps/backend/tsconfig.json",
+    "configPaths": "apps/backend/src/config/mikro-orm.ts"
   }
 }

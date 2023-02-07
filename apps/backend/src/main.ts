@@ -17,10 +17,10 @@ async function bootstrap() {
     .setTitle('Datatlas API')
     .setDescription('The datatlas API description')
     .setVersion('0.1')
-    .build()
-  
-  const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('api', app, document)
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
 
   await app.get(MikroORM).getSchemaGenerator().ensureDatabase();
   await app.get(MikroORM).getSchemaGenerator().updateSchema();

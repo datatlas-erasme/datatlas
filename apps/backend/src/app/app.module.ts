@@ -6,15 +6,15 @@ import { AppService } from './app.service';
 import { ProjectModule } from '../project/project.module';
 import config from '../config/mikro-orm';
 
-
 @Module({
   imports: [
     MikroOrmModule.forRoot({
       ...config,
       autoLoadEntities: true,
     }),
-    ProjectModule],
+    ProjectModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
