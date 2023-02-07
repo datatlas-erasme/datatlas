@@ -1,5 +1,4 @@
 import { Options } from '@mikro-orm/core';
-import { ProjectEntity } from '../entities/project.entity';
 
 const postGresHost = process.env.POSTGRES_HOST || 'localhost';
 const postGresPort = parseInt(process.env.POSTGRES_PORT) || 5432;
