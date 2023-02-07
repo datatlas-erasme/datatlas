@@ -8,6 +8,7 @@ import { initialState, reducer, RootState } from '../store/reducers';
 import { BrowserRouter } from 'react-router-dom';
 import { api } from '../api';
 import { selectLocale } from '../store/selectors';
+import { store } from '../store';
 import { IntlProvider } from 'react-intl';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
