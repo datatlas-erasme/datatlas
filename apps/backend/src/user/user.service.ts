@@ -1,24 +1,19 @@
 import { Injectable } from '@nestjs/common';
-
-// This should be a real class/interface representing a user entity
-export type User = never;
+import { CreateAdminDto } from './dto/create-admin.dto';
+import { UserEntity } from './entities/user.entity';
+import { EntityRepository } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
 
 @Injectable()
 export class UserService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'john_pw',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'maria_pw',
-    },
-  ];
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: EntityRepository<UserEntity>
+  ) {}
 
-  async findOne(username: string): Promise<{ password: string; userId: number; username: string }> {
-    return this.users.find((user) => user.username === username);
+  async createAdmin(userAdmin: CreateAdminDto): Promise<boolean> {
+    const user = new UserEntity(userAdmin.username, userAdmin.password, 'admin', true);
+    await this.userRepository.persistAndFlush(user);
+    return true;
   }
 }

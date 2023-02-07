@@ -2,15 +2,18 @@ import { Body, Controller, Get, Header, HttpCode, Post, Req } from '@nestjs/comm
 import { Request } from 'express';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { Logger } from '@nestjs/common';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
+  constructor(private readonly userService: UserService) {}
+
   @Post()
   @HttpCode(204)
   @Header('Cache-Control', 'none')
   async createAdmin(@Body() createAdminDto: CreateAdminDto) {
-    Logger.log('info');
-    return 'This action creates an admin user.';
+    Logger.log('This action creates an admin user.');
+    return this.userService.createAdmin(createAdminDto);
   }
 
   @Get()
