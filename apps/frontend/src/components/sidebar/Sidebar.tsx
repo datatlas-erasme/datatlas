@@ -4,10 +4,6 @@ import styled from 'styled-components';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { StartNewProjectForm } from '../forms/StartNewProjectForm';
 import { startNewProject } from '../../store/reducers/app/drafts';
-import ProjectCard from '../card/ProjectCard';
-import { Button } from '../buttons';
-import { Simulate } from 'react-dom/test-utils';
-import submit = Simulate.submit;
 
 const SideBarContainer = styled.aside`
   grid-area: aside;

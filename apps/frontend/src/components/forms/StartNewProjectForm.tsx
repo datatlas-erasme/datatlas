@@ -1,9 +1,7 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { startNewProject } from '../../store/reducers/app/drafts';
 import ProjectCard from '../card/ProjectCard';
-import { Button } from '../buttons';
 
 export interface StartNewProjectFormProps {
   onSubmit: SubmitHandler<StartNewProjectFormData>;

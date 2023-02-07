@@ -38,3 +38,4 @@ export function renderWithProviders(
     );
   }
   return { store, ...render(component, { wrapper: Wrapper, ...renderOptions }) };
+}
