@@ -4,14 +4,11 @@ import { theme } from '../style/theme';
 import { useSelector } from 'react-redux';
 import { ProjectList } from '../components/ProjectList';
 import { useGetSavedProjectsQuery } from '../api';
-import { StartNewProjectForm } from '../components/forms/StartNewProjectForm';
-import { startNewProject } from '../store/reducers/app/drafts';
 import { selectCurrentUserProjects } from '../store/selectors';
 import { useAppDispatch } from '../store';
 import Footer from '../components/footer/footer';
 import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/nav/Navbar';
-import { logout } from '../store/reducers/app/user';
 
 const LayoutProjects = styled.div`
   display: grid;
@@ -39,10 +36,7 @@ export const ProjectsPage = () => {
     <React.StrictMode>
       <ThemeProvider theme={theme}>
         <LayoutProjects>
-          <Navbar>
-            NavBar
-            <button onClick={() => dispatch(logout())}>logout</button>
-          </Navbar>
+          <Navbar />
           <ProjectsContainer>
             <h1>Projects</h1>
             <ProjectList
@@ -53,9 +47,7 @@ export const ProjectsPage = () => {
               error={error}
             />
           </ProjectsContainer>
-          <Sidebar>
-            <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
-          </Sidebar>
+          <Sidebar />
           <Footer />
         </LayoutProjects>
       </ThemeProvider>

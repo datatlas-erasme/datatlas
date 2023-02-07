@@ -13,7 +13,7 @@ const CardContainer = styled.article`
   width: ${(props) => props.theme.cardWidth};
   padding: ${(props) => props.theme.cardBoxContainer};
 `;
-const ProjectCard = ({ id, name, draft }: ProjectCardProps) => {
+const ProjectCard = ({ id, name, draft, updatedAt }: ProjectCardProps) => {
   return (
     <CardContainer key={id}>
       <MapPreview draft={draft} />
