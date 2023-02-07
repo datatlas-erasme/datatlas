@@ -4,7 +4,7 @@ interface ThemeDefault {
   [key: string]: string | number;
 }
 
-export const fontFamily = `Verdana, 'Helvetica Neue', Helvetica, sans-serif`;
+export const fontFamily = `Inter, 'Helvetica Neue', Helvetica, sans-serif`;
 
 // THEME COLOR
 export const themeColor = {
@@ -55,6 +55,9 @@ export const theme: ThemeDefault = {
   activeColorHover: themeColor.primaryColor,
   errorColor: themeColor.yellow,
   logoColor: themeColor.primaryColor,
+
+  errorCardtext: themeColor.yellow,
+  subtextColorCard: themeColor.greyMedium,
 
   // BUTTON
   btnFontFamily: fontFamily,
@@ -283,5 +286,5 @@ export const theme: ThemeDefault = {
 
   // CARD
   cardHeight: '20vh',
-  cardWidth: '35vw',
+  cardWidth: '32vw',
 };

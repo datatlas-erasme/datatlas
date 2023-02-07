@@ -29,5 +29,5 @@ export const ProjectList = ({ projects, isLoading, isSuccess, isError, error }: 
     content = <div>{error.toString()}</div>;
   }
 
-  return <ContainerProjectList> {content};</ContainerProjectList>;
+  return <ContainerProjectList> {content}</ContainerProjectList>;
 };

@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+  //@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
   * {
     box-sizing: content-box;
     margin: 0;
@@ -8,6 +9,9 @@ export const GlobalStyle = createGlobalStyle`
   }
   li{
     list-style: none;
+  }
+  h1, h2, h3, h4, h5, h6, p, a, button{
+    font-family: 'Verdana', 'Helvetica Neue', 'Helvetica', 'sans-serif';
   }
   a, button{
     cursor: pointer;

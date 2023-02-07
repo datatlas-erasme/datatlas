@@ -15,18 +15,21 @@ const BadgeOutlines = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border: 1.5px solid #000000;
   border-radius: 50%;
-  margin-left: 10px;
+  margin-left: 2px;
+  font-family: ${(props) => props.theme.fontSizeXs};
 `;
 
 const InfoProjectBadges = ({ editorsNumber }: InfoProjectBadgesInterface) => {
   return (
     <BadgesContainer>
-      <Hash />
-      <BadgeOutlines>{editorsNumber}</BadgeOutlines>
+      <Hash width={10} />
+      <BadgeOutlines>
+        <p>{editorsNumber}</p>
+      </BadgeOutlines>
     </BadgesContainer>
   );
 };

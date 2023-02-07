@@ -15,6 +15,7 @@ const NavContainer = styled.nav`
   height: 10vh;
   background-color: ${(props) => props.theme.navBackgroundColor};
 `;
+
 const NavContainerLogo = styled.div`
   padding: 20px;
   svg {
@@ -24,11 +25,13 @@ const NavContainerLogo = styled.div`
     }
   }
 `;
+
 const NavItemsList = styled.ul`
   display: flex;
   justify-content: space-around;
   list-style: none;
   padding: 20px;
+  font-family: ${(props) => props.theme.fontFamily};
   li {
     align-self: center;
     &:nth-child(1n + 2) {

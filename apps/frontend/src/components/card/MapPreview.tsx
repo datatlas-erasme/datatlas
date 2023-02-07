@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Trash, Delete, MapIcon } from 'kepler.gl/dist/components/common/icons';
-import { IconButton, Button } from '../buttons';
-
+import { IconButton } from '../buttons';
+import { StatusProjectBadges } from '../badges/StatusProjectBadges';
+import backgroundMapImage from '../../assets/background-card.png';
 interface MapPreviewInterface {
   draft: boolean;
   handleRemove: (e) => void;
@@ -10,15 +11,12 @@ interface MapPreviewInterface {
 
 const MapPreviewContainer = styled.div`
   display: flex;
-  width: 60%;
-  padding: 10px;
-  background-image: url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1931&q=80');
-`;
-
-const ActionsContainer = styled.div`
-  display: flex;
-  align-self: end;
-  height: 40px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  padding: ${(props) => props.theme.cardBoxContainer};
+  background-image: url(${backgroundMapImage});
 `;
 
 const MapPreview = ({ draft, handleRemove }: MapPreviewInterface) => {
@@ -26,20 +24,16 @@ const MapPreview = ({ draft, handleRemove }: MapPreviewInterface) => {
     e.preventDefault();
     console.log('DUPLICATE');
   };
-  const editProject = (e) => {
-    e.preventDefault();
-    console.log('EDIT');
-  };
 
   return (
     <MapPreviewContainer>
-      <ActionsContainer>
-        <Button Icon={<MapIcon />} onClick={editProject}>
-          {draft ? 'Brouillon' : 'Publié'}
-        </Button>
+      <StatusProjectBadges Icon={<MapIcon />}>
+        <p>{draft ? 'Brouillon' : 'Publié'}</p>
+      </StatusProjectBadges>
+      <div>
         <IconButton Icon={<Delete />} onClick={handleRemove} />
         <IconButton Icon={<Trash />} onClick={duplicateProject} />
-      </ActionsContainer>
+      </div>
     </MapPreviewContainer>
   );
 };
