@@ -41,7 +41,13 @@ export class Project implements ProjectInterface {
     return Project.isDraft(this);
   }
 
-  static createDraft({ ownerId, name }: { ownerId: UserInterface['id'], name: ProjectInterface['name'] }): DraftProjectInterface {
+  static createDraft({
+    ownerId,
+    name,
+  }: {
+    ownerId: UserInterface['id'];
+    name: ProjectInterface['name'];
+  }): DraftProjectInterface {
     return {
       id: faker.datatype.uuid(),
       name,
