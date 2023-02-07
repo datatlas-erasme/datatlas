@@ -51,8 +51,109 @@ npx nx run frontend:test
 
 ### Backend
 
+Run with
+
 ```
 nx serve backend
+```
+
+#### API Reference
+
+##### Projects
+
+**Get all projects**
+
+```
+GET /api/projects
+```
+
+returns :
+
+```json
+[
+  {
+    "id": "1",
+    "name": "project 1",
+    "draft": true,
+    "dataset": "a string",
+    "owner": "1"
+]
+```
+
+**Get a project**
+
+```
+GET /api/projects/:id
+```
+
+returns :
+
+```json
+{
+  "id": "1",
+  "name": "project 1",
+  "draft": true,
+  "dataset": "a string",
+  "owner": "1"
+}
+```
+
+**Create a project**
+
+```
+POST /api/project
+```
+
+body : x-www-form-urlencoded
+Parameters:
+name draft dataset owner
+
+| Name      | Type      | Description                      |
+| :-------- | :-------- | :------------------------------- |
+| `name`    | `string`  | your project name                |
+| `draft`   | `boolean` | if the project is public or not  |
+| `dataset` | `string`  | wip will be an object            |
+| `owner`   | `string`  | wich user id is owner of project |
+
+**Update a project**
+
+```
+PUT /api/project/:id
+```
+
+body : x-www-form-urlencoded
+Parameters:
+name draft dataset owner
+
+| Name      | Type      | Description                      |
+| :-------- | :-------- | :------------------------------- |
+| `name`    | `string`  | your project name                |
+| `draft`   | `boolean` | if the project is public or not  |
+| `dataset` | `string`  | wip will be an object            |
+| `owner`   | `string`  | wich user id is owner of project |
+
+returns :
+
+```json
+{
+  "id": "1",
+  "name": "project 1",
+  "draft": true,
+  "dataset": "a string",
+  "owner": "1"
+}
+```
+
+**Delete a project**
+
+```
+DELETE /api/project/:id
+```
+
+returns :
+
+```json
+true
 ```
 
 > Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
