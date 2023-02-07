@@ -1,3 +1,4 @@
+export * from './ColorFactory';
 export * from './Project';
 export * from './ProjectInterface';
 export * from './UserInterface';

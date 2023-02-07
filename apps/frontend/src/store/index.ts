@@ -31,6 +31,7 @@ const store = configureStore({
       }),
       process.env.NODE_ENV === 'development' &&
         createLogger({
+          diff: true,
           predicate: (getState, { type }) => !actionsBlacklist.includes(type),
           collapsed: (getState, action, logEntry) => !(logEntry && logEntry.error),
         }),
