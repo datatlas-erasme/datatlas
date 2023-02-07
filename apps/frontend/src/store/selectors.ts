@@ -23,7 +23,6 @@ export const selectSavedProjectsByOwnerId = createSelector(
   selectAllSavedProjects,
   (state, ownerId) => ownerId,
   (result, ownerId) => {
-    console.log('result', result);
     const { data } = result;
     if (data) {
       return data.filter((project) => project.ownerId === ownerId);
