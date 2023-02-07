@@ -20,19 +20,21 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
   reducer: persistedReducer,
   preloadedState: initialState,
-  middleware: (getDefaultMiddleware) => [
-    ...getDefaultMiddleware({
-      serializableCheck: false,
-      immutableCheck: false,
-    }),
-    createLogger({
-      predicate: (getState, { type }) => !actionsBlacklist.includes(type),
-      collapsed: (getState, action, logEntry) => !(logEntry && logEntry.error),
-    }),
-    api.middleware,
-    ...enhanceReduxMiddleware([]),
-  ],
-  devTools: process.env.NODE_ENV !== 'production',
+  middleware: (getDefaultMiddleware) =>
+    [
+      ...getDefaultMiddleware({
+        serializableCheck: false,
+        immutableCheck: false,
+      }),
+      process.env.NODE_ENV === 'development' &&
+        createLogger({
+          predicate: (getState, { type }) => !actionsBlacklist.includes(type),
+          collapsed: (getState, action, logEntry) => !(logEntry && logEntry.error),
+        }),
+      api.middleware,
+      ...enhanceReduxMiddleware([]),
+    ].filter((truthy) => truthy),
+  devTools: process.env.NODE_ENV === 'development',
 });
 
 export type AppDispatch = typeof store.dispatch;
