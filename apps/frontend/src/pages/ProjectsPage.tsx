@@ -4,8 +4,6 @@ import { theme } from '../style/theme';
 import { useSelector } from 'react-redux';
 import { ProjectList } from '../components/ProjectList';
 import { useGetSavedProjectsQuery } from '../api';
-import { StartNewProjectForm } from '../components/forms/StartNewProjectForm';
-import { startNewProject } from '../store/reducers/app/drafts';
 import { selectCurrentUserProjects } from '../store/selectors';
 import { useAppDispatch } from '../store';
 import Footer from '../components/footer/footer';
@@ -49,9 +47,7 @@ export const ProjectsPage = () => {
               error={error}
             />
           </ProjectsContainer>
-          <Sidebar>
-            <StartNewProjectForm onSubmit={(data) => dispatch(startNewProject(data))} />
-          </Sidebar>
+          <Sidebar />
           <Footer />
         </LayoutProjects>
       </ThemeProvider>
