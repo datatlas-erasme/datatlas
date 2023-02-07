@@ -39,6 +39,10 @@ declare module 'kepler.gl/dist/utils/interaction-utils' {
   export * from 'kepler.gl/src/utils/interaction-utils';
 }
 
+declare module 'kepler.gl/dist/constants' {
+  export const DataVizColors: Record<string, string>;
+}
+
 declare module 'kepler.gl/dist/constants/default-settings' {
   import { LayerGroup } from 'kepler.gl/src';
   export const DEFAULT_LAYER_GROUPS: LayerGroup[];

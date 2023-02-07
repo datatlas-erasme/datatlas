@@ -1,8 +1,8 @@
 import React from 'react';
-import KeplerGl from 'kepler.gl';
 import { AutoSizer } from 'react-virtualized';
 import { theme } from '../style/theme';
 import { ProjectInterface } from '@datatlas/models';
+import { KeplerGl } from './keplerGl';
 
 interface KeplerMapProps {
   id: ProjectInterface['id'];
