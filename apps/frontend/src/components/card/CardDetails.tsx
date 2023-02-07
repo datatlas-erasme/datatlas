@@ -20,19 +20,21 @@ const ContentCardContainer = styled.div`
     line-height: 17px;
   }
   h4 {
-    margin: 14px 0;
-    font-size: ${(props) => props.theme.fontSizeXs};
-    font-weight: 600;
+    margin: 10px 0;
   }
+  h4,
   p {
     font-size: ${(props) => props.theme.fontSizeXs};
+    font-weight: 400;
     line-height: 12px;
-    color: #cecece;
+  }
+  .status {
+    color: ${(props) => props.theme.subtextColorCard};
   }
 `;
 const ActionsCardContainer = styled.div`
   display: flex;
-  list-style: none;
+  align-items: center;
   justify-content: space-around;
   margin: 10px 0;
 `;
@@ -59,8 +61,9 @@ const CardProjectDetails = ({ name, nameOwner, updatedAt }: CardProjectDetailsIn
     <ContentCardContainer>
       <h4>{nameOwner}</h4>
       <h3>{name}</h3>
-      <p>
-        Modifié il y a {days}j-{hours}h-{minutes}min
+      <p className={'status'}>
+        Modifié il y a {days === 0 ? '' : days + 'j'} {hours === 0 ? '' : hours + 'h'}
+        {hours > 0 ? '' : minutes + 'min'}
       </p>
       <ActionsCardContainer>
         <p>Contributeurs</p>
