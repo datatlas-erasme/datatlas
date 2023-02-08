@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import InfoProjectBadges from '../badges/InfoProjectBadges';
 
 interface CardProjectDetailsInterface {
-  name: string;
-  nameOwner: string;
+  owner: string;
   description: string;
   updatedAt: Date;
   title: string;
@@ -39,7 +38,7 @@ const ActionsCardContainer = styled.div`
   margin: 10px 0;
 `;
 
-const CardProjectDetails = ({ name, nameOwner, updatedAt }: CardProjectDetailsInterface) => {
+const CardProjectDetails = ({ owner, updatedAt, title }: CardProjectDetailsInterface) => {
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -59,8 +58,8 @@ const CardProjectDetails = ({ name, nameOwner, updatedAt }: CardProjectDetailsIn
 
   return (
     <ContentCardContainer>
-      <h4>{nameOwner}</h4>
-      <h3>{name}</h3>
+      <h4>{'owner'}</h4>
+      <h3>{title}</h3>
       <p className={'status'}>
         Modifié il y a {days === 0 ? '' : days + 'j'} {hours === 0 ? '' : hours + 'h'}
         {hours > 0 ? '' : minutes + 'min'}

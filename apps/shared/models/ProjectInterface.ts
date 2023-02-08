@@ -10,6 +10,5 @@ export interface ProjectInterface extends KeplerVersionedMapConfigInterface {
   datasets: DatasetInterface[];
   description: string;
   owner: UserInterface;
-  description: string;
   updatedAt: Date;
 }
