@@ -17,5 +17,7 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     text-decoration: none;
     color: inherit;
+    border: none;
+    background-color: transparent;
   }
 `;

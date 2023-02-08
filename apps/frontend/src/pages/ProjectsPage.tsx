@@ -1,14 +1,14 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../style/theme';
-import { ProjectList } from '../components/ProjectList';
 import { useGetSavedProjectsQuery } from '../api';
 import { selectCurrentUserProjects } from '../store/selectors';
-import { useAppDispatch } from '../store';
+import { ProjectList } from '../components/ProjectList';
 import Footer from '../components/footer/footer';
 import Sidebar from '../components/sidebar/Sidebar';
 import Navbar from '../components/nav/Navbar';
+import { DisplayButton } from '../components/buttons/DisplayButton';
 
 const LayoutProjects = styled.div`
   display: grid;
@@ -30,7 +30,6 @@ const ProjectsContainer = styled.main`
 export const ProjectsPage = () => {
   const { isLoading, isSuccess, isError, error } = useGetSavedProjectsQuery();
   const projects = useSelector(selectCurrentUserProjects);
-  const dispatch = useAppDispatch();
 
   return (
     <React.StrictMode>
@@ -39,7 +38,7 @@ export const ProjectsPage = () => {
           <Navbar />
           <ProjectsContainer>
             <h1>Mes Projets</h1>
-            <button>Voir tous</button>
+            <DisplayButton>Voir tous</DisplayButton>
             <ProjectList
               projects={projects}
               isLoading={isLoading}
