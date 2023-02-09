@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
 import InfoProjectBadges from '../badges/InfoProjectBadges';
+import { UserInterface } from '@datatlas/models';
 
 interface CardProjectDetailsInterface {
-  owner: string;
+  owner: UserInterface;
   description: string;
-  updatedAt: Date;
+  createdAt: Date;
   title: string;
 }
 const ContentCardContainer = styled.div`
@@ -38,11 +40,11 @@ const ActionsCardContainer = styled.div`
   margin: 10px 0;
 `;
 
-const CardProjectDetails = ({ owner, updatedAt, title }: CardProjectDetailsInterface) => {
+const CardProjectDetails = ({ owner, createdAt, title }: CardProjectDetailsInterface) => {
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
-  const timeStatus = updatedAt.getTime();
+  const timeStatus = new Date(createdAt).getTime();
 
   const modifiedTime = (timeStatus) => {
     const time = Date.now() - timeStatus;
@@ -60,12 +62,16 @@ const CardProjectDetails = ({ owner, updatedAt, title }: CardProjectDetailsInter
     <ContentCardContainer>
       <h4>{'owner'}</h4>
       <h3>{title}</h3>
+
       <p className={'status'}>
-        Modifié il y a {days === 0 ? '' : days + 'j'} {hours === 0 ? '' : hours + 'h'}
+        <FormattedMessage defaultMessage={'Modifié il y a'} /> {days === 0 ? '' : days + 'j'}{' '}
+        {hours === 0 ? '' : hours + 'h'}
         {hours > 0 ? '' : minutes + 'min'}
       </p>
       <ActionsCardContainer>
-        <p>Contributeurs</p>
+        <p>
+          <FormattedMessage defaultMessage={'Contributeurs'} />
+        </p>
         <InfoProjectBadges editorsNumber={1} />
       </ActionsCardContainer>
     </ContentCardContainer>

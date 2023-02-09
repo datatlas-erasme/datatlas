@@ -16,14 +16,22 @@ const CardContainer = styled(Link)`
   padding: ${(props) => props.theme.cardBoxContainer};
 `;
 
-const ProjectCard = ({ id, title, draft, owner, updatedAt, description }: ProjectCardProps) => {
+const ProjectCard = (props: ProjectCardProps) => {
   const dispatch = useAppDispatch();
-
+  const handleRemove = (e) => {
+    e.preventDefault();
+    dispatch(deleteEntry(props.id));
+  };
+  console.log(props);
   return (
-    <CardContainer to={`/projects/${id}`} key={id}>
-      <MapPreview draft={draft} handleRemove={() => dispatch(deleteEntry(id))} />
-      <CardDetails title={title} owner={owner.name} updatedAt={updatedAt} description={description} />
-      <Link to={`/projects/${id}`}>Voir le projet</Link>
+    <CardContainer to={`/projects/${props.id}`} key={props.id}>
+      <MapPreview draft={props.draft} handleRemove={handleRemove} />
+      <CardDetails
+        title={props.title}
+        owner={props.owner}
+        createdAt={props.createdAt}
+        description={props.description}
+      />
     </CardContainer>
   );
 };

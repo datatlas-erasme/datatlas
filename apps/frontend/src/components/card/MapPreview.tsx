@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Trash, Delete, MapIcon } from 'kepler.gl/dist/components/common/icons';
+import { Trash, Copy, MapIcon } from 'kepler.gl/dist/components/common/icons';
 import { IconButton } from '../buttons';
 import { StatusProjectBadges } from '../badges/StatusProjectBadges';
 import backgroundMapImage from '../../assets/background-card.png';
@@ -31,8 +31,8 @@ const MapPreview = ({ draft, handleRemove }: MapPreviewInterface) => {
         <p>{draft ? 'Brouillon' : 'Publié'}</p>
       </StatusProjectBadges>
       <div>
-        <IconButton Icon={<Delete />} onClick={handleRemove} />
-        <IconButton Icon={<Trash />} onClick={duplicateProject} />
+        <IconButton Icon={<Trash />} onClick={handleRemove} />
+        <IconButton Icon={<Copy />} onClick={duplicateProject} />
       </div>
     </MapPreviewContainer>
   );

@@ -24,6 +24,10 @@ const LayoutProjects = styled.div`
 
 const ProjectsContainer = styled.main`
   grid-area: main;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
   padding: ${(props) => props.theme.layoutsBoxContainer};
 `;
 
