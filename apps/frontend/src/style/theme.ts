@@ -278,6 +278,7 @@ export const theme: ThemeDefault = {
   radioButtonBgdColor: themeColor.greyLight,
 
   // BOX CONTAINER
+  layoutsBoxContainerMargin: '40px 0',
   layoutsBoxContainer: '20px 20px',
   cardBoxContainer: '10px',
 
@@ -286,5 +287,5 @@ export const theme: ThemeDefault = {
 
   // CARD
   cardHeight: '20vh',
-  cardWidth: '32vw',
+  cardWidth: '28vw',
 };

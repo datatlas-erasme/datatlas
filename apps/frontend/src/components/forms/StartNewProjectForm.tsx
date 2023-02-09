@@ -1,8 +1,7 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import ProjectCard from '../card/ProjectCard';
-import { CreateMapPayloadInterface, DEFAULT_MAP_STYLES, generateFakeProject } from '@datatlas/models';
+import { CreateMapPayloadInterface, DEFAULT_MAP_STYLES } from '@datatlas/models';
 
 export interface StartNewProjectFormProps {
   onSubmit: SubmitHandler<StartNewProjectFormData>;
@@ -43,7 +42,9 @@ export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
           3.
           <FormattedMessage defaultMessage={'Choisissez un modèle'} />
         </label>
-        <ProjectCard {...generateFakeProject()} />
+        <div>
+          <h3>Je suis un template à selectionner</h3>
+        </div>
       </div>
       <input type="submit" />
     </form>
