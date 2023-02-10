@@ -26,7 +26,6 @@ const ProjectCard = (props: ProjectCardProps) => {
     e.preventDefault();
     console.log('DUPLICATE');
   };
-  console.log(props);
   return (
     <CardContainer to={`/projects/${props.id}`} key={props.id}>
       <CardDetails
