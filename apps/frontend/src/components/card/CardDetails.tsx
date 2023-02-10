@@ -58,9 +58,6 @@ const CardProjectDetails = ({ owner, createdAt, title, contributors }: CardProje
     const interval = setInterval(() => modifiedTime(timeStatus), 1000);
     return () => clearInterval(interval);
   }, [timeStatus]);
-
-  console.log(owner);
-
   return (
     <ContentCardContainer>
       <h4>{owner.name}</h4>
@@ -75,7 +72,7 @@ const CardProjectDetails = ({ owner, createdAt, title, contributors }: CardProje
         <p>
           <FormattedMessage defaultMessage={'Contributeurs'} />
         </p>
-        <InfoProjectBadges contributors={contributors.length} />
+        <InfoProjectBadges numbersContributors={contributors.length} />
       </ActionsCardContainer>
     </ContentCardContainer>
   );
