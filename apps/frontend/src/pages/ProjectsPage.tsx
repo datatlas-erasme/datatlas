@@ -29,6 +29,7 @@ const ProjectsContainer = styled.main`
   justify-content: space-between;
   align-items: center;
   padding: ${(props) => props.theme.layoutsBoxContainer};
+  background-color: ${(props) => props.theme.layoutBGColor};
 `;
 
 export const ProjectsPage = () => {

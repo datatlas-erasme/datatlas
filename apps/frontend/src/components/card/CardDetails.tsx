@@ -9,6 +9,7 @@ interface CardProjectDetailsInterface {
   description: string;
   createdAt: Date;
   title: string;
+  contributors: UserInterface[];
 }
 const ContentCardContainer = styled.div`
   padding: 10px;
@@ -40,7 +41,7 @@ const ActionsCardContainer = styled.div`
   margin: 10px 0;
 `;
 
-const CardProjectDetails = ({ owner, createdAt, title }: CardProjectDetailsInterface) => {
+const CardProjectDetails = ({ owner, createdAt, title, contributors }: CardProjectDetailsInterface) => {
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -58,9 +59,11 @@ const CardProjectDetails = ({ owner, createdAt, title }: CardProjectDetailsInter
     return () => clearInterval(interval);
   }, [timeStatus]);
 
+  console.log(owner);
+
   return (
     <ContentCardContainer>
-      <h4>{'owner'}</h4>
+      <h4>{owner.name}</h4>
       <h3>{title}</h3>
 
       <p className={'status'}>
@@ -72,7 +75,7 @@ const CardProjectDetails = ({ owner, createdAt, title }: CardProjectDetailsInter
         <p>
           <FormattedMessage defaultMessage={'Contributeurs'} />
         </p>
-        <InfoProjectBadges editorsNumber={1} />
+        <InfoProjectBadges contributors={contributors.length} />
       </ActionsCardContainer>
     </ContentCardContainer>
   );
