@@ -7,6 +7,7 @@ import backgroundMapImage from '../../assets/background-card.png';
 interface MapPreviewInterface {
   draft: boolean;
   handleRemove: (e) => void;
+  handleCopy: (e) => void;
 }
 
 const MapPreviewContainer = styled.div`
@@ -19,12 +20,7 @@ const MapPreviewContainer = styled.div`
   background-image: url(${backgroundMapImage});
 `;
 
-const MapPreview = ({ draft, handleRemove }: MapPreviewInterface) => {
-  const duplicateProject = (e) => {
-    e.preventDefault();
-    console.log('DUPLICATE');
-  };
-
+const MapPreview = ({ draft, handleRemove, handleCopy }: MapPreviewInterface) => {
   return (
     <MapPreviewContainer>
       <StatusProjectBadges Icon={<MapIcon />}>
@@ -32,7 +28,7 @@ const MapPreview = ({ draft, handleRemove }: MapPreviewInterface) => {
       </StatusProjectBadges>
       <div>
         <IconButton Icon={<Trash />} onClick={handleRemove} />
-        <IconButton Icon={<Copy />} onClick={duplicateProject} />
+        <IconButton Icon={<Copy />} onClick={handleCopy} />
       </div>
     </MapPreviewContainer>
   );

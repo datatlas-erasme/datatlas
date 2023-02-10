@@ -8,6 +8,7 @@ import { UserInterface } from './UserInterface';
 import { NormalizedProjectInterface } from './NormalizedProjectInterface';
 import { DraftProjectInterface } from './DraftProjectInterface';
 import { DatatlasSavedMapInterface } from './DatatlasSavedMapInterface';
+import { generateFakeUser } from './mocks/generators';
 
 export class Project implements ProjectInterface {
   id: number | string;
@@ -17,6 +18,7 @@ export class Project implements ProjectInterface {
   datasets: DatasetInterface[] = [];
   description: string;
   owner: UserInterface;
+  contributors: UserInterface[];
   config: KeplerMapConfig;
   version: KeplerVersionedMapConfig['version'];
 
@@ -29,14 +31,16 @@ export class Project implements ProjectInterface {
     this.datasets = project.datasets;
     this.description = project.description;
     this.owner = project.owner;
+    this.contributors = project.contributors;
     this.version = 'v1';
     this.config = new KeplerMapConfig();
   }
 
-  static normalize({ owner, ...props }: ProjectInterface): NormalizedProjectInterface {
+  static normalize({ owner, contributors, ...props }: ProjectInterface): NormalizedProjectInterface {
     return {
       ...props,
       ownerId: owner.id,
+      contributors: contributors.map(({ id }) => id),
     };
   }
 
@@ -68,6 +72,7 @@ export class Project implements ProjectInterface {
       datasets: [],
       ...new KeplerVersionedMapConfig(),
       createdAt: new Date(),
+      contributors: [],
     };
   }
 
@@ -81,15 +86,16 @@ export class Project implements ProjectInterface {
     const savedMap = KeplerGlSchema.save(keplerGlState) as DatatlasSavedMapInterface;
     return {
       ...Project.createPartialProjectFromKeplerSavedMap(savedMap),
-      draft: false,
+      draft: true,
       owner,
       id,
+      contributors: faker.helpers.arrayElements([generateFakeUser()]),
     };
   }
 
   static createPartialProjectFromKeplerSavedMap(
     savedMap: DatatlasSavedMapInterface
-  ): Omit<ProjectInterface, 'owner' | 'id' | 'draft'> {
+  ): Omit<ProjectInterface, 'owner' | 'id' | 'draft' | 'contributors'> {
     return {
       ...savedMap.config,
       ...savedMap.info,

@@ -5,11 +5,10 @@ import { KeplerVersionedMapConfigInterface } from './kepler';
 export interface ProjectInterface extends KeplerVersionedMapConfigInterface {
   id: number | string;
   createdAt: Date;
-  created_at: Date;
   title: string;
   draft: boolean;
   datasets: DatasetInterface[];
   description: string;
   owner: UserInterface;
-  updatedAt: Date;
+  contributors: UserInterface[];
 }

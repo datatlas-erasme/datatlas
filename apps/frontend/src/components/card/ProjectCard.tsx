@@ -22,16 +22,21 @@ const ProjectCard = (props: ProjectCardProps) => {
     e.preventDefault();
     dispatch(deleteEntry(props.id));
   };
+  const handleCopy = (e) => {
+    e.preventDefault();
+    console.log('DUPLICATE');
+  };
   console.log(props);
   return (
     <CardContainer to={`/projects/${props.id}`} key={props.id}>
-      <MapPreview draft={props.draft} handleRemove={handleRemove} />
       <CardDetails
         title={props.title}
         owner={props.owner}
         createdAt={props.createdAt}
         description={props.description}
+        contributors={props.contributors}
       />
+      <MapPreview draft={props.draft} handleRemove={handleRemove} handleCopy={handleCopy} />
     </CardContainer>
   );
 };

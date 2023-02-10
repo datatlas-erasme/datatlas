@@ -13,7 +13,7 @@ export const themeColor = {
   greyDark: '#464646',
   greyMedium: '#CECECE',
   greyLight: '#D9D9D9',
-  greyExtraLight: '#EAEAEA',
+  greyExtraLight: '#F4F4F4',
   blueDark: '#07689F',
   blueLight: '#5AB6EB',
   yellow: '#FFC93C',
@@ -287,5 +287,8 @@ export const theme: ThemeDefault = {
 
   // CARD
   cardHeight: '20vh',
-  cardWidth: '28vw',
+  cardWidth: '33vw',
+
+  // LAYOUT
+  layoutBGColor: themeColor.greyExtraLight,
 };
