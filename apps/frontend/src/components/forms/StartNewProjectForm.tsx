@@ -2,6 +2,7 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { CreateMapPayloadInterface, DEFAULT_MAP_STYLES } from '@datatlas/models';
+import { Input } from 'kepler.gl/dist/components/common/styled-components';
 
 export interface StartNewProjectFormProps {
   onSubmit: SubmitHandler<StartNewProjectFormData>;
@@ -23,7 +24,7 @@ export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
         <FormattedMessage defaultMessage={'Entrez le nom du projet'} />
       </label>
       {/* register your input into the hook by invoking the "register" function */}
-      <input id="title" defaultValue="" {...register('title', { required: true })} />
+      <Input id="title" defaultValue="" {...register('title', { required: true })} />
       {errors.title && <FormattedMessage defaultMessage="This field is required" />}
       <label htmlFor={'selectMap'}>
         2.

@@ -1,4 +1,5 @@
 import { themeLT } from 'kepler.gl/dist/styles';
+import styled from 'styled-components';
 
 export interface ThemeDefault {
   [key: string]: string | number;
@@ -27,6 +28,11 @@ export const themeFontSize = {
   lText: '24px',
   xlText: '36px',
 };
+
+export const TitleH2 = styled.h2`
+  font-size: ${themeFontSize.lText};
+  font-weight: 400;
+`;
 
 export const theme: ThemeDefault = {
   ...themeLT,
@@ -283,12 +289,15 @@ export const theme: ThemeDefault = {
   cardBoxContainer: '10px',
 
   // NAV
-  navBackgroundColor: themeColor.greyMedium,
+  navBackgroundColor: themeColor.secondaryColor,
 
   // CARD
   cardHeight: '20vh',
-  cardWidth: '33vw',
+  cardWidth: '30vw',
 
   // LAYOUT
   layoutBGColor: themeColor.greyExtraLight,
+
+  // SIDEBAR PROJECT
+  sidebarProjectBG: themeColor.blueLight,
 };

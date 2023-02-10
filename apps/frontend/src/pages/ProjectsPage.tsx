@@ -1,29 +1,24 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import styled, { ThemeProvider } from 'styled-components';
-import { theme } from '../style/theme';
+import styled from 'styled-components';
 import { useGetSavedProjectsQuery } from '../api';
 import { selectCurrentUserProjects } from '../store/selectors';
 import { ProjectList } from '../components/ProjectList';
-import Footer from '../components/footer/footer';
 import Sidebar from '../components/sidebar/Sidebar';
-import Navbar from '../components/nav/Navbar';
 import { DisplayButton } from '../components/buttons/DisplayButton';
+import { TitleH2 } from '../style/theme';
 
 const LayoutProjects = styled.div`
   display: grid;
-  height: 100vh;
   margin: auto;
   grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    'nav nav nav nav'
-    'main main main aside'
-    'footer footer footer footer';
+  grid-template-columns: 1fr 0.5fr;
   transition: all 0.25s ease-in-out;
 `;
 
 const ProjectsContainer = styled.main`
-  grid-area: main;
+  grid-column: 1;
+  grid-row: 1 / 2;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -38,24 +33,20 @@ export const ProjectsPage = () => {
 
   return (
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <LayoutProjects>
-          <Navbar />
-          <ProjectsContainer>
-            <h1>Mes Projets</h1>
-            <DisplayButton>Voir tous</DisplayButton>
-            <ProjectList
-              projects={projects}
-              isLoading={isLoading}
-              isSuccess={isSuccess}
-              isError={isError}
-              error={error}
-            />
-          </ProjectsContainer>
-          <Sidebar />
-          <Footer />
-        </LayoutProjects>
-      </ThemeProvider>
+      <LayoutProjects>
+        <ProjectsContainer>
+          <TitleH2>Mes Projets</TitleH2>
+          <DisplayButton>Voir tous</DisplayButton>
+          <ProjectList
+            projects={projects}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            isError={isError}
+            error={error}
+          />
+        </ProjectsContainer>
+        <Sidebar />
+      </LayoutProjects>
     </React.StrictMode>
   );
 };

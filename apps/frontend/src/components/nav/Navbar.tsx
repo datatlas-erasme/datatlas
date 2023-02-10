@@ -8,11 +8,10 @@ import { logout } from '../../store/reducers/user';
 import { DatatlasLogo } from '../logos';
 
 const NavContainer = styled.nav`
-  grid-area: nav;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;
+  height: 65px;
   background-color: ${(props) => props.theme.navBackgroundColor};
 `;
 

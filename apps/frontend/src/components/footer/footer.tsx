@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { DatatlasLogo, MetropoleLogo, ErasmeLogo, FranceRelanceLogo, GithubLogo } from '../logos';
 
 const FooterContainer = styled.footer`
-  grid-area: footer;
+  position: static;
   padding: ${(props) => props.theme.layoutsBoxContainer};
-  height: 10vh;
+  height: 100px;
+  font-size: ${(props) => props.theme.fontSizeXs};
+
   div {
     display: flex;
     justify-content: space-between;
