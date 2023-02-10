@@ -3,7 +3,7 @@ import { Hash } from 'kepler.gl/dist/components/common/icons';
 import styled from 'styled-components';
 
 interface InfoProjectBadgesInterface {
-  contributors: number;
+  numbersContributors: number;
 }
 
 const BadgesContainer = styled.a`
@@ -23,12 +23,12 @@ const BadgeOutlines = styled.span`
   font-family: ${(props) => props.theme.fontSizeXs};
 `;
 
-const InfoProjectBadges = ({ contributors }: InfoProjectBadgesInterface) => {
+const InfoProjectBadges = ({ numbersContributors }: InfoProjectBadgesInterface) => {
   return (
     <BadgesContainer>
       <Hash width={10} />
       <BadgeOutlines>
-        <p>{contributors}</p>
+        <p>{numbersContributors}</p>
       </BadgeOutlines>
     </BadgesContainer>
   );

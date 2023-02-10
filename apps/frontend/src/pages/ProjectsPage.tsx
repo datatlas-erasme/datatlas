@@ -14,7 +14,7 @@ const LayoutProjects = styled.div`
   display: grid;
   height: 100vh;
   margin: auto;
-  grid-template-rows: 0.2fr 1fr 0.5fr 0.5fr;
+  grid-template-rows: auto 1fr auto;
   grid-template-areas:
     'nav nav nav nav'
     'main main main aside'
