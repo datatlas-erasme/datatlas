@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 jobs:
   push_to_registry:
-    name: Build and push Backend Docker image
+    name: Build and push Frontend Docker image
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
