@@ -3,6 +3,7 @@ version: '3.1'
 
 services:
   backend-db:
+    container_name: datatlas-db
     image: kartoza/postgis:15-3.3
     restart: always
     environment:
@@ -13,9 +14,11 @@ services:
       - '5432'
 
   backend:
+    container_name: datatlas-backend
     build:
       dockerfile: Dockerfile
       context: .
+      target: backend
       args:
         - TARGET=backend
     restart: always
@@ -23,11 +26,13 @@ services:
       - 3333:3333
 
   frontend:
+    container_name: datatlas-frontend
     build:
       dockerfile: Dockerfile
       context: .
+      target: frontend
       args:
         - TARGET=frontend
     restart: always
     ports:
-      - 3000:3000
+      - 3000:80
