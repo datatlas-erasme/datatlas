@@ -38,6 +38,9 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           target: backend
+          build-args: |
+            COPY_PATH=backend
+
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache 

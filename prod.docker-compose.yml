@@ -20,7 +20,7 @@ services:
       context: .
       target: backend
       args:
-        - TARGET=backend
+        - COPY_PATH=backend
     restart: always
     ports:
       - 3333:3333
@@ -32,7 +32,7 @@ services:
       context: .
       target: frontend
       args:
-        - TARGET=frontend
+        - COPY_PATH=frontend
     restart: always
     ports:
       - 3000:80
