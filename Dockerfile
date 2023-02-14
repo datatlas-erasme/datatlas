@@ -24,11 +24,6 @@ COPY tsconfig.base.json /build/tsconfig.base.json
 COPY .babelrc /build/.babelrc
 COPY nx.json /build/nx.json
 
-# Echo the target
-RUN echo 'TARGET is'
-RUN echo $TARGET
-
-
 # Creates a "dist" folder with the production build
 RUN npx nx build $TARGET
 
