@@ -1,46 +1,60 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, Post, Req } from '@nestjs/common';
-import { Request } from 'express';
-import { CreateAdminDto } from './dto/create-admin.dto';
+import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put } from '@nestjs/common';
 import { Logger } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserByIdDto } from '@datatlas/shared/models';
-import { UserDto } from '@datatlas/shared/models';
+import { UserDto, UserPublicDTO } from '@datatlas/shared/models';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  @HttpCode(204)
+  @Get()
+  @HttpCode(200)
   @Header('Cache-Control', 'none')
+  async test(): Promise<string> {
+    return 'ok';
+  }
+
+  @Get(':id')
+  @HttpCode(200)
+  /**
+   * Should always send back a UserDTO.
+   * TODO : Guard ?
+   * @param params
+   */
+  getUser(@Param() params): Promise<UserPublicDTO> {
+    return this.userService.getUser(params.id);
+  }
+
+  @HttpCode(201)
+  @Post()
+  @Header('Cache-Control', 'none')
+  /**
+   * Sends a 201 (with id user as a body response) if all works. In case of already existing username, nothing is done
+   * and 0 is sent back.
+   * TODO put a guard here but which one ?
+   */
   async createUser(@Body() UserDto: UserDto) {
-    // todo mettre une garde auth spécialisée
-    Logger.log('This action creates a simple user.');
-    Logger.log(UserDto.username);
     return this.userService.createUser(UserDto);
   }
 
-  @Post()
+  @Put(':id')
   @HttpCode(204)
   @Header('Cache-Control', 'none')
-  async createAdmin(@Body() createAdminDto: CreateAdminDto) {
-    // TODO mettre une garde auth spécialisée.
-    Logger.log('This action creates an admin user.');
-    return this.userService.createAdmin(createAdminDto);
+  async updateUser(@Param() params): Promise<void> {
+    Logger.log(params);
+    //return this.userService.updateUser(params.id);
+    return;
   }
 
-  @Delete()
+  @Delete(':id')
   @HttpCode(204)
   @Header('Cache-Control', 'none')
-  async deleteUser(@Body() userDto: UserByIdDto) {
-    // TODO mettre une garde auth spécialisée.
-    Logger.log('essai de suppression');
-    return this.userService.DeleteUserById(userDto.idUser);
-  }
-
-  @Get()
-  findAll(@Req() request: Request): string {
-    Logger.log(request);
-    return 'This action returns all users';
+  /**
+   * Delete a user in database using its user_id. Nothing is done if no user has this id.
+   * Returns void.
+   * TODO : guard
+   */
+  async deleteUser(@Param() params): Promise<void> {
+    return this.userService.deleteUserById(params.id);
   }
 }

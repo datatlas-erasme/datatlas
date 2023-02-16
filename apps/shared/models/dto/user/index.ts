@@ -1,2 +1,2 @@
-export * from './GetUserById.dto';
 export * from './user.dto';
+export * from './userPublic.dto';

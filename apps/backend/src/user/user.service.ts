@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAdminDto } from './dto/create-admin.dto';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { UserDto } from '@datatlas/shared/models';
+import { UserDto, UserPublicDTO } from '@datatlas/shared/models';
 import { EntityRepository } from '@mikro-orm/core';
 
 @Injectable()
@@ -12,27 +11,73 @@ export class UserService {
     private readonly userRepository: EntityRepository<UserEntity>
   ) {}
 
-  async createAdmin(userAdmin: CreateAdminDto): Promise<boolean> {
-    const user = new UserEntity(userAdmin.username, userAdmin.password, 'admin', true);
-    await this.userRepository.persistAndFlush(user);
-    return true;
-  }
-
-  async createUser(userDto: UserDto): Promise<boolean> {
-    // TODO VÉRIFICATIONS: seul un admin peut créer un admin - Username non existant en base
+  /**
+   * Adds a user into the database.
+   * @param userDto Private user data.
+   * @return number New user_id or 0 if user already exists.
+   */
+  async createUser(userDto: UserDto): Promise<number> {
     const user = new UserEntity(userDto.username, userDto.password, userDto.role, userDto.active);
-    await this.userRepository.persistAndFlush(user);
-    return true; // todo changer valeur retour
+    return await this.isUsernameAlreadyInDatabase(user.username).then((isItIn) => {
+      if (isItIn) {
+        // User already in database.
+        return 0;
+      }
+      return this.userRepository.persistAndFlush(user).then(() => {
+        return this.getUserIDByUserName(user.username);
+      });
+    });
   }
 
-  async getUserById(userDto: UserDto): Promise<boolean> {
-    // TODO VÉRIFICATIONS: Username non existant en base - restrictions supplémentaires sur comptes externes au grandlyon ?
-    const user = new UserEntity(userDto.username, userDto.password, userDto.role, userDto.active);
-    await this.userRepository.persistAndFlush(user);
-    return true; // todo changer valeur retour
+  /**
+   * Get public user data from its user_id
+   * @param id
+   * @return UserPublicDTO public user data {id, username, role, is_active}
+   */
+  async getUser(id = 0): Promise<UserPublicDTO> {
+    return this.userRepository.findOne({ id }).then((data_user) => {
+      //Logger.log(util.inspect(data_user, false, null, true));
+      return new UserPublicDTO(data_user.id, data_user.username, data_user.role, data_user.active);
+    });
   }
 
-  async DeleteUserById(user_id: number): Promise<number> {
-    return this.userRepository.nativeDelete(user_id);
+  /**
+   * Sends the user id when given user name. Sends 0 if username not found or incoherent.
+   * @param username The user_name
+   * @return number The user_id
+   */
+  async getUserIDByUserName(username: string): Promise<number> {
+    return await this.userRepository.findOne({ username }).then((user) => {
+      //Logger.log(util.inspect(user, false, null, true));
+      if (user === null) {
+        return 0;
+      } else {
+        return user.id;
+      }
+    });
+  }
+
+  /**
+   * Is the username already in database ?
+   * @param username
+   * @return boolean
+   */
+  async isUsernameAlreadyInDatabase(username: string): Promise<boolean> {
+    return this.userRepository.findOne({ username }).then((user) => {
+      return user != null;
+    });
+  }
+
+  /**
+   * Deletes user. Returns void.
+   * @param user_id
+   * @return void
+   */
+  async deleteUserById(user_id: number): Promise<void> {
+    return this.userRepository.nativeDelete(user_id).then(() => {
+      // Should we really do nothing ?
+      //Logger.log(util.inspect(data, false, null, true));
+      return;
+    });
   }
 }
