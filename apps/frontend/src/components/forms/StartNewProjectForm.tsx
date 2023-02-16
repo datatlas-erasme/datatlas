@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { CreateMapPayloadInterface, DEFAULT_MAP_STYLES } from '@datatlas/models';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
-
+import { LabelStyle, FormBtn } from '../../style/theme';
 export interface StartNewProjectFormProps {
   onSubmit: SubmitHandler<StartNewProjectFormData>;
 }
@@ -19,17 +19,17 @@ export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor={'title'}>
+      <LabelStyle htmlFor={'title'}>
         1.
         <FormattedMessage defaultMessage={'Entrez le nom du projet'} />
-      </label>
+      </LabelStyle>
       {/* register your input into the hook by invoking the "register" function */}
       <Input id="title" defaultValue="" {...register('title', { required: true })} />
       {errors.title && <FormattedMessage defaultMessage="This field is required" />}
-      <label htmlFor={'selectMap'}>
+      <LabelStyle htmlFor={'selectMap'}>
         2.
         <FormattedMessage defaultMessage={'Sélectionnez un fond de carte'} />
-      </label>
+      </LabelStyle>
       <select {...register('mapStyleId')}>
         {DEFAULT_MAP_STYLES.map(({ id, label }) => (
           <option key={id} value={id}>
@@ -38,16 +38,19 @@ export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
         ))}
       </select>
 
+      <LabelStyle htmlFor={'templateId'}>
+        3.
+        <FormattedMessage defaultMessage={'Choisissez un modèle'} />
+      </LabelStyle>
       <div>
-        <label htmlFor={'templateId'}>
-          3.
-          <FormattedMessage defaultMessage={'Choisissez un modèle'} />
-        </label>
-        <div>
-          <h3>Je suis un template à selectionner</h3>
-        </div>
+        <input type="radio" id="default" name="drone" value="Par default" checked />
+        <label htmlFor="Par default">Par default</label>
       </div>
-      <input type="submit" />
+      <div>
+        <input type="radio" id="Custom" name="Custom" value="Custom" />
+        <label htmlFor="Custom">Custom</label>
+      </div>
+      <FormBtn type="submit" />
     </form>
   );
 }

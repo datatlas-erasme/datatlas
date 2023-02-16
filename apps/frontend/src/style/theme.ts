@@ -1,11 +1,12 @@
 import { themeLT } from 'kepler.gl/dist/styles';
 import styled from 'styled-components';
+import { Button } from 'kepler.gl/dist/components/common/styled-components';
 
 export interface ThemeDefault {
   [key: string]: string | number;
 }
 
-export const fontFamily = `Inter, 'Helvetica Neue', Helvetica, sans-serif`;
+export const fontFamily = `Verdana, 'Helvetica Neue', Helvetica, sans-serif`;
 
 // THEME COLOR
 export const themeColor = {
@@ -24,15 +25,10 @@ export const themeColor = {
 export const themeFontSize = {
   xsText: '10px',
   sText: '12px',
-  mText: '12px',
+  mText: '16px',
   lText: '24px',
   xlText: '36px',
 };
-
-export const TitleH2 = styled.h2`
-  font-size: ${themeFontSize.lText};
-  font-weight: 400;
-`;
 
 export const theme: ThemeDefault = {
   ...themeLT,
@@ -90,8 +86,8 @@ export const theme: ThemeDefault = {
   ctaBtnColor: themeColor.secondaryColor,
   ctaBtnActColor: themeColor.secondaryColor,
 
-  linkBtnBgd: 'transparent',
-  linkBtnActBgd: 'linkBtnBgd',
+  linkBtnBgd: themeColor.greyExtraLight,
+  linkBtnActBgd: themeColor.greyLight,
   linkBtnColor: themeColor.primaryColor,
   linkBtnActColor: themeColor.greyDark,
   linkBtnActBgdHover: themeColor.greyMedium,
@@ -143,7 +139,7 @@ export const theme: ThemeDefault = {
   inputBorderActiveColorLT: themeColor.greyExtraLight,
 
   inputColor: themeColor.primaryColor,
-  inputBorderRadius: '1px',
+  inputBorderRadius: '3px',
   inputPlaceholderColor: themeColor.greyLight,
   inputPlaceholderColorLT: themeColor.greyExtraLight,
   inputPlaceholderFontWeight: 400,
@@ -280,12 +276,12 @@ export const theme: ThemeDefault = {
   radioRadius: 8,
   radioBorderRadius: 100,
   radioBorderColor: 'transparent',
-  radioButtonRadius: 4,
-  radioButtonBgdColor: themeColor.greyLight,
+  radioBnnRadius: 4,
+  radioBtnBgdColor: themeColor.greyLight,
 
   // BOX CONTAINER
   layoutsBoxContainerMargin: '40px 0',
-  layoutsBoxContainer: '20px 20px',
+  layoutsBoxContainer: '40px 20px',
   cardBoxContainer: '10px',
 
   // NAV
@@ -301,3 +297,23 @@ export const theme: ThemeDefault = {
   // SIDEBAR PROJECT
   sidebarProjectBG: themeColor.blueLight,
 };
+export const LabelStyle = styled.label`
+  display: flex;
+  margin: 20px 0 10px 0;
+  font-size: ${themeFontSize.sText};
+  font-weight: 700;
+`;
+
+export const FormBtn = styled(Button).attrs({ as: 'input' })`
+  margin: 20px auto;
+  padding: 15px 40px;
+  font-size: ${themeFontSize.mText};
+  font-weight: 700;
+`;
+
+export const VerticalLine = styled.div`
+  border-left: 3px solid ${themeColor.greyMedium};
+  align-self: stretch;
+  width: 1px;
+  display: block;
+`;

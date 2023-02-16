@@ -89,6 +89,7 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@react-spring/types": "^9.6.1",
     "@reduxjs/toolkit": "^1.9.1",
     "assert": "^2.0.0",
     "babel-plugin-formatjs": "^10.3.35",

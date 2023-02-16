@@ -4,11 +4,9 @@ import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { StartNewProjectForm } from '../forms/StartNewProjectForm';
 import { createMap } from '../../store/reducers/keplerGl';
-import { TitleH2 } from '../../style/theme';
 
 const SideBarContainer = styled.aside`
-  grid-column: 2;
-  grid-row: 1 / 2;
+  width: 30vw;
   padding: ${(props) => props.theme.layoutsBoxContainer};
   background-color: ${(props) => props.theme.sidebarProjectBG};
   form {
@@ -21,9 +19,9 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   return (
     <SideBarContainer>
-      <TitleH2>
+      <h2>
         <FormattedMessage defaultMessage={'Démarrer un nouveau projet'} />
-      </TitleH2>
+      </h2>
       <StartNewProjectForm onSubmit={(data) => dispatch(createMap(data))} />
     </SideBarContainer>
   );

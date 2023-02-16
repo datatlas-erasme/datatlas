@@ -6,21 +6,25 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { logout } from '../../store/reducers/user';
 import { DatatlasLogo } from '../logos';
+import { VerticalLine } from '../../style/theme';
 
 const NavContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 65px;
+  height: 10vh;
   background-color: ${(props) => props.theme.navBackgroundColor};
 `;
 
 const NavContainerLogo = styled.div`
-  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: 20%;
+  margin-left: 40px;
   svg {
-    padding: 20px;
+    width: auto;
     :nth-child(2) {
-      border-left: 1px solid #cecece;
+      padding-left: 15px;
     }
   }
 `;
@@ -29,6 +33,7 @@ const NavItemsList = styled.ul`
   display: flex;
   justify-content: space-around;
   list-style: none;
+  width: 40%;
   padding: 20px;
   font-family: ${(props) => props.theme.fontFamily};
   li {
@@ -64,7 +69,8 @@ const Navbar = () => {
   return (
     <NavContainer>
       <NavContainerLogo>
-        <Rocket style={{ height: 35, width: 35, paddingRight: '20px' }} />
+        <Rocket style={{ height: 30, width: 30 }} />
+        <VerticalLine />
         <DatatlasLogo />
       </NavContainerLogo>
       <NavItemsList>

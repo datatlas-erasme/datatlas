@@ -5,23 +5,19 @@ import { useGetSavedProjectsQuery } from '../api';
 import { selectCurrentUserProjects } from '../store/selectors';
 import { ProjectList } from '../components/ProjectList';
 import Sidebar from '../components/sidebar/Sidebar';
-import { DisplayButton } from '../components/buttons/DisplayButton';
-import { TitleH2 } from '../style/theme';
+import { DisplayButton } from '../components/buttons';
 
 const LayoutProjects = styled.div`
-  display: grid;
+  display: flex;
   margin: auto;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr 0.5fr;
-  transition: all 0.25s ease-in-out;
+  height: 70vh;
 `;
 
 const ProjectsContainer = styled.main`
-  grid-column: 1;
-  grid-row: 1 / 2;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  width: 70vw;
   align-items: center;
   padding: ${(props) => props.theme.layoutsBoxContainer};
   background-color: ${(props) => props.theme.layoutBGColor};
@@ -35,7 +31,7 @@ export const ProjectsPage = () => {
     <React.StrictMode>
       <LayoutProjects>
         <ProjectsContainer>
-          <TitleH2>Mes Projets</TitleH2>
+          <h2>Mes Projets</h2>
           <DisplayButton>Voir tous</DisplayButton>
           <ProjectList
             projects={projects}

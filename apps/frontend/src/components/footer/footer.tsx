@@ -1,23 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DatatlasLogo, MetropoleLogo, ErasmeLogo, FranceRelanceLogo, GithubLogo } from '../logos';
+import { DatatlasLogo, MetropoleLogo, ErasmeLogo, FranceRelanceLogo } from '../logos';
+import GithubLink from '../buttons/GithubLink';
 
 const FooterContainer = styled.footer`
   position: static;
-  padding: ${(props) => props.theme.layoutsBoxContainer};
-  height: 100px;
+  padding: 0 40px;
+  height: 15vh;
+  width: 100vw;
   font-size: ${(props) => props.theme.fontSizeXs};
-
   div {
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
-    .githublink {
-      align-items: center;
-      p {
-        padding-right: 20px;
-      }
-    }
     &:last-child {
       align-items: center;
       ul {
@@ -66,12 +61,7 @@ const Footer = () => (
           <FranceRelanceLogo />
         </a>
       </LogoContainer>
-      <div className={'githublink'}>
-        <p>Lien vers le Github du projet :</p>
-        <a href={'/'} target={'_blank'} rel={'noreferrer'}>
-          <GithubLogo />
-        </a>
-      </div>
+      <GithubLink />
     </div>
     <div>
       <p>

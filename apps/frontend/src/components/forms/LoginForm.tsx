@@ -3,6 +3,10 @@ import { useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
+import styled from 'styled-components';
+import { Input } from 'kepler.gl/dist/components/common/styled-components';
+import Checkbox from 'kepler.gl/dist/components/common/checkbox';
+import { LabelStyle, FormBtn } from '../../style/theme';
 
 export interface LoginFormData {
   login: string;
@@ -10,8 +14,24 @@ export interface LoginFormData {
   rememberMe?: boolean;
 }
 
+const LoginFormStyle = styled.form`
+  display: flex;
+  flex-direction: column;
+  a {
+    font-size: ${(props) => props.theme.fontSizeXs};
+  }
+  div {
+    display: flex;
+    font-size: ${(props) => props.theme.fontSizeXs};
+    align-items: center;
+  }
+`;
+
+const InputLoginStyle = styled(Input)`
+  width: 20vw;
+`;
+
 export function LoginForm() {
-  const intl = useIntl();
   const {
     reset,
     register,
@@ -43,25 +63,28 @@ export function LoginForm() {
   }, [isSubmitSuccessful]);
 
   return (
-    <form onSubmit={handleSubmit(login)}>
-      <label htmlFor="login">
-        <FormattedMessage defaultMessage="Login" />
-      </label>
-      <input id="login" defaultValue="" {...register('login', { required: true })} />
+    <LoginFormStyle onSubmit={handleSubmit(login)}>
+      <LabelStyle htmlFor="login">
+        <FormattedMessage defaultMessage="Identifiant" />
+      </LabelStyle>
+      <InputLoginStyle id="login" defaultValue="" {...register('login', { required: true })} />
       {errors.login && <FormattedMessage defaultMessage="This field is required" />}
-
-      <label htmlFor="password">
-        <FormattedMessage defaultMessage="Password" />
-      </label>
-      <input id="password" type="password" defaultValue="" {...register('password', { required: true })} />
+      <LabelStyle htmlFor="password">
+        <FormattedMessage defaultMessage="Mot de passe" />
+      </LabelStyle>
+      <InputLoginStyle id="password" type="password" defaultValue="" {...register('password', { required: true })} />
       {errors.password && <FormattedMessage defaultMessage="This field is required" />}
+      <a>
+        <FormattedMessage defaultMessage="J’ai oublié mon mot de passe" />
+      </a>
 
-      <label htmlFor="rememberMe">
-        <FormattedMessage defaultMessage="Remember me" />
-      </label>
-      <input id="rememberMe" type="checkbox" {...register('rememberMe', { required: false })} />
-
-      <input type="submit" value={intl.formatMessage({ defaultMessage: 'Connexion' })} />
-    </form>
+      <FormBtn type="submit" value={'Connexion'} />
+      <div>
+        <Checkbox id="rememberMe" type="checkbox" {...register('rememberMe', { required: false })} />
+        <p>
+          <FormattedMessage defaultMessage="Se souvenir de moi" />
+        </p>
+      </div>
+    </LoginFormStyle>
   );
 }

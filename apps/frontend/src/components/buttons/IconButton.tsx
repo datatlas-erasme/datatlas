@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 interface IconButtonInterface {
   Icon: ReactElement;
-  onClick: MouseEventHandler;
+  onClick?: MouseEventHandler;
 }
 
 const ActionButton = styled(MapControlButton)`

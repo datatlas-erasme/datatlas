@@ -14,6 +14,7 @@ const CardContainer = styled(Link)`
   position: relative;
   width: ${(props) => props.theme.cardWidth};
   padding: ${(props) => props.theme.cardBoxContainer};
+  text-decoration: none;
 `;
 
 const ProjectCard = (props: ProjectCardProps) => {
