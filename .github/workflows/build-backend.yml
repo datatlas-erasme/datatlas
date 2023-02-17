@@ -1,4 +1,4 @@
-name: Build Frontend Docker image
+name: Build Backend
 
 on:
   push:
@@ -34,12 +34,12 @@ jobs:
         with:
           push: true
           repository:
-          tags: erasme/datatlas-frontend:${{ github.ref == 'refs/heads/dev' && 'dev' || 'misc' }}, erasme/datatlas-frontend:${{ github.sha }}
+          tags: erasme/datatlas-backend:${{ github.ref == 'refs/heads/dev' && 'dev' || 'misc' }}, erasme/datatlas-backend:${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           target: backend
           build-args: |
-            COPY_PATH=frontend
+            COPY_PATH=backend
 
       - name: Move cache
         run: |
