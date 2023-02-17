@@ -49,5 +49,7 @@ RUN rm -rf ./*
 # Copy the production build from the builder stage
 COPY --from=builder /build/dist/apps/$COPY_PATH/* /usr/share/nginx/html
 
+# Copy the nginx configuration
+COPY docker/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
