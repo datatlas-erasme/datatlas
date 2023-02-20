@@ -40,10 +40,10 @@ export class UserController {
   @Put(':id')
   @HttpCode(204)
   @Header('Cache-Control', 'none')
-  async updateUser(@Param() params): Promise<void> {
-    Logger.log(params);
-    //return this.userService.updateUser(params.id);
-    return;
+  async updateUser(@Param() params, @Body() user: { user_id: number } & UserDto): Promise<void> {
+    //Logger.log(params);
+    //Logger.log(userDto)
+    return this.userService.updateUser(user);
   }
 
   @Delete(':id')
