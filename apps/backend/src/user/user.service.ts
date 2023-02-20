@@ -52,31 +52,15 @@ export class UserService {
      */
     const id = user.user_id;
     return this.userRepository.findOne({ id }).then((data_user) => {
-      Logger.log('avant');
-      Logger.log(util.inspect(user, false, null, true));
-      Logger.log(util.inspect(data_user, false, null, true));
-      Logger.log('après');
+      //Logger.log(util.inspect(user, false, null, true));
+      //Logger.log(util.inspect(data_user, false, null, true));
       data_user.username = user.username;
-      Logger.log('nouvel utilisateur');
-      Logger.log(util.inspect(data_user, false, null, true));
-      return; //new UserPublicDTO(data_user.id, data_user.username, data_user.role, data_user.active);
+      data_user.password = user.password;
+      data_user.role = user.role;
+      data_user.active = user.active;
+      //Logger.log(util.inspect(data_user, false, null, true));
+      return this.userRepository.flush();
     });
-
-    /*
-    this.getUser(user.user_id).then((userInDB) => {
-      const updated_user = new UserEntity(userInDB.username, userInDB.password, userInDB.role, userInDB.active);
-      Logger.log(util.inspect(userInDB, false, null, true));
-    });
-    //const user = new UserEntity(userDto.username, userDto.password, userDto.role, userDto.active);
-
-    //Logger.log(userData);
-    /*return this.userRepository.nativeDelete(user_id).then(() => {
-      // Should we really do nothing ?
-      //Logger.log(util.inspect(data, false, null, true));
-      return;
-    });
-
-     */
   }
 
   /**
