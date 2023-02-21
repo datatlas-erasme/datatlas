@@ -6,6 +6,8 @@ import { StartNewProjectForm } from '../forms/StartNewProjectForm';
 import { createMap } from '../../store/reducers/keplerGl';
 
 const SideBarContainer = styled.aside`
+  position: sticky;
+  top: 0;
   width: 30vw;
   padding: ${(props) => props.theme.layoutsBoxContainer};
   background-color: ${(props) => props.theme.sidebarProjectBG};

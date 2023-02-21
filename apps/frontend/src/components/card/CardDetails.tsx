@@ -12,14 +12,14 @@ interface CardProjectDetailsInterface {
   contributors: UserInterface[];
 }
 const ContentCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-flow: row wrap;
   padding: 10px;
   background-color: white;
-  width: 40%;
-
+  width: min-content;
   h3 {
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 17px;
+    width: 100%;
   }
   h4 {
     margin: 10px 0;

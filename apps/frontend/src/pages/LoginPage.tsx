@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Layout } from './layouts';
 import { LoginForm } from '../components/forms/LoginForm';
@@ -17,22 +17,23 @@ interface AboutWrapperInterface {
 const LogoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   width: 50vw;
   min-height: 85vh;
   background-image: url(${FirstShapeBg});
   background-repeat: no-repeat;
   background-position: left top;
-  background-size: 99%;
-  padding: 60px 0 40px 40px;
+  background-size: cover;
   .brand-area {
-    position: relative;
+    text-align: center;
     width: 400px;
-    top: -5px;
-    left: 140px;
+    margin: auto;
+    svg {
+      width: 350px;
+    }
   }
   p {
-    margin-top: auto;
+    margin: auto 0 20px 30px;
     white-space: pre-wrap;
   }
 `;
@@ -42,13 +43,12 @@ const AboutWrapper = styled.div<AboutWrapperInterface>`
   flex-direction: column;
   justify-content: center;
   padding: 0 60px;
-  width: 50vw;
   min-height: 85vh;
+  width: 50vw;
   background-color: ${({ theme }) => theme.mapPanelBackgroundColor};
   box-shadow: 0 6px 12px 0 rgb(0 0 0 / 16%);
-  transform: ${({ displayAbout }) => (displayAbout ? 'translateX(-100%)' : 'translateX(0)')};
+  transform: ${({ displayAbout }) => (displayAbout ? 'translateX(0)' : 'translateX(-100%)')};
   transition: transform 0.8s ease-in-out;
-
   p,
   ul,
   h2,
@@ -69,8 +69,8 @@ const LoginFormWrapper = styled.div`
   align-items: center;
   justify-content: center;
   flex-grow: 1;
-  width: 50vw;
   min-height: 85vh;
+  max-width: 100vw;
   background-image: url(${SecondShapeBg});
   background-repeat: no-repeat;
   background-position: right bottom;
@@ -80,6 +80,11 @@ const LoginFormWrapper = styled.div`
 
 export const LoginPage = () => {
   const [displayAbout, setDisplayAbout] = useState(false);
+  const bgColorRef = useRef<HTMLDivElement>(null);
+
+  // useEffect(() => {
+  //   bgColorRef.current!.style;
+  // }, [bgColorRef]);
   const handleDisplayAbout = (e) => {
     e.preventDefault();
     setDisplayAbout(!displayAbout);
@@ -97,7 +102,7 @@ export const LoginPage = () => {
           <a href={'mailto:administrateur@metropole.fr'}>Contacter l'administrateur</a>
         </p>
       </LogoWrapper>
-      <AboutWrapper displayAbout={displayAbout}>
+      <AboutWrapper displayAbout={displayAbout} ref={bgColorRef}>
         <SidePanelButton onClick={handleDisplayAbout} displayAbout={displayAbout}>
           <LabelStyle htmlFor={'About'}>
             <FormattedMessage defaultMessage="À propos" />
@@ -127,7 +132,7 @@ export const LoginPage = () => {
           <li>Prénom Nom</li>
           <li>Prénom Nom</li>
         </ul>
-        <GithubLink />
+        <GithubLink bgColor={bgColorRef.current} />
       </AboutWrapper>
       <LoginFormWrapper>
         <LoginForm />

@@ -1,23 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { DatatlasLogo, MetropoleLogo, ErasmeLogo, FranceRelanceLogo } from '../logos';
 import GithubLink from '../buttons/GithubLink';
 
 const FooterContainer = styled.footer`
+  display: flex;
+  flex-flow: row wrap;
   position: static;
-  padding: 0 40px;
-  height: 15vh;
+  padding: 20px 40px;
   width: 100vw;
-  font-size: ${(props) => props.theme.fontSizeXs};
+  p,
+  li {
+    font-size: ${({ theme }) => theme.fontSizeXs};
+  }
   div {
     display: flex;
     justify-content: space-between;
-    margin: 10px 0;
     &:last-child {
       align-items: center;
+      .text-licence {
+        width: 65%;
+      }
       ul {
         display: flex;
         li {
+          width: max-content;
           padding-left: 10px;
           &:first-child {
             padding-right: 10px;
@@ -31,15 +39,19 @@ const FooterContainer = styled.footer`
 
 const LogoContainer = styled.div`
   a {
-    display: block;
+    display: flex;
+    justify-content: space-around;
     margin: auto 0;
+    svg {
+      width: 100px;
+    }
     &:first-child {
       padding-left: 0;
-      padding-right: 40px;
+      padding-right: 20px;
     }
     &:nth-child(1n + 2) {
       border-left: solid 1px;
-      padding: 0 40px;
+      padding: 0 20px;
     }
   }
 `;
@@ -48,23 +60,23 @@ const Footer = () => (
   <FooterContainer>
     <div>
       <LogoContainer>
-        <a href={'/'} target={'_blank'} rel={'noreferrer'}>
+        <Link to={'/'} rel={'noreferrer'}>
           <DatatlasLogo />
-        </a>
-        <a href={'https://www.erasme.org/'} target={'_blank'} rel={'noreferrer'}>
+        </Link>
+        <Link to={'https://www.erasme.org/'} target={'_blank'} rel={'noreferrer'}>
           <ErasmeLogo />
-        </a>
-        <a href={'https://www.grandlyon.com/'} target={'_blank'} rel={'noreferrer'}>
+        </Link>
+        <Link to={'https://www.grandlyon.com/'} target={'_blank'} rel={'noreferrer'}>
           <MetropoleLogo />
-        </a>
-        <a href={'https://www.economie.gouv.fr/plan-de-relance'} target={'_blank'} rel={'noreferrer'}>
+        </Link>
+        <Link to={'https://www.economie.gouv.fr/plan-de-relance'} target={'_blank'} rel={'noreferrer'}>
           <FranceRelanceLogo />
-        </a>
+        </Link>
       </LogoContainer>
-      <GithubLink />
+      <GithubLink bgColor={'current'} />
     </div>
     <div>
-      <p>
+      <p className={'text-licence'}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Ut enim ad minim veniam, quis nostrud.
       </p>

@@ -37,19 +37,6 @@ export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
           </option>
         ))}
       </select>
-
-      <LabelStyle htmlFor={'templateId'}>
-        3.
-        <FormattedMessage defaultMessage={'Choisissez un modèle'} />
-      </LabelStyle>
-      <div>
-        <input type="radio" id="default" name="drone" value="Par default" checked />
-        <label htmlFor="Par default">Par default</label>
-      </div>
-      <div>
-        <input type="radio" id="Custom" name="Custom" value="Custom" />
-        <label htmlFor="Custom">Custom</label>
-      </div>
       <FormBtn type="submit" />
     </form>
   );

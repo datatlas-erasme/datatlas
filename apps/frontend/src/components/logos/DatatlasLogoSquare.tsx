@@ -2,7 +2,7 @@ import React from 'react';
 import { SVGProps } from 'react';
 
 export const DatatlasLogoSquare = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="361" height="368" fill="none" {...props}>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" {...props} viewBox="0 0 361 368">
     <path
       fill="#fff"
       d="m162.312 170.744 48.043-19.736v113.125l-48.043 21.133-51.334-21.133-53.592 21.133V170.744l53.592-19.736 51.334 19.736Z"

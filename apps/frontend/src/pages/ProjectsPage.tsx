@@ -9,18 +9,26 @@ import { DisplayButton } from '../components/buttons';
 
 const LayoutProjects = styled.div`
   display: flex;
-  margin: auto;
-  height: 70vh;
+  flex: auto;
+  width: 100vw;
+  overflow: scroll;
+  background-color: ${({ theme }) => theme.layoutBGColor};
 `;
 
 const ProjectsContainer = styled.main`
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
   width: 70vw;
   align-items: center;
-  padding: ${(props) => props.theme.layoutsBoxContainer};
-  background-color: ${(props) => props.theme.layoutBGColor};
+  padding: ${({ theme }) => theme.layoutsBoxContainer};
+`;
+
+const HeaderProjects = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: ${({ theme }) => theme.cardBoxContainer};
 `;
 
 export const ProjectsPage = () => {
@@ -31,8 +39,10 @@ export const ProjectsPage = () => {
     <React.StrictMode>
       <LayoutProjects>
         <ProjectsContainer>
-          <h2>Mes Projets</h2>
-          <DisplayButton>Voir tous</DisplayButton>
+          <HeaderProjects>
+            <h2>Mes Projets</h2>
+            <DisplayButton>Voir tous</DisplayButton>
+          </HeaderProjects>
           <ProjectList
             projects={projects}
             isLoading={isLoading}

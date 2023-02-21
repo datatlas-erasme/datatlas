@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
 import styled from 'styled-components';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
-import Checkbox from 'kepler.gl/dist/components/common/checkbox';
 import { LabelStyle, FormBtn } from '../../style/theme';
 
 export interface LoginFormData {
@@ -19,11 +18,15 @@ const LoginFormStyle = styled.form`
   flex-direction: column;
   a {
     font-size: ${(props) => props.theme.fontSizeXs};
+    text-decoration: underline;
   }
   div {
     display: flex;
     font-size: ${(props) => props.theme.fontSizeXs};
     align-items: center;
+  }
+  p {
+    margin-left: 5px;
   }
 `;
 
@@ -80,7 +83,7 @@ export function LoginForm() {
 
       <FormBtn type="submit" value={'Connexion'} />
       <div>
-        <Checkbox id="rememberMe" type="checkbox" {...register('rememberMe', { required: false })} />
+        <input id="rememberMe" type={'checkbox'} {...register('rememberMe', { required: false })} />
         <p>
           <FormattedMessage defaultMessage="Se souvenir de moi" />
         </p>

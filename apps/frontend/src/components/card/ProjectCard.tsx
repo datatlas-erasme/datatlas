@@ -19,6 +19,7 @@ const CardContainer = styled(Link)`
 
 const ProjectCard = (props: ProjectCardProps) => {
   const dispatch = useAppDispatch();
+  console.log(props);
   const handleRemove = (e) => {
     e.preventDefault();
     dispatch(deleteEntry(props.id));
@@ -36,7 +37,7 @@ const ProjectCard = (props: ProjectCardProps) => {
         description={props.description}
         contributors={props.contributors}
       />
-      <MapPreview draft={props.draft} handleRemove={handleRemove} handleCopy={handleCopy} />
+      <MapPreview draft={props.draft} handleRemove={handleRemove} handleCopy={handleCopy} disable={props.disable} />
     </CardContainer>
   );
 };

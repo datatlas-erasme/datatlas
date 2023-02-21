@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Trash, Copy, MapIcon } from 'kepler.gl/dist/components/common/icons';
 import { IconButton } from '../buttons';
@@ -8,6 +8,7 @@ interface MapPreviewInterface {
   draft: boolean;
   handleRemove: (e) => void;
   handleCopy: (e) => void;
+  disable: boolean;
 }
 
 const MapPreviewContainer = styled.div`
@@ -20,7 +21,7 @@ const MapPreviewContainer = styled.div`
   background-image: url(${backgroundMapImage});
 `;
 
-const MapPreview = ({ draft, handleRemove, handleCopy }: MapPreviewInterface) => {
+const MapPreview = ({ draft, handleRemove, handleCopy, disable }: MapPreviewInterface) => {
   return (
     <MapPreviewContainer>
       <StatusProjectBadges Icon={<MapIcon />}>
@@ -28,7 +29,7 @@ const MapPreview = ({ draft, handleRemove, handleCopy }: MapPreviewInterface) =>
       </StatusProjectBadges>
       <div>
         <IconButton Icon={<Trash />} onClick={handleRemove} />
-        <IconButton Icon={<Copy />} onClick={handleCopy} />
+        {!disable ? '' : <IconButton Icon={<Copy />} onClick={handleCopy} />}
       </div>
     </MapPreviewContainer>
   );
