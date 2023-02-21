@@ -7,5 +7,5 @@ export function useForward() {
   console.log('id', id);
   const dispatch = useAppDispatch();
 
-  return (action) => dispatch(wrapTo(id, action));
+  return (action) => dispatch(wrapTo(id)(action));
 }
