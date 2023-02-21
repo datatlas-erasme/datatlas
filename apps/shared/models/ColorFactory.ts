@@ -1,14 +1,10 @@
 import { DataVizColors } from 'kepler.gl/dist/constants';
-import { rgb, RGBColor as D3RGBColor } from 'd3-color';
 import { RGBColor } from 'kepler.gl/reducers';
+import { hexToRgb } from 'kepler.gl/dist/utils';
 
 export class ColorFactory {
   public static createRandomRGBArray(): RGBColor {
-    const rgbColor = ColorFactory.createRandomRGBObject();
-    return [rgbColor.r, rgbColor.g, rgbColor.b];
-  }
-  public static createRandomRGBObject(): D3RGBColor {
-    return rgb(ColorFactory.createRandomHex());
+    return hexToRgb(ColorFactory.createRandomHex());
   }
 
   public static createRandomHex() {
