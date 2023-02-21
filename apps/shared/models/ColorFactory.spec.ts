@@ -1,10 +1,10 @@
 import { ColorFactory } from './ColorFactory';
 
-describe('ColorFactory.createRandomRGB()', () => {
+describe('ColorFactory.createRandomRGBArray()', () => {
   it('should return an RGB color object"', () => {
-    const rgbColor = ColorFactory.createRandomRGBObject();
-    expect(typeof rgbColor.r).toBe('number');
-    expect(typeof rgbColor.g).toBe('number');
-    expect(typeof rgbColor.b).toBe('number');
+    const rgbColor = ColorFactory.createRandomRGBArray();
+    expect(typeof rgbColor[0]).toBe('number');
+    expect(typeof rgbColor[1]).toBe('number');
+    expect(typeof rgbColor[2]).toBe('number');
   });
 });
