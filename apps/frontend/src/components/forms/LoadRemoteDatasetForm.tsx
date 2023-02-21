@@ -6,7 +6,7 @@ import { LoadDataModalProps } from 'kepler.gl/src/components/modals/load-data-mo
 import { addDataToMap } from 'kepler.gl/actions';
 import { DatasetFactory, DatasetInterface } from '@datatlas/models';
 import { ThemeDefault } from '../../style/theme';
-import { validateUrl } from '../../utils/url';
+import { isValidHttpURL } from '../../utils/url';
 import { useForward } from '../../hooks/useForward';
 
 export const CORS_LINK = 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS';
@@ -137,7 +137,7 @@ export function LoadRemoteDatasetForm({ intl, ...props }: LoadRemoteDatasetFormP
           id="url"
           placeholder="Url"
           defaultValue=""
-          {...register('url', { required: true, validate: validateUrl })}
+          {...register('url', { required: true, validate: isValidHttpURL })}
         />
         {errors.url && (
           <StyledError>

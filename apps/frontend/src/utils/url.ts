@@ -1,63 +1,9 @@
-// from http://blog.stevenlevithan.com/archives/parseuri
-/* eslint-disable no-useless-escape */
-/**
- * Allows to break down a url into multiple params
- * @param str
- */
-export function parseUri(str) {
-  const o = parseUri.options;
-  const m = o.parser[o.strictMode ? 'strict' : 'loose'].exec(str);
-  const uri = {};
-  let i = 14;
-
-  while (i--) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    uri[o.key[i]] = m[i] || '';
+export const isValidHttpURL = (string: string) => {
+  let url;
+  try {
+    url = new URL(string);
+  } catch (e) {
+    return false;
   }
-
-  uri[o.q.name] = {};
-  uri[o.key[12]].replace(o.q.parser, ($0, $1, $2) => {
-    if ($1) uri[o.q.name][$1] = $2;
-  });
-
-  return uri;
-}
-
-parseUri.options = {
-  strictMode: false,
-  key: [
-    'source',
-    'protocol',
-    'authority',
-    'userInfo',
-    'user',
-    'password',
-    'host',
-    'port',
-    'relative',
-    'path',
-    'directory',
-    'file',
-    'query',
-    'anchor',
-  ],
-  q: {
-    name: 'queryKey',
-    parser: /(?:^|&)([^&=]*)=?([^&]*)/g,
-  },
-  parser: {
-    strict:
-      /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-    loose:
-      /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,
-  },
+  return url.protocol === 'http:' || url.protocol === 'https:';
 };
-
-/**
- * Validates an url
- * @param str
- */
-export function validateUrl(str) {
-  return str?.match(/^(ftp|http|https?):\/\/+(www\.)?[a-z0-9\-\.]{3,}\.[a-z]{3}$/);
-}
