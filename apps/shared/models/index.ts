@@ -9,3 +9,4 @@ export * from './DatatlasSavedMapInterface';
 export * from './MapInfoInterface';
 export * from './mocks/generators';
 export * from './kepler';
+export * from './dto/user';
