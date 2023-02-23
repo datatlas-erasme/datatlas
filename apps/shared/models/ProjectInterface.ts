@@ -1,10 +1,14 @@
 import { UserInterface } from './UserInterface';
 import { DatasetInterface } from './DatasetInterface';
+import { KeplerVersionedMapConfigInterface } from './kepler';
 
-export interface ProjectInterface {
+export interface ProjectInterface extends KeplerVersionedMapConfigInterface {
   id: number | string;
-  name: string;
+  createdAt: Date;
+  title: string;
   draft: boolean;
   datasets: DatasetInterface[];
+  description: string;
   owner: UserInterface;
+  contributors: UserInterface[];
 }

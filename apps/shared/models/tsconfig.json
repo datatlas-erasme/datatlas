@@ -1,15 +1,17 @@
 {
   "extends": "../../../tsconfig.base.json",
   "files": [],
-  "include": ["**/*.ts"],
+  "include": ["**/**/*.ts"],
+
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
     "declaration": true,
-    "types": [],
+    "types": ["node"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "typeRoots": ["./types"]
   },
   "exclude": ["**/*.spec.ts"]
 }

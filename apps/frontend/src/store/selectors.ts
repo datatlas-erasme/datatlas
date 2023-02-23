@@ -1,29 +1,36 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from './reducers';
-import { adapter as draftsAdapter } from './reducers/app/drafts';
 import { api } from '../api';
+import { Project, ProjectInterface, MapInfoInterface } from '@datatlas/models';
+import { KeplerGlState } from 'kepler.gl/reducers';
 
 const selectState = (state: RootState) => state;
 
-const selectKeplerState = createSelector(selectState, (state) => state.keplerGl);
+export const selectKeplerState = (state: RootState) => state.keplerGl;
+export const selectKeplerInstanceById = (state: RootState, instanceId: ProjectInterface['id']) =>
+  state.keplerGl[instanceId];
+export const isFileLoading = (state: RootState, instanceId: ProjectInterface['id']) =>
+  selectKeplerInstanceById(state, instanceId).visState.fileLoading;
+export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
+  return state.visState.mapInfo as MapInfoInterface;
+};
+
 export const selectLocale = createSelector(selectKeplerState, (state) => state?.uiState?.locale || 'en');
 
-const selectAppState = createSelector(selectState, (state) => state.app);
-const selectDraftsState = createSelector(selectAppState, (state) => state.drafts);
-export const draftsSelectors = draftsAdapter.getSelectors(selectDraftsState);
+export const selectProjects = (state: RootState) => {
+  const keplerState = selectKeplerState(state);
+  return Object.keys(keplerState).map((id) => {
+    const { ownerId } = selectMapInfoFromKeplerGlState(keplerState[id]);
+    const user = ownerId ? selectUserById(state, ownerId) : undefined;
 
-export const selectAllSavedProjects = api.endpoints.getSavedProjects.select();
-export const selectSavedProjectById = createSelector(
-  selectAllSavedProjects,
-  (state, projectId) => projectId,
-  (projects, projectId) => projects.find((project) => project.id === projectId)
-);
+    return Project.createProjectFromKeplerInstance(id, keplerState[id], user);
+  });
+};
 
-export const selectSavedProjectsByOwnerId = createSelector(
-  selectAllSavedProjects,
+export const selectProjectsByOwnerId = createSelector(
+  selectProjects,
   (state, ownerId) => ownerId,
   (result, ownerId) => {
-    console.log('result', result);
     const { data } = result;
     if (data) {
       return data.filter((project) => project.ownerId === ownerId);
@@ -33,23 +40,8 @@ export const selectSavedProjectsByOwnerId = createSelector(
 );
 
 export const selectUserById = (state, id) => api.endpoints.getUser.select(id)(state)?.data ?? {};
-export const selectCurrentUserId = createSelector(selectAppState, (state) => state.user);
-const selectCurrentUser = createSelector(selectState, selectCurrentUserId, (state, userId) =>
-  selectUserById(state, userId)
-);
+export const selectCurrentUserId = (state: RootState) => state.user;
 
-const selectCurrentUserSavedProjects = createSelector(selectState, selectCurrentUser, (state, currentUser) =>
-  selectSavedProjectsByOwnerId(state, currentUser.id)
-);
-
-export const selectCurrentUserProjects = createSelector(
-  [selectCurrentUser, selectCurrentUserSavedProjects, draftsSelectors.selectAll],
-  (currentUser, savedProjects, drafts) => {
-    return savedProjects.concat(
-      drafts.map((draft) => ({
-        ...draft,
-        owner: currentUser,
-      }))
-    );
-  }
+export const selectCurrentUserProjects = createSelector(selectState, selectCurrentUserId, (state, currentUserId) =>
+  selectProjects(state)
 );

@@ -1,24 +1,41 @@
 import React from 'react';
+import { deleteEntry } from 'kepler.gl/actions';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { ProjectInterface } from '@datatlas/shared/models';
 import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
-import styled from 'styled-components';
-import { NormalizedProjectInterface } from '@datatlas/shared/models';
-import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../store';
 
-export type ProjectCardProps = NormalizedProjectInterface;
+export type ProjectCardProps = ProjectInterface;
 
-const CardContainer = styled.article`
+const CardContainer = styled(Link)`
   display: flex;
   position: relative;
   width: ${(props) => props.theme.cardWidth};
   padding: ${(props) => props.theme.cardBoxContainer};
 `;
-const ProjectCard = ({ id, name, draft }: ProjectCardProps) => {
+
+const ProjectCard = (props: ProjectCardProps) => {
+  const dispatch = useAppDispatch();
+  const handleRemove = (e) => {
+    e.preventDefault();
+    dispatch(deleteEntry(props.id));
+  };
+  const handleCopy = (e) => {
+    e.preventDefault();
+    console.log('DUPLICATE');
+  };
   return (
-    <CardContainer key={id}>
-      <MapPreview draft={draft} />
-      <CardDetails name={name} />
-      <Link to={`/projects/${id}`}>Voir le projet</Link>
+    <CardContainer to={`/projects/${props.id}`} key={props.id}>
+      <CardDetails
+        title={props.title}
+        owner={props.owner}
+        createdAt={props.createdAt}
+        description={props.description}
+        contributors={props.contributors}
+      />
+      <MapPreview draft={props.draft} handleRemove={handleRemove} handleCopy={handleCopy} />
     </CardContainer>
   );
 };

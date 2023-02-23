@@ -1,10 +1,10 @@
 import { themeLT } from 'kepler.gl/dist/styles';
 
-interface ThemeDefault {
+export interface ThemeDefault {
   [key: string]: string | number;
 }
 
-export const fontFamily = `Verdana, 'Helvetica Neue', Helvetica, sans-serif`;
+export const fontFamily = `Inter, 'Helvetica Neue', Helvetica, sans-serif`;
 
 // THEME COLOR
 export const themeColor = {
@@ -13,7 +13,7 @@ export const themeColor = {
   greyDark: '#464646',
   greyMedium: '#CECECE',
   greyLight: '#D9D9D9',
-  greyExtraLight: '#EAEAEA',
+  greyExtraLight: '#F4F4F4',
   blueDark: '#07689F',
   blueLight: '#5AB6EB',
   yellow: '#FFC93C',
@@ -33,8 +33,9 @@ export const theme: ThemeDefault = {
 
   //TEXT
   fontWeight: 400,
-  fontSize: themeFontSize.sText,
-  lineHeight: '14px',
+  fontSizeS: themeFontSize.sText,
+  fontSizeXs: themeFontSize.xsText,
+  lineHeightSText: '14px',
 
   textColor: themeColor.primaryColor,
   subtextColor: themeColor.primaryColor,
@@ -54,6 +55,9 @@ export const theme: ThemeDefault = {
   activeColorHover: themeColor.primaryColor,
   errorColor: themeColor.yellow,
   logoColor: themeColor.primaryColor,
+
+  errorCardtext: themeColor.yellow,
+  subtextColorCard: themeColor.greyMedium,
 
   // BUTTON
   btnFontFamily: fontFamily,
@@ -274,13 +278,17 @@ export const theme: ThemeDefault = {
   radioButtonBgdColor: themeColor.greyLight,
 
   // BOX CONTAINER
-  layoutsBoxContainer: '20px 40px',
-  cardBoxContainer: '15px',
+  layoutsBoxContainerMargin: '40px 0',
+  layoutsBoxContainer: '20px 20px',
+  cardBoxContainer: '10px',
 
   // NAV
   navBackgroundColor: themeColor.greyMedium,
 
   // CARD
   cardHeight: '20vh',
-  cardWidth: '30vw',
+  cardWidth: '33vw',
+
+  // LAYOUT
+  layoutBGColor: themeColor.greyExtraLight,
 };

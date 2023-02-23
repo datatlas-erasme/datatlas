@@ -10,6 +10,14 @@
       "options": {
         "lintFilePatterns": ["apps/shared/models/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/shared/models/jest.config.ts",
+        "passWithNoTests": true
+      }
     }
   },
   "tags": []

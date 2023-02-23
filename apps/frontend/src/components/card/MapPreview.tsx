@@ -1,49 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Trash, Delete, MapIcon } from 'kepler.gl/dist/components/common/icons';
-import { IconButton, Button } from '../buttons';
-
+import { Trash, Copy, MapIcon } from 'kepler.gl/dist/components/common/icons';
+import { IconButton } from '../buttons';
+import { StatusProjectBadges } from '../badges/StatusProjectBadges';
+import backgroundMapImage from '../../assets/background-card.png';
 interface MapPreviewInterface {
   draft: boolean;
+  handleRemove: (e) => void;
+  handleCopy: (e) => void;
 }
 
 const MapPreviewContainer = styled.div`
   display: flex;
-  width: 70vw;
-  height: 165px;
-  padding: 10px;
-  background-image: url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1931&q=80');
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  padding: ${(props) => props.theme.cardBoxContainer};
+  background-image: url(${backgroundMapImage});
 `;
 
-const ActionsContainer = styled.div`
-  display: flex;
-  align-self: end;
-  height: 40px;
-`;
-
-const MapPreview = ({ draft }: MapPreviewInterface) => {
-  const removeProject = (e) => {
-    e.preventDefault();
-    console.log('DELETE');
-  };
-  const duplicateProject = (e) => {
-    e.preventDefault();
-    console.log('DUPLICATE');
-  };
-  const editProject = (e) => {
-    e.preventDefault();
-    console.log('EDIT');
-  };
-
+const MapPreview = ({ draft, handleRemove, handleCopy }: MapPreviewInterface) => {
   return (
     <MapPreviewContainer>
-      <ActionsContainer>
-        <Button Icon={<MapIcon />} onClick={editProject}>
-          {draft ? 'Brouillon' : 'Publié'}
-        </Button>
-        <IconButton Icon={<Delete />} onClick={removeProject} />
-        <IconButton Icon={<Trash />} onClick={duplicateProject} />
-      </ActionsContainer>
+      <StatusProjectBadges Icon={<MapIcon />}>
+        <p>{draft ? 'Brouillon' : 'Publié'}</p>
+      </StatusProjectBadges>
+      <div>
+        <IconButton Icon={<Trash />} onClick={handleRemove} />
+        <IconButton Icon={<Copy />} onClick={handleCopy} />
+      </div>
     </MapPreviewContainer>
   );
 };

@@ -1,17 +1,25 @@
 import React from 'react';
 import { ProjectListItem } from './ProjectListItem';
 import { Loader } from './Loader';
-import { DraftProjectInterface, NormalizedProjectInterface } from '@datatlas/shared/models';
+import { ProjectInterface } from '@datatlas/shared/models';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
+import styled from 'styled-components';
 
 export interface ProjectListProps {
-  projects: (NormalizedProjectInterface | DraftProjectInterface)[];
+  projects: ProjectInterface[];
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
   error?: FetchBaseQueryError | SerializedError;
 }
+
+const ContainerProjectList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: ${(props) => props.theme.layoutsBoxContainerMargin};
+`;
 
 export const ProjectList = ({ projects, isLoading, isSuccess, isError, error }: ProjectListProps) => {
   let content;
@@ -23,5 +31,5 @@ export const ProjectList = ({ projects, isLoading, isSuccess, isError, error }: 
     content = <div>{error.toString()}</div>;
   }
 
-  return <div>{content}</div>;
+  return <ContainerProjectList>{content}</ContainerProjectList>;
 };

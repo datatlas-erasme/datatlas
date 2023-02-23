@@ -1,15 +1,12 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
+import { CreateMapPayloadInterface, DEFAULT_MAP_STYLES } from '@datatlas/models';
 
 export interface StartNewProjectFormProps {
   onSubmit: SubmitHandler<StartNewProjectFormData>;
 }
-export interface StartNewProjectFormData {
-  name: string;
-  mapStyle: string;
-  template?: string;
-}
+export type StartNewProjectFormData = CreateMapPayloadInterface;
 
 export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
   const {
@@ -21,15 +18,34 @@ export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form onSubmit={handleSubmit(onSubmit)}>
+      <label htmlFor={'title'}>
+        1.
+        <FormattedMessage defaultMessage={'Entrez le nom du projet'} />
+      </label>
       {/* register your input into the hook by invoking the "register" function */}
-      <input defaultValue="" {...register('name', { required: true })} />
-      {errors.name && <FormattedMessage defaultMessage="This field is required" />}
-
-      <select {...register('mapStyle')}>
-        <option value="satellite">satellite</option>
-        <option value="topo">topo</option>
+      <input id="title" defaultValue="" {...register('title', { required: true })} />
+      {errors.title && <FormattedMessage defaultMessage="This field is required" />}
+      <label htmlFor={'selectMap'}>
+        2.
+        <FormattedMessage defaultMessage={'Sélectionnez un fond de carte'} />
+      </label>
+      <select {...register('mapStyleId')}>
+        {DEFAULT_MAP_STYLES.map(({ id, label }) => (
+          <option key={id} value={id}>
+            {label}
+          </option>
+        ))}
       </select>
 
+      <div>
+        <label htmlFor={'templateId'}>
+          3.
+          <FormattedMessage defaultMessage={'Choisissez un modèle'} />
+        </label>
+        <div>
+          <h3>Je suis un template à selectionner</h3>
+        </div>
+      </div>
       <input type="submit" />
     </form>
   );
