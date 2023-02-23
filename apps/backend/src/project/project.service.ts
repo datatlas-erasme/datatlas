@@ -24,10 +24,10 @@ export class ProjectService {
     return projectToUpdate;
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: number): Promise<number> {
     const projectToDelete = await this.projectRepository.findOne(id);
     await this.projectRepository.removeAndFlush(projectToDelete);
-    return true;
+    return id;
   }
 
   // Return id of new project <Promoise<number>>
