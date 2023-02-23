@@ -11,6 +11,11 @@ export class ProjectController {
     return await this.projectService.findAll();
   }
 
+  @Get('project/:id')
+  async fetchOne(@Param('id') id: number): Promise<ProjectEntity> {
+    return await this.projectService.findOneById(id);
+  }
+
   @Post('project')
   async create(@Body() project: ProjectEntity) {
     return this.projectService.create(project);
