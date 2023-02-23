@@ -1,4 +1,5 @@
 export * from './CreateMapPayloadInterface';
+export * from './DatasetFactory';
 export * from './KeplerMapConfig';
 export * from './KeplerMapState';
 export * from './KeplerMapStyle';

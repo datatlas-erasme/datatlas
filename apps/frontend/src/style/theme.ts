@@ -1,6 +1,6 @@
 import { themeLT } from 'kepler.gl/dist/styles';
 
-interface ThemeDefault {
+export interface ThemeDefault {
   [key: string]: string | number;
 }
 
