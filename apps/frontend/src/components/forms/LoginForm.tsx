@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
 import styled from 'styled-components';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
@@ -77,9 +77,9 @@ export function LoginForm() {
       </LabelStyle>
       <InputLoginStyle id="password" type="password" defaultValue="" {...register('password', { required: true })} />
       {errors.password && <FormattedMessage defaultMessage="This field is required" />}
-      <a>
+      <Link to={'/'}>
         <FormattedMessage defaultMessage="J’ai oublié mon mot de passe" />
-      </a>
+      </Link>
 
       <FormBtn type="submit" value={'Connexion'} />
       <div>
