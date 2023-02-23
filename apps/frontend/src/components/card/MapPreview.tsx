@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Trash, Copy, MapIcon } from 'kepler.gl/dist/components/common/icons';
 import { IconButton } from '../buttons';

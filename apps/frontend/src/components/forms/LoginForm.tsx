@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
 import styled from 'styled-components';
