@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
 import { selectCurrentUserId } from '../../store/selectors';
 import Navbar from '../../components/nav/Navbar';
-import Footer from '../../components/footer/footer';
 import { theme } from '../../style/theme';
+import Footer from '../../components/footer/Footer';
 
 const LayoutStyle = styled.div`
   display: flex;

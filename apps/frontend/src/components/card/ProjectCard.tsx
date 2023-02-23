@@ -19,15 +19,14 @@ const CardContainer = styled(Link)`
 
 const ProjectCard = (props: ProjectCardProps) => {
   const dispatch = useAppDispatch();
-  console.log(props);
   const handleRemove = (e) => {
     e.preventDefault();
     dispatch(deleteEntry(props.id));
   };
   const handleCopy = (e) => {
     e.preventDefault();
-    console.log('DUPLICATE');
   };
+
   return (
     <CardContainer to={`/projects/${props.id}`} key={props.id}>
       <CardDetails
@@ -41,5 +40,4 @@ const ProjectCard = (props: ProjectCardProps) => {
     </CardContainer>
   );
 };
-
 export default ProjectCard;

@@ -4,20 +4,20 @@ import { EditorsIcon } from '../icon';
 import { BadgeOutlines } from '../../style/theme';
 
 interface InfoProjectBadgesInterface {
-  contributors: number;
+  numbersContributors: number;
 }
 
-const BadgesContainer = styled.a`
+const BadgesContainer = styled.div`
   display: flex;
   align-items: center;
   margin: 10px;
 `;
 
-const InfoProjectBadges = ({ contributors }: InfoProjectBadgesInterface) => {
+const InfoProjectBadges = ({ numbersContributors }: InfoProjectBadgesInterface) => {
   return (
     <BadgesContainer>
       <EditorsIcon width={10} />
-      <BadgeOutlines>{contributors}</BadgeOutlines>
+      <BadgeOutlines>{numbersContributors}</BadgeOutlines>
     </BadgesContainer>
   );
 };

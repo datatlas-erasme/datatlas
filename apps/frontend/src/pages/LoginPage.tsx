@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Layout } from './layouts';
 import { LoginForm } from '../components/forms/LoginForm';
@@ -82,9 +82,6 @@ export const LoginPage = () => {
   const [displayAbout, setDisplayAbout] = useState(false);
   const bgColorRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   bgColorRef.current!.style;
-  // }, [bgColorRef]);
   const handleDisplayAbout = (e) => {
     e.preventDefault();
     setDisplayAbout(!displayAbout);
@@ -132,7 +129,7 @@ export const LoginPage = () => {
           <li>Prénom Nom</li>
           <li>Prénom Nom</li>
         </ul>
-        <GithubLink bgColor={bgColorRef.current} />
+        <GithubLink bgColor={bgColorRef.current?.style.backgroundColor} />
       </AboutWrapper>
       <LoginFormWrapper>
         <LoginForm />

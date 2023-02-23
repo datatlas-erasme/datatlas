@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
 import { selectCurrentUserId } from '../../store/selectors';
-import Footer from '../../components/footer/footer';
+import Footer from '../../components/footer/Footer';
 import { theme } from '../../style/theme';
 
 export type LayoutProps = PropsWithChildren<object>;
@@ -11,8 +11,8 @@ export type LayoutProps = PropsWithChildren<object>;
 const LayoutWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
-  //justify-content: flex-start;
-  //min-height: 100vh;
+  justify-content: flex-start;
+  min-height: 100vh;
   width: 100vw;
 `;
 

@@ -21,6 +21,7 @@ export class Project implements ProjectInterface {
   contributors: UserInterface[];
   config: KeplerMapConfig;
   version: KeplerVersionedMapConfig['version'];
+  disable: boolean;
 
   constructor(project: ProjectInterface) {
     this.id = project.id;
@@ -34,6 +35,8 @@ export class Project implements ProjectInterface {
     this.contributors = project.contributors;
     this.version = 'v1';
     this.config = new KeplerMapConfig();
+
+    this.disable = project.disable;
   }
 
   static normalize({ owner, contributors, ...props }: ProjectInterface): NormalizedProjectInterface {
@@ -73,6 +76,7 @@ export class Project implements ProjectInterface {
       ...new KeplerVersionedMapConfig(),
       createdAt: new Date(),
       contributors: [],
+      disable: true,
     };
   }
 
@@ -90,12 +94,13 @@ export class Project implements ProjectInterface {
       owner,
       id,
       contributors: faker.helpers.arrayElements([generateFakeUser()]),
+      disable: true,
     };
   }
 
   static createPartialProjectFromKeplerSavedMap(
     savedMap: DatatlasSavedMapInterface
-  ): Omit<ProjectInterface, 'owner' | 'id' | 'draft' | 'contributors'> {
+  ): Omit<ProjectInterface, 'owner' | 'id' | 'draft' | 'contributors' | 'disable'> {
     return {
       ...savedMap.config,
       ...savedMap.info,

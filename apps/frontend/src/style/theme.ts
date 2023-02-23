@@ -119,7 +119,7 @@ export const theme: ThemeDefault = {
   selectionBtnBorderActColor: themeColor.yellow,
 
   // Input
-  inputBoxHeight: '35px',
+  inputBoxHeight: '30px',
   inputBoxHeightSmall: '25px',
   inputBoxHeightTiny: '18px',
   inputPadding: '4px 10px',
