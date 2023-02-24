@@ -52,4 +52,14 @@ COPY --from=builder /build/dist/apps/$COPY_PATH/* /usr/share/nginx/html
 # Copy the nginx configuration
 COPY docker/nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
+## add permissions for nginx user
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+        chown -R nginx:nginx /var/cache/nginx && \
+        chown -R nginx:nginx /var/log/nginx && \
+        chown -R nginx:nginx /etc/nginx/conf.d
+RUN touch /var/run/nginx.pid && \
+        chown -R nginx:nginx /var/run/nginx.pid
+
+USER nginx
+
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
