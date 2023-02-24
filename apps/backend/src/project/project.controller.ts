@@ -22,7 +22,7 @@ export class ProjectController {
   }
 
   @Delete('project/:id')
-  async delete(@Param('id') id: number): Promise<boolean> {
+  async delete(@Param('id') id: number): Promise<number> {
     return await this.projectService.delete(id);
   }
 
