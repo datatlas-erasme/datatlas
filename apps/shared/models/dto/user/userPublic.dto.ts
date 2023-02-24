@@ -4,10 +4,10 @@ export class UserPublicDTO {
   readonly role: string;
   readonly active: boolean;
 
-  constructor(user_id: number, user_name: string, user_role: string, user_is_active: boolean) {
-    this.userid = user_id;
-    this.username = user_name;
-    this.role = user_role;
-    this.active = user_is_active;
+  constructor(userId: number, userName: string, userRole: string, userIsActive: boolean) {
+    this.userid = userId;
+    this.username = userName;
+    this.role = userRole;
+    this.active = userIsActive;
   }
 }

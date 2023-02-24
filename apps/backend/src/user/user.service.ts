@@ -1,9 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { UserDto, UserPublicDTO } from '@datatlas/shared/models';
 import { EntityRepository } from '@mikro-orm/core';
-import * as util from 'util';
 
 @Injectable()
 export class UserService {
@@ -20,15 +19,11 @@ export class UserService {
    */
   async createUser(userDto: UserDto): Promise<number> {
     const user = new UserEntity(userDto.username, userDto.password, userDto.role, userDto.active);
-    return await this.isUsernameAlreadyInDatabase(user.username).then((isItIn) => {
-      if (isItIn) {
-        // User already in database.
-        return 0;
-      }
-      return this.userRepository.persistAndFlush(user).then(() => {
-        return this.getUserIDByUserName(user.username);
-      });
-    });
+    return (await this.isUsernameAlreadyInDatabase(user.username))
+      ? 0
+      : this.userRepository.persistAndFlush(user).then(() => {
+          return this.getUserIDByUserName(user.username);
+        });
   }
 
   /**
@@ -37,28 +32,24 @@ export class UserService {
    * @return UserPublicDTO public user data {id, username, role, is_active}
    */
   async getUser(id = 0): Promise<UserPublicDTO> {
-    return this.userRepository.findOne({ id }).then((data_user) => {
-      //Logger.log(util.inspect(data_user, false, null, true));
-      return new UserPublicDTO(data_user.id, data_user.username, data_user.role, data_user.active);
-    });
+    return this.userRepository
+      .findOne({ id })
+      .then((data_user) => new UserPublicDTO(data_user.id, data_user.username, data_user.role, data_user.active));
   }
 
-  async updateUser(user: { user_id: number } & UserDto): Promise<void> {
+  async updateUser(user: { userId: number } & UserDto): Promise<void> {
     /*
-      How I proceed (not sure the correct way).
+      How to proceed.
       -> Create new UserEntity with old data already stored (get them with the user id given in args).
       -> Update this object with new data given in args.
-      -> Persist.
+      -> Flush.
      */
-    const id = user.user_id;
+    const id = user.userId;
     return this.userRepository.findOne({ id }).then((data_user) => {
-      //Logger.log(util.inspect(user, false, null, true));
-      //Logger.log(util.inspect(data_user, false, null, true));
       data_user.username = user.username;
       data_user.password = user.password;
       data_user.role = user.role;
       data_user.active = user.active;
-      //Logger.log(util.inspect(data_user, false, null, true));
       return this.userRepository.flush();
     });
   }
@@ -70,8 +61,6 @@ export class UserService {
    */
   async deleteUserById(user_id: number): Promise<void> {
     return this.userRepository.nativeDelete(user_id).then(() => {
-      // Should we really do nothing ?
-      //Logger.log(util.inspect(data, false, null, true));
       return;
     });
   }
@@ -94,7 +83,6 @@ export class UserService {
    */
   async getUserIDByUserName(username: string): Promise<number> {
     return await this.userRepository.findOne({ username }).then((user) => {
-      //Logger.log(util.inspect(user, false, null, true));
       if (user === null) {
         return 0;
       } else {

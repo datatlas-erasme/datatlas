@@ -8,14 +8,14 @@ export class UserDto {
   readonly active: boolean = true;
 
   constructor(
-    private user_name: string,
-    private user_password: string,
-    private user_role: string = 'editor',
-    private user_is_active: boolean = true
+    private userName: string,
+    private userPassword: string,
+    private userRole: string = 'editor',
+    private userIsActive: boolean = true
   ) {
-    this.username = user_name;
-    this.password = user_password;
-    this.role = user_role;
-    this.active = user_is_active;
+    this.username = userName;
+    this.password = userPassword;
+    this.role = userRole;
+    this.active = userIsActive;
   }
 }

@@ -1,15 +1,14 @@
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { UserPublicDTO } from '../../../shared/models';
+import { UserPublicDTO } from '@datatlas/shared/models';
 
 describe('USER ACTIONS', () => {
   const test_user = {
-    username: 'utilisateur_test',
+    username: 'utilisateur_test13',
     password: 'utilisateur_test_pw',
     role: 'editor',
     active: true,
   };
   const modified_test_user = {
-    username: 'modified_utilisateur_test',
+    username: 'modified_utilisateur_test13',
     password: 'modified_utilisateur_test_pw',
     role: 'editor',
     active: false,
@@ -20,9 +19,6 @@ describe('USER ACTIONS', () => {
       expect(response.status).equal(200);
       expect(response.body).equal('ok');
     });
-  });
-  it('User -> Get all', () => {
-    // TODO
   });
   it('User -> creation of new user (should return new user id)', () => {
     cy.request({
@@ -53,17 +49,16 @@ describe('USER ACTIONS', () => {
       url: '/api/user/' + id_test_user,
       failOnStatusCode: false,
     }).then((response) => {
-      const userToReceive = new UserPublicDTO(id_test_user, test_user.username, test_user.role, test_user.active);
+      const userToReceive = new UserPublicDTO(id_test_user, { test_user });
       expect(response.status).to.eq(200);
       assert.isObject(response.body, userToReceive);
     });
   });
   it('User -> Modification', () => {
     cy.request({
-      // todo to finish
       method: 'PUT',
       url: '/api/user/' + id_test_user,
-      body: { user_id: id_test_user, ...modified_test_user },
+      body: { userId: id_test_user, ...modified_test_user },
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(204);

@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import config from '../config/mikro-orm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProjectModule } from '../project/project.module';
-import config from '../config/mikro-orm';
 import { AuthService } from '../auth/auth.service';
-import { JwtService } from '@nestjs/jwt';
 import { UserController } from '../user/user.controller';
 import { UserModule } from '../user/user.module';
 @Module({
