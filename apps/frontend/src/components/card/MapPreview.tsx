@@ -8,7 +8,7 @@ interface MapPreviewInterface {
   draft: boolean;
   handleRemove: (e) => void;
   handleCopy: (e) => void;
-  disable: boolean;
+  copyEnabled: boolean;
 }
 
 const MapPreviewContainer = styled.div`
@@ -21,7 +21,7 @@ const MapPreviewContainer = styled.div`
   background-image: url(${backgroundMapImage});
 `;
 
-const MapPreview = ({ draft, handleRemove, handleCopy, disable }: MapPreviewInterface) => {
+const MapPreview = ({ draft, handleRemove, handleCopy, copyEnabled = false }: MapPreviewInterface) => {
   return (
     <MapPreviewContainer>
       <StatusProjectBadges Icon={<MapIcon />}>
@@ -29,7 +29,7 @@ const MapPreview = ({ draft, handleRemove, handleCopy, disable }: MapPreviewInte
       </StatusProjectBadges>
       <div>
         <IconButton Icon={<Trash />} onClick={handleRemove} />
-        {!disable ? '' : <IconButton Icon={<Copy />} onClick={handleCopy} />}
+        {copyEnabled ? '' : <IconButton Icon={<Copy />} onClick={handleCopy} />}
       </div>
     </MapPreviewContainer>
   );

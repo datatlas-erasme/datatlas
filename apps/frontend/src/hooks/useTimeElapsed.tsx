@@ -1,27 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 
-const UseTimeElapsed = (createdAt) => {
-  const [elapsedMinutes, setElapsedMinutes] = useState(0);
-  const [elapsedHours, setElapsedHours] = useState(0);
-  const [elapsedDays, setElapsedDays] = useState(0);
+const useTimeElapsed = (createdAt) => {
+  const [timeElapsed, setTimeElapsed] = useState(0);
 
   useEffect(() => {
-    const startTime = DateTime.fromISO(createdAt);
-    const currentTime = DateTime.now();
-    const elapsed = currentTime.diff(startTime, ['days', 'hours', 'minutes']).toObject();
-    setElapsedDays(Math.floor(elapsed.days));
-    setElapsedHours(Math.floor(elapsed.hours));
-    setElapsedMinutes(Math.floor(elapsed.minutes));
+    const now = DateTime.now().plus({ days: 1 });
+    const timeElapsed = DateTime.fromISO(createdAt);
+    setTimeElapsed(timeElapsed.toRelativeCalendar({ base: now, unit: 'day', locale: 'fr' }));
   }, [createdAt]);
-  return (
-    <p className={'status'}>
-      Modifié il y a {elapsedDays > 0 && `${elapsedDays} jour${elapsedDays > 1 ? 's' : ''} `}
-      {elapsedHours > 0 && `${elapsedHours} heure${elapsedHours > 1 ? 's' : ''} `}
-      {elapsedMinutes > 0 && `${elapsedMinutes} minute${elapsedMinutes > 1 ? 's' : ''} `}
-      {elapsedMinutes === 0 && "moins d'une minute"}
-    </p>
-  );
+  return <p className={'status'}>Projet modifié {timeElapsed}</p>;
 };
-
-export default UseTimeElapsed;
+export default useTimeElapsed;

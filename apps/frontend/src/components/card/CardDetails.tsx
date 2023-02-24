@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import UseTimeElapsed from '../../hooks/useTimeElapsed';
+import useTimeElapsed from '../../hooks/useTimeElapsed';
 import InfoProjectBadges from '../badges/InfoProjectBadges';
 import { UserInterface } from '@datatlas/models';
 
@@ -43,12 +43,11 @@ const ActionsCardContainer = styled.div`
 `;
 
 const CardProjectDetails = ({ owner, createdAt, title, contributors }: CardProjectDetailsInterface) => {
-  const timeElapseStatus = UseTimeElapsed(createdAt);
   return (
     <ContentCardContainer>
       <h4>{owner.name}</h4>
       <h3>{title}</h3>
-      {timeElapseStatus}
+      {useTimeElapsed(createdAt)}
       <ActionsCardContainer>
         <p>
           <FormattedMessage defaultMessage={'Contributeurs'} />

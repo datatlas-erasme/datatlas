@@ -298,7 +298,7 @@ export const theme: ThemeDefault = {
   // SIDEBAR PROJECT
   sidebarProjectBG: themeColor.blueLight,
 };
-export const LabelStyle = styled.label`
+export const StyledLabel = styled.label`
   display: flex;
   margin: 20px 0 10px 0;
   font-size: ${themeFontSize.sText};

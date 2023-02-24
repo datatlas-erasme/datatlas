@@ -5,7 +5,7 @@ import { LoginForm } from '../components/forms/LoginForm';
 import { DatatlasLogoSquare } from '../components/logos';
 import FirstShapeBg from '../assets/shapes/first-shape.svg';
 import SecondShapeBg from '../assets/shapes/second-shape.svg';
-import { LabelStyle } from '../style/theme';
+import { StyledLabel } from '../style/theme';
 import { FormattedMessage } from 'react-intl';
 import GithubLink from '../components/buttons/GithubLink';
 import SidePanelButton from '../components/buttons/SidePanelButton';
@@ -101,9 +101,9 @@ export const LoginPage = () => {
       </LogoWrapper>
       <AboutWrapper displayAbout={displayAbout} ref={bgColorRef}>
         <SidePanelButton onClick={handleDisplayAbout} displayAbout={displayAbout}>
-          <LabelStyle htmlFor={'About'}>
+          <StyledLabel htmlFor={'About'}>
             <FormattedMessage defaultMessage="À propos" />
-          </LabelStyle>
+          </StyledLabel>
         </SidePanelButton>
         <h2>À propos</h2>
         <p>

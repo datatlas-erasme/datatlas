@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
 import styled from 'styled-components';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
-import { LabelStyle, FormBtn } from '../../style/theme';
+import { StyledLabel, FormBtn } from '../../style/theme';
 
 export interface LoginFormData {
   login: string;
@@ -13,7 +13,7 @@ export interface LoginFormData {
   rememberMe?: boolean;
 }
 
-const LoginFormStyle = styled.form`
+const StyledLoginForm = styled.form`
   display: flex;
   flex-direction: column;
   a {
@@ -30,7 +30,7 @@ const LoginFormStyle = styled.form`
   }
 `;
 
-const InputLoginStyle = styled(Input)`
+const StyledLoginInput = styled(Input)`
   width: 20vw;
 `;
 
@@ -66,16 +66,16 @@ export function LoginForm() {
   }, [isSubmitSuccessful]);
 
   return (
-    <LoginFormStyle onSubmit={handleSubmit(login)}>
-      <LabelStyle htmlFor="login">
+    <StyledLoginForm onSubmit={handleSubmit(login)}>
+      <StyledLabel htmlFor="login">
         <FormattedMessage defaultMessage="Identifiant" />
-      </LabelStyle>
-      <InputLoginStyle id="login" defaultValue="" {...register('login', { required: true })} />
+      </StyledLabel>
+      <StyledLoginInput id="login" defaultValue="" {...register('login', { required: true })} />
       {errors.login && <FormattedMessage defaultMessage="This field is required" />}
-      <LabelStyle htmlFor="password">
+      <StyledLabel htmlFor="password">
         <FormattedMessage defaultMessage="Mot de passe" />
-      </LabelStyle>
-      <InputLoginStyle id="password" type="password" defaultValue="" {...register('password', { required: true })} />
+      </StyledLabel>
+      <StyledLoginInput id="password" type="password" defaultValue="" {...register('password', { required: true })} />
       {errors.password && <FormattedMessage defaultMessage="This field is required" />}
       <Link to={'/'}>
         <FormattedMessage defaultMessage="J’ai oublié mon mot de passe" />
@@ -88,6 +88,6 @@ export function LoginForm() {
           <FormattedMessage defaultMessage="Se souvenir de moi" />
         </p>
       </div>
-    </LoginFormStyle>
+    </StyledLoginForm>
   );
 }
