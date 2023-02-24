@@ -1,24 +1,24 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { ProjectService } from './project.service';
-import { ProjectEntity } from '../entities/project.entity';
+import { ProjectDto } from '@datatlas/shared/models';
 
 @Controller()
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Get('projects')
-  async fetchAll(): Promise<ProjectEntity[]> {
+  async fetchAll(): Promise<ProjectDto[]> {
     return await this.projectService.findAll();
   }
 
   @Get('project/:id')
-  async fetchOne(@Param('id') id: number): Promise<ProjectEntity> {
+  async fetchOne(@Param('id') id: number): Promise<ProjectDto> {
     return await this.projectService.findOneById(id);
   }
 
   @Post('project')
-  async create(@Body() project: ProjectEntity) {
-    return this.projectService.create(project);
+  async create(@Body() ProjectDto: ProjectDto) {
+    return this.projectService.create(ProjectDto);
   }
 
   @Delete('project/:id')
@@ -27,7 +27,7 @@ export class ProjectController {
   }
 
   @Put('project/:id')
-  async update(@Param('id') id: number, @Body() project: ProjectEntity): Promise<ProjectEntity> {
-    return await this.projectService.update(id, project);
+  async update(@Param('id') id: number, @Body() ProjectDto: ProjectDto): Promise<ProjectDto> {
+    return await this.projectService.update(id, ProjectDto);
   }
 }
