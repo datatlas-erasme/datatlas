@@ -32,7 +32,16 @@ export class ProjectService {
   }
 
   async create(projectDto: ProjectDto): Promise<ProjectDto> {
-    const project = new ProjectEntity(projectDto.title, projectDto.description);
+    const project = new ProjectEntity(
+      projectDto.title,
+      projectDto.description,
+      projectDto.draft,
+      projectDto.datasets,
+      projectDto.owner,
+      projectDto.contributors,
+      projectDto.config,
+      projectDto.version
+    );
     await this.projectRepository.persistAndFlush(project);
     return project;
   }

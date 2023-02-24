@@ -8,10 +8,46 @@ export class ProjectEntity {
   title: string;
 
   @Property()
+  createdAt: Date;
+
+  @Property()
+  draft: boolean;
+
+  @Property()
+  datasets: string;
+
+  @Property()
   description: string;
 
-  constructor(title: string, description: string) {
+  @Property()
+  owner: string;
+
+  @Property()
+  contributors: string;
+
+  @Property()
+  config: string;
+
+  @Property()
+  version: string;
+
+  constructor(
+    title: string,
+    description: string,
+    draft: boolean,
+    datasets: string,
+    owner: string,
+    contributors: string,
+    config: string,
+    version: string
+  ) {
     this.title = title;
     this.description = description;
+    this.draft = draft;
+    this.datasets = datasets;
+    this.owner = owner;
+    this.contributors = contributors;
+    this.config = config;
+    this.version = version;
   }
 }
