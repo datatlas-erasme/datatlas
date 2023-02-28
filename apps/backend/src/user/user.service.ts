@@ -34,7 +34,7 @@ export class UserService {
   async getUser(id = 0): Promise<UserPublicDTO> {
     return this.userRepository
       .findOne({ id })
-      .then((data_user) => new UserPublicDTO(data_user.id, data_user.username, data_user.role, data_user.active));
+      .then((dataUser) => new UserPublicDTO(dataUser.id, dataUser.username, dataUser.role, dataUser.active));
   }
 
   async updateUser(user: { userId: number } & UserDto): Promise<void> {
@@ -45,22 +45,22 @@ export class UserService {
       -> Flush.
      */
     const id = user.userId;
-    return this.userRepository.findOne({ id }).then((data_user) => {
-      data_user.username = user.username;
-      data_user.password = user.password;
-      data_user.role = user.role;
-      data_user.active = user.active;
+    return this.userRepository.findOne({ id }).then((dataUser) => {
+      dataUser.username = user.username;
+      dataUser.password = user.password;
+      dataUser.role = user.role;
+      dataUser.active = user.active;
       return this.userRepository.flush();
     });
   }
 
   /**
    * Deletes user. Returns void.
-   * @param user_id
+   * @param userId
    * @return void
    */
-  async deleteUserById(user_id: number): Promise<void> {
-    return this.userRepository.nativeDelete(user_id).then(() => {
+  async deleteUserById(userId: number): Promise<void> {
+    return this.userRepository.nativeDelete(userId).then(() => {
       return;
     });
   }
