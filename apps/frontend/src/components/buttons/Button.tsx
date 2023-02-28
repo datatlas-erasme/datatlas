@@ -9,15 +9,15 @@ interface ButtonInterface {
   onClick?: MouseEventHandler;
 }
 
-const StyleKeplerButton = styled(KeplerButton)`
+const StyledKeplerButton = styled(KeplerButton)`
   margin: 10px;
 `;
 const Button = ({ children, Icon, onClick, type }: ButtonInterface) => {
   return (
-    <StyleKeplerButton onClick={onClick} type={type}>
+    <StyledKeplerButton onClick={onClick} type={type}>
       {Icon}
       {children}
-    </StyleKeplerButton>
+    </StyledKeplerButton>
   );
 };
 
