@@ -95,7 +95,7 @@ export class Project implements ProjectInterface {
 
   static createPartialProjectFromKeplerSavedMap(
     savedMap: DatatlasSavedMapInterface
-  ): Omit<ProjectInterface, 'owner' | 'id' | 'draft' | 'contributors'> {
+  ): Omit<ProjectInterface, 'owner' | 'id' | 'draft' | 'contributors' | 'copyEnabled'> {
     return {
       ...savedMap.config,
       ...savedMap.info,

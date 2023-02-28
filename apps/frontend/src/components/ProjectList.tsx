@@ -18,7 +18,6 @@ const ContainerProjectList = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  margin: ${(props) => props.theme.layoutsBoxContainerMargin};
 `;
 
 export const ProjectList = ({ projects, isLoading, isSuccess, isError, error }: ProjectListProps) => {

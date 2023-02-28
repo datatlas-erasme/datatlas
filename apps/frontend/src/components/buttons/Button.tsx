@@ -1,4 +1,5 @@
 import React, { MouseEventHandler, ReactElement, ReactNode, ButtonHTMLAttributes } from 'react';
+import styled from 'styled-components';
 import { Button as KeplerButton } from 'kepler.gl/dist/components/common/styled-components';
 
 interface ButtonInterface {
@@ -7,11 +8,17 @@ interface ButtonInterface {
   Icon?: ReactElement;
   onClick?: MouseEventHandler;
 }
-export const Button = ({ children, Icon, onClick, type }: ButtonInterface) => {
+
+const StyledKeplerButton = styled(KeplerButton)`
+  margin: 10px;
+`;
+const Button = ({ children, Icon, onClick, type }: ButtonInterface) => {
   return (
-    <KeplerButton onClick={onClick} type={type}>
+    <StyledKeplerButton onClick={onClick} type={type}>
       {Icon}
       {children}
-    </KeplerButton>
+    </StyledKeplerButton>
   );
 };
+
+export default Button;

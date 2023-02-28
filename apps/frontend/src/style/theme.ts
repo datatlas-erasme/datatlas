@@ -1,10 +1,12 @@
 import { themeLT } from 'kepler.gl/dist/styles';
+import styled from 'styled-components';
+import { Button } from 'kepler.gl/dist/components/common/styled-components';
 
 export interface ThemeDefault {
   [key: string]: string | number;
 }
 
-export const fontFamily = `Inter, 'Helvetica Neue', Helvetica, sans-serif`;
+export const fontFamily = `Verdana, 'Helvetica Neue', Helvetica, sans-serif`;
 
 // THEME COLOR
 export const themeColor = {
@@ -23,7 +25,8 @@ export const themeColor = {
 export const themeFontSize = {
   xsText: '10px',
   sText: '12px',
-  mText: '12px',
+  smText: '14px',
+  mText: '16px',
   lText: '24px',
   xlText: '36px',
 };
@@ -78,18 +81,18 @@ export const theme: ThemeDefault = {
   secondaryBtnBgdHover: themeColor.greyDark,
   secondaryBtnBorder: '0',
 
-  ctaBtnBgd: themeColor.blueDark,
+  ctaBtnBgd: themeColor.primaryColor,
   ctaBtnBgdHover: themeColor.blueLight,
   ctaBtnActBgd: themeColor.blueLight,
   ctaBtnColor: themeColor.secondaryColor,
   ctaBtnActColor: themeColor.secondaryColor,
 
-  linkBtnBgd: 'transparent',
-  linkBtnActBgd: 'linkBtnBgd',
+  linkBtnBgd: themeColor.secondaryColor,
+  linkBtnActBgd: themeColor.greyLight,
   linkBtnColor: themeColor.primaryColor,
   linkBtnActColor: themeColor.greyDark,
-  linkBtnActBgdHover: themeColor.greyMedium,
-  linkBtnBorder: '0',
+  linkBtnActBgdHover: themeColor.greyExtraLight,
+  linkBtnBorder: '1px solid #000000',
 
   negativeBtnBgd: 'errorColor',
   negativeBtnActBgd: themeColor.greyLight,
@@ -104,7 +107,7 @@ export const theme: ThemeDefault = {
   floatingBtnBorder: '0',
   floatingBtnBorderHover: '0',
   floatingBtnColor: themeColor.secondaryColor,
-  floatingBtnActColor: themeColor.secondaryColor,
+  floatingBtnActColor: themeColor.greyExtraLight,
 
   selectionBtnBgd: 'transparent',
   selectionBtnActBgd: 'transparent',
@@ -116,7 +119,7 @@ export const theme: ThemeDefault = {
   selectionBtnBorderActColor: themeColor.yellow,
 
   // Input
-  inputBoxHeight: '35px',
+  inputBoxHeight: '30px',
   inputBoxHeightSmall: '25px',
   inputBoxHeightTiny: '18px',
   inputPadding: '4px 10px',
@@ -137,7 +140,7 @@ export const theme: ThemeDefault = {
   inputBorderActiveColorLT: themeColor.greyExtraLight,
 
   inputColor: themeColor.primaryColor,
-  inputBorderRadius: '1px',
+  inputBorderRadius: '3px',
   inputPlaceholderColor: themeColor.greyLight,
   inputPlaceholderColorLT: themeColor.greyExtraLight,
   inputPlaceholderFontWeight: 400,
@@ -145,8 +148,8 @@ export const theme: ThemeDefault = {
   inputBoxShadowActive: 'none',
   inputBoxShadowActiveLT: 'none',
   secondaryInputBgd: themeColor.secondaryColor,
-  secondaryInputBgdHover: themeColor.greyMedium,
-  secondaryInputBgdActive: themeColor.greyMedium,
+  secondaryInputBgdHover: themeColor.primaryColor,
+  secondaryInputBgdActive: themeColor.primaryColor,
   secondaryInputColor: themeColor.greyLight,
   secondaryInputBorderColor: themeColor.greyDark,
   secondaryInputBorderActiveColor: themeColor.greyLight,
@@ -176,8 +179,8 @@ export const theme: ThemeDefault = {
   chickletBgd: 'red',
   chickletBgdLT: 'red',
   panelHeaderIcon: themeColor.primaryColor,
-  panelHeaderIconActive: themeColor.greyDark,
-  panelHeaderIconHover: themeColor.greyMedium,
+  panelHeaderIconActive: themeColor.primaryColor,
+  panelHeaderIconHover: themeColor.primaryColor,
   panelHeaderHeight: 48,
   layerPanelHeaderHeight: 48,
   layerPanelToggleOptionColor: themeColor.yellow,
@@ -194,7 +197,7 @@ export const theme: ThemeDefault = {
 
   mapPanelBackgroundColor: themeColor.blueDark,
   mapPanelHeaderBackgroundColor: themeColor.yellow,
-  tooltipBg: themeColor.blueLight,
+  tooltipBg: themeColor.greyMedium,
   tooltipColor: themeColor.secondaryColor,
   tooltipBoxShadow: themeColor.greyLight,
   tooltipFontSize: themeFontSize.xsText,
@@ -211,7 +214,7 @@ export const theme: ThemeDefault = {
   selectColor: themeColor.primaryColor,
   selectColorLT: themeColor.primaryColor,
 
-  selectActiveBorderColor: themeColor.greyMedium,
+  selectActiveBorderColor: themeColor.primaryColor,
   selectFontSize: '11px',
   selectFontWeight: '400',
   selectFontWeightBold: '500',
@@ -226,13 +229,13 @@ export const theme: ThemeDefault = {
   selectBorderColorLT: themeColor.greyLight,
   selectBorderRadius: '1px',
   selectBorder: 0,
-  panelTabColor: themeColor.primaryColor,
+  panelTabColor: themeColor.greyMedium,
   dropdownListHighlightBg: themeColor.greyMedium,
   dropdownListHighlightBgLT: themeColor.greyExtraLight,
   dropdownListShadow: '0 6px 12px 0 rgba(0,0,0,0.16)',
   dropdownListBgd: themeColor.greyDark,
   toolbarItemBgdHover: themeColor.greyDark,
-  toolbarItemIconHover: themeColor.greyMedium,
+  toolbarItemIconHover: themeColor.primaryColor,
   toolbarItemBorderHover: 'transparent',
   toolbarItemBorderRaddius: '0px',
   dropdownListBgdLT: themeColor.secondaryColor,
@@ -274,16 +277,16 @@ export const theme: ThemeDefault = {
   radioRadius: 8,
   radioBorderRadius: 100,
   radioBorderColor: 'transparent',
-  radioButtonRadius: 4,
-  radioButtonBgdColor: themeColor.greyLight,
+  radioBnnRadius: 4,
+  radioBtnBgdColor: themeColor.greyLight,
 
   // BOX CONTAINER
   layoutsBoxContainerMargin: '40px 0',
-  layoutsBoxContainer: '20px 20px',
+  layoutsBoxContainer: '40px 20px',
   cardBoxContainer: '10px',
 
   // NAV
-  navBackgroundColor: themeColor.greyMedium,
+  navBackgroundColor: themeColor.secondaryColor,
 
   // CARD
   cardHeight: '20vh',
@@ -291,4 +294,40 @@ export const theme: ThemeDefault = {
 
   // LAYOUT
   layoutBGColor: themeColor.greyExtraLight,
+
+  // SIDEBAR PROJECT
+  sidebarProjectBG: themeColor.blueLight,
 };
+export const StyledLabel = styled.label`
+  display: flex;
+  margin: 20px 0 10px 0;
+  font-size: ${themeFontSize.sText};
+  font-weight: 700;
+`;
+
+export const FormBtn = styled(Button).attrs({ as: 'input' })`
+  margin: 20px auto;
+  padding: 15px 40px;
+  font-size: ${themeFontSize.mText};
+  font-weight: 700;
+  opacity: 1;
+`;
+
+export const VerticalLine = styled.div`
+  border-left: 3px solid ${themeColor.greyMedium};
+  align-self: stretch;
+  width: 1px;
+  display: block;
+`;
+
+export const BadgeOutlines = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid #000000;
+  border-radius: 50%;
+  margin-left: 2px;
+  font-size: ${(props) => props.theme.fontSizeXs};
+`;

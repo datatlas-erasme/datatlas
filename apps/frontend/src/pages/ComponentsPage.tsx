@@ -57,7 +57,7 @@ export const ComponentsPage = () => {
         <Container>
           <Spaced>
             <h3>Checkbox</h3>
-            <Checkbox id="test" label="label" checked disabled={false} />
+            <Checkbox id="test" label="label" checked copyEnabled={false} />
           </Spaced>
           <Spaced>
             <h3>Tooltip</h3>
