@@ -77,7 +77,7 @@ export class UserService {
   }
 
   /**
-   * Sends the user id when given user name. Sends 0 if username not found or incoherent.
+   * Returns the user id for given username. Returns 0 if the username isn't found or incoherent.
    * @param username The user_name
    * @return number The user_id
    */
