@@ -60,11 +60,10 @@ export class UserService {
 
   async getUserIDByUserName(username: string): Promise<number> {
     return await this.userRepository.findOne({ username }).then((user) => {
-      if (user === null) {
-        return 0;
-      } else {
+      if (user !== null) {
         return user.id;
       }
+      throw new Error('Unknown username');
     });
   }
 }
