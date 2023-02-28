@@ -20,7 +20,6 @@ export const generateFakeProject = (partialProject: Partial<ProjectInterface> = 
   contributors: faker.helpers.arrayElements([generateFakeUser()]),
   version: 'v1' as const,
   config: new KeplerMapConfig(),
-  copyEnabled: true,
   ...partialProject,
 });
 
