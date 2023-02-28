@@ -8,7 +8,7 @@ const postGresDatabase = process.env.POSTGRES_DATABASE || 'postgres';
 
 const config: Options = {
   type: 'postgresql',
-  debug: true,
+  debug: process.env.NODE_ENV !== 'production',
   port: postGresPort,
   host: postGresHost,
   user: postGresUser,
