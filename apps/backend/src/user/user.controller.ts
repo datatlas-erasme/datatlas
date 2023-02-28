@@ -18,7 +18,7 @@ export class UserController {
   @HttpCode(200)
   /**
    * Should always send back a UserDTO.
-   * TODO : Guard ?
+   * TODO : Guard ? à faire
    * @param params
    */
   getUser(@Param() params): Promise<UserPublicDTO> {
