@@ -7,6 +7,7 @@ import GithubLink from '../buttons/GithubLink';
 const FooterContainer = styled.footer`
   display: flex;
   flex-flow: row wrap;
+  flex-direction: column;
   position: static;
   padding: 20px 40px;
   width: 100vw;

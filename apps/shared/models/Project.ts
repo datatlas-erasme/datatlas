@@ -21,7 +21,6 @@ export class Project implements ProjectInterface {
   contributors: UserInterface[];
   config: KeplerMapConfig;
   version: KeplerVersionedMapConfig['version'];
-  copyEnabled: boolean;
 
   constructor(project: ProjectInterface) {
     this.id = project.id;
@@ -35,8 +34,6 @@ export class Project implements ProjectInterface {
     this.contributors = project.contributors;
     this.version = 'v1';
     this.config = new KeplerMapConfig();
-
-    this.copyEnabled = project.copyEnabled;
   }
 
   static normalize({ owner, contributors, ...props }: ProjectInterface): NormalizedProjectInterface {
@@ -76,7 +73,6 @@ export class Project implements ProjectInterface {
       ...new KeplerVersionedMapConfig(),
       createdAt: new Date(),
       contributors: [],
-      copyEnabled: true,
     };
   }
 
@@ -94,7 +90,6 @@ export class Project implements ProjectInterface {
       owner,
       id,
       contributors: faker.helpers.arrayElements([generateFakeUser()]),
-      copyEnabled: true,
     };
   }
 

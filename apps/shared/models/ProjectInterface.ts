@@ -11,5 +11,4 @@ export interface ProjectInterface extends KeplerVersionedMapConfigInterface {
   description: string;
   owner: UserInterface;
   contributors: UserInterface[];
-  copyEnabled: boolean;
 }

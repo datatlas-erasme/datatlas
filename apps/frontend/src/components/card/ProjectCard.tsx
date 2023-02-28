@@ -36,12 +36,7 @@ const ProjectCard = (props: ProjectCardProps) => {
         description={props.description}
         contributors={props.contributors}
       />
-      <MapPreview
-        draft={props.draft}
-        handleRemove={handleRemove}
-        handleCopy={handleCopy}
-        copyEnabled={props.copyEnabled}
-      />
+      <MapPreview draft={props.draft} handleRemove={handleRemove} handleCopy={handleCopy} />
     </CardContainer>
   );
 };

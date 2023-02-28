@@ -8,7 +8,7 @@ interface MapPreviewInterface {
   draft: boolean;
   handleRemove: (e) => void;
   handleCopy: (e) => void;
-  copyEnabled: boolean;
+  copyEnabled?: boolean;
 }
 
 const MapPreviewContainer = styled.div`

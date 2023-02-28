@@ -47,7 +47,9 @@ const CardProjectDetails = ({ owner, createdAt, title, contributors }: CardProje
     <ContentCardContainer>
       <h4>{owner.name}</h4>
       <h3>{title}</h3>
-      {useTimeElapsed(createdAt)}
+      <p className={'status'}>
+        <FormattedMessage defaultMessage={'Projet modifié'} /> {useTimeElapsed(createdAt)}
+      </p>
       <ActionsCardContainer>
         <p>
           <FormattedMessage defaultMessage={'Contributeurs'} />
