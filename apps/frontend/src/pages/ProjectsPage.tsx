@@ -1,35 +1,34 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import styled, { ThemeProvider } from 'styled-components';
-import { theme } from '../style/theme';
+import styled from 'styled-components';
 import { useGetSavedProjectsQuery } from '../api';
 import { selectCurrentUserProjects } from '../store/selectors';
 import { ProjectList } from '../components/ProjectList';
-import Footer from '../components/footer/footer';
 import Sidebar from '../components/sidebar/Sidebar';
-import Navbar from '../components/nav/Navbar';
-import { DisplayButton } from '../components/buttons/DisplayButton';
+import { DisplayButton } from '../components/buttons';
 
 const LayoutProjects = styled.div`
-  display: grid;
-  height: 100vh;
-  margin: auto;
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    'nav nav nav nav'
-    'main main main aside'
-    'footer footer footer footer';
-  transition: all 0.25s ease-in-out;
+  display: flex;
+  flex: auto;
+  width: 100vw;
+  overflow: scroll;
+  background-color: ${({ theme }) => theme.layoutBGColor};
 `;
 
 const ProjectsContainer = styled.main`
-  grid-area: main;
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  width: 70vw;
   align-items: center;
-  padding: ${(props) => props.theme.layoutsBoxContainer};
-  background-color: ${(props) => props.theme.layoutBGColor};
+  padding: ${({ theme }) => theme.layoutsBoxContainer};
+`;
+
+const HeaderProjects = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: ${({ theme }) => theme.cardBoxContainer};
 `;
 
 export const ProjectsPage = () => {
@@ -38,24 +37,22 @@ export const ProjectsPage = () => {
 
   return (
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <LayoutProjects>
-          <Navbar />
-          <ProjectsContainer>
-            <h1>Mes Projets</h1>
+      <LayoutProjects>
+        <ProjectsContainer>
+          <HeaderProjects>
+            <h2>Mes Projets</h2>
             <DisplayButton>Voir tous</DisplayButton>
-            <ProjectList
-              projects={projects}
-              isLoading={isLoading}
-              isSuccess={isSuccess}
-              isError={isError}
-              error={error}
-            />
-          </ProjectsContainer>
-          <Sidebar />
-          <Footer />
-        </LayoutProjects>
-      </ThemeProvider>
+          </HeaderProjects>
+          <ProjectList
+            projects={projects}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            isError={isError}
+            error={error}
+          />
+        </ProjectsContainer>
+        <Sidebar />
+      </LayoutProjects>
     </React.StrictMode>
   );
 };

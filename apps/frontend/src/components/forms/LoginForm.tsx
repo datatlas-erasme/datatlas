@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
+import styled from 'styled-components';
+import { Input } from 'kepler.gl/dist/components/common/styled-components';
+import { StyledLabel, FormBtn } from '../../style/theme';
 
 export interface LoginFormData {
   login: string;
@@ -10,8 +13,28 @@ export interface LoginFormData {
   rememberMe?: boolean;
 }
 
+const StyledLoginForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  a {
+    font-size: ${(props) => props.theme.fontSizeXs};
+    text-decoration: underline;
+  }
+  div {
+    display: flex;
+    font-size: ${(props) => props.theme.fontSizeXs};
+    align-items: center;
+  }
+  p {
+    margin-left: 5px;
+  }
+`;
+
+const StyledLoginInput = styled(Input)`
+  width: 20vw;
+`;
+
 export function LoginForm() {
-  const intl = useIntl();
   const {
     reset,
     register,
@@ -43,25 +66,28 @@ export function LoginForm() {
   }, [isSubmitSuccessful]);
 
   return (
-    <form onSubmit={handleSubmit(login)}>
-      <label htmlFor="login">
-        <FormattedMessage defaultMessage="Login" />
-      </label>
-      <input id="login" defaultValue="" {...register('login', { required: true })} />
+    <StyledLoginForm onSubmit={handleSubmit(login)}>
+      <StyledLabel htmlFor="login">
+        <FormattedMessage defaultMessage="Identifiant" />
+      </StyledLabel>
+      <StyledLoginInput id="login" defaultValue="" {...register('login', { required: true })} />
       {errors.login && <FormattedMessage defaultMessage="This field is required" />}
-
-      <label htmlFor="password">
-        <FormattedMessage defaultMessage="Password" />
-      </label>
-      <input id="password" type="password" defaultValue="" {...register('password', { required: true })} />
+      <StyledLabel htmlFor="password">
+        <FormattedMessage defaultMessage="Mot de passe" />
+      </StyledLabel>
+      <StyledLoginInput id="password" type="password" defaultValue="" {...register('password', { required: true })} />
       {errors.password && <FormattedMessage defaultMessage="This field is required" />}
+      <Link to={'/'}>
+        <FormattedMessage defaultMessage="J’ai oublié mon mot de passe" />
+      </Link>
 
-      <label htmlFor="rememberMe">
-        <FormattedMessage defaultMessage="Remember me" />
-      </label>
-      <input id="rememberMe" type="checkbox" {...register('rememberMe', { required: false })} />
-
-      <input type="submit" value={intl.formatMessage({ defaultMessage: 'Connexion' })} />
-    </form>
+      <FormBtn type="submit" value={'Connexion'} />
+      <div>
+        <input id="rememberMe" type={'checkbox'} {...register('rememberMe', { required: false })} />
+        <p>
+          <FormattedMessage defaultMessage="Se souvenir de moi" />
+        </p>
+      </div>
+    </StyledLoginForm>
   );
 }
