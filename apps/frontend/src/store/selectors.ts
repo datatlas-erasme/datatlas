@@ -12,12 +12,16 @@ export const selectKeplerInstanceById = (state: RootState, instanceId: ProjectIn
 export const isFileLoading = (state: RootState, instanceId: ProjectInterface['id']) =>
   selectKeplerInstanceById(state, instanceId).visState.fileLoading;
 export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
-  return state.visState.mapInfo as MapInfoInterface;
+  return state.visState?.mapInfo as MapInfoInterface;
 };
 
 export const selectLocale = createSelector(selectKeplerState, (state) => state?.uiState?.locale || 'en');
 
 export const selectProjectById = (state: RootState, projectId) => {
+  if (!projectId) {
+    return null;
+  }
+
   const keplerState = selectKeplerInstanceById(state, projectId);
   const { ownerId } = selectMapInfoFromKeplerGlState(keplerState);
   const user = ownerId ? selectUserById(state, ownerId) : undefined;
@@ -27,7 +31,9 @@ export const selectProjectById = (state: RootState, projectId) => {
 
 export const selectProjects = (state: RootState) => {
   const keplerState = selectKeplerState(state);
-  return Object.keys(keplerState).map((id) => selectProjectById(state, id));
+  return Object.keys(keplerState)
+    .map((id) => selectProjectById(state, id))
+    .filter((project) => project) as ProjectInterface[];
 };
 
 export const selectProjectsByOwnerId = createSelector(
