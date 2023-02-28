@@ -1,13 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { useAppDispatch } from '../../store';
 import { logout } from '../../store/reducers/user';
+import { RootState } from '../../store/reducers';
 import { Clock } from 'kepler.gl/dist/components/common/icons';
 import { DatatlasLogo, HomeIcon } from '../logos';
 import { themeColor, BadgeOutlines } from '../../style/theme';
 import { HelpIcon, WheelIcon } from '../icon';
+import { selectProjectById } from '../../store/selectors';
+import Button from '../buttons/Button';
+import { ProjectInterface } from '@datatlas/models';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -71,51 +76,60 @@ const BadgesItem = styled(BadgeOutlines)`
     padding-right: 0;
   }
 `;
+const ProjectButton = styled.button`
+  font-size: 24px;
+  font-weight: 400;
+`;
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
+  const { id } = useParams();
+  const project = useSelector<RootState, ProjectInterface | null>((state) => selectProjectById(state, id));
 
   return (
-    <NavContainer>
-      <NavContainerLogo>
-        <Link to={'/'}>
-          <HomeIcon />
-        </Link>
-        <DatatlasLogo />
-      </NavContainerLogo>
-      <NavItemsList>
-        <li>
-          <NavItem to={'/'}>
-            <BadgesItem>
-              <HelpIcon />
-            </BadgesItem>
-            <FormattedMessage defaultMessage={'Aide'} />
-          </NavItem>
-        </li>
-        <li>
-          <NavItem to={'/'}>
-            <BadgesItem>
-              <WheelIcon />
-            </BadgesItem>
-            <FormattedMessage defaultMessage={'Réglages'} />
-          </NavItem>
-        </li>
-        <li>
-          <NavItem to={'/'}>
-            <BadgesItem>{'A'}</BadgesItem>
-            <FormattedMessage defaultMessage={'Mon Compte'} />
-          </NavItem>
-        </li>
-        <li>
-          <button onClick={() => dispatch(logout())}>
-            <BadgesItem>
-              <Clock />
-            </BadgesItem>
-            <FormattedMessage defaultMessage={'Logout'} />
-          </button>
-        </li>
-      </NavItemsList>
-    </NavContainer>
+    <>
+      <NavContainer>
+        <NavContainerLogo>
+          <Link to={'/'}>
+            <HomeIcon />
+          </Link>
+          <DatatlasLogo />
+        </NavContainerLogo>
+        {project && <ProjectButton>{project.title}</ProjectButton>}
+        <NavItemsList>
+          <li>
+            <NavItem to={'/'}>
+              <BadgesItem>
+                <HelpIcon />
+              </BadgesItem>
+              <FormattedMessage defaultMessage={'Aide'} />
+            </NavItem>
+          </li>
+          <li>
+            <NavItem to={'/'}>
+              <BadgesItem>
+                <WheelIcon />
+              </BadgesItem>
+              <FormattedMessage defaultMessage={'Réglages'} />
+            </NavItem>
+          </li>
+          <li>
+            <NavItem to={'/'}>
+              <BadgesItem>{'A'}</BadgesItem>
+              <FormattedMessage defaultMessage={'Mon Compte'} />
+            </NavItem>
+          </li>
+          <li>
+            <button onClick={() => dispatch(logout())}>
+              <BadgesItem>
+                <Clock />
+              </BadgesItem>
+              <FormattedMessage defaultMessage={'Logout'} />
+            </button>
+          </li>
+        </NavItemsList>
+      </NavContainer>
+    </>
   );
 };
 

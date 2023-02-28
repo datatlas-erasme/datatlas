@@ -313,13 +313,6 @@ export const FormBtn = styled(Button).attrs({ as: 'input' })`
   opacity: 1;
 `;
 
-export const VerticalLine = styled.div`
-  border-left: 3px solid ${themeColor.greyMedium};
-  align-self: stretch;
-  width: 1px;
-  display: block;
-`;
-
 export const BadgeOutlines = styled.span`
   display: flex;
   justify-content: center;
@@ -329,5 +322,5 @@ export const BadgeOutlines = styled.span`
   border: 1.5px solid #000000;
   border-radius: 50%;
   margin-left: 2px;
-  font-size: ${(props) => props.theme.fontSizeXs};
+  font-size: ${({ theme }) => theme.fontSizeXs};
 `;
