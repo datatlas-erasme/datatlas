@@ -2,15 +2,14 @@ export class UserDto {
   readonly username: string;
   readonly password: string;
 
-  // admin || editor
-  readonly role: string = 'editor';
+  readonly role: Roles = Roles.EDITOR;
 
   readonly active: boolean = true;
 
   constructor(
     private userName: string,
     private userPassword: string,
-    private userRole: string = 'editor',
+    private userRole: Roles = Roles.EDITOR,
     private userIsActive: boolean = true
   ) {
     this.username = userName;
