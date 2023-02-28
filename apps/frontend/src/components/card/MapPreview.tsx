@@ -29,7 +29,7 @@ const MapPreview = ({ draft, handleRemove, handleCopy, copyEnabled = false }: Ma
       </StatusProjectBadges>
       <div>
         <IconButton Icon={<Trash />} onClick={handleRemove} />
-        {copyEnabled ? '' : <IconButton Icon={<Copy />} onClick={handleCopy} />}
+        {copyEnabled && <IconButton Icon={<Copy />} onClick={handleCopy} />}
       </div>
     </MapPreviewContainer>
   );
