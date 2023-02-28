@@ -11,7 +11,6 @@ import { DatatlasLogo, HomeIcon } from '../logos';
 import { themeColor, BadgeOutlines } from '../../style/theme';
 import { HelpIcon, WheelIcon } from '../icon';
 import { selectProjectById } from '../../store/selectors';
-import Button from '../buttons/Button';
 import { ProjectInterface } from '@datatlas/models';
 
 const NavContainer = styled.nav`
