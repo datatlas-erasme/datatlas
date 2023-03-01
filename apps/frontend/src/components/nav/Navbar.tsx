@@ -113,12 +113,6 @@ const Navbar = () => {
             </NavItem>
           </li>
           <li>
-            <NavItem to={'/'}>
-              <BadgesItem>{'A'}</BadgesItem>
-              <FormattedMessage defaultMessage={'Mon Compte'} />
-            </NavItem>
-          </li>
-          <li>
             <button onClick={() => dispatch(logout())}>
               <BadgesItem>
                 <Clock />
