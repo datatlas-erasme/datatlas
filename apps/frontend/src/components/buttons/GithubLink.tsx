@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { GithubLogo } from '../logos';
-import { FormattedMessage } from 'react-intl';
 
 interface GithubLinkInterface {
   // Waiting for a solution's display wich conditional color
@@ -20,10 +19,7 @@ const GithubLinkContainer = styled.div`
 const GithubLink = ({ bgColor }: GithubLinkInterface) => {
   return (
     <GithubLinkContainer style={{ backgroundColor: bgColor }}>
-      <p>
-        <FormattedMessage defaultMessage={'Lien vers le Github du projet'} /> :
-      </p>
-      <a href={'/'} target={'_blank'} rel={'noreferrer'}>
+      <a href={'https://github.com/datatlas-erasme/datatlas'} target={'_blank'} rel={'noreferrer'} title={'Github'}>
         <GithubLogo style={{ color: '#FFFFFF' }} />
       </a>
     </GithubLinkContainer>
