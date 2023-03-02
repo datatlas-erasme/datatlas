@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - 'dev'
-      - 'master'
+      - 'main'
       - '40-create-a-dockerfile-for-frontend'
   workflow_dispatch:
 jobs:
