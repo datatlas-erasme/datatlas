@@ -15,5 +15,6 @@ export class AppService implements OnApplicationBootstrap {
     console.log('SEEDING USERS --- using data from your apps/backend/.env file');
     const userAdmin = { username: process.env.ADMIN_USER, password: process.env.ADMIN_PASSWORD };
     await this.userService.createUsersOnStartUp(userAdmin);
+    console.log('END SEEDING USER');
   }
 }
