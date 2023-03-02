@@ -5,7 +5,6 @@ WORKDIR /build
 
 # Install app dependencies
 COPY package.json ./
-COPY package-lock.json ./
 
 # Install app dependencies
 RUN npm install --force
