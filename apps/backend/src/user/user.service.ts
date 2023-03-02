@@ -17,7 +17,7 @@ export class UserService {
    * TODO : passwords are stored clearly in database -> hash them !
    */
   async createUser(userDto: UserDto): Promise<number> {
-    const user = new UserEntity(userDto.username, userDto.password, userDto.role, userDto.active);
+    const user = new UserEntity(userDto.username, hashString(userDto.password), userDto.role, userDto.active);
     return (await this.isUsernameAlreadyInDatabase(user.username))
       ? 0
       : this.userRepository.persistAndFlush(user).then(() => {
@@ -41,7 +41,7 @@ export class UserService {
     const id = user.userId;
     return this.userRepository.findOne({ id }).then((dataUser) => {
       dataUser.username = user.username;
-      dataUser.password = user.password;
+      dataUser.password = hashString(user.password);
       dataUser.role = user.role;
       dataUser.active = user.active;
       return this.userRepository.flush();
