@@ -1,22 +1,43 @@
 import { createGlobalStyle } from 'styled-components';
+import { themeFontSize } from './theme';
 
 export const GlobalStyle = createGlobalStyle`
   * {
-    box-sizing: content-box;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Verdana', 'Helvetica Neue', 'Helvetica', 'sans-serif';
+  }
+
+  html{
+    scroll-behavior: smooth;
+  }
+
+  h2{
+    font-size: ${themeFontSize.lText};
+    font-weight: 400;
+  }
+  h3{
+    font-size: ${themeFontSize.smText};
+    font-weight: 600;
+    line-height: 17px;
+  }
+  p{
+    font-size: ${themeFontSize.sText};
   }
   li{
     list-style: none;
-  }
-  h1, h2, h3, h4, h5, h6, p, a, button{
-    font-family: 'Verdana', 'Helvetica Neue', 'Helvetica', 'sans-serif';
+    font-size: ${themeFontSize.smText};
+    line-height: 25px;
   }
   a, button{
     cursor: pointer;
-    text-decoration: none;
     color: inherit;
     border: none;
     background-color: transparent;
+  }
+
+  .side-panel--container{
+    padding: 0;
   }
 `;

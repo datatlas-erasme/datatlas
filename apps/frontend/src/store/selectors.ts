@@ -17,14 +17,17 @@ export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
 
 export const selectLocale = createSelector(selectKeplerState, (state) => state?.uiState?.locale || 'en');
 
+export const selectProjectById = (state: RootState, projectId) => {
+  const keplerState = selectKeplerInstanceById(state, projectId);
+  const { ownerId } = selectMapInfoFromKeplerGlState(keplerState);
+  const user = ownerId ? selectUserById(state, ownerId) : undefined;
+
+  return Project.createProjectFromKeplerInstance(projectId, keplerState, user);
+};
+
 export const selectProjects = (state: RootState) => {
   const keplerState = selectKeplerState(state);
-  return Object.keys(keplerState).map((id) => {
-    const { ownerId } = selectMapInfoFromKeplerGlState(keplerState[id]);
-    const user = ownerId ? selectUserById(state, ownerId) : undefined;
-
-    return Project.createProjectFromKeplerInstance(id, keplerState[id], user);
-  });
+  return Object.keys(keplerState).map((id) => selectProjectById(state, id));
 };
 
 export const selectProjectsByOwnerId = createSelector(

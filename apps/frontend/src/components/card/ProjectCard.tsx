@@ -14,6 +14,7 @@ const CardContainer = styled(Link)`
   position: relative;
   width: ${(props) => props.theme.cardWidth};
   padding: ${(props) => props.theme.cardBoxContainer};
+  text-decoration: none;
 `;
 
 const ProjectCard = (props: ProjectCardProps) => {
@@ -24,8 +25,8 @@ const ProjectCard = (props: ProjectCardProps) => {
   };
   const handleCopy = (e) => {
     e.preventDefault();
-    console.log('DUPLICATE');
   };
+
   return (
     <CardContainer to={`/projects/${props.id}`} key={props.id}>
       <CardDetails
@@ -39,5 +40,4 @@ const ProjectCard = (props: ProjectCardProps) => {
     </CardContainer>
   );
 };
-
 export default ProjectCard;
