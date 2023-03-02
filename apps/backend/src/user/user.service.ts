@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UserEntity } from './entities/user.entity';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { UserDto, UserPublicDTO } from '@datatlas/shared/models';
 import { EntityRepository } from '@mikro-orm/core';
+import * as bcrypt from 'bcrypt';
+import { Roles, UserDto, UserPublicDTO } from '@datatlas/shared/models';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -67,7 +68,15 @@ export class UserService {
     });
   }
 
-  async createUsersOnStartUp(user = 'toto') {
-    return user + 'toto';
+  async createUsersOnStartUp(userAdmin: Pick<UserDto, 'username' | 'password'>) {
+    const hashPW = await bcrypt.hash(userAdmin.password, 16);
+    const user = new UserEntity(userAdmin.username, hashPW, Roles.ADMIN, true);
+    await this.userRepository.persistAndFlush(user);
+    /*
+    return (await this.isUsernameAlreadyInDatabase(user.username))
+      ? 0
+      : this.userRepository.persistAndFlush(user).then(() => {
+        return this.getUserIDByUserName(user.username);
+      });*/
   }
 }
