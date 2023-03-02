@@ -54,6 +54,7 @@ const AboutWrapper = styled.div<AboutWrapperInterface>`
   h2,
   h3 {
     color: ${({ theme }) => theme.panelBackgroundLT};
+    margin: 10px 0;
   }
 
   ul {

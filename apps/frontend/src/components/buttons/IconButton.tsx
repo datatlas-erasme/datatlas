@@ -8,6 +8,8 @@ interface IconButtonInterface {
 }
 
 const ActionButton = styled(MapControlButton)`
+  color: ${({ theme }) => theme.primaryBtnColor};
+  background-color: ${({ theme }) => theme.primaryBtnBgd};
   margin: 0 5px;
 `;
 export const IconButton = ({ Icon, onClick }: IconButtonInterface) => {
