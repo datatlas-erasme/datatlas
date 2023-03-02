@@ -71,12 +71,10 @@ export class UserService {
   async createUsersOnStartUp(userAdmin: Pick<UserDto, 'username' | 'password'>) {
     const hashPW = await bcrypt.hash(userAdmin.password, 16);
     const user = new UserEntity(userAdmin.username, hashPW, Roles.ADMIN, true);
-    await this.userRepository.persistAndFlush(user);
-    /*
     return (await this.isUsernameAlreadyInDatabase(user.username))
       ? 0
       : this.userRepository.persistAndFlush(user).then(() => {
-        return this.getUserIDByUserName(user.username);
-      });*/
+          return this.getUserIDByUserName(user.username);
+        });
   }
 }
