@@ -1,12 +1,13 @@
 import { createGlobalStyle } from 'styled-components';
-import { themeFontSize } from './theme';
+import { themeFontSize, themeColor, boxSizing, fontFamily } from './theme';
+import { ChickletButton } from 'kepler.gl/dist/components/common/item-selector/chickleted-input';
 
 export const GlobalStyle = createGlobalStyle`
   * {
-    box-sizing: border-box;
+    box-sizing: ${boxSizing};
     margin: 0;
     padding: 0;
-    font-family: 'Verdana', 'Helvetica Neue', 'Helvetica', 'sans-serif';
+    font-family: ${fontFamily};
   }
 
   html{
@@ -40,4 +41,9 @@ export const GlobalStyle = createGlobalStyle`
   .side-panel--container{
     padding: 0;
   }
+
+  ${ChickletButton} {
+    border: solid 1px ${themeColor.primaryColor}
+}
+  ,
 `;

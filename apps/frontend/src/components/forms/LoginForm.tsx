@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
 import styled from 'styled-components';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
-import { StyledLabel, FormBtn } from '../../style/theme';
+import { StyledLabel, FormBtn } from '../../style/components';
 
 export interface LoginFormData {
   login: string;
@@ -16,10 +16,6 @@ export interface LoginFormData {
 const StyledLoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  a {
-    font-size: ${(props) => props.theme.fontSizeXs};
-    text-decoration: underline;
-  }
   div {
     display: flex;
     font-size: ${(props) => props.theme.fontSizeXs};
@@ -28,6 +24,11 @@ const StyledLoginForm = styled.form`
   p {
     margin-left: 5px;
   }
+`;
+
+const StyledLink = styled(Link)`
+  font-size: ${({ theme }) => theme.textLink};
+  text-decoration: underline;
 `;
 
 const StyledLoginInput = styled(Input)`
@@ -77,9 +78,9 @@ export function LoginForm() {
       </StyledLabel>
       <StyledLoginInput id="password" type="password" defaultValue="" {...register('password', { required: true })} />
       {errors.password && <FormattedMessage defaultMessage="This field is required" />}
-      <Link to={'/'}>
+      <StyledLink to={'/'}>
         <FormattedMessage defaultMessage="J’ai oublié mon mot de passe" />
-      </Link>
+      </StyledLink>
 
       <FormBtn type="submit" value={'Connexion'} />
       <div>

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { IconButton } from './';
 import { ArrowRight } from 'kepler.gl/dist/components/common/icons';
-import { StyledLabel } from '../../style/theme';
+import { floatingBtnBgd, StyledLabel } from '../../style/theme';
 
 interface SidePanelButtonInterface {
   children: ReactNode;
@@ -22,10 +22,10 @@ const SidePanelButtonStyle = styled.a<AboutSidePanelButtonInterface>`
   z-index: 1;
   div {
     margin: 0;
-    background-color: ${({ theme }) => theme.linkBtnBgd};
+    background-color: ${({ theme }) => theme.floatingBtnBgd};
     &:active,
     &:hover {
-      background-color: ${({ theme, displayAbout }) => (displayAbout ? theme.linkBtnBgd : theme.linkBtnActBgdHover)};
+      background-color: ${({ theme, displayAbout }) => (displayAbout ? theme.floatingBtnBgd : theme.greyMedium)};
     }
     svg {
       color: ${({ theme }) => theme.textColor};
