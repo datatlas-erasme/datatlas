@@ -4,6 +4,7 @@ import { EntityRepository } from '@mikro-orm/core';
 import * as bcrypt from 'bcrypt';
 import { Roles, UserDto, UserPublicDTO } from '@datatlas/shared/models';
 import { UserEntity } from './entities/user.entity';
+import { hashString } from 'nx/src/lock-file/utils/hashing';
 
 @Injectable()
 export class UserService {
@@ -68,13 +69,25 @@ export class UserService {
     });
   }
 
-  async createUsersOnStartUp(userAdmin: Pick<UserDto, 'username' | 'password'>) {
-    const hashPW = await bcrypt.hash(userAdmin.password, 16);
-    const user = new UserEntity(userAdmin.username, hashPW, Roles.ADMIN, true);
-    return (await this.isUsernameAlreadyInDatabase(user.username))
-      ? 0
-      : this.userRepository.persistAndFlush(user).then(() => {
-          return this.getUserIDByUserName(user.username);
-        });
+  async createUsersOnStartUp(
+    userAdmin: Pick<UserDto, 'username' | 'password'>,
+    userDummyEditor: Pick<UserDto, 'username' | 'password'>
+  ) {
+    const admin = new UserEntity(userAdmin.username, hashString(userAdmin.password), Roles.ADMIN, true);
+    if (await this.isUsernameAlreadyInDatabase(admin.username)) {
+      console.log('Admin already in database.');
+    } else {
+      await this.userRepository.persistAndFlush(admin);
+    }
+    const editor = new UserEntity(userDummyEditor.username, hashString(userDummyEditor.password), Roles.EDITOR, true);
+    if (await this.isUsernameAlreadyInDatabase(editor.username)) {
+      console.log('Editor already in database.');
+    } else {
+      await this.userRepository.persistAndFlush(editor);
+    }
+  }
+
+  static async hashString(textToHash: string, rounds = 16) {
+    return await bcrypt.hash(textToHash, rounds);
   }
 }
