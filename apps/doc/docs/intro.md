@@ -59,12 +59,11 @@ npx nx serve doc
 ```
 
 You can now access :
+
 - the frontend at http://localhost:3000
 - the backend at http://localhost:3333
 - pgadmin at http://localhost:5431
 - the documentation at http://localhost:3001
-
-
 
 #### 🔎 Test and lint
 
@@ -79,7 +78,6 @@ npm install -g husky
 ```
 
 Use 'nx format:write' before commiting to format the code with prettier
-
 
 **Frontend**
 
@@ -99,25 +97,22 @@ We also use cypress for e2e testing on the backend
 npx cypress run
 ```
 
-
-
-### 🚀 Deploy 
+### 🚀 Deploy
 
 Built images are available on [Docker Hub](https://hub.docker.com/u/erasme)
 
 - [🗺️ Frontend](https://hub.docker.com/r/erasme/datatlas-frontend)
 - [📋 Backend](https://hub.docker.com/r/erasme/datatlas-backend)
 
-
 **🐋 Docker run**
 
 You can run the images with the following commands
 
 ```bash
-docker run -d --name datatlas-db \ 
+docker run -d --name datatlas-db \
 -e POSTGRES_USER=docker -e POSTGRES_PASS=docker -p 5432:5432 \
 kartoza/postgis:15-3.3 \
-&& docker run -d --name datatlas-backend -p 3333:3333 erasme/datatlas-backend \ 
+&& docker run -d --name datatlas-backend -p 3333:3333 erasme/datatlas-backend \
 && docker run -d --name datatlas-frontend -p 3000:80 erasme/datatlas-frontend
 
 ```
@@ -130,8 +125,8 @@ You can build the images locally with the following commands
 docker-compose build -f prod.docker-compose.yml
 ```
 
-
 ## Contributing
+
 - I'm a developer, how can I contribute ?
 - I'm a designer, how can I contribute ?
 - I'm a user, how can I contribute ?
