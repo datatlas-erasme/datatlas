@@ -66,4 +66,8 @@ export class UserService {
       throw new Error('Unknown username');
     });
   }
+
+  async createUsersOnStartUp(user = 'toto') {
+    return user + 'toto';
+  }
 }

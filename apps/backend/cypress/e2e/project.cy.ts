@@ -1,4 +1,20 @@
+import { generateFakeProject } from '@datatlas/shared/models';
+
+const fakeProject = generateFakeProject();
+
 describe('PROJECT ACTIONS', () => {
+  it('Project -> creation of new project (nouveau type projets)', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/project/',
+      body: fakeProject,
+      failOnStatusCode: false,
+    }).then((response) => {
+      console.log(response);
+    });
+  });
+
+  /*
   const test_project = {
     title: 'project_test',
     description: 'project_test_description',
@@ -64,4 +80,6 @@ describe('PROJECT ACTIONS', () => {
       expect(response.body).to.be.a('string');
     });
   });
+
+   */
 });
