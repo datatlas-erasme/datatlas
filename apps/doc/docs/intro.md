@@ -2,58 +2,131 @@
 sidebar_position: 1
 ---
 
-# Datatlas
+# 🌍 Datatlas
 
-Let's discover **Docusaurus in less than 5 minutes**.
+## What is DatAtlas ?
 
-## Getting Started
+DatAtlas is a project thats aims at creating the Wordpress for maps ! Thanks to this beautiful tool you will be able to create custom web maps by selecting your data, choosing your features, adding your style. Once your map is created you can embed it in any website you want. You want to create beautiful maps with 3D data ? With lot of layers ? With specific features ? You are at the right place !
 
-Get started by **creating a new site**.
+## 🐤 Getting started
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+Datatlas is still under heavy development.
+You can deploy it locally for development purpose.
+The production version will be available soon.
 
-dfdfd
+### ⌨️ Development
 
-```mermaid
-  graph TD;
-      A-->B;
-      A-->C;
-      B-->D;
-      C-->D;
-```
+#### Prerequisites
 
-eee
+- [Node.js](https://nodejs.org/en/download/)
+- [npm](https://www.npmjs.com/get-npm)
+- [Docker](https://docs.docker.com/get-docker/)
 
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 16.14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
+#### ⚙️ Installation
 
 ```bash
-npm init docusaurus@latest my-website classic
+git clone https://github.com/datatlas-erasme/datatlas
+cd datatlas
+git checkout dev
+npm install
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+#### 🔥 Run
 
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
+Run the postgres database and pgadmin with docker
 
 ```bash
-cd my-website
-npm run start
+docker-compose up -f dev.docker-compose.yml
+
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+**Run them all**
+you can run all the apps in the same shell with the following command
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+```bash
+npx nx run-many --target=serve
+```
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+**Run seperately**
+
+In another shell, run the backend
+
+```bash
+npx nx serve backend
+```
+
+In another shell, run the frontend
+
+```bash
+npx nx serve frontend
+```
+
+You can optionnaly run the documentation
+
+```bash
+npx nx serve doc
+```
+
+You can now access :
+
+- the frontend at http://localhost:3000
+- the backend at http://localhost:3333
+- pgadmin at http://localhost:5431
+- the documentation at http://localhost:3001
+
+#### 🔎 Test and lint
+
+Jest, Cypress and husky are used for testing and 🌸 linting.
+
+When committing, husky will run the linter (nx format:write) on all the files
+
+**🧪 Unit tests**
+
+You can run all the unit tests (backend/models/frontend) with the following command
+
+```bash
+npx nx run-many --target=test
+```
+
+**🧪 E2E tests**
+
+We also use cypress for e2e testing on the backend
+
+```bash
+npx cypress run
+```
+
+### 🚀 Deploy
+
+Built images are available on [Docker Hub](https://hub.docker.com/u/erasme)
+
+- [🗺️ Frontend](https://hub.docker.com/r/erasme/datatlas-frontend)
+- [📋 Backend](https://hub.docker.com/r/erasme/datatlas-backend)
+
+**🐋 Docker run**
+
+You can run the images with the following commands
+
+```bash
+docker run -d --name datatlas-db \
+-e POSTGRES_USER=docker -e POSTGRES_PASS=docker -p 5432:5432 \
+kartoza/postgis:15-3.3 \
+&& docker run -d --name datatlas-backend -p 3333:3333 erasme/datatlas-backend \
+&& docker run -d --name datatlas-frontend -p 3000:80 erasme/datatlas-frontend
+
+```
+
+** 🐳 Docker build**
+
+You can build the images locally with the following commands
+
+```bash
+docker-compose build -f prod.docker-compose.yml
+```
+
+## Contributing
+
+- I'm a developer, how can I contribute ?
+- I'm a designer, how can I contribute ?
+- I'm a user, how can I contribute ?
+- I'm a researcher, how can I contribute ?

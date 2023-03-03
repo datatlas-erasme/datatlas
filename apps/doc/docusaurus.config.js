@@ -10,10 +10,10 @@ const config = {
   tagline:
     'DatAtlas allows you to create a map of the territory on the fly by embedding data from different sources, by choosing your favorite map style and features',
   url: 'https://datatlas-erasme.github.io',
-  baseUrl: '/',
+  baseUrl: 'https://datatlas-erasme.github.io/datatlas/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/logo.svg',
   organizationName: 'Erasme', // Usually your GitHub org/user name.
   projectName: 'datatlas', // Usually your repo name.
 
@@ -25,7 +25,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
-          editUrl: 'https://github.com/datatlas-erasme/datatlas/blob/docs-init-doc/apps/doc/docs/',
+          editUrl: 'https://github.com/datatlas-erasme/datatlas/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -70,19 +70,19 @@ const config = {
             ],
           },
           {
-            title: 'Community',
+            title: 'Links',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'GitHub',
+                href: 'https://github.com/datatlas-erasme/datatlas',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'Datagora website',
+                href: 'https://datagora.erasme.org/',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'Erasme website',
+                href: 'https://erasme.org/',
               },
             ],
           },
