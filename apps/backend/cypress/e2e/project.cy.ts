@@ -1,4 +1,5 @@
 import { generateFakeProject } from '@datatlas/shared/models';
+import { Logger } from '@nestjs/common';
 
 const fakeProject = generateFakeProject();
 
@@ -10,7 +11,7 @@ describe('PROJECT ACTIONS', () => {
       body: fakeProject,
       failOnStatusCode: false,
     }).then((response) => {
-      console.log(response);
+      Logger.log(response);
     });
   });
 
