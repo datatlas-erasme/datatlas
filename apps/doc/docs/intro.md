@@ -40,6 +40,15 @@ docker-compose up -f dev.docker-compose.yml
 
 ```
 
+**Run them all**
+you can run all the apps in the same shell with the following command
+
+```bash
+npx nx run-many --target=serve
+```
+
+**Run seperately**
+
 In another shell, run the backend
 
 ```bash
@@ -69,27 +78,17 @@ You can now access :
 
 Jest, Cypress and husky are used for testing and 🌸 linting.
 
-** 🐺 Husky**
+When committing, husky will run the linter (nx format:write) on all the files
 
-Please install husky on your local machine to run the pre-commit hook
+**🧪 Unit tests**
 
-```bash
-npm install -g husky
-```
-
-Use 'nx format:write' before commiting to format the code with prettier
-
-**Frontend**
+You can run all the unit tests (backend/models/frontend) with the following command
 
 ```bash
-npx nx run frontend:test
+npx nx run-many --target=test
 ```
 
-**Backend**
-
-```bash
-npx nx run backend:test
-```
+**🧪 E2E tests**
 
 We also use cypress for e2e testing on the backend
 
