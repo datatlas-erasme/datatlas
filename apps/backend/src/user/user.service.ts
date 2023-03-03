@@ -12,9 +12,6 @@ export class UserService {
     private readonly userRepository: EntityRepository<UserEntity>
   ) {}
 
-  /**
-   * TODO : passwords are stored clearly in database -> hash them !
-   */
   async createUser(userDto: UserDto): Promise<number> {
     const user = new UserEntity(
       userDto.username,

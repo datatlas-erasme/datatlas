@@ -1,4 +1,4 @@
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { MikroORM, UseRequestContext } from '@mikro-orm/core';
 
@@ -12,7 +12,7 @@ export class AppService implements OnApplicationBootstrap {
     // -> Seed the database
     //     -> Users : create one admin user (for true final purpose) and one simple dummy user (for tests)
     // -> todo : explain all tasks made during startup
-    console.log('SEEDING USERS --- using data from your apps/backend/.env file');
+    Logger.log('SEEDING USERS --- using data from your apps/backend/.env file');
     const userAdmin = { username: process.env.ADMIN_USER, password: process.env.ADMIN_PASSWORD };
     const userDummyEditor = {
       username: process.env.DUMMY_EDITOR_USERNAME,
