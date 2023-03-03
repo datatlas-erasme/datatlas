@@ -22,7 +22,7 @@ jobs:
         with:
           main-branch-name: $BASE_BRANCH
           workflow-id: 'build-doc.yml'
-      - run: npm install --legacy-peer-deps
+      - run: npm ci --legacy-peer-deps
       - run: npx nx build doc
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
