@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { UserEntity } from './entities/user.entity';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { UserDto, UserPublicDTO } from '@datatlas/shared/models';
 import { EntityRepository } from '@mikro-orm/core';
+import * as bcrypt from 'bcrypt';
+import { Roles, UserDto, UserPublicDTO } from '@datatlas/shared/models';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -11,11 +12,13 @@ export class UserService {
     private readonly userRepository: EntityRepository<UserEntity>
   ) {}
 
-  /**
-   * TODO : passwords are stored clearly in database -> hash them !
-   */
   async createUser(userDto: UserDto): Promise<number> {
-    const user = new UserEntity(userDto.username, userDto.password, userDto.role, userDto.active);
+    const user = new UserEntity(
+      userDto.username,
+      await this.hashString(userDto.password),
+      userDto.role,
+      userDto.active
+    );
     return (await this.isUsernameAlreadyInDatabase(user.username))
       ? 0
       : this.userRepository.persistAndFlush(user).then(() => {
@@ -37,9 +40,9 @@ export class UserService {
       -> Flush.
      */
     const id = user.userId;
-    return this.userRepository.findOne({ id }).then((dataUser) => {
+    return this.userRepository.findOne({ id }).then(async (dataUser) => {
       dataUser.username = user.username;
-      dataUser.password = user.password;
+      dataUser.password = await this.hashString(user.password);
       dataUser.role = user.role;
       dataUser.active = user.active;
       return this.userRepository.flush();
@@ -65,5 +68,32 @@ export class UserService {
       }
       throw new Error('Unknown username');
     });
+  }
+
+  async createUsersOnStartUp(
+    userAdmin: Pick<UserDto, 'username' | 'password'>,
+    userDummyEditor: Pick<UserDto, 'username' | 'password'>
+  ) {
+    const admin = new UserEntity(userAdmin.username, await this.hashString(userAdmin.password), Roles.ADMIN, true);
+    if (await this.isUsernameAlreadyInDatabase(admin.username)) {
+      Logger.log('Admin already in database.');
+    } else {
+      await this.userRepository.persistAndFlush(admin);
+    }
+    const editor = new UserEntity(
+      userDummyEditor.username,
+      await this.hashString(userDummyEditor.password),
+      Roles.EDITOR,
+      true
+    );
+    if (await this.isUsernameAlreadyInDatabase(editor.username)) {
+      Logger.log('Editor already in database.');
+    } else {
+      await this.userRepository.persistAndFlush(editor);
+    }
+  }
+
+  async hashString(textToHash: string, rounds = 16) {
+    return await bcrypt.hash(textToHash + process.env.PASSWORD_SALT, rounds);
   }
 }

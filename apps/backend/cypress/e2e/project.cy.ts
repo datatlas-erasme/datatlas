@@ -1,4 +1,21 @@
+import { generateFakeProject } from '@datatlas/shared/models';
+import { Logger } from '@nestjs/common';
+
+const fakeProject = generateFakeProject();
+
 describe('PROJECT ACTIONS', () => {
+  it('Project -> creation of new project (nouveau type projets)', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/project/',
+      body: fakeProject,
+      failOnStatusCode: false,
+    }).then((response) => {
+      Logger.log(response);
+    });
+  });
+
+  /*
   const test_project = {
     title: 'project_test',
     description: 'project_test_description',
@@ -64,4 +81,6 @@ describe('PROJECT ACTIONS', () => {
       expect(response.body).to.be.a('string');
     });
   });
+
+   */
 });

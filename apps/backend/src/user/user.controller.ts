@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put } from '@nestjs/common';
-import { Logger } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDto, UserPublicDTO } from '@datatlas/shared/models';
 

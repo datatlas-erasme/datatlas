@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Logger } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { ProjectEntity } from '../entities/project.entity';
+import { Project } from '@datatlas/models';
 
 @Controller()
 export class ProjectController {
@@ -17,8 +18,12 @@ export class ProjectController {
   }
 
   @Post('project')
-  async create(@Body() project: ProjectEntity) {
-    return this.projectService.create(project);
+  async create(@Body() project: Pick<Project, 'title' | 'draft' | 'datasets' | 'description'>) {
+    // I stop here because I realize that I need the current user ID to create properly the project.
+    // So I MUST add first user registration and authentification.
+    Logger.log(project);
+    return;
+    //return this.projectService.create(project);
   }
 
   @Delete('project/:id')
