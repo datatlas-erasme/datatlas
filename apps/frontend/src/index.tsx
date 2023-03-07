@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 import ReactDOM from 'react-dom/client';
 import { PersistGate } from 'redux-persist/integration/react';
 import reportWebVitals from './reportWebVitals';
@@ -12,6 +13,7 @@ import { AppLayout } from './pages/layouts';
 import { selectLocale } from './store/selectors';
 import { ComponentsPage } from './pages/ComponentsPage';
 import { GlobalStyle } from './style/GlobalStyle';
+import { theme } from './style/theme';
 
 const router = createBrowserRouter([
   {
@@ -52,12 +54,14 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
   <Provider store={store}>
-    <GlobalStyle />
-    <PersistGate loading={<Loader />} persistor={persistor}>
-      <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
-        <RouterProvider router={router} />
-      </IntlProvider>
-    </PersistGate>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <PersistGate loading={<Loader />} persistor={persistor}>
+        <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
+          <RouterProvider router={router} />
+        </IntlProvider>
+      </PersistGate>
+    </ThemeProvider>
   </Provider>
 );
 

@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { IconButton } from './';
 import { ArrowRight } from 'kepler.gl/dist/components/common/icons';
-import { StyledLabel } from '../../style/components';
 
 interface SidePanelButtonInterface {
   children: ReactNode;
@@ -31,9 +30,6 @@ const SidePanelButtonStyle = styled.a<AboutSidePanelButtonInterface>`
       color: ${({ theme }) => theme.textColor};
       transform: ${({ displayAbout }) => (displayAbout ? 'rotate(0deg)' : 'rotate(180deg)')};
     }
-  }
-  ${StyledLabel} {
-    margin-left: 10px;
   }
 `;
 
