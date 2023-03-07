@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { EditorsIcon } from '../icon';
-import { BadgeOutlines } from '../../style/components';
+import { StyledBadgeOutline } from '../badges';
 
 interface InfoProjectBadgesInterface {
   numbersContributors: number;
@@ -17,7 +17,7 @@ const InfoProjectBadges = ({ numbersContributors }: InfoProjectBadgesInterface) 
   return (
     <BadgesContainer>
       <EditorsIcon width={10} />
-      <BadgeOutlines>{numbersContributors}</BadgeOutlines>
+      <StyledBadgeOutline>{numbersContributors}</StyledBadgeOutline>
     </BadgesContainer>
   );
 };

@@ -10,7 +10,11 @@ import { api } from '../api';
 import { listenerMiddleware } from './listenerMiddleware';
 import { KeplerGlTransform } from './transforms/KeplerGlTransform';
 
-const actionsBlacklist = ['@@kepler.gl/MOUSE_MOVE', '@@kepler.gl/UPDATE_MAP', '@@kepler.gl/LAYER_HOVER'];
+const actionsBlacklist = [
+  '@@keplerComponents.gl/MOUSE_MOVE',
+  '@@keplerComponents.gl/UPDATE_MAP',
+  '@@keplerComponents.gl/LAYER_HOVER',
+];
 
 const persistConfig = {
   key: 'root',

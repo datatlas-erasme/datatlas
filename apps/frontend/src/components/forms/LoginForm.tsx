@@ -5,7 +5,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
 import styled from 'styled-components';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
-import { StyledLabel, FormBtn } from '../../style/components';
+import { StyledLabel } from './StyledLabel';
+import { StyledFormBtn } from '../buttons';
 
 export interface LoginFormData {
   login: string;
@@ -18,7 +19,7 @@ const StyledLoginForm = styled.form`
   flex-direction: column;
   div {
     display: flex;
-    font-size: ${(props) => props.theme.fontSizeXs};
+    font-size: ${({ theme }) => theme.fontSizeXs};
     align-items: center;
   }
   p {
@@ -82,7 +83,7 @@ export function LoginForm() {
         <FormattedMessage defaultMessage="J’ai oublié mon mot de passe" />
       </StyledLink>
 
-      <FormBtn type="submit" value={'Connexion'} />
+      <StyledFormBtn type="submit" value={'Connexion'} />
       <div>
         <input id="rememberMe" type={'checkbox'} {...register('rememberMe', { required: false })} />
         <p>
