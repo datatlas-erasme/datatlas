@@ -25,7 +25,7 @@ COPY .babelrc /build/.babelrc
 COPY nx.json /build/nx.json
 
 # Creates a "dist" folder with the production build
-RUN npx nx build $COPY_PATH
+RUN npx nx build $COPY_PATH --configuration=production
 
 FROM node:18-alpine as backend
 
@@ -35,8 +35,7 @@ WORKDIR /app
 COPY --from=builder /build/dist/apps/$COPY_PATH/* ./dist
 
 
-RUN npm i @nestjs/platform-express
-
+RUN npm install --force
 # Start the server using the production build
 CMD [ "node", "dist/main.js" ]
 
