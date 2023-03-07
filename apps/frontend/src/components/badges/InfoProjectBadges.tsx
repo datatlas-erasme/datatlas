@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { EditorsIcon } from '../icon';
-import { BadgeOutlines } from '../../style/theme';
+import { BadgeOutlines } from '../../style/components';
 
 interface InfoProjectBadgesInterface {
   numbersContributors: number;

@@ -1,6 +1,4 @@
-import styled, { css } from 'styled-components';
 import { DIMENSIONS } from 'kepler.gl/dist/constants/default-settings';
-import { Button } from 'kepler.gl/dist/components/common/styled-components';
 import {
   input,
   inputLT,

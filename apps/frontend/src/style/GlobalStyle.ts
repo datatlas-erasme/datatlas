@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { themeFontSize, themeColor, boxSizing, fontFamily } from './theme';
-import { ChickletButton } from 'kepler.gl/dist/components/common/item-selector/chickleted-input';
+import { themeFontSize, boxSizing, fontFamily } from './theme';
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -41,9 +40,4 @@ export const GlobalStyle = createGlobalStyle`
   .side-panel--container{
     padding: 0;
   }
-
-  ${ChickletButton} {
-    border: solid 1px ${themeColor.primaryColor}
-}
-  ,
 `;
