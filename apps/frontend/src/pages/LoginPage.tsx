@@ -5,7 +5,7 @@ import { LoginForm } from '../components/forms/LoginForm';
 import { DatatlasLogoSquare } from '../components/logos';
 import FirstShapeBg from '../assets/shapes/first-shape.svg';
 import SecondShapeBg from '../assets/shapes/second-shape.svg';
-import { StyledLabel } from '../style/theme';
+import { StyledLabel } from '../style/components';
 import { FormattedMessage } from 'react-intl';
 import GithubLink from '../components/buttons/GithubLink';
 import SidePanelButton from '../components/buttons/SidePanelButton';

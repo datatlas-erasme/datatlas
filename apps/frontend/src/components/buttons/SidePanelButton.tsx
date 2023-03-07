@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { IconButton } from './';
 import { ArrowRight } from 'kepler.gl/dist/components/common/icons';
-import { floatingBtnBgd, StyledLabel } from '../../style/theme';
+import { StyledLabel } from '../../style/components';
 
 interface SidePanelButtonInterface {
   children: ReactNode;
