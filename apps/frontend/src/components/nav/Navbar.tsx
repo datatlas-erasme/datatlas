@@ -86,43 +86,41 @@ const Navbar = () => {
   const project = useSelector<RootState, ProjectInterface | null>((state) => selectProjectById(state, id));
 
   return (
-    <>
-      <NavContainer>
-        <NavContainerLogo>
-          <Link to={'/'}>
-            <HomeIcon />
-          </Link>
-          <DatatlasLogo />
-        </NavContainerLogo>
-        {project && <ProjectButton>{project.title}</ProjectButton>}
-        <NavItemsList>
-          <li>
-            <NavItem to={'/'}>
-              <BadgesItem>
-                <HelpIcon />
-              </BadgesItem>
-              <FormattedMessage defaultMessage={'Aide'} />
-            </NavItem>
-          </li>
-          <li>
-            <NavItem to={'/'}>
-              <BadgesItem>
-                <WheelIcon />
-              </BadgesItem>
-              <FormattedMessage defaultMessage={'Réglages'} />
-            </NavItem>
-          </li>
-          <li>
-            <button onClick={() => dispatch(logout())}>
-              <BadgesItem>
-                <Clock />
-              </BadgesItem>
-              <FormattedMessage defaultMessage={'Logout'} />
-            </button>
-          </li>
-        </NavItemsList>
-      </NavContainer>
-    </>
+    <NavContainer>
+      <NavContainerLogo>
+        <Link to={'/'}>
+          <HomeIcon />
+        </Link>
+        <DatatlasLogo />
+      </NavContainerLogo>
+      {project && <ProjectButton>{project.title}</ProjectButton>}
+      <NavItemsList>
+        <li>
+          <NavItem to={'/'}>
+            <BadgesItem>
+              <HelpIcon />
+            </BadgesItem>
+            <FormattedMessage defaultMessage={'Aide'} />
+          </NavItem>
+        </li>
+        <li>
+          <NavItem to={'/'}>
+            <BadgesItem>
+              <WheelIcon />
+            </BadgesItem>
+            <FormattedMessage defaultMessage={'Réglages'} />
+          </NavItem>
+        </li>
+        <li>
+          <button onClick={() => dispatch(logout())}>
+            <BadgesItem>
+              <Clock />
+            </BadgesItem>
+            <FormattedMessage defaultMessage={'Logout'} />
+          </button>
+        </li>
+      </NavItemsList>
+    </NavContainer>
   );
 };
 
