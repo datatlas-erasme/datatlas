@@ -32,12 +32,15 @@ FROM node:18-alpine as backend
 WORKDIR /app
 
 # copy using the target
-COPY --from=builder /build/dist/apps/$COPY_PATH/* ./dist
+COPY --from=builder /build/dist/apps/backend/* ./
 
 
 RUN npm install --force
+
+RUN npm install @faker-js/faker -f
+
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "main.js" ]
 
 FROM nginx:1.21.3-alpine as frontend
 
