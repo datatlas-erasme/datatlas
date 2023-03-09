@@ -9,5 +9,5 @@ export const StyledBadgeOutline = styled.span`
   border: 1.5px solid ${({ theme }) => theme.primaryColor};
   border-radius: 50%;
   margin-left: 2px;
-  font-size: ${({ theme }) => theme.fontSizeXs};
+  font-size: ${({ theme }) => theme.xsText};
 `;
