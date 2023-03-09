@@ -8,10 +8,10 @@ import { logout } from '../../store/reducers/user';
 import { RootState } from '../../store/reducers';
 import { selectProjectById } from '../../store/selectors';
 import { ProjectInterface } from '@datatlas/models';
-import { DatatlasLogo, HomeIcon } from '../logos';
+import { DatatlasLogo } from '../logos';
 import { StyledBadgeOutline } from '../badges';
 import { Clock } from 'kepler.gl/dist/components/common/icons';
-import { HelpIcon, WheelIcon } from '../icon';
+import { HelpIcon, WheelIcon, HomeIcon } from '../icon';
 
 const NavContainer = styled.nav`
   display: flex;
