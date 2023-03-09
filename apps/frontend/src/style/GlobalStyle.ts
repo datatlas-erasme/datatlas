@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
   }
 
   h2{
-    font-size: ${({ theme }) => theme.smText};
+    font-size: ${({ theme }) => theme.lText};
     font-weight: 400;
   }
   h3{

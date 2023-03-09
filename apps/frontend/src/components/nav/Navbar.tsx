@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -10,8 +10,9 @@ import { selectProjectById } from '../../store/selectors';
 import { ProjectInterface } from '@datatlas/models';
 import { DatatlasLogo } from '../logos';
 import { StyledBadgeOutline } from '../badges';
-import { Clock } from 'kepler.gl/dist/components/common/icons';
+import { ArrowDown, Clock } from 'kepler.gl/dist/components/common/icons';
 import { HelpIcon, WheelIcon, HomeIcon } from '../icon';
+import ModalProject from '../modal/ModalProject';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -76,11 +77,16 @@ const BadgesItem = styled(StyledBadgeOutline)`
   }
 `;
 const ProjectButton = styled.button`
+  display: flex;
+  align-items: center;
+  min-width: 8%;
+  justify-content: inherit;
   font-size: 24px;
   font-weight: 400;
 `;
 
 const Navbar = () => {
+  const [modalDisplay, setModalDisplay] = useState(false);
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const project = useSelector<RootState, ProjectInterface | null>((state) => selectProjectById(state, id));
@@ -93,7 +99,19 @@ const Navbar = () => {
         </Link>
         <DatatlasLogo />
       </NavContainerLogo>
-      {project && <ProjectButton>{project.title}</ProjectButton>}
+      {project && (
+        <ProjectButton onClick={() => setModalDisplay(!modalDisplay)}>
+          {project.title}
+          <ArrowDown />
+        </ProjectButton>
+      )}
+      {modalDisplay && (
+        <ModalProject
+          title={project && project.title}
+          open={modalDisplay}
+          onClose={() => setModalDisplay(!modalDisplay)}
+        />
+      )}
       <NavItemsList>
         <li>
           <NavItem to={'/'}>
