@@ -1,4 +1,5 @@
 import { UserPublicDTO } from '@datatlas/shared/models';
+import { Logger } from '@nestjs/common';
 
 describe('USER ACTIONS', () => {
   const test_user = {

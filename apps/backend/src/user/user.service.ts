@@ -61,6 +61,18 @@ export class UserService {
     });
   }
 
+  async getUserByUserName(username: string): Promise<Pick<UserDto, 'username' | 'password'>> {
+    return await this.userRepository.findOne({ username }).then((user) => {
+      if (user !== null) {
+        return {
+          username: user.username,
+          password: user.password,
+        };
+      }
+      throw new Error('Unknown username');
+    });
+  }
+
   async getUserIDByUserName(username: string): Promise<number> {
     return await this.userRepository.findOne({ username }).then((user) => {
       if (user !== null) {
@@ -74,7 +86,7 @@ export class UserService {
     userAdmin: Pick<UserDto, 'username' | 'password'>,
     userDummyEditor: Pick<UserDto, 'username' | 'password'>
   ) {
-    const admin = new UserEntity(userAdmin.username, await this.hashString(userAdmin.password), Roles.ADMIN, true);
+    const admin = new UserEntity(userAdmin.username, await this.hashString(userAdmin.password), Roles.ADMIN, true); // todo optimization, doing later
     if (await this.isUsernameAlreadyInDatabase(admin.username)) {
       Logger.log('Admin already in database.');
     } else {
@@ -93,7 +105,18 @@ export class UserService {
     }
   }
 
-  async hashString(textToHash: string, rounds = 16) {
-    return await bcrypt.hash(textToHash + process.env.PASSWORD_SALT, rounds);
+  async hashString(textToHash: string): Promise<string> {
+    return await bcrypt.hash(textToHash, 16);
+    /*
+    return bcrypt.hash(textToHash, 16, function(err, hash) {
+        return hash;
+      });
+*/
+    /*
+    bcrypt.genSalt(16, function(err, salt) {
+      return bcrypt.hash(textToHash, salt).then(function (hash) {
+        return hash;
+      });
+    });*/
   }
 }
