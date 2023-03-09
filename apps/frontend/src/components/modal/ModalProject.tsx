@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
 import styled from 'styled-components';
-import { FormBtn } from '../../style/components';
+import { StyledFormBtn } from '../buttons';
 import { Delete } from 'kepler.gl/dist/components/common/icons';
 
 interface ModalProjectInterface {
@@ -79,7 +79,7 @@ const ModalProject = ({ title, open, onClose }: ModalProjectInterface) => {
       </label>
       <div>
         <Input />
-        <FormBtn type="submit" value={'Renomer'} />
+        <StyledFormBtn type="submit" value={'Renomer'} />
       </div>
 
       <label>
@@ -87,7 +87,7 @@ const ModalProject = ({ title, open, onClose }: ModalProjectInterface) => {
       </label>
       <div>
         <Input />
-        <FormBtn type="submit" value={'Inviter'} />
+        <StyledFormBtn type="submit" value={'Inviter'} />
       </div>
 
       <ul>
