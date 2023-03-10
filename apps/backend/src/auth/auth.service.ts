@@ -1,13 +1,15 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
+import { jwtConstants } from './constants';
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) {}
 
   async validateUser(username: string, pass: string): Promise<boolean> {
+    // Same username ?
     const user = await this.userService.isUsernameAlreadyInDatabase(username);
     if (user) {
       // Same encrypted password ?
@@ -17,14 +19,10 @@ export class AuthService {
     return false;
   }
 
-  async login(user: never) {
-    /*
-    const payload = { username: user.username, password: user.userId };
+  async login(user: any) {
+    const payload = { username: user.username, sub: user.password };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, jwtConstants),
     };
-
-     */
-    Logger.log(user);
   }
 }

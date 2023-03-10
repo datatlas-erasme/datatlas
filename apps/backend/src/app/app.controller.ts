@@ -10,11 +10,7 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
-    Logger.log('connexion demandée');
-    Logger.log(req.user);
-    Logger.log('connexion finie');
-    //return this.authService.login(req.user);
-    return true;
+    return await this.authService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
