@@ -10,7 +10,7 @@ import { selectProjectById } from '../../store/selectors';
 import { ProjectInterface } from '@datatlas/models';
 import { DatatlasLogo } from '../logos';
 import { StyledBadgeOutline } from '../badges';
-import { ArrowDown, Clock } from 'kepler.gl/dist/components/common/icons';
+import { ArrowDown, ArrowRight, Clock } from 'kepler.gl/dist/components/common/icons';
 import { HelpIcon, WheelIcon, HomeIcon } from '../icon';
 import ModalProject from '../modal/ModalProject';
 
@@ -102,7 +102,7 @@ const Navbar = () => {
       {project && (
         <ProjectButton onClick={() => setModalDisplay(!modalDisplay)}>
           {project.title}
-          <ArrowDown />
+          {modalDisplay ? <ArrowDown /> : <ArrowRight />}
         </ProjectButton>
       )}
       {modalDisplay && (
