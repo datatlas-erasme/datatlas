@@ -10,7 +10,7 @@ import { AuthService } from '../auth/auth.service';
 import { UserController } from '../user/user.controller';
 import { UserModule } from '../user/user.module';
 import { LocalStrategy } from '../auth/local.strategy';
-import {JwtStrategy} from "../auth/jwt.strategy";
+import { JwtStrategy } from '../auth/jwt.strategy';
 
 @Module({
   imports: [

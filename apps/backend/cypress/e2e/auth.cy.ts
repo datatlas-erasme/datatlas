@@ -52,6 +52,18 @@ describe('AUTHENTIFICATION TESTS', () => {
       expect(response.status).to.eq(201);
     });
   });
+  it('User -> Try reaching its own profile with wrong jwt.', () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/profile',
+      failOnStatusCode: false,
+      auth: {
+        bearer: 'wrong_token',
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
   it('User -> Try reaching its own profile.', () => {
     cy.request({
       method: 'GET',
