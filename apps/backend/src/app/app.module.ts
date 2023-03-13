@@ -10,6 +10,8 @@ import { AuthService } from '../auth/auth.service';
 import { UserController } from '../user/user.controller';
 import { UserModule } from '../user/user.module';
 import { LocalStrategy } from '../auth/local.strategy';
+import {JwtStrategy} from "../auth/jwt.strategy";
+
 @Module({
   imports: [
     MikroOrmModule.forRoot({
@@ -21,6 +23,6 @@ import { LocalStrategy } from '../auth/local.strategy';
     PassportModule,
   ],
   controllers: [AppController, UserController],
-  providers: [AppService, AuthService, LocalStrategy, JwtService],
+  providers: [AppService, AuthService, LocalStrategy, JwtService, JwtStrategy],
 })
 export class AppModule {}

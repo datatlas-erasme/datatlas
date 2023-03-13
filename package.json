@@ -98,6 +98,7 @@
     "@nestjs/swagger": "^6.1.4",
     "@react-spring/types": "^9.6.1",
     "@reduxjs/toolkit": "^1.9.1",
+    "@types/passport": "^1.0.12",
     "assert": "^2.0.0",
     "babel-plugin-formatjs": "^10.3.35",
     "bcrypt": "^5.1.0",
