@@ -13,7 +13,7 @@ cp .env.example .env
 
 ```
 cp .env.example .env
-docker compose up
+docker compose -f dev.docker-compose.yml up
 ```
 
 ## Development
