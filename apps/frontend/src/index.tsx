@@ -44,7 +44,7 @@ const router = createBrowserRouter([
 ]);
 
 // Start the mocking conditionally.
-if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { worker } = require('./test/mocks/browser');
   worker.start();
