@@ -61,6 +61,21 @@ export class UserService {
     });
   }
 
+  // todo rework entirely the user system.
+  async getCompleteUserByUserName(username: string): Promise<{ id; username; role; active }> {
+    return await this.userRepository.findOne({ username }).then((user) => {
+      if (user !== null) {
+        return {
+          id: user.id,
+          username: user.username,
+          role: user.role,
+          active: user.active,
+        };
+      }
+      throw new Error('Unknown username');
+    });
+  }
+
   async getUserByUserName(username: string): Promise<Pick<UserDto, 'username' | 'password'>> {
     return await this.userRepository.findOne({ username }).then((user) => {
       if (user !== null) {

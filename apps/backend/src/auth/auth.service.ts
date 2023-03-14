@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { jwtConstants } from './constants';
+import { UserDto } from '@datatlas/models';
 
 @Injectable()
 export class AuthService {
@@ -19,8 +20,15 @@ export class AuthService {
     return false;
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.password };
+  async login(user: Pick<UserDto, 'username' | 'password'>) {
+    Logger.log(user);
+    const userCredentials = await this.userService.getCompleteUserByUserName(user.username);
+    const payload = {
+      username: userCredentials.username,
+      id: userCredentials.id,
+      role: userCredentials.role,
+      active: userCredentials.active,
+    };
     return {
       access_token: this.jwtService.sign(payload, jwtConstants),
     };

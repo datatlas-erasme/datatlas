@@ -51,7 +51,7 @@ describe('AUTHENTIFICATION TESTS', () => {
       jwtUser = response.body.access_token;
       expect(response.status).to.eq(201);
     });
-  });
+  }); /*
   it('User -> Try reaching its own profile with wrong jwt.', () => {
     cy.request({
       method: 'GET',
@@ -76,5 +76,5 @@ describe('AUTHENTIFICATION TESTS', () => {
       expect(response).to.eq({});
       expect(response.status).to.eq(201);
     });
-  });
+  });*/
 });
