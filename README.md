@@ -1,6 +1,22 @@
 # Datatlas
 
+## Getting started
+
+### Locally
+```
+npm install
+cp .env.example .env
+```
+
+### Using __Docker__
+```
+cp .env.example .env
+docker compose up
+```
+
 ## Development
+
+### Code quality
 
 Run `prettier` on whole repository:
 
