@@ -3,7 +3,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { CreateMapPayloadInterface, DEFAULT_MAP_STYLES } from '@datatlas/models';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
-import { StyledLabel, FormBtn } from '../../style/theme';
+import { StyledFormBtn } from '../buttons';
+import { StyledLabel } from '../forms';
 export interface StartNewProjectFormProps {
   onSubmit: SubmitHandler<StartNewProjectFormData>;
 }
@@ -37,7 +38,7 @@ export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
           </option>
         ))}
       </select>
-      <FormBtn type="submit" />
+      <StyledFormBtn type="submit" />
     </form>
   );
 }

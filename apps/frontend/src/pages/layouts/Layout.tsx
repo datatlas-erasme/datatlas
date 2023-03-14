@@ -1,10 +1,9 @@
 import React, { PropsWithChildren } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { selectCurrentUserId } from '../../store/selectors';
 import Footer from '../../components/footer/Footer';
-import { theme } from '../../style/theme';
 
 export type LayoutProps = PropsWithChildren<object>;
 
@@ -23,11 +22,9 @@ export const Layout = ({ children }: LayoutProps) => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <LayoutWrapper>
-        {children}
-        <Footer />
-      </LayoutWrapper>
-    </ThemeProvider>
+    <LayoutWrapper>
+      {children}
+      <Footer />
+    </LayoutWrapper>
   );
 };

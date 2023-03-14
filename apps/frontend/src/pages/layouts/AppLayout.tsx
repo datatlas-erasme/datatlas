@@ -1,10 +1,9 @@
 import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { selectCurrentUserId } from '../../store/selectors';
 import Navbar from '../../components/nav/Navbar';
-import { theme } from '../../style/theme';
 import Footer from '../../components/footer/Footer';
 
 const LayoutStyle = styled.div`
@@ -19,12 +18,10 @@ export const AppLayout = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <LayoutStyle>
-        <Navbar />
-        <Outlet />
-        <Footer />
-      </LayoutStyle>
-    </ThemeProvider>
+    <LayoutStyle>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </LayoutStyle>
   );
 };

@@ -6,12 +6,12 @@ import { FormattedMessage } from 'react-intl';
 import { useAppDispatch } from '../../store';
 import { logout } from '../../store/reducers/user';
 import { RootState } from '../../store/reducers';
-import { Clock } from 'kepler.gl/dist/components/common/icons';
-import { DatatlasLogo, HomeIcon } from '../logos';
-import { themeColor, BadgeOutlines } from '../../style/theme';
-import { HelpIcon, WheelIcon } from '../icon';
 import { selectProjectById } from '../../store/selectors';
 import { ProjectInterface } from '@datatlas/models';
+import { DatatlasLogo, HomeIcon } from '../logos';
+import { StyledBadgeOutline } from '../badges';
+import { Clock } from 'kepler.gl/dist/components/common/icons';
+import { HelpIcon, WheelIcon } from '../icon';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -26,7 +26,7 @@ const NavContainerLogo = styled.div`
   svg {
     width: 100px;
     :nth-child(1) {
-      border-right: 1px solid ${themeColor.greyMedium};
+      border-right: 1px solid ${({ theme }) => theme.greyMedium};
     }
     :nth-child(2) {
       margin: 0 20px;
@@ -65,7 +65,7 @@ const NavItem = styled(Link)`
     padding-right: 5px;
   }
 `;
-const BadgesItem = styled(BadgeOutlines)`
+const BadgesItem = styled(StyledBadgeOutline)`
   text-align: center;
   margin-right: 5px;
   svg {

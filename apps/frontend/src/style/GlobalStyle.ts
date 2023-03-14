@@ -1,12 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
-import { themeFontSize } from './theme';
-
-export const GlobalStyle = createGlobalStyle`
+import { ChickletButton } from 'kepler.gl/dist/components/common/item-selector/chickleted-input';
+import { DatatlasTheme } from './theme';
+export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
   * {
-    box-sizing: border-box;
+    box-sizing: ${({ theme }) => theme.boxSizing};
     margin: 0;
     padding: 0;
-    font-family: 'Verdana', 'Helvetica Neue', 'Helvetica', 'sans-serif';
+    font-family: ${({ theme }) => theme.fontFamily};
   }
 
   html{
@@ -14,20 +14,20 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   h2{
-    font-size: ${themeFontSize.lText};
+    font-size: ${({ theme }) => theme.smText};
     font-weight: 400;
   }
   h3{
-    font-size: ${themeFontSize.smText};
+    font-size: ${({ theme }) => theme.smText};
     font-weight: 600;
     line-height: 17px;
   }
   p{
-    font-size: ${themeFontSize.sText};
+    font-size: ${({ theme }) => theme.sText};
   }
   li{
     list-style: none;
-    font-size: ${themeFontSize.smText};
+    font-size: ${({ theme }) => theme.smText};
     line-height: 25px;
   }
   a, button{
@@ -40,4 +40,9 @@ export const GlobalStyle = createGlobalStyle`
   .side-panel--container{
     padding: 0;
   }
+
+  ${ChickletButton} {
+    border: solid 1px ${({ theme }) => theme.primaryColor}
+}
+  ,
 `;

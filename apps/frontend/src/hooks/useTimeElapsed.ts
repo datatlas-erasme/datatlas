@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 // 2 options with luxon to display a human state modified time. toRelative to have a more specific time of modified, or toRelativeCalendar to have a friendly human value.
 
 const useTimeElapsed = (createdAt) => {
-  const [timeElapsed, setTimeElapsed] = useState(0);
+  const [timeElapsed, setTimeElapsed] = useState<string | null>(null);
 
   useEffect(() => {
     const now = DateTime.now();

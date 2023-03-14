@@ -5,7 +5,7 @@ import styled, { ThemeProps } from 'styled-components';
 import { LoadDataModalProps } from 'kepler.gl/src/components/modals/load-data-modal';
 import { addDataToMap } from 'kepler.gl/actions';
 import { DatasetFactory, DatasetInterface } from '@datatlas/models';
-import { ThemeDefault } from '../../style/theme';
+import { DatatlasTheme } from '../../style/theme';
 import { isValidHttpURL } from '../../utils/url';
 import { useForward } from '../../hooks/useForward';
 
@@ -24,7 +24,7 @@ const StyledDescription = styled.div`
   margin-bottom: 12px;
 `;
 
-interface StyledInputProps extends ThemeProps<ThemeDefault> {
+interface StyledInputProps extends ThemeProps<DatatlasTheme> {
   error?: Error;
 }
 const StyledInput = styled.input`
