@@ -3,12 +3,14 @@
 ## Getting started
 
 ### Locally
+
 ```
 npm install
 cp .env.example .env
 ```
 
-### Using __Docker__
+### Using **Docker**
+
 ```
 cp .env.example .env
 docker compose up
