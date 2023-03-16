@@ -1,46 +1,82 @@
-import { Logger } from '@nestjs/common';
-
 describe('AUTHENTIFICATION TESTS', () => {
-  const notExistingUser = {
-    username: 'not_existing_user',
-    password: 'utilisateur_test_pw',
-    role: 'editor',
-    active: true,
-  };
-  const existingUserWithWrongPassword = {
-    username: 'editor',
-    password: 'wrong_password',
-    role: 'editor',
-    active: true,
-  };
-  const existingUserWithCorrectPassword = {
-    username: 'editor',
-    password: 'editor', // todo grab somehow via env var
-    role: 'editor',
-    active: true,
-  };
-  let jwtUser = {};
+  /*
+      TESTS TO MAKE IN THIS ORDER
+      - Connecting with incorrect user.
 
-  it('User -> Try login with unknown username.', () => {
+      - Connecting with proper user admin but wrong admin password.
+      - Connecting correctly with admin user.
+      - Check self-profile of admin user with wrong jwt.
+      - Check self-profile with correct jwt.
+
+      - Connecting with proper user editor but wrong editor password.
+      - Connecting correctly with editor user.
+      - Check self-profile of editor user with wrong jwt.
+      - Check self-profile with correct jwt.
+   */
+
+  /*
+      SENSIBLE DATA MUST BE SENT WITH COMMAND LINE AND OVERRIDE FOLLOWING DEFAULT ONES :
+   */
+  let jwtUser = {};
+  let idUserAdmin;
+
+  /*
+      TESTS
+   */
+  it('Auth -> Connecting with incorrect user.', () => {
     cy.request({
       method: 'POST',
       url: '/api/auth/login',
-      body: notExistingUser,
+      body: {
+        username: 'unknown_user_toto', // todo make it random (using faker ?)
+        password: 'unknown_user_pw',
+      },
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(401);
     });
   });
-  it('User -> Try login with correct username but wrong password.', () => {
+  it('Auth -> Connecting with proper user admin but wrong admin password.', () => {
     cy.request({
       method: 'POST',
       url: '/api/auth/login',
-      body: existingUserWithWrongPassword,
+      body: {
+        username: 'admin',
+        password: 'unknown_user_pw',
+      },
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(401);
     });
   });
+  it('Auth -> Connecting correctly with admin user.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        username: 'admin',
+        password: 'admin',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      jwtUser = response.body.access_token;
+      idUserAdmin = response.body.user_id;
+      expect(response.status).to.eq(201);
+    });
+  });
+  it('Auth -> Check self-profile of admin user with wrong jwt.', () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/user/' + idUserAdmin,
+      failOnStatusCode: false,
+      auth: {
+        bearer: jwtUser,
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+  /*
   it('User -> Try login with correct credentials.', () => {
     cy.request({
       method: 'POST',
@@ -51,7 +87,22 @@ describe('AUTHENTIFICATION TESTS', () => {
       jwtUser = response.body.access_token;
       expect(response.status).to.eq(201);
     });
-  }); /*
+  });
+  /*
+
+
+  /*
+  it('User -> Try login with correct username but wrong password.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: existingUserWithWrongPassword,
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+   /*
   it('User -> Try reaching its own profile with wrong jwt.', () => {
     cy.request({
       method: 'GET',

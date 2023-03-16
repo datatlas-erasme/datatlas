@@ -1,11 +1,22 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
-import { UserService } from './user.service';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from '../auth/constants';
 import { UserEntity } from './entities/user.entity';
+import { UserService } from './user.service';
 
 @Module({
-  imports: [MikroOrmModule.forFeature([UserEntity])],
+  imports: [
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '600s' },
+    }),
+    MikroOrmModule.forFeature([UserEntity]),
+    PassportModule,
+  ],
+
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

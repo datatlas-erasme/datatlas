@@ -1,27 +1,37 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Header, HttpCode, Logger, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserDto, UserPublicDTO } from '@datatlas/shared/models';
+import { UserDto } from '@datatlas/shared/models';
+import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  @HttpCode(200)
-  @Header('Cache-Control', 'none')
-  async test(): Promise<string> {
-    return 'ok';
-  }
-
   @Get(':id')
   @HttpCode(200)
+  @UseGuards(SelfOrAdminGuard)
   /**
    * Should always send back a UserDTO.
    * TODO : Guard ? à faire
    * @param params
    */
-  getUser(@Param() params): Promise<UserPublicDTO> {
-    return this.userService.getUser(params.id);
+  getUser(@Param() params): number /*Promise<Omit<UserDto, 'password'>>*/ {
+    //return this.userService.getUser(params.id);
+    /*
+    const toto = await ExtractJwt.fromAuthHeaderAsBearerToken();
+    console.log(toto);
+    Logger.log(toto);*/
+    Logger.log(params);
+    Logger.log('je suis /user/id');
+    return 3;
+  }
+
+  /*             EVERYTHING BELOW SHOULD BE PROPERLY REWORKED                */
+  @Get()
+  @HttpCode(200)
+  @Header('Cache-Control', 'none')
+  async test(): Promise<string> {
+    return 'ok';
   }
 
   @HttpCode(201)

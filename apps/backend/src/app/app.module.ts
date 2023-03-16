@@ -7,10 +7,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProjectModule } from '../project/project.module';
 import { AuthService } from '../auth/auth.service';
-import { UserController } from '../user/user.controller';
 import { UserModule } from '../user/user.module';
 import { LocalStrategy } from '../auth/local.strategy';
-import { JwtStrategy } from '../auth/jwt.strategy';
 
 @Module({
   imports: [
@@ -18,11 +16,11 @@ import { JwtStrategy } from '../auth/jwt.strategy';
       ...config,
       autoLoadEntities: true,
     }),
+    PassportModule,
     ProjectModule,
     UserModule,
-    PassportModule,
   ],
-  controllers: [AppController, UserController],
-  providers: [AppService, AuthService, LocalStrategy, JwtService, JwtStrategy],
+  controllers: [AppController],
+  providers: [AppService, AuthService, LocalStrategy, JwtService],
 })
 export class AppModule {}
