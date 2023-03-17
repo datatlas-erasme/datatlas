@@ -1,49 +1,33 @@
 import { AuthGuard } from '@nestjs/passport';
-import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { jwtConstants } from './constants';
 import { JwtService } from '@nestjs/jwt';
+import { Roles } from '@datatlas/models';
 
 @Injectable()
 export class SelfOrAdminGuard extends AuthGuard('local') {
   constructor(private readonly _reflector: Reflector, private jwtService: JwtService) {
-    Logger.log('dans le constr de la garde');
     super();
   }
 
   canActivate(context: ExecutionContext) {
-    Logger.log('dans validate de la garde');
+    /*
+        CHECKING IS ADMIN ? -> USE THE JWT
+        CHECKING THE SELF ? -> USE THE PARAMS.ID (MUST ALWAYS BE ID)
+     */
     const request = context.switchToHttp().getRequest();
     const { headers } = request;
     const headerString = headers.authorization.split(' ');
-
-    console.log('header token :');
-    console.log(headerString[1]);
-    console.log('secret :');
-    console.log(jwtConstants.secret);
-
-    const datum = this.jwtService.decode(headerString[1]);
-    console.log('données du token :');
-    console.log(datum);
-
-    //const decodedJwtAccessToken = this.jwtService.decode(signedJwtAccessToken);
-
-    return true;
-  }
-
-  /*
-  canActivate(context: ExecutionContext): boolean {
-    Logger.log('je suis dans la garde');
-    console.log(context);
-    const passportActive = super.canActivate(context);
-    if (!passportActive) {
-      throw new HttpException(
-        'You do not have permission (Roles)',
-        HttpStatus.UNAUTHORIZED,
-      );
+    const jwtData = this.jwtService.decode(headerString[1]) as { [key: string]: never };
+    // In case of incoherent jwt.
+    if (jwtData === null) {
+      return false;
     }
-    Logger.log(passportActive);
-    console.log(passportActive);
-    return true;
-  }*/
+    // Is admin ?
+    if (Object.prototype.hasOwnProperty.call(jwtData, 'role') && jwtData?.role === Roles.ADMIN) {
+      return true;
+    }
+    // Is self ?
+    return Object.prototype.hasOwnProperty.call(jwtData, 'id') && jwtData.id == request.params.id;
+  }
 }

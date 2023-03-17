@@ -1,3 +1,6 @@
+import { object } from 'prop-types';
+import { type } from 'os';
+
 describe('AUTHENTIFICATION TESTS', () => {
   /*
       TESTS TO MAKE IN THIS ORDER
@@ -70,22 +73,25 @@ describe('AUTHENTIFICATION TESTS', () => {
       url: '/api/user/' + idUserAdmin,
       failOnStatusCode: false,
       auth: {
+        bearer: 'incorrect_jwt',
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(403);
+    });
+  });
+  it('Auth -> Check self-profile of admin user with correct jwt.', () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/user/' + idUserAdmin,
+      failOnStatusCode: false,
+      auth: {
         bearer: jwtUser,
       },
     }).then((response) => {
-      expect(response.status).to.eq(401);
-    });
-  });
-  /*
-  it('User -> Try login with correct credentials.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/auth/login',
-      body: existingUserWithCorrectPassword,
-      failOnStatusCode: false,
-    }).then((response) => {
-      jwtUser = response.body.access_token;
-      expect(response.status).to.eq(201);
+      expect(response.body.id).to.eq(idUserAdmin);
+      // todo faire pareil avec les autres params.
+      //expect(response.body).to.eq({role: 'ADMIN',active: true,id: Number(idUserAdmin),username: 'admin',password: undefined});
+      expect(response.status).to.eq(200);
     });
   });
   /*

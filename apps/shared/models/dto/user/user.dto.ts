@@ -1,25 +1,33 @@
 import { Roles } from './Roles';
 
 export class UserDto {
-  readonly id: number;
-  readonly username: string;
-  readonly password: string;
+  readonly id?: number;
+  readonly username?: string;
+  readonly password?: string;
+  readonly role?: Roles = Roles.EDITOR;
+  readonly active?: boolean = true;
 
-  readonly role: Roles = Roles.EDITOR;
-
-  readonly active: boolean = true;
-
-  constructor(
-    private userId: number,
-    private userName: string,
-    private userPassword: string,
-    private userRole: Roles = Roles.EDITOR,
-    private userIsActive: boolean = true
-  ) {
-    this.id = userId;
-    this.username = userName;
-    this.password = userPassword;
-    this.role = userRole;
-    this.active = userIsActive;
+  constructor(userData: {
+    userId?: number;
+    userName?: string;
+    userPassword?: string;
+    userRole?: Roles;
+    userIsActive?: boolean;
+  }) {
+    if (userData.userId) {
+      this.id = userData.userId;
+    }
+    if (userData.userId) {
+      this.username = userData.userName;
+    }
+    if (userData.userId) {
+      this.password = userData.userPassword;
+    }
+    if (userData.userId) {
+      this.role = userData.userRole;
+    }
+    if (userData.userId) {
+      this.active = userData.userIsActive;
+    }
   }
 }

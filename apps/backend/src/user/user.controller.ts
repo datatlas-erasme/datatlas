@@ -12,18 +12,12 @@ export class UserController {
   @UseGuards(SelfOrAdminGuard)
   /**
    * Should always send back a UserDTO.
-   * TODO : Guard ? à faire
    * @param params
    */
-  getUser(@Param() params): number /*Promise<Omit<UserDto, 'password'>>*/ {
-    //return this.userService.getUser(params.id);
-    /*
-    const toto = await ExtractJwt.fromAuthHeaderAsBearerToken();
-    console.log(toto);
-    Logger.log(toto);*/
-    Logger.log(params);
-    Logger.log('je suis /user/id');
-    return 3;
+  async getUser(@Param() params): Promise<Omit<UserDto, 'password'>> {
+    const data = await this.userService.getUser(params.id);
+    console.log(data);
+    return data;
   }
 
   /*             EVERYTHING BELOW SHOULD BE PROPERLY REWORKED                */
