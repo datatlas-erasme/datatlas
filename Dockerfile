@@ -12,7 +12,9 @@ RUN npm install --force
 
 #Export the target to env variable
 ARG COPY_PATH
+ARG NODE_ENV
 
+ENV NODE_ENV=$NODE_ENV
 ENV COPY_PATH=$COPY_PATH
 
 # Bundle app source
