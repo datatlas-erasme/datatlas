@@ -40,7 +40,7 @@ jobs:
           target: frontend
           build-args: |
             COPY_PATH=frontend
-            NODE_ENV=production
+            NODE_ENV=development
 
       - name: Move cache
         run: |
