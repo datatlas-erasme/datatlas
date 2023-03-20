@@ -22,6 +22,7 @@ describe('AUTHENTIFICATION TESTS', () => {
    */
   let jwtUser = {};
   let idUserAdmin;
+  let idUserEditor;
 
   /*
       TESTS
@@ -89,49 +90,66 @@ describe('AUTHENTIFICATION TESTS', () => {
       },
     }).then((response) => {
       expect(response.body.id).to.eq(idUserAdmin);
-      // todo faire pareil avec les autres params.
-      //expect(response.body).to.eq({role: 'ADMIN',active: true,id: Number(idUserAdmin),username: 'admin',password: undefined});
+      expect(response.body.role).to.eq('ADMIN');
+      expect(response.body.active).to.eq(true);
+      expect(response.body.username).to.eq('admin');
       expect(response.status).to.eq(200);
     });
   });
-  /*
-
-
-  /*
-  it('User -> Try login with correct username but wrong password.', () => {
+  it('Auth -> Connecting with proper editor user but wrong password.', () => {
     cy.request({
       method: 'POST',
       url: '/api/auth/login',
-      body: existingUserWithWrongPassword,
+      body: {
+        username: 'editor',
+        password: 'unknown_user_pw',
+      },
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(401);
     });
   });
-   /*
-  it('User -> Try reaching its own profile with wrong jwt.', () => {
+  it('Auth -> Connecting correctly with editor user.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        username: 'editor',
+        password: 'editor',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      jwtUser = response.body.access_token;
+      idUserEditor = response.body.user_id;
+      expect(response.status).to.eq(201);
+    });
+  });
+  it('Auth -> Check self-profile of editor user with wrong jwt.', () => {
     cy.request({
       method: 'GET',
-      url: '/api/profile',
+      url: '/api/user/' + idUserEditor,
       failOnStatusCode: false,
       auth: {
-        bearer: 'wrong_token',
+        bearer: 'incorrect_jwt',
       },
     }).then((response) => {
-      expect(response.status).to.eq(401);
+      expect(response.status).to.eq(403);
     });
   });
-  it('User -> Try reaching its own profile.', () => {
+  it('Auth -> Check self-profile of editor user with correct jwt.', () => {
     cy.request({
       method: 'GET',
-      url: '/api/profile',
+      url: '/api/user/' + idUserEditor,
       failOnStatusCode: false,
       auth: {
         bearer: jwtUser,
       },
     }).then((response) => {
-      expect(response).to.eq({});
-      expect(response.status).to.eq(201);
+      expect(response.body.id).to.eq(idUserEditor);
+      expect(response.body.role).to.eq('EDITOR');
+      expect(response.body.active).to.eq(true);
+      expect(response.body.username).to.eq('editor');
+      expect(response.status).to.eq(200);
     });
-  });*/
+  });
 });

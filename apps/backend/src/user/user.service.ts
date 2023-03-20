@@ -27,17 +27,15 @@ export class UserService {
   }
 
   async getUser(id = 0): Promise<Omit<UserDto, 'password'>> {
-    return this.userRepository
-      .findOne({ id })
-      .then(
-        (dataUser) =>
-          new UserDto({
-            userId: dataUser.id,
-            userName: dataUser.username,
-            userRole: (<never>Roles)[dataUser.role],
-            userIsActive: dataUser.active,
-          })
-      );
+    return this.userRepository.findOne({ id }).then(
+      (dataUser) =>
+        new UserDto({
+          userId: dataUser.id,
+          userName: dataUser.username,
+          userRole: (<never>Roles)[dataUser.role],
+          userIsActive: dataUser.active,
+        })
+    );
   }
 
   async updateUser(user: { userId: number } & UserDto): Promise<void> {
