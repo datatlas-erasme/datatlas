@@ -4,6 +4,10 @@ declare module 'kepler.gl' {
 
 declare module 'kepler.gl/actions' {
   export * from 'kepler.gl/src/actions';
+  export * as visStateActions from 'kepler.gl/src/actions/vis-state-actions';
+  export * as uiStateActions from 'kepler.gl/src/actions/ui-state-actions';
+  export * as mapStateActions from 'kepler.gl/src/actions/map-state-actions';
+  export * as mapStyleActions from 'kepler.gl/src/actions/map-style-actions';
 }
 
 declare module 'kepler.gl/processors' {

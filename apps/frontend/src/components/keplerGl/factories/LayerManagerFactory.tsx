@@ -1,41 +1,16 @@
-import { Action } from '@reduxjs/toolkit';
-import React, { PropsWithChildren, UIEventHandler, useState } from 'react';
+import React from 'react';
 import { createSelector } from 'reselect';
-import { SortableContainer, SortableContainerProps, SortableElement, SortableElementProps } from 'react-sortable-hoc';
-import classnames from 'classnames';
-import styled from 'styled-components';
-import { LayerManagerFactory as KeplerLayerManagerFactory } from 'kepler.gl/components';
+import {
+  LayerManagerFactory as KeplerLayerManagerFactory,
+  LayerPanelFactory as KeplerLayerPanelFactory,
+  AddDataButtonFactory as KeplerAddDataButtonFactory,
+} from 'kepler.gl/components';
 import { SidePanelSection } from 'kepler.gl/dist/components/common/styled-components';
-import { arrayMove } from 'kepler.gl/dist/utils/data-utils';
-import { Layer, layerConfigChange } from 'kepler.gl/src';
-import { DatasetInterface } from '@datatlas/models';
+import { PanelComponentPropsInterface } from '../types/PanelComponentPropsInterface';
+import { uiStateActions, visStateActions } from 'kepler.gl/actions';
+import { LayerTypeOptionInterface } from '../types/LayerTypeOptionInterface';
+import { SortableLayerList } from '../side-panel/layer/SortableLayerList';
 
-// make sure the element is always visible while is being dragged
-// item being dragged is appended in body, here to reset its global style
-const SortableStyledItem = styled.div`
-  z-index: ${(props) => props.theme.dropdownWrapperZ + 1};
-
-  &.sorting {
-    pointer-events: none;
-  }
-
-  &.sorting-layers .layer-panel__header {
-    background-color: ${(props) => props.theme.panelBackgroundHover};
-    font-family: ${(props) => props.theme.fontFamily};
-    font-weight: ${(props) => props.theme.fontWeight};
-    font-size: ${(props) => props.theme.fontSize};
-    line-height: ${(props) => props.theme.lineHeight};
-    *,
-    *:before,
-    *:after {
-      box-sizing: border-box;
-    }
-    .layer__drag-handle {
-      opacity: 1;
-      color: ${(props) => props.theme.textColorHl};
-    }
-  }
-`;
 const layerClassSelector = (props) => props.layerClasses;
 const layerTypeOptionsSelector = createSelector(layerClassSelector, (layerClasses) =>
   Object.keys(layerClasses).map((key) => {
@@ -49,43 +24,28 @@ const layerTypeOptionsSelector = createSelector(layerClassSelector, (layerClasse
   })
 );
 
-const SortableItem: React.ComponentClass<SortableElementProps & PropsWithChildren<{ isSorting: boolean }>> =
-  SortableElement(({ children, isSorting }) => (
-    <SortableStyledItem className={classnames('sortable-layer-items', { sorting: isSorting })}>
-      {children}
-    </SortableStyledItem>
-  ));
+export type LayerActionsInterface = Pick<
+  visStateActions,
+  | 'layerColorUIChange'
+  | 'layerConfigChange'
+  | 'layerVisualChannelConfigChange'
+  | 'layerTypeChange'
+  | 'layerVisConfigChange'
+  | 'layerTextLabelChange'
+  | 'removeLayer'
+  | 'duplicateLayer'
+>;
 
-const WrappedSortableContainer: React.ComponentClass<SortableContainerProps & PropsWithChildren> = SortableContainer(
-  ({ children }) => <div>{children}</div>
-);
-
-interface LayerManagerProps {
-  datasets: Record<string, DatasetInterface>;
-  layerBlending: string;
-  layerClasses: Record<string, Layer>;
-  layers: Layer[];
-  layerOrder: number[];
-  uiStateActions: Record<string, Action>;
-  visStateActions: {
-    addLayer: UIEventHandler;
-    reorderLayer: UIEventHandler;
-    layerColorUIChange: UIEventHandler;
-    layerConfigChange: typeof layerConfigChange;
-    layerVisualChannelConfigChange: UIEventHandler;
-    layerTypeChange: UIEventHandler;
-    layerVisConfigChange: UIEventHandler;
-    layerTextLabelChange: UIEventHandler;
-    removeLayer: UIEventHandler;
-    duplicateLayer: UIEventHandler;
-  };
-  // functions
-  removeDataset: UIEventHandler;
-  showDatasetTable: UIEventHandler;
-  showAddDataModal: UIEventHandler;
+export interface PanelPropsInterface {
+  datasets: PanelComponentPropsInterface['datasets'];
+  openModal: uiStateActions['toggleModal'];
+  layerTypeOptions: LayerTypeOptionInterface[];
 }
 
-const LayerManagerFactory = (AddDataButton, LayerPanel) => {
+const LayerManagerFactory = (
+  AddDataButton: ReturnType<KeplerAddDataButtonFactory>,
+  LayerPanel: ReturnType<KeplerLayerPanelFactory>
+) => {
   // To restore original behavior, you may return this component instead :
   // const KeplerLayerManager = KeplerLayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog);
 
@@ -97,15 +57,13 @@ const LayerManagerFactory = (AddDataButton, LayerPanel) => {
     uiStateActions,
     visStateActions,
     showAddDataModal,
-  }: LayerManagerProps) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [isSorting, setIsSorting] = useState<boolean>(false);
+  }: PanelComponentPropsInterface) => {
     const { toggleModal: openModal } = uiStateActions;
     const defaultDataset = Object.keys(datasets)[0];
 
     const layerTypeOptions = layerTypeOptionsSelector({ layerClasses });
 
-    const layerActions = {
+    const layerActions: LayerActionsInterface = {
       layerColorUIChange: visStateActions.layerColorUIChange,
       layerConfigChange: visStateActions.layerConfigChange,
       layerVisualChannelConfigChange: visStateActions.layerVisualChannelConfigChange,
@@ -116,57 +74,30 @@ const LayerManagerFactory = (AddDataButton, LayerPanel) => {
       duplicateLayer: visStateActions.duplicateLayer,
     };
 
-    const panelProps = {
+    const panelProps: PanelPropsInterface = {
       datasets,
       openModal,
       layerTypeOptions,
     };
 
-    const _handleSort = ({ oldIndex, newIndex }) => {
-      visStateActions.reorderLayer(arrayMove(layerOrder, oldIndex, newIndex));
-      setIsSorting(false);
-    };
-
-    const _onSortStart = () => {
-      setIsSorting(true);
-    };
-
-    const _updateBeforeSortStart = ({ index }) => {
-      // if layer config is active, close it
-      const layerIdx = layerOrder[index];
-      if (layers[layerIdx].config.isConfigActive) {
-        visStateActions.layerConfigChange(layers[layerIdx], { isConfigActive: false });
-      }
-    };
-
     return (
       <div className="layer-manager">
-        <SidePanelSection>
-          <WrappedSortableContainer
-            onSortEnd={_handleSort}
-            onSortStart={_onSortStart}
-            updateBeforeSortStart={_updateBeforeSortStart}
-            lockAxis="y"
-            helperClass="sorting-layers"
-            useDragHandle
-          >
-            {layerOrder.map(
-              (layerIdx, index) =>
-                !layers[layerIdx].config.hidden && (
-                  <SortableItem key={`layer-${layerIdx}`} index={index} isSorting={isSorting}>
-                    <LayerPanel
-                      {...panelProps}
-                      {...layerActions}
-                      sortData={layerIdx}
-                      key={layers[layerIdx].id}
-                      idx={layerIdx}
-                      layer={layers[layerIdx]}
-                    />
-                  </SortableItem>
-                )
-            )}
-          </WrappedSortableContainer>
-        </SidePanelSection>
+        <SortableLayerList
+          layers={layers}
+          layerOrder={layerOrder}
+          reorderLayer={visStateActions.reorderLayer}
+          layerConfigChange={visStateActions.layerConfigChange}
+          renderLayerListItem={(layer, layerIdx: number) => (
+            <LayerPanel
+              {...panelProps}
+              {...layerActions}
+              sortData={layerIdx}
+              key={layer.id}
+              idx={layerIdx}
+              layer={layer}
+            />
+          )}
+        />
         <SidePanelSection>
           <AddDataButton onClick={showAddDataModal} isInactive={!defaultDataset} width="105px" />
         </SidePanelSection>
