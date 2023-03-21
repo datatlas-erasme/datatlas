@@ -1,50 +1,59 @@
 const path = require('path');
+const webpack = require('webpack');
 const TsConfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-const { useBabelRc, override } = require('customize-cra');
+const { useBabelRc, override, addWebpackPlugin } = require('customize-cra');
 
 const appPath = path.resolve(__dirname, 'apps/frontend/');
 const appTsConfig = path.resolve(appPath, 'tsconfig.app.json');
 
 module.exports = {
   // The Webpack config to use when compiling your react app for development or production.
-  webpack: override(useBabelRc(), (config, env) => {
-    config.resolve.fallback = {
-      querystring: require.resolve('querystring-es3'),
-      url: false,
-    };
-
-    // Remove guard against importing modules outside of `src`.
-    // Needed for workspace projects.
-    config.resolve.plugins = config.resolve.plugins.filter((plugin) => !(plugin instanceof ModuleScopePlugin));
-    // Add support for importing workspace projects.
-    config.resolve.plugins.push(
-      new TsConfigPathsPlugin({
-        configFile: appTsConfig,
-        extensions: ['.ts', '.tsx', '.js', '.jsx'],
-        mainFields: ['module', 'main'],
+  webpack: override(
+    useBabelRc(),
+    addWebpackPlugin(
+      new webpack.DefinePlugin({
+        process: {},
       })
-    );
+    ),
+    (config, env) => {
+      config.resolve.fallback = {
+        querystring: require.resolve('querystring-es3'),
+        url: false,
+      };
 
-    // Replace include option for babel loader with exclude
-    // so babel will handle workspace projects as well.
-    config.module.rules[1].oneOf.forEach((r) => {
-      if (r.loader && r.loader.indexOf('babel') !== -1) {
-        r.exclude = /node_modules/;
-        delete r.include;
+      // Remove guard against importing modules outside of `src`.
+      // Needed for workspace projects.
+      config.resolve.plugins = config.resolve.plugins.filter((plugin) => !(plugin instanceof ModuleScopePlugin));
+      // Add support for importing workspace projects.
+      config.resolve.plugins.push(
+        new TsConfigPathsPlugin({
+          configFile: appTsConfig,
+          extensions: ['.ts', '.tsx', '.js', '.jsx'],
+          mainFields: ['module', 'main'],
+        })
+      );
+
+      // Replace include option for babel loader with exclude
+      // so babel will handle workspace projects as well.
+      config.module.rules[1].oneOf.forEach((r) => {
+        if (r.loader && r.loader.indexOf('babel') !== -1) {
+          r.exclude = /node_modules/;
+          delete r.include;
+        }
+      });
+
+      // Change default path of the config file
+      const forkTsCheckerWebpackPlugin = config.plugins.find(
+        (plugin) => plugin.constructor.name === 'ForkTsCheckerWebpackPlugin'
+      );
+      if (forkTsCheckerWebpackPlugin) {
+        forkTsCheckerWebpackPlugin.options.typescript.configFile = appTsConfig;
       }
-    });
 
-    // Change default path of the config file
-    const forkTsCheckerWebpackPlugin = config.plugins.find(
-      (plugin) => plugin.constructor.name === 'ForkTsCheckerWebpackPlugin'
-    );
-    if (forkTsCheckerWebpackPlugin) {
-      forkTsCheckerWebpackPlugin.options.typescript.configFile = appTsConfig;
+      return config;
     }
-
-    return config;
-  }),
+  ),
   // The Jest config to use when running your jest tests - note that the normal rewires do not
   // work here.
   jest: function (config) {
