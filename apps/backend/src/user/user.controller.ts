@@ -49,17 +49,13 @@ export class UserController {
     return this.userService.updateUser(user);
   }
 
-  /*             EVERYTHING BELOW SHOULD BE PROPERLY REWORKED                */
-
-
-
   @Delete(':id')
   @HttpCode(204)
+  @UseGuards(AdminGuard) // For now, only admins can do that.
   @Header('Cache-Control', 'none')
   /**
    * Delete a user in database using its user_id. Nothing is done if no user has this id.
    * Returns void.
-   * TODO : guard
    */
   async deleteUser(@Param() params): Promise<void> {
     return this.userService.deleteUserById(params.id);

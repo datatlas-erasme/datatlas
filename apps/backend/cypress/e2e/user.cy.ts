@@ -8,13 +8,13 @@ describe('USER ACTIONS', () => {
       - Creating, reading, updating and deleting a new user as admin with correct jwt
    */
   const user_test_editor = {
-    username: 'user_test_editor_16',
+    username: 'user_test_editor_18',
     password: 'user_test_pw',
     role: 'EDITOR',
     active: true,
   };
   const user_test_admin = {
-    username: 'user_test_admin_16',
+    username: 'user_test_admin_18',
     password: 'user_test_pw',
     role: 'ADMIN',
     active: true,
@@ -215,7 +215,7 @@ describe('USER ACTIONS', () => {
       method: 'PUT',
       url: '/api/user/' + idUserTestEditor,
       body: {
-        username: 'random_name',
+        username: 'random_name_jkclsbdkj',
         password: 'editor_pw_modified',
         role: 'EDITOR',
         active: true,
@@ -228,30 +228,28 @@ describe('USER ACTIONS', () => {
       expect(response.status).to.eq(204);
     });
   });
-
-  /*
-
-  });
-
-  it('User -> Modification', () => {
-    cy.request({
-      method: 'PUT',
-      url: '/api/user/' + id_test_user,
-      body: { userId: id_test_user, ...modified_test_user },
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(204);
-    });
-  });
-  it('User -> Deletion', () => {
+  it('Editor -> Deletion of any user -> should fail.', () => {
     cy.request({
       method: 'DELETE',
-      url: '/api/user/' + id_test_user,
+      url: '/api/user/' + idUserTestEditor,
       failOnStatusCode: false,
+      auth: {
+        bearer: jwtEditorUser,
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(403);
+    });
+  });
+  it('Admin -> Deletion of editor created for tests -> should not fail.', () => {
+    cy.request({
+      method: 'DELETE',
+      url: '/api/user/' + idUserTestEditor,
+      failOnStatusCode: false,
+      auth: {
+        bearer: jwtAdminUser,
+      },
     }).then((response) => {
       expect(response.status).to.eq(204);
     });
   });
-
-   */
 });

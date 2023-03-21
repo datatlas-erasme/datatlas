@@ -65,14 +65,13 @@ export class UserService {
     return await bcrypt.hash(textToHash, 16);
   }
 
-  // BELOW : to check for rework
   async deleteUserById(userId: number): Promise<void> {
     return this.userRepository.nativeDelete(userId).then(() => {
       return;
     });
   }
 
-  // todo rework entirely the user system.
+  // todo BELOW : to check for rework.
   async getCompleteUserByUserName(username: string): Promise<{ id; username; role; active }> {
     return await this.userRepository.findOne({ username }).then((user) => {
       if (user !== null) {
@@ -130,5 +129,4 @@ export class UserService {
       await this.userRepository.persistAndFlush(editor);
     }
   }
-
 }
