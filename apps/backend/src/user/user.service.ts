@@ -32,8 +32,6 @@ export class UserService {
     });
   }
 
-  // BELOW : to check for rework
-
   async getUser(id = 0): Promise<Omit<UserDto, 'password'>> {
     return this.userRepository.findOne({ id }).then(
       (dataUser) =>
@@ -45,6 +43,8 @@ export class UserService {
         })
     );
   }
+
+  // BELOW : to check for rework
 
   async updateUser(user: { userId: number } & UserDto): Promise<void> {
     /*
@@ -68,7 +68,6 @@ export class UserService {
       return;
     });
   }
-
 
   // todo rework entirely the user system.
   async getCompleteUserByUserName(username: string): Promise<{ id; username; role; active }> {

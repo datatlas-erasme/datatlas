@@ -14,7 +14,6 @@ export class AdminGuard extends AuthGuard('local') {
     /*
         CHECKING IS ADMIN ? -> USE THE JWT
      */
-    console.log('dans la garde admin');
     // todo deport duplicated stuff about jwt data extraction (in an interface ? static method ?)
     const request = context.switchToHttp().getRequest();
     const { headers } = request;

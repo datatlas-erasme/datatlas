@@ -1,8 +1,8 @@
-import {Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards} from '@nestjs/common';
-import {UserService} from './user.service';
-import {UserDto} from '@datatlas/shared/models';
-import {SelfOrAdminGuard} from '../auth/selfOrAdmin.guard';
-import {AdminGuard} from "../auth/admin.guard";
+import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { UserService } from './user.service';
+import { UserDto } from '@datatlas/shared/models';
+import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
+import { AdminGuard } from '../auth/admin.guard';
 
 @Controller('user')
 export class UserController {
@@ -15,18 +15,6 @@ export class UserController {
     return 'ok';
   }
 
-
-  @Get(':id')
-  @HttpCode(200)
-  @UseGuards(SelfOrAdminGuard)
-  /**
-   * Should always send back a UserDTO.
-   * @param params
-   */
-  async getUser(@Param() params): Promise<Omit<UserDto, 'password'>> {
-    return await this.userService.getUser(params.id);
-  }
-
   @Post()
   @HttpCode(201)
   @UseGuards(AdminGuard)
@@ -37,6 +25,17 @@ export class UserController {
    */
   async createUser(@Body() UserDto: UserDto) {
     return this.userService.createUser(UserDto);
+  }
+
+  @Get(':id')
+  @HttpCode(200)
+  @UseGuards(SelfOrAdminGuard)
+  /**
+   * Should always send back a UserDTO.
+   * @param params
+   */
+  async getUser(@Param() params): Promise<Omit<UserDto, 'password'>> {
+    return await this.userService.getUser(params.id);
   }
 
   /*             EVERYTHING BELOW SHOULD BE PROPERLY REWORKED                */
