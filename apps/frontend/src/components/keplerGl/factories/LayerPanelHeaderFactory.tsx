@@ -1,41 +1,11 @@
 import { LayerPanelHeaderFactory as KeplerLayerPanelHeaderFactory } from 'kepler.gl/components';
 import React, { FunctionComponent, UIEventHandler, useState } from 'react';
 import classnames from 'classnames';
-import styled from 'styled-components';
-import { DragHandle } from 'kepler.gl/dist/components/side-panel/layer-panel/layer-panel-header';
-import { Copy, ArrowDown, EyeSeen, EyeUnseen, Trash, VertDots } from 'kepler.gl/dist/components/common/icons';
-import { StyledPanelHeader } from 'kepler.gl/dist/components/common/styled-components';
+import { Copy, ArrowDown, EyeSeen, EyeUnseen, Trash } from 'kepler.gl/dist/components/common/icons';
 import { HelpIcon } from '../../icon';
+import { LayerPanelHeader } from '../side-panel/layer/LayerPanelHeader';
 
-const StyledLayerPanelHeader = styled(StyledPanelHeader)`
-  height: ${(props) => props.theme.layerPanelHeaderHeight}px;
-  .layer__remove-layer {
-    opacity: 0;
-  }
-  :hover {
-    cursor: pointer;
-    background-color: ${(props) => props.theme.panelBackgroundHover};
-
-    .layer__drag-handle {
-      opacity: 1;
-    }
-
-    .layer__remove-layer {
-      opacity: 1;
-    }
-  }
-`;
-
-const HeaderLabelSection = styled.div`
-  display: flex;
-  color: ${(props) => props.theme.textColor};
-`;
-
-const HeaderActionSection = styled.div`
-  display: flex;
-`;
-
-export interface LayerPanelProps {
+export interface KeplerLayerPanelHeaderPropsInterface {
   isConfigActive: boolean;
   isDragNDropEnabled: boolean;
   isVisible: boolean;
@@ -79,7 +49,7 @@ const LayerPanelHeaderFactory = (LayerTitleSection, PanelHeaderAction) => {
     onRemoveLayer,
     showRemoveLayer,
     actionIcons = defaultActionIcons,
-  }: LayerPanelProps) => {
+  }: KeplerLayerPanelHeaderPropsInterface) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [isOpen, setOpen] = useState(false);
     const toggleLayerConfigurator = (e) => {
@@ -87,75 +57,66 @@ const LayerPanelHeaderFactory = (LayerTitleSection, PanelHeaderAction) => {
       onToggleEnableConfig(e);
     };
     return (
-      <StyledLayerPanelHeader
-        className={classnames('layer-panel__header', {
-          'sort--handle': !isConfigActive,
-        })}
-        active={isConfigActive}
+      <LayerPanelHeader
+        isActive={isConfigActive}
+        isDragNDropEnabled={isDragNDropEnabled}
         labelRCGColorValues={labelRCGColorValues}
-        onClick={toggleLayerConfigurator}
-      >
-        <HeaderLabelSection className="layer-panel__header__content">
-          {isDragNDropEnabled && (
-            <DragHandle className="layer__drag-handle">
-              <VertDots height="20px" />
-            </DragHandle>
-          )}
+        onToggleEnableConfig={onToggleEnableConfig}
+        layerTitleSection={
           <LayerTitleSection
             layerId={layerId}
             label={label}
             onUpdateLayerLabel={onUpdateLayerLabel}
             layerType={layerType}
           />
-        </HeaderLabelSection>
-        <HeaderActionSection className="layer-panel__header__actions">
-          {showRemoveLayer ? (
-            // @todo remove dataset instead
-            <PanelHeaderAction
-              className="layer__remove-layer"
-              id={layerId}
-              tooltip={'tooltip.removeLayer'}
-              onClick={onRemoveLayer}
-              tooltipType="error"
-              IconComponent={actionIcons.remove}
-            />
-          ) : null}
+        }
+      >
+        {showRemoveLayer ? (
+          // @todo remove dataset instead
           <PanelHeaderAction
-            className="layer__visibility-toggle"
+            className="layer__remove-layer"
             id={layerId}
-            tooltip={isVisible ? 'tooltip.hideLayer' : 'tooltip.showLayer'}
-            onClick={onToggleVisibility}
-            IconComponent={isVisible ? actionIcons.visible : actionIcons.hidden}
+            tooltip={'tooltip.removeLayer'}
+            onClick={onRemoveLayer}
+            tooltipType="error"
+            IconComponent={actionIcons.remove}
           />
-          <PanelHeaderAction
-            className="layer__duplicate"
-            id={layerId}
-            tooltip={'tooltip.duplicateLayer'}
-            onClick={onDuplicateLayer}
-            IconComponent={actionIcons.duplicate}
-          />
-          {/* @todo show datatable instead */}
-          <PanelHeaderAction
-            className="layer__custom_action"
-            id={layerId}
-            tooltip={'tooltip.customAction'}
-            onClick={(e) => {
-              console.log("Hi Olivier, I'm a custom action !");
-              e.preventDefault();
-            }}
-            IconComponent={actionIcons.custom}
-          />
-          <PanelHeaderAction
-            className={classnames('layer__enable-config ', {
-              'is-open': isOpen,
-            })}
-            id={layerId}
-            tooltip={'tooltip.layerSettings'}
-            onClick={toggleLayerConfigurator}
-            IconComponent={actionIcons.enableConfig}
-          />
-        </HeaderActionSection>
-      </StyledLayerPanelHeader>
+        ) : null}
+        <PanelHeaderAction
+          className="layer__visibility-toggle"
+          id={layerId}
+          tooltip={isVisible ? 'tooltip.hideLayer' : 'tooltip.showLayer'}
+          onClick={onToggleVisibility}
+          IconComponent={isVisible ? actionIcons.visible : actionIcons.hidden}
+        />
+        <PanelHeaderAction
+          className="layer__duplicate"
+          id={layerId}
+          tooltip={'tooltip.duplicateLayer'}
+          onClick={onDuplicateLayer}
+          IconComponent={actionIcons.duplicate}
+        />
+        {/* @todo show datatable instead */}
+        <PanelHeaderAction
+          className="layer__custom_action"
+          id={layerId}
+          tooltip={'tooltip.customAction'}
+          onClick={(e) => {
+            console.log("Hi Olivier, I'm a custom action !");
+            e.preventDefault();
+          }}
+          IconComponent={actionIcons.custom}
+        />
+        <PanelHeaderAction
+          className={classnames('layer__enable-config ', {
+            'is-open': isOpen,
+          })}
+          id={layerId}
+          tooltip={'tooltip.layerSettings'}
+          onClick={toggleLayerConfigurator}
+          IconComponent={actionIcons.enableConfig}
+        />
+      </LayerPanelHeader>
     );
   };
 };
