@@ -1,6 +1,3 @@
-import { object } from 'prop-types';
-import { type } from 'os';
-
 describe('AUTHENTIFICATION TESTS', () => {
   /*
       TESTS TO MAKE IN THIS ORDER

@@ -1,4 +1,4 @@
-import { Roles } from './Roles';
+import {Roles} from './Roles';
 
 export class UserDto {
   readonly id?: number;
@@ -17,16 +17,18 @@ export class UserDto {
     if (userData.userId) {
       this.id = userData.userId;
     }
-    if (userData.userId) {
+    if (userData.userName) {
       this.username = userData.userName;
     }
-    if (userData.userId) {
+    if (userData.userPassword) {
       this.password = userData.userPassword;
     }
-    if (userData.userId) {
+    if (userData.userRole && (userData.userRole in Roles)) {
       this.role = userData.userRole;
+    } else {
+      this.role = Roles.EDITOR;
     }
-    if (userData.userId) {
+    if (userData.userIsActive) {
       this.active = userData.userIsActive;
     }
   }

@@ -1,11 +1,20 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, Logger, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserDto } from '@datatlas/shared/models';
-import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
+import {Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards} from '@nestjs/common';
+import {UserService} from './user.service';
+import {UserDto} from '@datatlas/shared/models';
+import {SelfOrAdminGuard} from '../auth/selfOrAdmin.guard';
+import {AdminGuard} from "../auth/admin.guard";
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get()
+  @HttpCode(200)
+  @Header('Cache-Control', 'none')
+  async test(): Promise<string> {
+    return 'ok';
+  }
+
 
   @Get(':id')
   @HttpCode(200)
@@ -15,30 +24,22 @@ export class UserController {
    * @param params
    */
   async getUser(@Param() params): Promise<Omit<UserDto, 'password'>> {
-    const data = await this.userService.getUser(params.id);
-    console.log(data);
-    return data;
+    return await this.userService.getUser(params.id);
   }
 
-  /*             EVERYTHING BELOW SHOULD BE PROPERLY REWORKED                */
-  @Get()
-  @HttpCode(200)
-  @Header('Cache-Control', 'none')
-  async test(): Promise<string> {
-    return 'ok';
-  }
-
-  @HttpCode(201)
   @Post()
+  @HttpCode(201)
+  @UseGuards(AdminGuard)
   @Header('Cache-Control', 'none')
   /**
    * Sends a 201 (with id user as a body response) if all works. In case of already existing username, nothing is done
    * and 0 is sent back.
-   * TODO put a guard here but which one ?
    */
   async createUser(@Body() UserDto: UserDto) {
     return this.userService.createUser(UserDto);
   }
+
+  /*             EVERYTHING BELOW SHOULD BE PROPERLY REWORKED                */
 
   @Put(':id')
   @HttpCode(204)

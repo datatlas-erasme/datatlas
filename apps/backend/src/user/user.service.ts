@@ -26,6 +26,14 @@ export class UserService {
         });
   }
 
+  async isUsernameAlreadyInDatabase(username: string): Promise<boolean> {
+    return this.userRepository.findOne({ username }).then((user) => {
+      return user != null;
+    });
+  }
+
+  // BELOW : to check for rework
+
   async getUser(id = 0): Promise<Omit<UserDto, 'password'>> {
     return this.userRepository.findOne({ id }).then(
       (dataUser) =>
@@ -61,11 +69,6 @@ export class UserService {
     });
   }
 
-  async isUsernameAlreadyInDatabase(username: string): Promise<boolean> {
-    return this.userRepository.findOne({ username }).then((user) => {
-      return user != null;
-    });
-  }
 
   // todo rework entirely the user system.
   async getCompleteUserByUserName(username: string): Promise<{ id; username; role; active }> {
