@@ -8,6 +8,8 @@ import { AdminGuard } from '../auth/admin.guard';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // todo check if @headers should be placed on each route and if so, place them with proper options
+
   @Get()
   @HttpCode(200)
   @Header('Cache-Control', 'none')
@@ -38,14 +40,18 @@ export class UserController {
     return await this.userService.getUser(params.id);
   }
 
-  /*             EVERYTHING BELOW SHOULD BE PROPERLY REWORKED                */
-
   @Put(':id')
   @HttpCode(204)
+  @UseGuards(AdminGuard) // For now, only admins can do that.
   @Header('Cache-Control', 'none')
-  async updateUser(@Param() params, @Body() user: { userId: number } & UserDto): Promise<void> {
+  async updateUser(@Param() params, @Body() user: UserDto): Promise<void> {
+    user.id = params.id;
     return this.userService.updateUser(user);
   }
+
+  /*             EVERYTHING BELOW SHOULD BE PROPERLY REWORKED                */
+
+
 
   @Delete(':id')
   @HttpCode(204)

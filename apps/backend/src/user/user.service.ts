@@ -44,16 +44,14 @@ export class UserService {
     );
   }
 
-  // BELOW : to check for rework
-
-  async updateUser(user: { userId: number } & UserDto): Promise<void> {
+  async updateUser(user: UserDto): Promise<void> {
     /*
       How to proceed.
       -> Create new UserEntity with old data already stored (get them with the user id given in args).
       -> Update this object with new data given in args.
       -> Flush.
      */
-    const id = user.userId;
+    const id = user.id;
     return this.userRepository.findOne({ id }).then(async (dataUser) => {
       dataUser.username = user.username;
       dataUser.password = await this.hashString(user.password);
@@ -63,6 +61,11 @@ export class UserService {
     });
   }
 
+  async hashString(textToHash: string): Promise<string> {
+    return await bcrypt.hash(textToHash, 16);
+  }
+
+  // BELOW : to check for rework
   async deleteUserById(userId: number): Promise<void> {
     return this.userRepository.nativeDelete(userId).then(() => {
       return;
@@ -128,18 +131,4 @@ export class UserService {
     }
   }
 
-  async hashString(textToHash: string): Promise<string> {
-    return await bcrypt.hash(textToHash, 16);
-    /*
-    return bcrypt.hash(textToHash, 16, function(err, hash) {
-        return hash;
-      });
-*/
-    /*
-    bcrypt.genSalt(16, function(err, salt) {
-      return bcrypt.hash(textToHash, salt).then(function (hash) {
-        return hash;
-      });
-    });*/
-  }
 }

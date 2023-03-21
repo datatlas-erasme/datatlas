@@ -8,14 +8,14 @@ describe('USER ACTIONS', () => {
       - Creating, reading, updating and deleting a new user as admin with correct jwt
    */
   const user_test_editor = {
-    username: 'utilisateur_test_editor_7',
-    password: 'utilisateur_test_pw',
+    username: 'user_test_editor_16',
+    password: 'user_test_pw',
     role: 'EDITOR',
     active: true,
   };
   const user_test_admin = {
-    username: 'utilisateur_test_admin_7',
-    password: 'utilisateur_test_pw',
+    username: 'user_test_admin_16',
+    password: 'user_test_pw',
     role: 'ADMIN',
     active: true,
   };
@@ -23,6 +23,8 @@ describe('USER ACTIONS', () => {
   let idEditorUser;
   let jwtAdminUser;
   let idAdminUser;
+  let idUserTestEditor;
+  let idUserTestAdmin;
 
   it('User -> can reach API', () => {
     cy.request('GET', '/api/user').then((response) => {
@@ -85,7 +87,7 @@ describe('USER ACTIONS', () => {
       },
       failOnStatusCode: false,
     }).then((response) => {
-      idEditorUser = response.body;
+      idUserTestEditor = response.body;
       expect(response.status).to.eq(201);
       expect(response.body).to.be.a('number').greaterThan(0);
     });
@@ -119,7 +121,7 @@ describe('USER ACTIONS', () => {
       },
       failOnStatusCode: false,
     }).then((response) => {
-      idAdminUser = response.body;
+      idUserTestAdmin = response.body;
       expect(response.status).to.eq(201);
       expect(response.body).to.be.a('number').greaterThan(0);
     });
@@ -128,7 +130,7 @@ describe('USER ACTIONS', () => {
   it('Editor -> Get info about another user as an editor -> should fail.', () => {
     cy.request({
       method: 'GET',
-      url: '/api/user/' + idEditorUser,
+      url: '/api/user/' + idUserTestEditor,
       failOnStatusCode: false,
       auth: {
         bearer: jwtEditorUser,
@@ -148,36 +150,89 @@ describe('USER ACTIONS', () => {
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body.id).to.eq(idEditorUser);
-      expect(response.body.role).to.eq(user_test_editor.role);
-      expect(response.body.active).to.eq(user_test_editor.active);
-      expect(response.body.username).to.eq(user_test_editor.username);
+      expect(response.body.username).to.eq('editor');
+      expect(response.body.role).to.eq('EDITOR');
+      expect(response.body.active).to.eq(true);
     });
   });
-
-  /*
-
-  const modified_test_user = {
-    username: 'modified_utilisateur_test13',
-    password: 'modified_utilisateur_test_pw',
-    role: 'editor',
-    active: false,
-  };
-  let id_test_user = null;
-  */
-  /*
-
-  });
-  it('User -> Get info about user using id', () => {
+  // UPDATING
+  it('Editor -> Modification of self is forbidden (for now)-> should fail.', () => {
     cy.request({
-      method: 'GET',
-      url: '/api/user/' + id_test_user,
+      method: 'PUT',
+      url: '/api/user/' + idEditorUser,
+      body: {
+        username: 'editor',
+        password: 'editor_pw_modified',
+        role: 'EDITOR',
+        active: true,
+      },
       failOnStatusCode: false,
+      auth: {
+        bearer: jwtEditorUser,
+      },
     }).then((response) => {
-      const userToReceive = new UserPublicDTO(id_test_user, { test_user });
-      expect(response.status).to.eq(200);
-      assert.isObject(response.body, userToReceive);
+      expect(response.status).to.eq(403);
     });
   });
+  it('Editor -> Modification of other users is forbidden -> should fail.', () => {
+    cy.request({
+      method: 'PUT',
+      url: '/api/user/' + idUserTestEditor,
+      body: {
+        username: 'editor',
+        password: 'editor_pw_modified',
+        role: 'EDITOR',
+        active: true,
+      },
+      failOnStatusCode: false,
+      auth: {
+        bearer: jwtEditorUser,
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(403);
+    });
+  });
+  it('Admin -> Modification of other users with existing username -> should fail.', () => {
+    cy.request({
+      method: 'PUT',
+      url: '/api/user/' + idUserTestEditor,
+      body: {
+        username: 'editor',
+        password: 'editor_pw_modified',
+        role: 'EDITOR',
+        active: true,
+      },
+      failOnStatusCode: false,
+      auth: {
+        bearer: jwtAdminUser,
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(500);
+    });
+  });
+  it('Admin -> Modification of other users -> should not fail.', () => {
+    cy.request({
+      method: 'PUT',
+      url: '/api/user/' + idUserTestEditor,
+      body: {
+        username: 'random_name',
+        password: 'editor_pw_modified',
+        role: 'EDITOR',
+        active: true,
+      },
+      failOnStatusCode: false,
+      auth: {
+        bearer: jwtAdminUser,
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(204);
+    });
+  });
+
+  /*
+
+  });
+
   it('User -> Modification', () => {
     cy.request({
       method: 'PUT',

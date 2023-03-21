@@ -1,7 +1,7 @@
 import { Roles } from './Roles';
 
 export class UserDto {
-  readonly id?: number;
+  id?: number;
   readonly username?: string;
   readonly password?: string;
   readonly role?: Roles = Roles.EDITOR;
