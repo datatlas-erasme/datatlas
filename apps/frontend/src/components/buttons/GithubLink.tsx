@@ -16,7 +16,7 @@ const GithubLinkContainer = styled.div`
   }
 `;
 
-const GithubLink = ({ bgColor }: GithubLinkInterface) => {
+export const GithubLink = ({ bgColor }: GithubLinkInterface) => {
   return (
     <GithubLinkContainer style={{ backgroundColor: bgColor }}>
       <a href={'https://github.com/datatlas-erasme/datatlas'} target={'_blank'} rel={'noreferrer'} title={'Github'}>
@@ -25,5 +25,3 @@ const GithubLink = ({ bgColor }: GithubLinkInterface) => {
     </GithubLinkContainer>
   );
 };
-
-export default GithubLink;

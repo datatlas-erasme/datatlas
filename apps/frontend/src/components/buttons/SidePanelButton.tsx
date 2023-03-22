@@ -33,7 +33,7 @@ const SidePanelButtonStyle = styled.a<AboutSidePanelButtonInterface>`
   }
 `;
 
-const SidePanelButton = ({ onClick, displayAbout, children }: SidePanelButtonInterface) => {
+export const SidePanelButton = ({ onClick, displayAbout, children }: SidePanelButtonInterface) => {
   return (
     <SidePanelButtonStyle onClick={onClick} displayAbout={displayAbout}>
       <IconButton Icon={<ArrowLeft />} />
@@ -41,5 +41,3 @@ const SidePanelButton = ({ onClick, displayAbout, children }: SidePanelButtonInt
     </SidePanelButtonStyle>
   );
 };
-
-export default SidePanelButton;

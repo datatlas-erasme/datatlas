@@ -5,7 +5,7 @@ const LoadDataModalFactory = (...deps) => {
   const LoadDataModal = KeplerLoadDataModalFactory(...deps);
   const remoteLoadingMethod: LoadingMethod = {
     id: 'remote',
-    label: 'modal.loadData.remote',
+    label: 'modals.loadData.remote',
     elementType: LoadRemoteDatasetForm,
   };
 

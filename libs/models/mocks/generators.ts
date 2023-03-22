@@ -55,7 +55,7 @@ export const generateFakeProject = (partialProject: Partial<ProjectInterface> = 
   owner: generateFakeUser(),
   createdAt: faker.date.past(),
   draft: faker.datatype.boolean(),
-  contributors: faker.helpers.arrayElements([generateFakeUser()]),
+  contributors: faker.helpers.arrayElements([generateFakeUser()], 4),
   version: 'v1' as const,
   config: new KeplerMapConfig(),
   ...partialProject,

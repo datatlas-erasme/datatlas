@@ -481,7 +481,7 @@ export const themeLayerConfigurator = {
 // styledConfigGroupHeader
 export const styledConfigGroupHeaderBorder = '2px';
 
-// Export map modal
+// Export map modals
 export const exportIntraSectionMargin = '8';
 
 // Scrollbar
