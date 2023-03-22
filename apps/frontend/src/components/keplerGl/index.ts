@@ -1,17 +1,24 @@
 import { injectComponents } from 'kepler.gl';
-import { replaceLayerManager } from './factories/LayerManagerFactory';
-import { replaceLoadDataModal } from './factories/LoadDataModalFactory';
-import { replaceLayerPanelHeader } from './factories/LayerPanelHeaderFactory';
-import { replaceLayerPanel } from './factories/LayerPanelFactory';
-import { replaceFilterManager } from './factories/FilterManagerFactory';
-import { replaceLayerConfigurator } from './factories/LayerConfiguratorFactory';
+import {
+  replaceLoadDataModal,
+  replaceLayerManager,
+  replaceLayerPanelHeader,
+  replaceLayerPanel,
+  replaceFilterManager,
+  replaceLayerConfigurator,
+  replaceInteractionManager,
+  replacePanelHeader,
+  replaceTooltipConfig,
+} from './factories';
 
 export const KeplerGl = injectComponents([
   replaceLoadDataModal(),
   replaceLayerManager(),
-  replaceLayerPanelHeader(),
-  replaceLayerManager(),
   replaceLayerPanel(),
+  replaceLayerPanelHeader(),
   replaceFilterManager(),
   replaceLayerConfigurator(),
+  replaceInteractionManager(),
+  replacePanelHeader(),
+  replaceTooltipConfig(),
 ]);

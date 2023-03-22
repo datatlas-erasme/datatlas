@@ -34,7 +34,8 @@ export type LayerActionsInterface = Pick<
   | 'layerTextLabelChange'
   | 'removeLayer'
   | 'duplicateLayer'
->;
+> &
+  Pick<PanelComponentPropsInterface, 'showDatasetTable' | 'removeDataset'>;
 
 export interface PanelPropsInterface {
   datasets: PanelComponentPropsInterface['datasets'];
@@ -46,8 +47,8 @@ const LayerManagerFactory = (
   AddDataButton: ReturnType<KeplerAddDataButtonFactory>,
   LayerPanel: ReturnType<KeplerLayerPanelFactory>
 ) => {
-  // To restore original behavior, you may return this component instead :
-  // const KeplerLayerManager = KeplerLayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog);
+  // Uncomment next line to restore original behavior:
+  // return KeplerLayerManagerFactory(...KeplerLayerManagerFactory.deps);
 
   return ({
     datasets,
@@ -57,6 +58,8 @@ const LayerManagerFactory = (
     uiStateActions,
     visStateActions,
     showAddDataModal,
+    showDatasetTable,
+    removeDataset,
   }: PanelComponentPropsInterface) => {
     const { toggleModal: openModal } = uiStateActions;
     const defaultDataset = Object.keys(datasets)[0];
@@ -72,6 +75,8 @@ const LayerManagerFactory = (
       layerTextLabelChange: visStateActions.layerTextLabelChange,
       removeLayer: visStateActions.removeLayer,
       duplicateLayer: visStateActions.duplicateLayer,
+      showDatasetTable,
+      removeDataset,
     };
 
     const panelProps: PanelPropsInterface = {

@@ -5,6 +5,7 @@ import { PanelWrapper } from '../side-panel/layer/LayerPanel';
 import { Datasets } from 'kepler.gl';
 import { visStateActions } from 'kepler.gl/actions';
 import { LayerTypeOptionInterface } from '../types/LayerTypeOptionInterface';
+import { PanelComponentPropsInterface } from '../types/PanelComponentPropsInterface';
 
 export interface KeplerLayerPanelPropsInterface {
   layer: Layer;
@@ -27,6 +28,8 @@ export interface KeplerLayerPanelPropsInterface {
   className: string;
   onMouseDown: UIEventHandler;
   onTouchStart: UIEventHandler;
+  showDatasetTable: PanelComponentPropsInterface['showDatasetTable'];
+  removeDataset: PanelComponentPropsInterface['removeDataset'];
 }
 
 export const LayerPanelFactory = (KeplerLayerConfigurator, KeplerLayerPanelHeader) => {
@@ -37,7 +40,6 @@ export const LayerPanelFactory = (KeplerLayerConfigurator, KeplerLayerPanelHeade
     layerConfigChange,
     layerTypeChange,
     openModal,
-    removeLayer,
     duplicateLayer,
     layerTextLabelChange,
     layerTypeOptions,
@@ -48,6 +50,8 @@ export const LayerPanelFactory = (KeplerLayerConfigurator, KeplerLayerPanelHeade
     className,
     onMouseDown,
     onTouchStart,
+    showDatasetTable,
+    removeDataset,
   }: KeplerLayerPanelPropsInterface) => {
     const updateLayerConfig = (newProp) => {
       layerConfigChange(layer, newProp);
@@ -93,12 +97,19 @@ export const LayerPanelFactory = (KeplerLayerConfigurator, KeplerLayerPanelHeade
 
     const _removeLayer = (e) => {
       e.stopPropagation();
-      removeLayer(idx);
+      // We might want to remove layer as well.
+      // removeLayer(idx);
+      removeDataset(layer.config.dataId);
     };
 
     const _duplicateLayer = (e) => {
       e.stopPropagation();
       duplicateLayer(idx);
+    };
+
+    const _showDatasetTable = (e) => {
+      e.stopPropagation();
+      showDatasetTable(layer.config.dataId);
     };
 
     const { config } = layer;
@@ -124,6 +135,9 @@ export const LayerPanelFactory = (KeplerLayerConfigurator, KeplerLayerPanelHeade
           onUpdateLayerLabel={_updateLayerLabel}
           onRemoveLayer={_removeLayer}
           onDuplicateLayer={_duplicateLayer}
+          showDatasetTable={_showDatasetTable}
+          showRemoveLayer={true}
+          isDragNDropEnabled={true}
         />
         {isConfigActive && (
           <KeplerLayerConfigurator

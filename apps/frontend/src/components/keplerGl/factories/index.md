@@ -6,24 +6,21 @@
 
 ### Side Panel
 
-- `LayerManagerFactory` handle the whole content of the layer tab.
-- `LayerPanelFactory` the panel which opens when you click on a layer
-- `LayerConfiguratorFactory` the layer configurator inside a layer panel
-- `SourceDataCatalogFactory` the list of datasets
-- `SourceDataSelectorFactory` the dropdown list to select a dataset
+Each _tab_ in the side panel is associated with a `*ManagerFactory` :
 
-https://github.com/datatlas-erasme/datatlas/issues/66
+1. `LayerManagerFactory` handle the whole content of the layer tab.
+   - `LayerPanelFactory` the panel which opens when you click on a layer
+   - `LayerConfiguratorFactory` the layer configurator inside a layer panel. The most verbose component, that's why in the `Datatlas` codbase most of the function component have been splitted in the `./configurator` directory.
+   - `SourceDataCatalogFactory` the list of datasets
+   - `SourceDataSelectorFactory` the dropdown list to select a dataset
+2. `FilterManagerFactory`
+3. `InteractionManagerFactory`
+4. `MapManagerFactory`
 
-Hide a lot of things #92
+> https://github.com/datatlas-erasme/datatlas/issues/66
 
-- geocoder tool
-- brush
-- coordinates
-- in tooltip "comparison mode"
-  [index.md](index.md)
-
-**How to** access a dataset id:
-
-- `layers[0].config.dataId`
-- `filters[0].dataId`
-- `datasets[dataId].id`
+> **How to** access a dataset id:
+>
+> - `layers[0].config.dataId`
+> - `filters[0].dataId`
+> - `datasets[dataId].id`

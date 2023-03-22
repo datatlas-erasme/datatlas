@@ -99,7 +99,6 @@ function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
                       tooltip={'datasetTitle.showDataTable'}
                       onClick={(e) => {
                         e.preventDefault();
-                        // @todo get dataset id
                         showDatasetTable(layer.config.dataId);
                       }}
                       IconComponent={Table}
