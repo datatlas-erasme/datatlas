@@ -11,17 +11,7 @@ import { PanelComponentPropsInterface } from '../types/PanelComponentPropsInterf
 import { SortableLayerList } from '../side-panel/layer/SortableLayerList';
 import { LayerPanel } from '../side-panel/layer/LayerPanel';
 import { LayerPanelHeader } from '../side-panel/layer/LayerPanelHeader';
-import styled from 'styled-components';
-
-const StyledLayerConfigurator = styled.div.attrs({
-  className: 'layer-panel__config',
-})`
-  position: relative;
-  margin-top: ${(props) => props.theme.layerConfiguratorMargin};
-  padding: ${(props) => props.theme.layerConfiguratorPadding};
-  border-left: ${(props) => props.theme.layerConfiguratorBorder} dashed
-    ${(props) => props.theme.layerConfiguratorBorderColor};
-`;
+import { StyledLayerConfigurator } from './configurator';
 
 function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
   const PanelHeaderAction = PanelHeaderActionFactory();
