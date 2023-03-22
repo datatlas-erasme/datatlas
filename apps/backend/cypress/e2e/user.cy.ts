@@ -8,13 +8,13 @@ describe('USER ACTIONS', () => {
       - Creating, reading, updating and deleting a new user as admin with correct jwt
    */
   const user_test_editor = {
-    username: 'user_test_editor_18',
+    username: 'user_test_editor_20',
     password: 'user_test_pw',
     role: 'EDITOR',
     active: true,
   };
   const user_test_admin = {
-    username: 'user_test_admin_18',
+    username: 'user_test_admin_20',
     password: 'user_test_pw',
     role: 'ADMIN',
     active: true,

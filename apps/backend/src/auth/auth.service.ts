@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   async login(user: Pick<UserDto, 'username' | 'password'>) {
-    const userCredentials = await this.userService.getCompleteUserByUserName(user.username);
+    const userCredentials = await this.userService.getUserByUserName(user.username);
     const payload = {
       username: userCredentials.username,
       id: userCredentials.id,

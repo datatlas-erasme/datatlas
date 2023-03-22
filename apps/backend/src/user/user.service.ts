@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/core';
 import * as bcrypt from 'bcrypt';
-import { Roles, UserDto, UserPublicDTO } from '@datatlas/shared/models';
+import { Roles, UserDto } from '@datatlas/shared/models';
 import { UserEntity } from './entities/user.entity';
 
 @Injectable()
@@ -12,17 +12,18 @@ export class UserService {
     private readonly userRepository: EntityRepository<UserEntity>
   ) {}
 
-  async createUser(userDto: UserDto): Promise<number> {
-    const user = new UserEntity(
-      userDto.username,
-      await this.hashString(userDto.password),
-      userDto.role,
-      userDto.active
+  async createUser(userToCreate: UserDto): Promise<number> {
+    const userEntity = new UserEntity(
+      userToCreate.username,
+      await this.hashString(userToCreate.password),
+      userToCreate.role,
+      userToCreate.active
     );
-    return (await this.isUsernameAlreadyInDatabase(user.username))
+    return (await this.isUsernameAlreadyInDatabase(userEntity.username))
       ? 0
-      : this.userRepository.persistAndFlush(user).then(() => {
-          return this.getUserIDByUserName(user.username);
+      : this.userRepository.persistAndFlush(userEntity).then(async () => {
+          const userFount: UserDto = await this.getUserByUserName(userToCreate.username);
+          return userFount.id;
         });
   }
 
@@ -71,37 +72,16 @@ export class UserService {
     });
   }
 
-  // todo BELOW : to check for rework.
-  async getCompleteUserByUserName(username: string): Promise<{ id; username; role; active }> {
+  async getUserByUserName(username: string): Promise<UserDto> {
     return await this.userRepository.findOne({ username }).then((user) => {
       if (user !== null) {
-        return {
-          id: user.id,
-          username: user.username,
-          role: user.role,
-          active: user.active,
-        };
-      }
-      throw new Error('Unknown username');
-    });
-  }
-
-  async getUserByUserName(username: string): Promise<Pick<UserDto, 'username' | 'password'>> {
-    return await this.userRepository.findOne({ username }).then((user) => {
-      if (user !== null) {
-        return {
-          username: user.username,
-          password: user.password,
-        };
-      }
-      throw new Error('Unknown username');
-    });
-  }
-
-  async getUserIDByUserName(username: string): Promise<number> {
-    return await this.userRepository.findOne({ username }).then((user) => {
-      if (user !== null) {
-        return user.id;
+        return new UserDto({
+          userId: user.id,
+          userName: user.username,
+          userPassword: user.password,
+          userRole: Roles[user.role],
+          userIsActive: user.active,
+        });
       }
       throw new Error('Unknown username');
     });
