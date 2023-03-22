@@ -1,7 +1,7 @@
 import { LayerPanelHeaderFactory as KeplerLayerPanelHeaderFactory } from 'kepler.gl/components';
 import React, { FunctionComponent, UIEventHandler, useState } from 'react';
 import classnames from 'classnames';
-import { Copy, ArrowDown, EyeSeen, EyeUnseen, Trash } from 'kepler.gl/dist/components/common/icons';
+import { Copy, ArrowDown, EyeSeen, EyeUnseen, Table, Trash } from 'kepler.gl/dist/components/common/icons';
 import { HelpIcon } from '../../icon';
 import { LayerPanelHeader } from '../side-panel/layer/LayerPanelHeader';
 
@@ -18,6 +18,7 @@ export interface KeplerLayerPanelHeaderPropsInterface {
   onToggleEnableConfig: UIEventHandler;
   onDuplicateLayer: UIEventHandler;
   onRemoveLayer: UIEventHandler;
+  showDatasetTable: UIEventHandler;
   showRemoveLayer: boolean;
   actionIcons: Record<string, FunctionComponent>;
 }
@@ -32,7 +33,8 @@ const defaultActionIcons = {
 };
 
 const LayerPanelHeaderFactory = (LayerTitleSection, PanelHeaderAction) => {
-  // const KeplerLayerPanelHeader = KeplerLayerPanelHeaderFactory(...deps);
+  // Uncomment next line to restore original behavior:
+  // return KeplerLayerPanelHeaderFactory(...KeplerLayerPanelHeaderFactory.deps);
 
   return ({
     isConfigActive,
@@ -45,9 +47,9 @@ const LayerPanelHeaderFactory = (LayerTitleSection, PanelHeaderAction) => {
     onToggleVisibility,
     onUpdateLayerLabel,
     onToggleEnableConfig,
-    onDuplicateLayer,
     onRemoveLayer,
     showRemoveLayer,
+    showDatasetTable,
     actionIcons = defaultActionIcons,
   }: KeplerLayerPanelHeaderPropsInterface) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -56,6 +58,7 @@ const LayerPanelHeaderFactory = (LayerTitleSection, PanelHeaderAction) => {
       setOpen(!isOpen);
       onToggleEnableConfig(e);
     };
+
     return (
       <LayerPanelHeader
         isActive={isConfigActive}
@@ -72,7 +75,6 @@ const LayerPanelHeaderFactory = (LayerTitleSection, PanelHeaderAction) => {
         }
       >
         {showRemoveLayer ? (
-          // @todo remove dataset instead
           <PanelHeaderAction
             className="layer__remove-layer"
             id={layerId}
@@ -90,23 +92,13 @@ const LayerPanelHeaderFactory = (LayerTitleSection, PanelHeaderAction) => {
           IconComponent={isVisible ? actionIcons.visible : actionIcons.hidden}
         />
         <PanelHeaderAction
-          className="layer__duplicate"
+          className="layer__show-data-table"
           id={layerId}
-          tooltip={'tooltip.duplicateLayer'}
-          onClick={onDuplicateLayer}
-          IconComponent={actionIcons.duplicate}
+          tooltip={'tooltip.showDataTable'}
+          onClick={showDatasetTable}
+          IconComponent={Table}
         />
-        {/* @todo show datatable instead */}
-        <PanelHeaderAction
-          className="layer__custom_action"
-          id={layerId}
-          tooltip={'tooltip.customAction'}
-          onClick={(e) => {
-            console.log("Hi Olivier, I'm a custom action !");
-            e.preventDefault();
-          }}
-          IconComponent={actionIcons.custom}
-        />
+
         <PanelHeaderAction
           className={classnames('layer__enable-config ', {
             'is-open': isOpen,
