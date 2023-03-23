@@ -40,7 +40,8 @@ export class ProjectService {
       projectDto.owner,
       projectDto.contributors,
       projectDto.config,
-      projectDto.version
+      projectDto.version,
+      projectDto.createdAt
     );
     await this.projectRepository.persistAndFlush(project);
     return project;

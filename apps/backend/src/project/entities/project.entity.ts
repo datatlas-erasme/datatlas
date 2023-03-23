@@ -8,7 +8,8 @@ export class ProjectEntity {
   title: string;
 
   @Property()
-  createdAt: Date;
+  //createdAt: Date;
+  createdAt: string;
 
   @Property()
   draft: boolean;
@@ -39,7 +40,8 @@ export class ProjectEntity {
     owner: string,
     contributors: string,
     config: string,
-    version: string
+    version: string,
+    createdAt: string
   ) {
     this.title = title;
     this.description = description;
@@ -49,5 +51,14 @@ export class ProjectEntity {
     this.contributors = contributors;
     this.config = config;
     this.version = version;
+    this.createdAt = createdAt;
   }
+  /*
+
+  @ManyToOne(() => UserEntity)
+  owner: UserEntity;
+
+  @ManyToMany(() => UserEntity)
+  contributors: [UserEntity];
+   */
 }

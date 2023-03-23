@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import {Controller, Get, Post, Put, Delete, Body, Param, Logger} from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { ProjectDto } from '@datatlas/shared/models';
 
@@ -18,6 +18,7 @@ export class ProjectController {
 
   @Post('project')
   async create(@Body() ProjectDto: ProjectDto) {
+    Logger.log(ProjectDto);
     return this.projectService.create(ProjectDto);
   }
 

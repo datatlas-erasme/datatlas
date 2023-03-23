@@ -1,11 +1,26 @@
 describe('PROJECT ACTIONS', () => {
-  const test_project = {
-    title: 'project_test',
-    description: 'project_test_description',
-  };
+  const test_project =  {
+      title: 'project_test',
+      description: 'project_test_description',
+      draft: true,
+      datasets: 'tutu',
+      owner: 'possesseur',
+      contributors: 'contributeurs',
+      config: 'config',
+      version: 'versionNumber',
+      createdAt: 'dateCreation'
+    }
+  ;
   const modified_test_project = {
     title: 'modified_project_test',
     description: 'modified_project_test_description',
+    draft: true,
+    datasets: 'toto',
+    owner: 'possesseur',
+    contributors: 'contributeurs',
+    config: 'config',
+    version: 'versionNumber',
+    createdAt: 'dateCreation'
   };
   let id_test_project = null;
   it('Project -> creation of new project (should return new project id)', () => {
