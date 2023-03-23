@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Put, Delete, Body, Param, Logger} from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Logger } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { ProjectDto } from '@datatlas/shared/models';
 
