@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
 import { Layout } from './layouts';
 import { LoginForm } from '../components/forms';
 import { DatatlasLogoSquare } from '../components/logos';
 import FirstShapeBg from '../assets/shapes/first-shape.svg';
 import SecondShapeBg from '../assets/shapes/second-shape.svg';
 import { StyledLabel } from '../components/forms';
-import { FormattedMessage } from 'react-intl';
 import GithubLink from '../components/buttons/GithubLink';
 import SidePanelButton from '../components/buttons/SidePanelButton';
 
