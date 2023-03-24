@@ -17,14 +17,7 @@ export class DatasetEntity {
   @Property()
   warning: string;
 
-
-  constructor(
-    url : string,
-    updatedAt: string,
-    checksum: string,
-    warning: string
-
-  ) {
+  constructor(url: string, updatedAt: string, checksum: string, warning: string) {
     this.url = url;
     this.updatedAt = updatedAt;
     this.checksum = checksum;
