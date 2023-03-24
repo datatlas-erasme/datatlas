@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { ProjectModule } from '../project/project.module';
 import { AuthService } from '../auth/auth.service';
 import { UserModule } from '../user/user.module';
+import { DatasetModule } from '../dataset/dataset.module';
 import { LocalStrategy } from '../auth/local.strategy';
 
 @Module({
@@ -19,6 +20,7 @@ import { LocalStrategy } from '../auth/local.strategy';
     PassportModule,
     ProjectModule,
     UserModule,
+    DatasetModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService, LocalStrategy, JwtService],
