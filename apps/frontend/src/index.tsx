@@ -14,6 +14,7 @@ import { selectLocale } from './store/selectors';
 import { ComponentsPage } from './pages/ComponentsPage';
 import { GlobalStyle } from './style/GlobalStyle';
 import { theme } from './style/theme';
+import LegalMentions from './pages/LegalMentionsPage';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,11 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/legalmentions',
+    element: <LegalMentions />,
     errorElement: <ErrorPage />,
   },
   {
