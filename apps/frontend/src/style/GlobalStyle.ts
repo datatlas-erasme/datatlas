@@ -15,11 +15,11 @@ export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
 
   h2{
     font-size: ${({ theme }) => theme.smText};
-    font-weight: 400;
+    font-weight: 600;
   }
   h3{
     font-size: ${({ theme }) => theme.smText};
-    font-weight: 600;
+    font-weight: 400;
     line-height: 17px;
   }
   p{

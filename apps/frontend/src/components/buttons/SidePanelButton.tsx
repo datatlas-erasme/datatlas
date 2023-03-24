@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { IconButton } from './';
-import { ArrowRight } from 'kepler.gl/dist/components/common/icons';
+import { ArrowLeft } from 'kepler.gl/dist/components/common/icons';
 
 interface SidePanelButtonInterface {
   children: ReactNode;
@@ -20,7 +20,7 @@ const SidePanelButtonStyle = styled.a<AboutSidePanelButtonInterface>`
   top: 50px;
   z-index: 1;
   div {
-    margin: 0;
+    margin: 0 10px 0;
     background-color: ${({ theme }) => theme.floatingBtnBgd};
     &:active,
     &:hover {
@@ -36,7 +36,7 @@ const SidePanelButtonStyle = styled.a<AboutSidePanelButtonInterface>`
 const SidePanelButton = ({ onClick, displayAbout, children }: SidePanelButtonInterface) => {
   return (
     <SidePanelButtonStyle onClick={onClick} displayAbout={displayAbout}>
-      <IconButton Icon={<ArrowRight />} />
+      <IconButton Icon={<ArrowLeft />} />
       {children}
     </SidePanelButtonStyle>
   );
