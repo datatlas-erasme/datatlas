@@ -22,9 +22,7 @@ describe('USER ACTIONS', () => {
   let jwtEditorUser;
   let idEditorUser;
   let jwtAdminUser;
-  let idAdminUser;
   let idUserTestEditor;
-  let idUserTestAdmin;
 
   it('User -> can reach API', () => {
     cy.request('GET', '/api/user').then((response) => {
@@ -59,7 +57,6 @@ describe('USER ACTIONS', () => {
       failOnStatusCode: false,
     }).then((response) => {
       jwtAdminUser = response.body.access_token;
-      idAdminUser = response.body.user_id;
       expect(response.status).to.eq(201);
     });
   });
@@ -121,7 +118,6 @@ describe('USER ACTIONS', () => {
       },
       failOnStatusCode: false,
     }).then((response) => {
-      idUserTestAdmin = response.body;
       expect(response.status).to.eq(201);
       expect(response.body).to.be.a('number').greaterThan(0);
     });
