@@ -1,31 +1,36 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
+import { jwtConstants } from './constants';
+import { UserDto } from '@datatlas/models';
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) {}
 
-  async validateUser(username: string, pass: string): Promise<boolean> {
-    //const user = await this.userService.findOne(username);
-    /*
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
+  async validateUser(userToValidate: Pick<UserDto, 'username' | 'password'>): Promise<boolean> {
+    // Same username ?
+    const user = await this.userService.isUsernameAlreadyInDatabase(userToValidate.username);
+    if (user) {
+      // Same encrypted password ?
+      const userCredentials = await this.userService.getUserByUserName(userToValidate.username);
+      return await bcrypt.compare(userToValidate.password, userCredentials.password);
     }
-     */
-    Logger.log(username, pass);
-    return true;
+    return false;
   }
 
-  async login(user: never) {
-    /*
-    const payload = { username: user.username, password: user.userId };
-    return {
-      access_token: this.jwtService.sign(payload),
+  async login(user: Pick<UserDto, 'username' | 'password'>) {
+    const userCredentials = await this.userService.getUserByUserName(user.username);
+    const payload = {
+      username: userCredentials.username,
+      id: userCredentials.id,
+      role: userCredentials.role,
+      active: userCredentials.active,
     };
-
-     */
-    Logger.log(user);
+    return {
+      access_token: this.jwtService.sign(payload, jwtConstants),
+      user_id: userCredentials.id,
+    };
   }
 }

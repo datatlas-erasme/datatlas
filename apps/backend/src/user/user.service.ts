@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/core';
 import * as bcrypt from 'bcrypt';
-import { Roles, UserDto, UserPublicDTO } from '@datatlas/shared/models';
+import { Roles, UserDto } from '@datatlas/shared/models';
 import { UserEntity } from './entities/user.entity';
 
 @Injectable()
@@ -12,34 +12,47 @@ export class UserService {
     private readonly userRepository: EntityRepository<UserEntity>
   ) {}
 
-  async createUser(userDto: UserDto): Promise<number> {
-    const user = new UserEntity(
-      userDto.username,
-      await this.hashString(userDto.password),
-      userDto.role,
-      userDto.active
+  async createUser(userToCreate: UserDto): Promise<number> {
+    const userEntity = new UserEntity(
+      userToCreate.username,
+      await this.hashString(userToCreate.password),
+      userToCreate.role,
+      userToCreate.active
     );
-    return (await this.isUsernameAlreadyInDatabase(user.username))
+    return (await this.isUsernameAlreadyInDatabase(userEntity.username))
       ? 0
-      : this.userRepository.persistAndFlush(user).then(() => {
-          return this.getUserIDByUserName(user.username);
+      : this.userRepository.persistAndFlush(userEntity).then(async () => {
+          const userFount: UserDto = await this.getUserByUserName(userToCreate.username);
+          return userFount.id;
         });
   }
 
-  async getUser(id = 0): Promise<UserPublicDTO> {
-    return this.userRepository
-      .findOne({ id })
-      .then((dataUser) => new UserPublicDTO(dataUser.id, dataUser.username, dataUser.role, dataUser.active));
+  async isUsernameAlreadyInDatabase(username: string): Promise<boolean> {
+    return this.userRepository.findOne({ username }).then((user) => {
+      return user != null;
+    });
   }
 
-  async updateUser(user: { userId: number } & UserDto): Promise<void> {
+  async getUser(id = 0): Promise<Omit<UserDto, 'password'>> {
+    return this.userRepository.findOne({ id }).then(
+      (dataUser) =>
+        new UserDto({
+          id: dataUser.id,
+          username: dataUser.username,
+          role: Roles[dataUser.role],
+          isActive: dataUser.active,
+        })
+    );
+  }
+
+  async updateUser(user: UserDto): Promise<void> {
     /*
       How to proceed.
       -> Create new UserEntity with old data already stored (get them with the user id given in args).
       -> Update this object with new data given in args.
       -> Flush.
      */
-    const id = user.userId;
+    const id = user.id;
     return this.userRepository.findOne({ id }).then(async (dataUser) => {
       dataUser.username = user.username;
       dataUser.password = await this.hashString(user.password);
@@ -49,22 +62,26 @@ export class UserService {
     });
   }
 
+  async hashString(textToHash: string): Promise<string> {
+    return await bcrypt.hash(textToHash, 16);
+  }
+
   async deleteUserById(userId: number): Promise<void> {
     return this.userRepository.nativeDelete(userId).then(() => {
       return;
     });
   }
 
-  async isUsernameAlreadyInDatabase(username: string): Promise<boolean> {
-    return this.userRepository.findOne({ username }).then((user) => {
-      return user != null;
-    });
-  }
-
-  async getUserIDByUserName(username: string): Promise<number> {
+  async getUserByUserName(username: string): Promise<UserDto> {
     return await this.userRepository.findOne({ username }).then((user) => {
       if (user !== null) {
-        return user.id;
+        return new UserDto({
+          id: user.id,
+          username: user.username,
+          password: user.password,
+          role: Roles[user.role],
+          isActive: user.active,
+        });
       }
       throw new Error('Unknown username');
     });
@@ -74,7 +91,7 @@ export class UserService {
     userAdmin: Pick<UserDto, 'username' | 'password'>,
     userDummyEditor: Pick<UserDto, 'username' | 'password'>
   ) {
-    const admin = new UserEntity(userAdmin.username, await this.hashString(userAdmin.password), Roles.ADMIN, true);
+    const admin = new UserEntity(userAdmin.username, await this.hashString(userAdmin.password), Roles.ADMIN, true); // todo optimization, doing later
     if (await this.isUsernameAlreadyInDatabase(admin.username)) {
       Logger.log('Admin already in database.');
     } else {
@@ -91,9 +108,5 @@ export class UserService {
     } else {
       await this.userRepository.persistAndFlush(editor);
     }
-  }
-
-  async hashString(textToHash: string, rounds = 16) {
-    return await bcrypt.hash(textToHash + process.env.PASSWORD_SALT, rounds);
   }
 }

@@ -12,9 +12,7 @@ RUN npm install --force
 
 #Export the target to env variable
 ARG COPY_PATH
-ARG NODE_ENV
 
-ENV NODE_ENV=$NODE_ENV
 ENV COPY_PATH=$COPY_PATH
 
 # Bundle app source
@@ -27,22 +25,20 @@ COPY .babelrc /build/.babelrc
 COPY nx.json /build/nx.json
 
 # Creates a "dist" folder with the production build
-RUN npx nx build $COPY_PATH --configuration=production
+RUN npx nx build $COPY_PATH
 
 FROM node:18-alpine as backend
 
 WORKDIR /app
 
 # copy using the target
-COPY --from=builder /build/dist/apps/backend/* ./
+COPY --from=builder /build/dist/apps/$COPY_PATH/* ./dist
 
 
-RUN npm install --force
-
-RUN npm install @faker-js/faker -f
+RUN npm i @nestjs/platform-express
 
 # Start the server using the production build
-CMD [ "node", "main.js" ]
+CMD [ "node", "dist/main.js" ]
 
 FROM nginx:1.21.3-alpine as frontend
 

@@ -40,9 +40,8 @@ jobs:
           target: frontend
           build-args: |
             COPY_PATH=frontend
-            NODE_ENV=development
 
       - name: Move cache
         run: |
-          rm -rf /tmp/.buildx-cache 
+          rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache

@@ -1,28 +1,25 @@
-import { generateFakeProject } from '@datatlas/shared/models';
-import { Logger } from '@nestjs/common';
-
-const fakeProject = generateFakeProject();
-
 describe('PROJECT ACTIONS', () => {
-  it('Project -> creation of new project (nouveau type projets)', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/project/',
-      body: fakeProject,
-      failOnStatusCode: false,
-    }).then((response) => {
-      Logger.log(response);
-    });
-  });
-
-  /*
   const test_project = {
     title: 'project_test',
     description: 'project_test_description',
+    draft: true,
+    datasets: 'tutu',
+    owner: 'possesseur',
+    contributors: 'contributeurs',
+    config: 'config',
+    version: 'versionNumber',
+    createdAt: 'dateCreation',
   };
   const modified_test_project = {
     title: 'modified_project_test',
     description: 'modified_project_test_description',
+    draft: true,
+    datasets: 'toto',
+    owner: 'possesseur',
+    contributors: 'contributeurs',
+    config: 'config',
+    version: 'versionNumber',
+    createdAt: 'dateCreation',
   };
   let id_test_project = null;
   it('Project -> creation of new project (should return new project id)', () => {
@@ -81,6 +78,4 @@ describe('PROJECT ACTIONS', () => {
       expect(response.body).to.be.a('string');
     });
   });
-
-   */
 });

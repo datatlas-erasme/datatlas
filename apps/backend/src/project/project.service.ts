@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/core';
-import { ProjectEntity } from '../entities/project.entity';
+import { ProjectEntity } from './entities/project.entity';
+import { ProjectDto } from '@datatlas/shared/models';
 
 @Injectable()
 export class ProjectService {
@@ -10,16 +11,16 @@ export class ProjectService {
     private readonly projectRepository: EntityRepository<ProjectEntity>
   ) {}
 
-  async findAll(): Promise<ProjectEntity[]> {
+  async findAll(): Promise<ProjectDto[]> {
     return this.projectRepository.findAll();
   }
-  async findOneById(id: number): Promise<ProjectEntity> {
-    return this.projectRepository.findOne(id);
+  async findOneById(id: number): Promise<ProjectDto> {
+    return this.projectRepository.findOne({ id });
   }
 
-  async update(id: number, project: ProjectEntity): Promise<ProjectEntity> {
+  async update(id: number, projectDto: ProjectDto): Promise<ProjectDto> {
     const projectToUpdate = await this.projectRepository.findOne(id);
-    this.projectRepository.assign(projectToUpdate, project);
+    this.projectRepository.assign(projectToUpdate, projectDto);
     await this.projectRepository.persistAndFlush(projectToUpdate);
     return projectToUpdate;
   }
@@ -30,10 +31,19 @@ export class ProjectService {
     return id;
   }
 
-  // Return id of new project <Promoise<number>>
-  async create(project: ProjectEntity) {
-    const newProject = await this.projectRepository.create(project);
-    await this.projectRepository.persistAndFlush(newProject);
-    return newProject;
+  async create(projectDto: ProjectDto): Promise<ProjectDto> {
+    const project = new ProjectEntity(
+      projectDto.title,
+      projectDto.description,
+      projectDto.draft,
+      projectDto.datasets,
+      projectDto.owner,
+      projectDto.contributors,
+      projectDto.config,
+      projectDto.version,
+      projectDto.createdAt
+    );
+    await this.projectRepository.persistAndFlush(project);
+    return project;
   }
 }
