@@ -6,13 +6,13 @@ import { VertDots } from 'kepler.gl/dist/components/common/icons';
 import { StyledPanelHeader } from 'kepler.gl/dist/components/common/styled-components';
 
 const StyledLayerPanelHeader = styled(StyledPanelHeader)`
-  height: ${(props) => props.theme.layerPanelHeaderHeight}px;
+  height: ${({ theme }) => theme.layerPanelHeaderHeight}px;
   .layer__remove-layer {
     opacity: 0;
   }
   :hover {
     cursor: pointer;
-    background-color: ${(props) => props.theme.panelBackgroundHover};
+    background-color: ${({ theme }) => theme.panelBackgroundHover};
 
     .layer__drag-handle {
       opacity: 1;
