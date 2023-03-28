@@ -9,17 +9,6 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
-    const test = await this.authService.login(req.body);
-    Logger.log(test);
-    return test;
+    return await this.authService.login(req.body);
   }
-  /*
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    console.log('début route profile');
-    console.log(req);
-    Logger.log('intérieur de la fonction de profile');
-    return req.user;
-  }*/
 }
