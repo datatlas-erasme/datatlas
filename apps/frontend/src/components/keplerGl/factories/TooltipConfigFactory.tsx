@@ -17,12 +17,12 @@ const ButtonWrapper = styled.div`
 
   .button.clear-all {
     background: transparent;
-    color: ${(props) => props.theme.subtextColor};
+    color: ${({ theme }) => theme.subtextColor};
     margin: 0 0 0 8px;
     padding: 0;
 
     &:hover {
-      color: ${(props) => props.theme.textColor};
+      color: ${({ theme }) => theme.textColor};
     }
   }
 `;

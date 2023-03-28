@@ -9,18 +9,18 @@ import { PanelComponentPropsInterface } from '../../types/PanelComponentPropsInt
 // make sure the element is always visible while is being dragged
 // item being dragged is appended in body, here to reset its global style
 const SortableStyledItem = styled.div`
-  z-index: ${(props) => props.theme.dropdownWrapperZ + 1};
+  z-index: ${({ theme }) => theme.dropdownWrapperZ + 1};
 
   &.sorting {
     pointer-events: none;
   }
 
   &.sorting-layers .layer-panel__header {
-    background-color: ${(props) => props.theme.panelBackgroundHover};
-    font-family: ${(props) => props.theme.fontFamily};
-    font-weight: ${(props) => props.theme.fontWeight};
-    font-size: ${(props) => props.theme.fontSize};
-    line-height: ${(props) => props.theme.lineHeight};
+    background-color: ${({ theme }) => theme.panelBackgroundHover};
+    font-family: ${({ theme }) => theme.fontFamily};
+    font-weight: ${({ theme }) => theme.fontWeight};
+    font-size: ${({ theme }) => theme.fontSize};
+    line-height: ${({ theme }) => theme.lineHeight};
     *,
     *:before,
     *:after {
@@ -28,7 +28,7 @@ const SortableStyledItem = styled.div`
     }
     .layer__drag-handle {
       opacity: 1;
-      color: ${(props) => props.theme.textColorHl};
+      color: ${({ theme }) => theme.textColorHl};
     }
   }
 `;
