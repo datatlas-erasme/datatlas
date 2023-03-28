@@ -37,10 +37,10 @@ export class UserService {
     return this.userRepository.findOne({ id }).then(
       (dataUser) =>
         new UserDto({
-          userId: dataUser.id,
-          userName: dataUser.username,
-          userRole: (<never>Roles)[dataUser.role],
-          userIsActive: dataUser.active,
+          id: dataUser.id,
+          username: dataUser.username,
+          role: Roles[dataUser.role],
+          isActive: dataUser.active,
         })
     );
   }
@@ -76,11 +76,11 @@ export class UserService {
     return await this.userRepository.findOne({ username }).then((user) => {
       if (user !== null) {
         return new UserDto({
-          userId: user.id,
-          userName: user.username,
-          userPassword: user.password,
-          userRole: Roles[user.role],
-          userIsActive: user.active,
+          id: user.id,
+          username: user.username,
+          password: user.password,
+          role: Roles[user.role],
+          isActive: user.active,
         });
       }
       throw new Error('Unknown username');
