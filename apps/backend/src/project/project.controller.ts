@@ -1,14 +1,17 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Logger } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { ProjectDto } from '@datatlas/shared/models';
+import { UserService } from '../user/user.service';
 
 @Controller()
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService) {}
+  constructor(private readonly projectService: ProjectService, private readonly userService: UserService) {}
 
   @Post('project')
   async create(@Body() ProjectDto: ProjectDto) {
-    return this.projectService.create(ProjectDto);
+    // Let's test with a random existing user.
+    const owner = await this.userService.getUserEntity(63);
+    return this.projectService.create(ProjectDto, owner);
   }
 
   /*

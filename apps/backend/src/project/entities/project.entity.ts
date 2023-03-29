@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity()
 export class ProjectEntity {
@@ -19,6 +20,9 @@ export class ProjectEntity {
 
   @Property()
   description: string;
+
+  @ManyToOne(() => UserEntity)
+  owner!: UserEntity;
 
   /*
 
@@ -41,7 +45,8 @@ export class ProjectEntity {
     createdAt: Date,
     draft: boolean,
     datasets: object,
-    description: string
+    description: string,
+    owner: UserEntity
 
     /*
         owner: string,
@@ -54,6 +59,7 @@ export class ProjectEntity {
     this.draft = draft;
     this.datasets = datasets;
     this.description = description;
+    this.owner = owner;
     /*
 
     this.owner = owner;
@@ -63,8 +69,6 @@ export class ProjectEntity {
   }
   /*
 
-  @ManyToOne(() => UserEntity)
-  owner: UserEntity;
 
   @ManyToMany(() => UserEntity)
   contributors: [UserEntity];
