@@ -1,4 +1,5 @@
 import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+
 @Entity()
 export class ProjectEntity {
   @PrimaryKey()
@@ -8,18 +9,20 @@ export class ProjectEntity {
   title: string;
 
   @Property()
-  //createdAt: Date; // It seems that Nest does not transfer a proper Date type to the database.
   createdAt: Date;
 
-  /*
   @Property()
   draft: boolean;
 
-  @Property()
-  datasets: string;
+  @Property({ type: 'json'})
+  datasets: object;
 
   @Property()
   description: string;
+
+  /*
+
+
 
   @Property()
   owner: string;
@@ -35,20 +38,24 @@ export class ProjectEntity {
 */
   constructor(
     title: string,
-    createdAt: Date /*
-    description: string,
+    createdAt: Date,
     draft: boolean,
-    datasets: string,
-    owner: string,
-    contributors: string,
-    config: string,
-    version: string,*/
+    datasets: object,
+    description: string,
+
+    /*
+        owner: string,
+        contributors: string,
+        config: string,
+        version: string,*/
   ) {
     this.title = title;
-    this.createdAt = createdAt; /*
-    this.description = description;
+    this.createdAt = createdAt;
     this.draft = draft;
     this.datasets = datasets;
+    this.description = description;
+    /*
+
     this.owner = owner;
     this.contributors = contributors;
     this.config = config;
