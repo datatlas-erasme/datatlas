@@ -45,6 +45,10 @@ export class UserService {
     );
   }
 
+  async getUserEntity(id = 0): Promise<UserEntity> {
+    return this.userRepository.findOne({ id });
+  }
+
   async updateUser(user: UserDto): Promise<void> {
     /*
       How to proceed.

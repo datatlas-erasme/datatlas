@@ -1,8 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/core';
 import { ProjectEntity } from './entities/project.entity';
 import { ProjectDto } from '@datatlas/shared/models';
+import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()
 export class ProjectService {
@@ -11,14 +12,14 @@ export class ProjectService {
     private readonly projectRepository: EntityRepository<ProjectEntity>
   ) {}
 
-  async create(projectDto: ProjectDto): Promise<ProjectEntity> {
-    Logger.log(typeof Date.now());
+  async create(projectDto: ProjectDto, owner: UserEntity): Promise<ProjectEntity> {
     const project = new ProjectEntity(
       projectDto.title,
       new Date(),
       projectDto.draft,
       projectDto.datasets,
-      projectDto.description
+      projectDto.description,
+      owner
     );
     await this.projectRepository.persistAndFlush(project);
     return project;
