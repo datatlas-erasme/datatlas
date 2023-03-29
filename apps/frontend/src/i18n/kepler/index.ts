@@ -11,7 +11,7 @@ export const messages = {
   en: {
     ...keplerMessages.en,
     ...flattenMessages(en),
-  }
+  },
 };
 
 export { LOCALE_CODES, LOCALES } from './locales';

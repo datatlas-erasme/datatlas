@@ -1,8 +1,7 @@
 import React from 'react';
-import { FormattedMessage, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useForm } from 'react-hook-form';
 import styled, { ThemeProps } from 'styled-components';
-import { LoadDataModalProps } from 'kepler.gl/src/components/modals/load-data-modal';
 import { addDataToMap } from 'kepler.gl/actions';
 import { DatasetFactory, DatasetInterface } from '@datatlas/models';
 import { DatatlasTheme } from '../../style/theme';
@@ -74,15 +73,11 @@ const ErrorBox = ({ error, url }) => (
   </StyledError>
 );
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-type LoadRemoteDatasetFormProps = LoadDataModalProps & WrappedComponentProps;
-
 export interface LoadRemoteDatasetFormData {
   url: DatasetInterface['url'];
 }
 
-export function LoadRemoteDatasetForm({ intl, ...props }: LoadRemoteDatasetFormProps) {
+export function LoadRemoteDatasetForm() {
   const {
     register,
     handleSubmit,
@@ -93,6 +88,7 @@ export function LoadRemoteDatasetForm({ intl, ...props }: LoadRemoteDatasetFormP
     criteriaMode: 'all',
   });
   const forward = useForward();
+  const intl = useIntl();
 
   const onSubmit = async () => {
     try {

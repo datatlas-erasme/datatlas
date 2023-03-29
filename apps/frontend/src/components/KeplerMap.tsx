@@ -3,7 +3,7 @@ import { AutoSizer } from 'react-virtualized';
 import { theme } from '../style/theme';
 import { ProjectInterface } from '@datatlas/models';
 import { KeplerGl } from './keplerGl';
-import { messages } from '../localization/kepler';
+import { messages } from '../i18n/kepler';
 
 interface KeplerMapProps {
   id: ProjectInterface['id'];

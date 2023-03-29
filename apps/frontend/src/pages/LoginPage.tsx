@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { FormattedMessage } from '../components/i18n/FormattedMessage';
+import { FormattedMessage } from 'react-intl';
 import { Layout } from './layouts';
 import { LoginForm } from '../components/forms';
 import { DatatlasLogoSquare } from '../components/logos';
@@ -104,12 +104,10 @@ export const LoginPage = () => {
       <AboutWrapper displayAbout={displayAbout} ref={bgColorRef}>
         <SidePanelButton onClick={handleDisplayAbout} displayAbout={displayAbout}>
           <StyledLabel htmlFor={'About'}>
-            <FormattedMessage id={'about.title'}  defaultMessage={'A propos'}/>
+            <FormattedMessage id={'about.title'} defaultMessage={'A propos'} />
           </StyledLabel>
         </SidePanelButton>
-        <h2>
-          A propos
-        </h2>
+        <h2>A propos</h2>
         <p>
           Datatlas est un outil de cartographie interactif. Il permet de créer à la volée des représentations
           cartographiques croisant plusieurs jeux de données et simplifiant l’animation de la relation usager par le

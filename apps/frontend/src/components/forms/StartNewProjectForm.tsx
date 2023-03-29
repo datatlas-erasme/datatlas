@@ -1,22 +1,23 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { FormattedMessage, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { CreateMapPayloadInterface, DEFAULT_MAP_STYLES } from '@datatlas/models';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
 import { StyledFormBtn } from '../buttons';
 import { StyledLabel } from '../forms';
 
-export interface StartNewProjectFormProps extends WrappedComponentProps {
+export interface StartNewProjectFormProps {
   onSubmit: SubmitHandler<StartNewProjectFormData>;
 }
 export type StartNewProjectFormData = CreateMapPayloadInterface;
 
-export function StartNewProjectForm({ onSubmit, intl }: StartNewProjectFormProps) {
+export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<StartNewProjectFormData>();
+  const intl = useIntl();
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */

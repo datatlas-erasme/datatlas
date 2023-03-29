@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormattedMessage, WrappedComponentProps } from 'react-intl';
+import { FormattedMessage, useIntl, WrappedComponentProps } from 'react-intl';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
 import styled from 'styled-components';
@@ -36,7 +36,7 @@ const StyledLoginInput = styled(Input)`
   width: 20vw;
 `;
 
-export function LoginForm({ intl }: WrappedComponentProps) {
+export function LoginForm() {
   const {
     reset,
     register,
@@ -46,6 +46,7 @@ export function LoginForm({ intl }: WrappedComponentProps) {
   const [login, { isLoading, isSuccess, error, isError }] = useLoginMutation();
   const navigate = useNavigate();
   const location = useLocation();
+  const intl = useIntl();
 
   const from = location.state?.from.pathname || '/';
 
