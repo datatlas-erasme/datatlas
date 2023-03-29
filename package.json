@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "nx run-many --target=lint",
     "format:check": "nx format:check",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "extract": "formatjs extract 'apps/frontend/src/**/*.ts*' --ignore='apps/frontend/src/**/*.d.ts' --out-file lang/en.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'\n"
   },
   "private": true,
   "devDependencies": {
@@ -15,6 +16,7 @@
     "@commitlint/config-nx-scopes": "^17.4.0",
     "@docusaurus/module-type-aliases": "2.1.0",
     "@faker-js/faker": "^7.6.0",
+    "@formatjs/cli": "^6.0.4",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.3.9",
     "@nrwl/cypress": "15.4.5",

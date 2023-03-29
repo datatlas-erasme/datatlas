@@ -27,8 +27,21 @@ export const registerMap = (id: ProjectInterface['id']) =>
 export const createMap = createAction<CreateMapPayloadInterface>('CREATE_MAP');
 export const createMapSuccess = createAction<DatatlasSavedMapInterface>('CREATE_MAP_SUCCESS');
 
+
+const customizedKeplerGlReducer = keplerGlReducer
+  .initialState({
+    uiState: {
+      // use Finnish locale
+      locale: LOCALE_CODES.fi
+    }
+  });
+
 export const reducer: Reducer<KeplerGlState> = keplerGlReducer.initialState({
   mapState: new KeplerMapState(),
+  uiState: {
+    // use Finnish locale
+   locale: LOCALE_CODES.fi
+  }
 });
 
 startAppListening({
