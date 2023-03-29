@@ -14,7 +14,7 @@ export class ProjectEntity {
   @Property()
   draft: boolean;
 
-  @Property({ type: 'json'})
+  @Property({ type: 'json' })
   datasets: object;
 
   @Property()
@@ -41,7 +41,7 @@ export class ProjectEntity {
     createdAt: Date,
     draft: boolean,
     datasets: object,
-    description: string,
+    description: string
 
     /*
         owner: string,

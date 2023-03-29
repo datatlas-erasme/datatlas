@@ -4,7 +4,7 @@ describe('PROJECT ACTIONS', () => {
   const test_project = new ProjectDto({
     title: 'titre projet test',
     draft: true,
-    datasets: {toto:"test"},
+    datasets: { toto: 'test' },
     description: 'description du projet',
   });
 

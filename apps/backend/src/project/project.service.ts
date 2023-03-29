@@ -18,7 +18,7 @@ export class ProjectService {
       new Date(),
       projectDto.draft,
       projectDto.datasets,
-      projectDto.description,
+      projectDto.description
     );
     await this.projectRepository.persistAndFlush(project);
     return project;
