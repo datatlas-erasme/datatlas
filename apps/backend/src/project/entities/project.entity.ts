@@ -1,6 +1,4 @@
-import { Entity, ManyToMany, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import { UserEntity } from '../../user/entities/user.entity';
-
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 @Entity()
 export class ProjectEntity {
   @PrimaryKey()
@@ -10,48 +8,58 @@ export class ProjectEntity {
   title: string;
 
   @Property()
+  //createdAt: Date; // It seems that Nest does not transfer a proper Date type to the database.
   createdAt: Date;
 
+  /*
   @Property()
   draft: boolean;
 
-  @Property({ type: 'json' })
-  datasets: object;
+  @Property()
+  datasets: string;
 
   @Property()
   description: string;
 
-  @ManyToOne(() => UserEntity)
-  owner!: UserEntity;
+  @Property()
+  owner: string;
 
-  @ManyToMany(() => UserEntity)
-  contributors: UserEntity[];
+  @Property()
+  contributors: string;
 
-  @Property({ type: 'json' })
-  config: object;
+  @Property()
+  config: string;
 
   @Property()
   version: string;
-
+*/
   constructor(
     title: string,
-    createdAt: Date,
-    draft: boolean,
-    datasets: object,
+    createdAt: Date /*
     description: string,
-    owner: UserEntity,
-    contributors: UserEntity[],
-    config: object,
-    version: string
+    draft: boolean,
+    datasets: string,
+    owner: string,
+    contributors: string,
+    config: string,
+    version: string,*/
   ) {
     this.title = title;
-    this.createdAt = createdAt;
+    this.createdAt = createdAt; /*
+    this.description = description;
     this.draft = draft;
     this.datasets = datasets;
-    this.description = description;
     this.owner = owner;
     this.contributors = contributors;
     this.config = config;
-    this.version = version;
+    this.version = version;*/
   }
+  /*
+
+  @ManyToOne(() => UserEntity)
+  owner: UserEntity;
+
+  @ManyToMany(() => UserEntity)
+  contributors: [UserEntity];
+   */
 }
