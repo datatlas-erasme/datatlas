@@ -2,10 +2,10 @@ import { ProjectDto } from '@datatlas/shared/models';
 
 describe('PROJECT ACTIONS', () => {
   const test_project = new ProjectDto({
-    title: 'titre projet test',
+    title: 'titre projet test 2',
     draft: true,
-    datasets: { toto: 'test' },
-    description: 'description du projet',
+    datasets: { toto: 'test 2' },
+    description: 'description du projet 2',
   });
 
   it('Project -> creation of new project -> should not fail.', () => {
