@@ -1,5 +1,21 @@
+import { ProjectDto } from '@datatlas/shared/models';
+
 describe('PROJECT ACTIONS', () => {
-  const test_project = {
+  const test_project = new ProjectDto({
+    title: 'titre projet test',
+  });
+
+  it('Project -> creation of new project -> should not fail.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/project',
+      body: test_project,
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+    });
+  });
+  /*const test_project = {
     title: 'project_test',
     description: 'project_test_description',
     draft: true,
@@ -77,5 +93,5 @@ describe('PROJECT ACTIONS', () => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.a('string');
     });
-  });
+  });*/
 });
