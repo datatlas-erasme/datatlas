@@ -15,6 +15,7 @@ import { ComponentsPage } from './pages/ComponentsPage';
 import { GlobalStyle } from './style/GlobalStyle';
 import { theme } from './style/theme';
 import LegalMentions from './pages/LegalMentionsPage';
+import { messages } from './i18n';
 
 const router = createBrowserRouter([
   {
@@ -67,7 +68,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <PersistGate loading={<Loader />} persistor={persistor}>
-        <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
+        <IntlProvider locale={selectLocale(store.getState())} messages={messages}>
           <RouterProvider router={router} />
         </IntlProvider>
       </PersistGate>

@@ -146,7 +146,7 @@ export function LoadRemoteDatasetForm({ intl, ...props }: LoadRemoteDatasetFormP
             </StyledErrorDescription>
           </StyledError>
         )}
-        <input type="submit" value={intl.formatMessage({ defaultMessage: 'loadRemoteData.fetch' })} />
+        <input type="submit" value={intl.formatMessage({ id: 'loadRemoteData.submit', defaultMessage: 'Charger' })} />
       </StyledFromGroup>
       {errors?.root?.serverError && <ErrorBox error={errors?.root?.serverError} url={getValues('url')} />}
     </InputForm>

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import { StartNewProjectForm } from '../forms/StartNewProjectForm';
+import { StartNewProjectForm } from '../forms';
 import { createMap } from '../../store/reducers/keplerGl';
 
 const SideBarContainer = styled.aside`

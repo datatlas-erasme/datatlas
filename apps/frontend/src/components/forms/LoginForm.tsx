@@ -87,7 +87,10 @@ export function LoginForm({ intl }: WrappedComponentProps) {
         <FormattedMessage id={'loginForm.forgotPassword'} defaultMessage="J’ai oublié mon mot de passe" />
       </StyledLink>
 
-      <StyledFormBtn type="submit" value={intl.formatMessage({ defaultMessage: 'loginForm.connexion' })} />
+      <StyledFormBtn
+        type="submit"
+        value={intl.formatMessage({ id: 'loginForm.submit', defaultMessage: 'Connexion' })}
+      />
       <div>
         <input id="rememberMe" type={'checkbox'} {...register('rememberMe', { required: false })} />
         <p>

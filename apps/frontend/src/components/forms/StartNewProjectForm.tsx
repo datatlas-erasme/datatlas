@@ -41,7 +41,10 @@ export function StartNewProjectForm({ onSubmit, intl }: StartNewProjectFormProps
           </option>
         ))}
       </select>
-      <StyledFormBtn type="submit" value={intl.formatMessage({ defaultMessage: 'createProjectForm.submit' })} />
+      <StyledFormBtn
+        type="submit"
+        value={intl.formatMessage({ id: 'createProjectForm.submit', defaultMessage: 'Créer' })}
+      />
     </form>
   );
 }

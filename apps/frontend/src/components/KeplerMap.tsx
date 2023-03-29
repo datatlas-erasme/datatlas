@@ -3,6 +3,7 @@ import { AutoSizer } from 'react-virtualized';
 import { theme } from '../style/theme';
 import { ProjectInterface } from '@datatlas/models';
 import { KeplerGl } from './keplerGl';
+import { messages } from '../localization/kepler';
 
 interface KeplerMapProps {
   id: ProjectInterface['id'];
@@ -19,6 +20,7 @@ const KeplerMap = ({ id }: KeplerMapProps) => (
         theme={theme}
         appName={process.env.REACT_APP_NAME || 'Datatlas'}
         mint={false}
+        localeMessages={messages}
       />
     )}
   </AutoSizer>
