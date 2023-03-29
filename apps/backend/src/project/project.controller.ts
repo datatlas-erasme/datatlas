@@ -9,9 +9,12 @@ export class ProjectController {
 
   @Post('project')
   async create(@Body() ProjectDto: ProjectDto) {
-    // Let's test with a random existing user.
+    // Let's test with a random existing users.
     const owner = await this.userService.getUserEntity(63);
-    return this.projectService.create(ProjectDto, owner);
+    const contrib1 = await this.userService.getUserEntity(63);
+    const contrib2 = await this.userService.getUserEntity(64);
+    const contribs = [contrib1, contrib2];
+    return this.projectService.create(ProjectDto, owner, contribs);
   }
 
   /*
