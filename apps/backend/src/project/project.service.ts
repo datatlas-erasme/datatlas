@@ -13,7 +13,13 @@ export class ProjectService {
 
   async create(projectDto: ProjectDto): Promise<ProjectEntity> {
     Logger.log(typeof Date.now());
-    const project = new ProjectEntity(projectDto.title, new Date());
+    const project = new ProjectEntity(
+      projectDto.title,
+      new Date(),
+      projectDto.draft,
+      projectDto.datasets,
+      projectDto.description,
+    );
     await this.projectRepository.persistAndFlush(project);
     return project;
   }
