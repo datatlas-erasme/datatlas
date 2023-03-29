@@ -12,14 +12,15 @@ export class ProjectService {
     private readonly projectRepository: EntityRepository<ProjectEntity>
   ) {}
 
-  async create(projectDto: ProjectDto, owner: UserEntity): Promise<ProjectEntity> {
+  async create(projectDto: ProjectDto, owner: UserEntity, contributors: UserEntity[]): Promise<ProjectEntity> {
     const project = new ProjectEntity(
       projectDto.title,
       new Date(),
       projectDto.draft,
       projectDto.datasets,
       projectDto.description,
-      owner
+      owner,
+      contributors
     );
     await this.projectRepository.persistAndFlush(project);
     return project;
