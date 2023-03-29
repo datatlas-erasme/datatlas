@@ -22,7 +22,7 @@ const Sidebar = () => {
   return (
     <SideBarContainer>
       <h2>
-        <FormattedMessage defaultMessage={'Démarrer un nouveau projet'} />
+        <FormattedMessage id={'sideBar.createProject'} defaultMessage={'Démarrer un nouveau projet'} />
       </h2>
       <StartNewProjectForm onSubmit={(data) => dispatch(createMap(data))} />
     </SideBarContainer>

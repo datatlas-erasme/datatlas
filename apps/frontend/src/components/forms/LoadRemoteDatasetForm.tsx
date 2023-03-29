@@ -142,7 +142,7 @@ export function LoadRemoteDatasetForm({ intl, ...props }: LoadRemoteDatasetFormP
         {errors.url && (
           <StyledError>
             <StyledErrorDescription>
-              <FormattedMessage defaultMessage="Incorrect URL" />
+              <FormattedMessage id={'loadRemoteData.incorrectURL'} defaultMessage="Incorrect URL" />
             </StyledErrorDescription>
           </StyledError>
         )}

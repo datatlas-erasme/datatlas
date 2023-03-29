@@ -100,7 +100,7 @@ const Navbar = () => {
             <BadgesItem>
               <HelpIcon />
             </BadgesItem>
-            <FormattedMessage defaultMessage={'Aide'} />
+            <FormattedMessage id={'navigationBar.help'} defaultMessage={'Aide'} />
           </NavItem>
         </li>
         <li>
@@ -108,7 +108,7 @@ const Navbar = () => {
             <BadgesItem>
               <WheelIcon />
             </BadgesItem>
-            <FormattedMessage defaultMessage={'Réglages'} />
+            <FormattedMessage id={'navigationBar.settings'} defaultMessage={'Réglages'} />
           </NavItem>
         </li>
         <li>
@@ -116,7 +116,7 @@ const Navbar = () => {
             <BadgesItem>
               <Clock />
             </BadgesItem>
-            <FormattedMessage defaultMessage={'Logout'} />
+            <FormattedMessage id={'navigationBar.logout'} defaultMessage={'Logout'} />
           </button>
         </li>
       </NavItemsList>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, WrappedComponentProps } from 'react-intl';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from '../../api';
 import styled from 'styled-components';
@@ -36,7 +36,7 @@ const StyledLoginInput = styled(Input)`
   width: 20vw;
 `;
 
-export function LoginForm() {
+export function LoginForm({ intl }: WrappedComponentProps) {
   const {
     reset,
     register,
@@ -70,24 +70,28 @@ export function LoginForm() {
   return (
     <StyledLoginForm onSubmit={handleSubmit(login)}>
       <StyledLabel htmlFor="login">
-        <FormattedMessage defaultMessage="Identifiant" />
+        <FormattedMessage id={'loginForm.login'} defaultMessage="Identifiant" />
       </StyledLabel>
       <StyledLoginInput id="login" defaultValue="" {...register('login', { required: true })} />
-      {errors.login && <FormattedMessage defaultMessage="This field is required" />}
+      {errors.login && (
+        <FormattedMessage id={'loginForm.errors.loginRequired'} defaultMessage="This field is required" />
+      )}
       <StyledLabel htmlFor="password">
-        <FormattedMessage defaultMessage="Mot de passe" />
+        <FormattedMessage id={'loginForm.password'} defaultMessage="Mot de passe" />
       </StyledLabel>
       <StyledLoginInput id="password" type="password" defaultValue="" {...register('password', { required: true })} />
-      {errors.password && <FormattedMessage defaultMessage="This field is required" />}
+      {errors.password && (
+        <FormattedMessage id={'loginForm.errors.passwordRequired'} defaultMessage="This field is required" />
+      )}
       <StyledLink to={'/'}>
-        <FormattedMessage defaultMessage="J’ai oublié mon mot de passe" />
+        <FormattedMessage id={'loginForm.forgotPassword'} defaultMessage="J’ai oublié mon mot de passe" />
       </StyledLink>
 
-      <StyledFormBtn type="submit" value={'Connexion'} />
+      <StyledFormBtn type="submit" value={intl.formatMessage({ defaultMessage: 'loginForm.connexion' })} />
       <div>
         <input id="rememberMe" type={'checkbox'} {...register('rememberMe', { required: false })} />
         <p>
-          <FormattedMessage defaultMessage="Se souvenir de moi" />
+          <FormattedMessage id={'loginForm.rememberMe'} defaultMessage="Se souvenir de moi" />
         </p>
       </div>
     </StyledLoginForm>
