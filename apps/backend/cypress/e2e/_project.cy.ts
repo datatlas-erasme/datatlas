@@ -6,6 +6,8 @@ describe('PROJECT ACTIONS', () => {
     draft: true,
     datasets: { toto: 'test 2' },
     description: 'description du projet 2',
+    config:{ toto: 'test 2' },
+    version:'version test'
   });
 
   it('Project -> creation of new project -> should not fail.', () => {

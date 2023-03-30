@@ -27,14 +27,12 @@ export class ProjectEntity {
   @ManyToMany(() => UserEntity)
   contributors: UserEntity[];
 
-  /*
-
-  @Property()
-  config: string;
+  @Property({ type: 'json' })
+  config: object;
 
   @Property()
   version: string;
-*/
+
   constructor(
     title: string,
     createdAt: Date,
@@ -42,10 +40,9 @@ export class ProjectEntity {
     datasets: object,
     description: string,
     owner: UserEntity,
-    contributors: UserEntity[]
-    /*
-        config: string,
-        version: string,*/
+    contributors: UserEntity[],
+    config: object,
+    version: string,
   ) {
     this.title = title;
     this.createdAt = createdAt;
@@ -54,16 +51,7 @@ export class ProjectEntity {
     this.description = description;
     this.owner = owner;
     this.contributors = contributors;
-
-    /*
-
     this.config = config;
-    this.version = version;*/
+    this.version = version;
   }
-  /*
-
-
-  @ManyToMany(() => UserEntity)
-  contributors: [UserEntity];
-   */
 }

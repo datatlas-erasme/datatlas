@@ -20,7 +20,9 @@ export class ProjectService {
       projectDto.datasets,
       projectDto.description,
       owner,
-      contributors
+      contributors,
+      projectDto.config,
+      projectDto.version,
     );
     await this.projectRepository.persistAndFlush(project);
     return project;
