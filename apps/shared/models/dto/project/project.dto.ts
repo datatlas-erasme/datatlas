@@ -6,26 +6,29 @@ export class ProjectDto {
   datasets?: object;
   description?: string;
   owner?: object;
+  contributors?: object;
+  config?: object;
+  version?:string;
 
-  constructor(userData: {
+  constructor(projectData: {
     id?: number;
     title?: string;
     draft?: boolean;
     datasets?: object;
     description?: string;
     owner?: object;
+    contributors?: object;
+    config?: object;
+    version?:string;
   }) {
-    this.id = userData.id;
-    this.title = userData.title;
-    this.draft = userData.draft;
-    this.datasets = userData.datasets;
-    this.description = userData.description;
-    this.owner = userData.owner;
-    /*
-
-    this.owner = owner;
-    this.contributors = contributors;
-    this.config = config;
-    this.version = version;*/
+    this.id = projectData.id;
+    this.title = projectData.title;
+    this.draft = projectData.draft;
+    this.datasets = projectData.datasets;
+    this.description = projectData.description;
+    this.owner = projectData.owner;
+    this.contributors = projectData.contributors;
+    this.config = projectData.config;
+    this.version = projectData.version;
   }
 }
