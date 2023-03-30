@@ -1,8 +1,8 @@
-import {Controller, Post, Body, Logger, UseGuards} from '@nestjs/common';
+import { Controller, Post, Body, Logger, UseGuards } from '@nestjs/common';
 import { ProjectDto } from '@datatlas/shared/models';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
-import {CanModifyProjectGuard} from "../auth/canModifyProject.guard";
+import { CanModifyProjectGuard } from '../auth/canModifyProject.guard';
 
 @Controller()
 export class ProjectController {
@@ -11,8 +11,8 @@ export class ProjectController {
   @UseGuards(CanModifyProjectGuard) // Check if the user in jwt is the same as the one sent in body.
   @Post('project')
   async create(@Body() ProjectDto: ProjectDto) {
-
     // Let's test with a random existing users.
+    Logger.log('je crée !');
     const owner = await this.userService.getUserEntity(63);
     const contrib1 = await this.userService.getUserEntity(63);
     const contrib2 = await this.userService.getUserEntity(64);
