@@ -23,6 +23,7 @@ describe('PROJECT ACTIONS', () => {
     }).then((response) => {
       jwtUserAdmin = response.body.access_token;
       idUserAdmin = response.body.user_id;
+      test_project.owner = idUserAdmin;
       expect(response.status).to.eq(201);
     });
   });
