@@ -22,7 +22,7 @@ export class ProjectService {
       owner,
       contributors,
       projectDto.config,
-      projectDto.version,
+      projectDto.version
     );
     await this.projectRepository.persistAndFlush(project);
     return project;

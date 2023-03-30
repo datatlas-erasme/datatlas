@@ -42,7 +42,7 @@ export class ProjectEntity {
     owner: UserEntity,
     contributors: UserEntity[],
     config: object,
-    version: string,
+    version: string
   ) {
     this.title = title;
     this.createdAt = createdAt;
