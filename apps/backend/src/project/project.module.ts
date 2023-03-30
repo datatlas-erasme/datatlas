@@ -5,9 +5,19 @@ import { ProjectController } from './project.controller';
 import { ProjectEntity } from './entities/project.entity';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities/user.entity';
+import {JwtModule} from "@nestjs/jwt";
+import {jwtConstants} from "../auth/constants";
+import {PassportModule} from "@nestjs/passport";
 
 @Module({
-  imports: [MikroOrmModule.forFeature([ProjectEntity, UserEntity])],
+  imports: [
+    JwtModule.register({
+    secret: jwtConstants.secret,
+    signOptions: { expiresIn: '600s' },
+  }),
+    MikroOrmModule.forFeature([ProjectEntity, UserEntity]),
+    PassportModule,
+  ],
   providers: [ProjectService, UserService],
   controllers: [ProjectController],
 })

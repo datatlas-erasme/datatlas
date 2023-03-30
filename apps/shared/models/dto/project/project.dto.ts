@@ -8,7 +8,7 @@ export class ProjectDto {
   owner?: object;
   contributors?: object;
   config?: object;
-  version?:string;
+  version?: string;
 
   constructor(projectData: {
     id?: number;
@@ -19,7 +19,7 @@ export class ProjectDto {
     owner?: object;
     contributors?: object;
     config?: object;
-    version?:string;
+    version?: string;
   }) {
     this.id = projectData.id;
     this.title = projectData.title;
