@@ -24,7 +24,6 @@ export class CanModifyProjectGuard extends AuthGuard('local') {
       return false;
     }
     // Jwt valid. Same ID ?
-    Logger.log(request.body);
-    return true;
+    return request.body.owner === jwtData.id;
   }
 }
