@@ -6,8 +6,25 @@ describe('PROJECT ACTIONS', () => {
     draft: true,
     datasets: { toto: 'test 2' },
     description: 'description du projet 2',
-    config:{ toto: 'test 2' },
-    version:'version test'
+    config: { toto: 'test 2' },
+    version: 'version test',
+  });
+  let jwtUserAdmin;
+  let idUserAdmin;
+  it('Auth -> Connecting correctly with admin user.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        username: 'admin',
+        password: 'admin',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      jwtUserAdmin = response.body.access_token;
+      idUserAdmin = response.body.user_id;
+      expect(response.status).to.eq(201);
+    });
   });
 
   it('Project -> creation of new project -> should not fail.', () => {
@@ -15,6 +32,9 @@ describe('PROJECT ACTIONS', () => {
       method: 'POST',
       url: '/api/project',
       body: test_project,
+      auth: {
+        bearer: jwtUserAdmin,
+      },
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(201);
