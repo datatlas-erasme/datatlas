@@ -42,16 +42,9 @@ export class ProjectService {
     return await this.projectRepository.persistAndFlush(projectToUpdate);
   }
 
-  /*
-
-
-
-
-
   async delete(id: number): Promise<number> {
     const projectToDelete = await this.projectRepository.findOne(id);
     await this.projectRepository.removeAndFlush(projectToDelete);
     return id;
   }
-*/
 }

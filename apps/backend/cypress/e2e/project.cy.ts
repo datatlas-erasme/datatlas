@@ -87,39 +87,14 @@ describe('PROJECT ACTIONS', () => {
       expect(response.status).to.eq(200);
     });
   });
-
-  /*const test_project = {
-    title: 'project_test',
-    description: 'project_test_description',
-    datasets: 'tutu',
-    owner: 'possesseur',
-    contributors: 'contributeurs',
-    config: 'config',
-    version: 'versionNumber',
-    createdAt: 'dateCreation',
-  };
-  const modified_test_project = {
-    title: 'modified_project_test',
-    description: 'modified_project_test_description',
-    draft: true,
-    datasets: 'toto',
-    owner: 'possesseur',
-    contributors: 'contributeurs',
-    config: 'config',
-    version: 'versionNumber',
-    createdAt: 'dateCreation',
-  };
-  let id_test_project = null;
-
-
   it('Project -> Delete', () => {
     cy.request({
       method: 'DELETE',
-      url: '/api/project/' + id_test_project,
+      url: '/api/projects/' + 1,
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.a('string');
     });
-  });*/
+  });
 });
