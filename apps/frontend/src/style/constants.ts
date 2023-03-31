@@ -99,12 +99,13 @@ export const themeBtn = {
   linkBtnActBgdHover: 'transparent',
   linkBtnBorder: `0`,
 
+  // Cancel Modal
   negativeBtnBgd: themeText.errorColor,
-  negativeBtnActBgd: themeColors.yellow,
-  negativeBtnBgdHover: themeColors.yellow,
+  negativeBtnActBgd: themeColors.blueDark,
+  negativeBtnBgdHover: themeColors.blueDark,
   negativeBtnBorder: '0',
-  negativeBtnColor: themeColors.primaryColor,
-  negativeBtnActColor: themeColors.primaryColor,
+  negativeBtnColor: themeColors.secondaryColor,
+  negativeBtnActColor: themeColors.secondaryColor,
 
   floatingBtnBgd: themeColors.greyExtraLight,
   floatingBtnActBgd: themeColors.greyMedium,
