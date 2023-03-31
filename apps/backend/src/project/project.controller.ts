@@ -12,8 +12,7 @@ export class ProjectController {
   @Post('project')
   async create(@Body() ProjectDto: ProjectDto) {
     // Let's test with a random existing users.
-    Logger.log('je crée !');
-    const owner = await this.userService.getUserEntity(63);
+    const owner = await this.userService.getUserEntity(Number(ProjectDto.owner));
     const contrib1 = await this.userService.getUserEntity(63);
     const contrib2 = await this.userService.getUserEntity(64);
     const contribs = [contrib1, contrib2];

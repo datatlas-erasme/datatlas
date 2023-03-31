@@ -27,7 +27,6 @@ describe('PROJECT ACTIONS', () => {
       expect(response.status).to.eq(201);
     });
   });
-
   it('Project -> creation of new project -> should not fail.', () => {
     cy.request({
       method: 'POST',
@@ -41,6 +40,21 @@ describe('PROJECT ACTIONS', () => {
       expect(response.status).to.eq(201);
     });
   });
+  it("Project -> get all user's projects -> should not fail.", () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/project',
+      body: test_project,
+      auth: {
+        bearer: jwtUserAdmin,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body).to.be.an('array');
+    });
+  });
+
   /*const test_project = {
     title: 'project_test',
     description: 'project_test_description',
