@@ -1,4 +1,5 @@
 import { messages as keplerMessages } from 'kepler.gl/dist/localization';
+
 import fr from './fr.json';
 import en from './en.json';
 

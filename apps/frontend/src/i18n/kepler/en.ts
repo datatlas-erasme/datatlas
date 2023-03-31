@@ -1,2 +1,4 @@
 // Add custom Kepler translation here.
-export default {};
+export default {
+  'sidebar.panels.layer': 'Custom en',
+};

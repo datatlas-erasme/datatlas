@@ -62,18 +62,19 @@ if (
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+// const locale = selectLocale(store.getState());
 
 root.render(
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <PersistGate loading={<Loader />} persistor={persistor}>
-        <IntlProvider locale={selectLocale(store.getState())} messages={messages}>
+  <IntlProvider locale={'fr'} messages={messages[selectLocale(store.getState())]}>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <PersistGate loading={<Loader />} persistor={persistor}>
           <RouterProvider router={router} />
-        </IntlProvider>
-      </PersistGate>
-    </ThemeProvider>
-  </Provider>
+        </PersistGate>
+      </ThemeProvider>
+    </Provider>
+  </IntlProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

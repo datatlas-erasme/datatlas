@@ -13,6 +13,7 @@ import {
 } from '@datatlas/models';
 import { selectCurrentUserId } from '../selectors';
 import { startAppListening } from '../listenerMiddleware';
+import { setLocale } from 'kepler.gl/src';
 
 export const registerMap = (id: ProjectInterface['id']) =>
   registerEntry({

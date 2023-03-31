@@ -29,6 +29,8 @@ export function renderWithProviders(
   }: ExtendedRenderOptions = {}
 ) {
   function Wrapper({ children }: PropsWithChildren<object>) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     return (
       <Provider store={store}>
         <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
