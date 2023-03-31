@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Logger, UseGuards, Get, Param, Put } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete } from '@nestjs/common';
 import { ProjectDto } from '@datatlas/shared/models';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
@@ -37,17 +37,9 @@ export class ProjectController {
     return await this.projectService.update(id, ProjectDto);
   }
 
-  /*
-
-
-
-
-  @Delete('project/:id')
+  // Guard : Who decides ? only owner or contributors too ?
+  @Delete(':id')
   async delete(@Param('id') id: number): Promise<number> {
     return await this.projectService.delete(id);
   }
-
-
-
-   */
 }
