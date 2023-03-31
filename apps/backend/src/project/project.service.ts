@@ -32,18 +32,21 @@ export class ProjectService {
     return this.projectRepository.findAll();
   }
 
-  /*
-
   async findOneById(id: number): Promise<ProjectDto> {
     return this.projectRepository.findOne({ id });
   }
 
-  async update(id: number, projectDto: ProjectDto): Promise<ProjectDto> {
+  async update(id: number, projectDto: ProjectDto): Promise<void> {
     const projectToUpdate = await this.projectRepository.findOne(id);
     this.projectRepository.assign(projectToUpdate, projectDto);
-    await this.projectRepository.persistAndFlush(projectToUpdate);
-    return projectToUpdate;
+    return await this.projectRepository.persistAndFlush(projectToUpdate);
   }
+
+  /*
+
+
+
+
 
   async delete(id: number): Promise<number> {
     const projectToDelete = await this.projectRepository.findOne(id);
