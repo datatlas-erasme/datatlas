@@ -7,12 +7,14 @@ import { StyledPanelHeader } from 'kepler.gl/dist/components/common/styled-compo
 
 const StyledLayerPanelHeader = styled(StyledPanelHeader)`
   height: ${({ theme }) => theme.layerPanelHeaderHeight}px;
+  background-color: ${({ theme }) => theme.panelBackground};
+
   .layer__remove-layer {
     opacity: 0;
   }
   :hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.panelBackgroundHover};
+    background-color: ${({ theme }) => theme.sidePanelHeaderBg};
 
     .layer__drag-handle {
       opacity: 1;
@@ -22,11 +24,14 @@ const StyledLayerPanelHeader = styled(StyledPanelHeader)`
       opacity: 1;
     }
   }
+  :active {
+    background-color: ${({ theme }) => theme.sidePanelHeaderBg};
+  }
 `;
 
 const HeaderLabelSection = styled.div`
   display: flex;
-  color: ${(props) => props.theme.textColor};
+  color: ${({ theme }) => theme.textColor};
 `;
 
 const HeaderActionSection = styled.div`

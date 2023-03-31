@@ -6,8 +6,10 @@ export const StyledLayerConfigurator = styled.div.attrs({
   position: relative;
   margin-top: ${({ theme }) => theme.layerConfiguratorMargin};
   padding: ${({ theme }) => theme.layerConfiguratorPadding};
-  border-left: ${({ theme }) => theme.layerConfiguratorBorder} dashed
-    ${({ theme }) => theme.layerConfiguratorBorderColor};
+  border-bottom: ${({ theme }) => theme.panelBorderLT};
+  :active {
+    background-color: ${({ theme }) => theme.panelBackground};
+  }
 `;
 
 export const StyledLayerVisualConfigurator = styled.div.attrs({

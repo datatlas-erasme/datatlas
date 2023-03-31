@@ -4,6 +4,7 @@ import { SidePanelSection } from 'kepler.gl/dist/components/common/styled-compon
 
 export const ArcLayerColorSelector = ({ layer, onChangeConfig, onChangeVisConfig, property = 'color', setColorUI }) => (
   <SidePanelSection>
+    <h2>ColorSelector</h2>
     <ColorSelector
       colorSets={[
         {

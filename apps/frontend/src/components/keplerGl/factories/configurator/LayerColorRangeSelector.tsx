@@ -4,6 +4,7 @@ import ColorSelector from 'kepler.gl/dist/components/side-panel/layer-panel/colo
 
 export const LayerColorRangeSelector = ({ layer, onChange, property = 'colorRange', setColorUI }) => (
   <SidePanelSection>
+    <h2>COUCOU</h2>
     <ColorSelector
       colorSets={[
         {

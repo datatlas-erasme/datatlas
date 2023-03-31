@@ -20,7 +20,13 @@ export default {
   'project.contributors': 'Contributors',
   'project.projectUpdated': 'Updated at',
   'sideBar.createProject': 'Start new project:',
+  'layerManager.fileformat':
+    'You can use the following formats: CSV / JSON / ... check that the url contains the extension of the\n file.',
+  'layerManager.contactus': 'The desired format is not available {link}',
+  'layerManager.contactus.link': 'Contact us',
 
   // Kepler
-  'sidebar.panels.layer': 'Custom en in datatlas',
+  'sidebar.panels.layer': 'Data',
+  'sidebar.panels.filter': 'Filter',
+  'sidebar.panels.interaction': 'Interface',
 };

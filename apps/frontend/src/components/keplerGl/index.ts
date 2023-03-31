@@ -13,12 +13,14 @@ import {
   replacePanelTab,
   replaceTooltipConfig,
 } from './factories';
+import { replacePanelTitle } from './factories/PanelTitleFactory';
+import { replacePanelToggleFactory } from './factories/PanelToggleFactory';
+import { replaceAddDataButtonFactory } from './factories/AddDataButtonFactory';
 
 // ⚠ Order matters ⚠
 export const KeplerGl = injectComponents([
   replaceKeplerGL(),
   replacePanelHeader(),
-  replacePanelTab(),
   replaceLayerManager(),
   replaceLoadDataModal(),
   replaceLayerPanel(),
@@ -27,5 +29,9 @@ export const KeplerGl = injectComponents([
   replaceFilterManager(),
   replaceLayerConfigurator(),
   replaceInteractionManager(),
+  replacePanelToggleFactory(),
+  replacePanelTab(),
   replaceTooltipConfig(),
+  replacePanelTitle(),
+  replaceAddDataButtonFactory(),
 ]);

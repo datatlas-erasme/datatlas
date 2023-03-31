@@ -13,6 +13,7 @@ export const AggregationTypeSelector = ({ layer, channel, onChange }) => {
 
   return (
     <SidePanelSection>
+      <h2>CONTENT</h2>
       <PanelLabel>
         <FormattedMessage id={'layer.aggregateBy'} values={{ field: selectedField.name }} />
       </PanelLabel>

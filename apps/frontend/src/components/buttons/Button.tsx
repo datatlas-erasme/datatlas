@@ -7,12 +7,16 @@ interface ButtonInterface {
   type?: ButtonHTMLAttributes<HTMLButtonElement>;
   Icon?: ReactElement;
   onClick?: MouseEventHandler;
+  className?: string;
+  isInactive?: boolean;
+  width: string;
 }
 
 const StyledKeplerButton = styled(KeplerButton)`
   margin: 10px;
+  width: auto;
 `;
-const Button = ({ children, Icon, onClick, type }: ButtonInterface) => {
+export const Button = ({ children, Icon, onClick, type }: ButtonInterface) => {
   return (
     <StyledKeplerButton onClick={onClick} type={type}>
       {Icon}
@@ -20,5 +24,3 @@ const Button = ({ children, Icon, onClick, type }: ButtonInterface) => {
     </StyledKeplerButton>
   );
 };
-
-export default Button;
