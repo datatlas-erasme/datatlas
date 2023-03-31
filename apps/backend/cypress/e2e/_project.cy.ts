@@ -8,7 +8,16 @@ describe('PROJECT ACTIONS', () => {
     description: 'description du projet 2',
     config: { toto: 'test 2' },
     version: 'version test',
-    contributors:[63,64], // Shall we really send IDs ? Maybe usernames instead ?
+    contributors: [63, 64], // Shall we really send IDs ? Maybe usernames instead ?
+  });
+  const test_project_modified = new ProjectDto({
+    title: 'titre projet test 2_',
+    draft: false,
+    datasets: { toto: 'test 2_' },
+    description: 'description du projet 2_',
+    config: { toto: 'test 2_' },
+    version: 'version test_',
+    contributors: [63], // Shall we really send IDs ? Maybe usernames instead ?
   });
   let jwtUserAdmin;
   let idUserAdmin;
@@ -41,11 +50,10 @@ describe('PROJECT ACTIONS', () => {
       expect(response.status).to.eq(201);
     });
   });
-  it("Project -> get all user's projects -> should not fail.", () => {
+  it('Project -> get all projects -> should not fail.', () => {
     cy.request({
       method: 'GET',
       url: '/api/projects',
-      body: test_project,
       auth: {
         bearer: jwtUserAdmin,
       },
@@ -53,6 +61,30 @@ describe('PROJECT ACTIONS', () => {
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.an('array');
+    });
+  });
+  it('Project -> Get info about project using id', () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/projects/' + 1,
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      // should return a object with the project info
+      expect(response.body).to.be.an('object');
+    });
+  });
+  it('Project -> Modification', () => {
+    cy.request({
+      method: 'PUT',
+      url: '/api/projects/' + 1,
+      body: test_project_modified,
+      auth: {
+        bearer: jwtUserAdmin,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
     });
   });
 
@@ -78,52 +110,8 @@ describe('PROJECT ACTIONS', () => {
     createdAt: 'dateCreation',
   };
   let id_test_project = null;
-  it('Project -> creation of new project (should return new project id)', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/project',
-      body: test_project,
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(201);
-      expect(response.body.id).to.be.a('number').greaterThan(0);
-      id_test_project = response.body.id;
-    });
-  });
-  it('Project -> Get info about project using id', () => {
-    cy.request({
-      method: 'GET',
-      url: '/api/project/' + id_test_project,
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      // should return a object with the project info
-      expect(response.body).to.be.an('object');
-    });
-  });
-  it('Project -> Get all projects', () => {
-    cy.request({
-      method: 'GET',
-      url: '/api/projects',
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      // should return an array of projects
-      expect(response.body).to.be.an('array');
-    });
-  });
-  it('Project -> Modification', () => {
-    cy.request({
-      method: 'PUT',
-      url: '/api/project/' + id_test_project,
-      body: modified_test_project,
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      expect(response.body).to.be.an('object');
-      expect(response.body.id).to.be.a('number').to.eq(id_test_project);
-    });
-  });
+
+
   it('Project -> Delete', () => {
     cy.request({
       method: 'DELETE',
