@@ -1,29 +1,32 @@
-import { Controller, Post, Body, Logger, UseGuards } from '@nestjs/common';
+import {Controller, Post, Body, Logger, UseGuards, Get} from '@nestjs/common';
 import { ProjectDto } from '@datatlas/shared/models';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
 import { CanModifyProjectGuard } from '../auth/canModifyProject.guard';
+import {UserEntity} from "../user/entities/user.entity";
 
-@Controller()
+@Controller('projects')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService, private readonly userService: UserService) {}
 
   @UseGuards(CanModifyProjectGuard) // Check if the user in jwt is the same as the one sent in body.
-  @Post('project')
-  async create(@Body() ProjectDto: ProjectDto) {
-    // Let's test with a random existing users.
-    const owner = await this.userService.getUserEntity(Number(ProjectDto.owner));
-    const contrib1 = await this.userService.getUserEntity(63);
-    const contrib2 = await this.userService.getUserEntity(64);
-    const contribs = [contrib1, contrib2];
-    return this.projectService.create(ProjectDto, owner, contribs);
+  @Post()
+  async create(@Body() projectDto: ProjectDto) {
+    const owner = projectDto.owner = await this.userService.getUserEntity(Number(projectDto.owner));
+    const contributorEntities: UserEntity[] = [];
+    for (const element of Object.values(projectDto.contributors)) {
+      contributorEntities.push(await this.userService.getUserEntity(element));
+    }
+    return this.projectService.create(projectDto, owner, contributorEntities)
   }
 
-  /*
-  @Get('projects')
+  // No guards ? Everyone can see all projects ?
+  @Get()
   async fetchAll(): Promise<ProjectDto[]> {
     return await this.projectService.findAll();
   }
+
+  /*
 
   @Get('project/:id')
   async fetchOne(@Param('id') id: number): Promise<ProjectDto> {
