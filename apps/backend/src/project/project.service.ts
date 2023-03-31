@@ -27,10 +27,13 @@ export class ProjectService {
     await this.projectRepository.persistAndFlush(project);
     return project;
   }
-  /*
+
   async findAll(): Promise<ProjectDto[]> {
     return this.projectRepository.findAll();
   }
+
+  /*
+
   async findOneById(id: number): Promise<ProjectDto> {
     return this.projectRepository.findOne({ id });
   }

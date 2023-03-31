@@ -5,7 +5,7 @@ export class ProjectDto {
   draft?: boolean;
   datasets?: object;
   description?: string;
-  owner?: object;
+  owner?: object; // Either id number or user entity.
   contributors?: object;
   config?: object;
   version?: string;
@@ -17,7 +17,7 @@ export class ProjectDto {
     datasets?: object;
     description?: string;
     owner?: object;
-    contributors?: object;
+    contributors?: [object]; // Either id number or user entity.
     config?: object;
     version?: string;
   }) {

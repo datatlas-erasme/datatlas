@@ -8,6 +8,7 @@ describe('PROJECT ACTIONS', () => {
     description: 'description du projet 2',
     config: { toto: 'test 2' },
     version: 'version test',
+    contributors:[63,64], // Shall we really send IDs ? Maybe usernames instead ?
   });
   let jwtUserAdmin;
   let idUserAdmin;
@@ -30,7 +31,7 @@ describe('PROJECT ACTIONS', () => {
   it('Project -> creation of new project -> should not fail.', () => {
     cy.request({
       method: 'POST',
-      url: '/api/project',
+      url: '/api/projects',
       body: test_project,
       auth: {
         bearer: jwtUserAdmin,
@@ -43,7 +44,7 @@ describe('PROJECT ACTIONS', () => {
   it("Project -> get all user's projects -> should not fail.", () => {
     cy.request({
       method: 'GET',
-      url: '/api/project',
+      url: '/api/projects',
       body: test_project,
       auth: {
         bearer: jwtUserAdmin,
