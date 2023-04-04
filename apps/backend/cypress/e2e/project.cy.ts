@@ -77,7 +77,7 @@ describe('PROJECT ACTIONS', () => {
   it('Project -> Modification', () => {
     cy.request({
       method: 'PUT',
-      url: '/api/projects/' + 1,
+      url: `/api/projects/${String(1)}`,
       body: test_project_modified,
       auth: {
         bearer: jwtUserAdmin,
