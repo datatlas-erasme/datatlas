@@ -14,18 +14,18 @@ import {
   replaceTooltipConfig,
 } from './factories';
 
+// /!\ Order matters /!\
 export const KeplerGl = injectComponents([
-  // replaceLoadDataModal(),
-  replaceLayerManager(),
-  // replaceLayerPanel(),
-  // replaceLayerPanelHeader(),
-  // replaceLocalePanel(),
-  // replaceFilterManager(),
-  // replaceLayerConfigurator(),
-  // replaceInteractionManager(),
   replaceKeplerGL(),
-  // replacePanelHeader(),
   replaceSidePanel(),
-  // replaceTooltipConfig(),
-  // replaceTooltipConfig(),
+  replacePanelHeader(),
+  replaceLayerManager(),
+  replaceLoadDataModal(),
+  replaceLayerPanel(),
+  replaceLayerPanelHeader(),
+  replaceLocalePanel(),
+  replaceFilterManager(),
+  replaceLayerConfigurator(),
+  replaceInteractionManager(),
+  replaceTooltipConfig(),
 ]);

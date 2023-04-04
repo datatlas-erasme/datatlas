@@ -4,6 +4,8 @@ import { registerEntry } from 'kepler.gl';
 import keplerGlReducer, { KeplerGlState } from 'kepler.gl/reducers';
 import { KeplerGlSchema } from 'kepler.gl/schemas';
 import { addDataToMap, setMapInfo, wrapTo } from 'kepler.gl/actions';
+import { setLocale as setMapLocale } from 'kepler.gl/dist/actions/ui-state-actions';
+import ActionTypes from 'kepler.gl/dist/constants/action-types';
 import {
   CreateMapPayloadInterface,
   DatatlasSavedMapInterface,
@@ -13,7 +15,7 @@ import {
 } from '@datatlas/models';
 import { selectCurrentUserId } from '../selectors';
 import { startAppListening } from '../listenerMiddleware';
-import { setLocale } from 'kepler.gl/src';
+import { setLocale } from './locale';
 
 export const registerMap = (id: ProjectInterface['id']) =>
   registerEntry({
@@ -47,5 +49,20 @@ startAppListening({
     dispatch(wrapTo(id)(addDataToMap(KeplerGlSchema.load(savedMap))));
     dispatch(wrapTo(id)(setMapInfo(savedMap.info)));
     dispatch(wrapTo(id)(createMapSuccess(savedMap)));
+  },
+});
+
+startAppListening({
+  type: ActionTypes.SET_LOCALE,
+  effect: async (
+    {
+      payload: {
+        payload: { locale },
+      },
+    }: ReturnType<setMapLocale>,
+    { dispatch }
+  ) => {
+    console.log('payload', locale);
+    dispatch(setLocale(locale));
   },
 });

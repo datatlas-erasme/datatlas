@@ -168,7 +168,6 @@ export function SidePanelFactory(
                 visStateActions={visStateActions}
               />
             ) : null}
-            <CustomPanels {...customPanelProps} activeSidePanel={activeSidePanel} />
           </div>
         </StyledSidePanelContent>
       </Sidebar>

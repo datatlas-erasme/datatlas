@@ -18,5 +18,6 @@
   "navigationBar.settings": "Réglages",
   "project.contributors": "Contributeurs",
   "project.projectUpdated": "Projet modifié",
-  "sideBar.createProject": "Démarrer un nouveau projet"
+  "sideBar.createProject": "Démarrer un nouveau projet",
+  "sidebar.panels.layer": "Custom fr in datatlas"
 }

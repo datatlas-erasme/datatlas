@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
@@ -33,6 +34,8 @@ export function renderWithProviders(
     // @ts-ignore
     return (
       <Provider store={store}>
+        {/*
+// @ts-ignore */}
         <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
           <BrowserRouter>{children}</BrowserRouter>
         </IntlProvider>

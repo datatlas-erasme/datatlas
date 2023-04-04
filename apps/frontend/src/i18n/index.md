@@ -25,6 +25,11 @@ an `id` will be generated using the `idInterpolationPattern` strategy defined in
 
 > _The `idInterpolationPattern` used is the following `[sha512:contenthash:base64:6]` and is defined both in `.babelrc` and in `package.json`._
 
+## `react-intl`
+
+As long as **Kepler.gl** uses version `react-intl^3` we're stuck with it.
+Newer version make the custom `KeplerGlFactory` crash.
+
 ## Resources
 
 - https://formatjs.io/docs/react-intl/

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // see node_modules/kepler.gl/src/components/kepler-gl.js
 import React, { Component, createRef, Dispatch } from 'react';
 import Console from 'global/console';
@@ -5,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import styled, { ThemeProvider, withTheme } from 'styled-components';
 import { createSelector } from 'reselect';
 import { connect as keplerGlConnect } from 'kepler.gl/dist/connect/keplergl-connect';
-import { IntlProvider } from 'react-intl';
+import NestedIntlProvider from "../../i18n/NestedIntlProvider";
 import { messages } from 'kepler.gl/dist/localization';
 import { RootContext } from 'kepler.gl/dist/components/context';
 
@@ -15,7 +16,7 @@ import * as MapStyleActions from 'kepler.gl/dist/actions/map-style-actions';
 import * as UIStateActions from 'kepler.gl/dist/actions/ui-state-actions';
 import * as ProviderActions from 'kepler.gl/dist/actions/provider-actions';
 
-import { THEME } from 'kepler.gl/dist/constants';
+import { THEME } from 'kepler.gl/dist/constants/default-settings';
 import { MISSING_MAPBOX_TOKEN } from 'kepler.gl/dist/constants/user-feedbacks';
 
 import {
@@ -50,6 +51,7 @@ import KeplerGlFactory, {
   DEFAULT_KEPLER_GL_PROPS,
   mapStateToProps,
 } from 'kepler.gl/dist/components/kepler-gl';
+import { getDefaultLocale } from "../../../i18n";
 
 type KeplerGlActions = {
   visStateActions: typeof VisStateActions;
@@ -115,7 +117,7 @@ type KeplerGLBasicProps = {
   width?: number;
   height?: number;
 
-  appWebsite?: any;
+  appWebsite?: string;
   onSaveMap?: () => void;
   onViewStateChange?: () => void;
   onDeckInitialized?: () => void;
@@ -292,7 +294,7 @@ function DatatlasGLFactory(
 
       return (
         <RootContext.Provider value={this.root}>
-          <IntlProvider locale={uiState.locale} messages={localeMessages[uiState.locale]}>
+          <NestedIntlProvider locale={uiState.locale} defaultLocale={getDefaultLocale()} messages={localeMessages[uiState.locale]}>
             <ThemeProvider theme={theme}>
               <GlobalStyle
                 className="kepler-gl"
@@ -321,7 +323,7 @@ function DatatlasGLFactory(
                 />
               </GlobalStyle>
             </ThemeProvider>
-          </IntlProvider>
+          </NestedIntlProvider>
         </RootContext.Provider>
       );
     }
@@ -377,7 +379,7 @@ function makeMapDispatchToProps() {
 function mergeActions(actions, userActions) {
   const overrides = {};
   for (const key in userActions) {
-    if (userActions.hasOwnProperty(key) && actions.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(userActions, key) && Object.prototype.hasOwnProperty.call(actions, key)) {
       overrides[key] = userActions[key];
     }
   }
