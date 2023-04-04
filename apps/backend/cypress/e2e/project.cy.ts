@@ -66,7 +66,7 @@ describe('PROJECT ACTIONS', () => {
   it('Project -> Get info about project using id', () => {
     cy.request({
       method: 'GET',
-      url: '/api/projects/' + 1,
+      url: `/api/projects/${String(1)}`,
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
