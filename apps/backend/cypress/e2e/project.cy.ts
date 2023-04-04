@@ -90,7 +90,7 @@ describe('PROJECT ACTIONS', () => {
   it('Project -> Delete', () => {
     cy.request({
       method: 'DELETE',
-      url: '/api/projects/' + 1,
+      url: `/api/projects/${String(1)}`,
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
