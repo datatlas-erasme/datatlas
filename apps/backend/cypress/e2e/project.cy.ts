@@ -70,7 +70,7 @@ describe('PROJECT ACTIONS', () => {
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
-      // should return a object with the project info
+      // should return an object with the project info
       expect(response.body).to.be.an('object');
     });
   });
