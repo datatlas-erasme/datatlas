@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any */
 // see node_modules/kepler.gl/src/components/kepler-gl.js
 import React, { Component, createRef } from 'react';
 import Console from 'global/console';
