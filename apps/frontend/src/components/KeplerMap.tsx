@@ -9,23 +9,21 @@ interface KeplerMapProps {
   id: ProjectInterface['id'];
 }
 
-const KeplerMap = ({ id }: KeplerMapProps) => {
-  return (
-    <AutoSizer>
-      {({ height, width }) => (
-        <KeplerGl
-          id={id}
-          width={width}
-          height={height}
-          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || ''}
-          theme={theme}
-          appName={process.env.REACT_APP_NAME || 'Datatlas'}
-          mint={false}
-          localeMessages={messages}
-        />
-      )}
-    </AutoSizer>
-  );
-};
+const KeplerMap = ({ id }: KeplerMapProps) => (
+  <AutoSizer>
+    {({ height, width }) => (
+      <KeplerGl
+        id={id}
+        width={width}
+        height={height}
+        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || ''}
+        theme={theme}
+        appName={process.env.REACT_APP_NAME || 'Datatlas'}
+        mint={false}
+        localeMessages={messages}
+      />
+    )}
+  </AutoSizer>
+);
 
 export default KeplerMap;

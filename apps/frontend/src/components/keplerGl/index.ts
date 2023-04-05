@@ -13,7 +13,7 @@ import {
   replaceTooltipConfig,
 } from './factories';
 
-// /!\ Order matters /!\
+// ⚠ Order matters ⚠
 export const KeplerGl = injectComponents([
   replaceKeplerGL(),
   replacePanelHeader(),
