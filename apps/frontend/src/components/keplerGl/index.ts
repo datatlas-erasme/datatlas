@@ -10,14 +10,12 @@ import {
   replaceInteractionManager,
   replaceKeplerGL,
   replacePanelHeader,
-  replaceSidePanel,
   replaceTooltipConfig,
 } from './factories';
 
 // /!\ Order matters /!\
 export const KeplerGl = injectComponents([
   replaceKeplerGL(),
-  replaceSidePanel(),
   replacePanelHeader(),
   replaceLayerManager(),
   replaceLoadDataModal(),

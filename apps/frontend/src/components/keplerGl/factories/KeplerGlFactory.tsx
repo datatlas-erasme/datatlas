@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // see node_modules/kepler.gl/src/components/kepler-gl.js
-import React, { Component, createRef, Dispatch } from 'react';
+import React, { Component, createRef } from 'react';
 import Console from 'global/console';
 import { bindActionCreators } from 'redux';
 import styled, { ThemeProvider, withTheme } from 'styled-components';
@@ -18,6 +18,7 @@ import * as ProviderActions from 'kepler.gl/dist/actions/provider-actions';
 
 import { THEME } from 'kepler.gl/dist/constants/default-settings';
 import { MISSING_MAPBOX_TOKEN } from 'kepler.gl/dist/constants/user-feedbacks';
+import { Map } from 'mapbox-gl';
 
 import {
   SidePanelFactory,
@@ -52,6 +53,7 @@ import KeplerGlFactory, {
   mapStateToProps,
 } from 'kepler.gl/dist/components/kepler-gl';
 import { getDefaultLocale } from '../../../i18n/utils';
+import { AppDispatch } from '../../../store';
 
 type KeplerGlActions = {
   visStateActions: typeof VisStateActions;
@@ -122,7 +124,7 @@ type KeplerGLBasicProps = {
   onViewStateChange?: () => void;
   onDeckInitialized?: () => void;
   onKeplerGlInitialized?: () => void;
-  getMapboxRef?: () => React.RefObject<any>;
+  getMapboxRef?: () => React.RefObject<Map>;
   mapStyles?: { id: string; style?: object }[];
   mapStylesReplaceDefault?: boolean;
   appName?: string;
@@ -137,13 +139,16 @@ type KeplerGLBasicProps = {
   onExportToCloudError?: OnErrorCallBack;
   readOnly?: boolean;
   localeMessages?: { [key: string]: { [key: string]: string } };
-  dispatch: Dispatch<any>;
+  dispatch: AppDispatch;
 
   topMapContainerProps?: object;
   bottomMapContainerProps?: object;
 };
 
 type KeplerGLProps = KeplerGlState & KeplerGlActions & KeplerGLBasicProps;
+
+// @ts-ignore
+type KeplerGlSelector = (...args: any[]) => KeplerGlState;
 
 function DatatlasGLFactory(
   BottomWidget: ReturnType<typeof BottomWidgetFactory>,
@@ -154,8 +159,8 @@ function DatatlasGLFactory(
   SidePanel: ReturnType<typeof SidePanelFactory>,
   PlotContainer: ReturnType<typeof PlotContainerFactory>,
   NotificationPanel
-): React.ComponentType<KeplerGLBasicProps & { selector: (...args: any[]) => KeplerGlState }> {
-  class DatatlasGL extends Component<KeplerGLProps & { selector: (...args: any[]) => KeplerGlState }> {
+): React.ComponentType<KeplerGLBasicProps & { selector: KeplerGlSelector }> {
+  class DatatlasGL extends Component<KeplerGLProps & { selector: KeplerGlSelector }> {
     static defaultProps = DEFAULT_KEPLER_GL_PROPS;
 
     state = {

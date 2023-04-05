@@ -3,7 +3,6 @@ import { RootState } from './reducers';
 import { api } from '../api';
 import { Project, ProjectInterface, MapInfoInterface } from '@datatlas/models';
 import { KeplerGlState } from 'kepler.gl/reducers';
-import ActionTypes from 'kepler.gl/dist/constants/action-types';
 
 const selectState = (state: RootState) => state;
 
