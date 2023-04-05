@@ -8,7 +8,7 @@
     "prepare": "husky install",
     "extract-help": "formatjs extract",
     "extract": "formatjs extract 'apps/frontend/src/**/*.ts*' --ignore='apps/frontend/src/**/*.d.ts' --ignore='apps/frontend/src/components/keplerGl/**/*.ts*' --out-file temp.json --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
-    "compile": "formatjs compile 'temp.json' --out-file apps/frontend/src/i18n/fr.json --skip-errors",
+    "compile": "formatjs compile 'temp.json' --out-file apps/frontend/src/i18n/json/fr.json --skip-errors",
     "extract-compile": "npm run extract && npm run compile && rm temp.json"
   },
   "private": true,

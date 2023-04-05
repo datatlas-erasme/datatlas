@@ -1,19 +1,5 @@
-import { flattenMessages } from 'kepler.gl/dist/utils/locale-utils';
-import { messages as keplerMessages } from 'kepler.gl/dist/localization';
 import { isObject } from 'kepler.gl/dist/utils/utils';
-import fr from './fr';
-import en from './en';
-
-export const messages = {
-  fr: {
-    ...keplerMessages.en,
-    ...flattenMessages(fr),
-  },
-  en: {
-    ...keplerMessages.en,
-    ...flattenMessages(en),
-  },
-};
+import { flattenMessages } from 'kepler.gl/dist/utils/locale-utils';
 
 export const mergeMessages = (defaultMessages, userMessages) => {
   if (!isObject(userMessages) || !isObject(userMessages.en)) {
@@ -40,4 +26,5 @@ export const mergeMessages = (defaultMessages, userMessages) => {
   );
 };
 
-export { LOCALE_CODES, LOCALES } from './locales';
+export const getDefaultLocale = () =>
+  navigator.languages.map((locale) => locale.trim().split(/-|_/)[0])[0] || process.env.REACT_APP_DEFAULT_LOCALE || 'en';

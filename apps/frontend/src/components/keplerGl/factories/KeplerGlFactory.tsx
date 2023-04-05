@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import styled, { ThemeProvider, withTheme } from 'styled-components';
 import { createSelector } from 'reselect';
 import { connect as keplerGlConnect } from 'kepler.gl/dist/connect/keplergl-connect';
-import NestedIntlProvider from "../../i18n/NestedIntlProvider";
+import NestedIntlProvider from '../../i18n/NestedIntlProvider';
 import { messages } from 'kepler.gl/dist/localization';
 import { RootContext } from 'kepler.gl/dist/components/context';
 
@@ -30,7 +30,7 @@ import {
 
 import { generateHashId } from 'kepler.gl/dist/utils/utils';
 import { validateToken } from 'kepler.gl/dist/utils/mapbox-utils';
-import { mergeMessages } from '../../../i18n/kepler';
+import { mergeMessages } from '../../../i18n/utils';
 
 import { theme as basicTheme, themeLT, themeBS } from 'kepler.gl/dist/styles';
 import { observeDimensions, unobserveDimensions } from 'kepler.gl/dist/utils/observe-dimensions';
@@ -51,7 +51,7 @@ import KeplerGlFactory, {
   DEFAULT_KEPLER_GL_PROPS,
   mapStateToProps,
 } from 'kepler.gl/dist/components/kepler-gl';
-import { getDefaultLocale } from "../../../i18n";
+import { getDefaultLocale } from '../../../i18n/utils';
 
 type KeplerGlActions = {
   visStateActions: typeof VisStateActions;
@@ -294,7 +294,11 @@ function DatatlasGLFactory(
 
       return (
         <RootContext.Provider value={this.root}>
-          <NestedIntlProvider locale={uiState.locale} defaultLocale={getDefaultLocale()} messages={localeMessages[uiState.locale]}>
+          <NestedIntlProvider
+            locale={uiState.locale}
+            defaultLocale={getDefaultLocale()}
+            messages={localeMessages[uiState.locale]}
+          >
             <ThemeProvider theme={theme}>
               <GlobalStyle
                 className="kepler-gl"

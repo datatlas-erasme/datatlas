@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from 'react';
 import { IntlProvider } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { selectLocale } from '../../store/selectors';
-import { messages } from '../../i18n';
+import { messages } from '../../i18n/messages';
 
 export const DatatlasIntlProvider = ({ children }: PropsWithChildren) => {
   const locale = useSelector(selectLocale);

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { ToolbarItem } from 'kepler.gl/dist';
 import KeplerLocalePanelFactory from 'kepler.gl/dist/components/map/locale-panel';
 import { MapControlButton } from 'kepler.gl/dist/components/common/styled-components';
-import { LOCALES } from '../../../../i18n/kepler';
+import { LOCALES } from '../../../../i18n/locales';
 
 LocalePanelFactory.deps = KeplerLocalePanelFactory.deps;
 
