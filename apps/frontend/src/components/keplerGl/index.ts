@@ -10,6 +10,7 @@ import {
   replaceInteractionManager,
   replaceKeplerGL,
   replacePanelHeader,
+  replacePanelTab,
   replaceTooltipConfig,
 } from './factories';
 
@@ -17,6 +18,7 @@ import {
 export const KeplerGl = injectComponents([
   replaceKeplerGL(),
   replacePanelHeader(),
+  replacePanelTab(),
   replaceLayerManager(),
   replaceLoadDataModal(),
   replaceLayerPanel(),
