@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import type { PreloadedState } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import { initialState, reducer, RootState } from '../store/reducers';
 import { BrowserRouter } from 'react-router-dom';
+import { initialState, reducer, RootState } from '../store/reducers';
 import { api } from '../api';
-import { selectLocale } from '../store/selectors';
-import { IntlProvider } from 'react-intl';
+import { DatatlasIntlProvider } from '../components/i18n/DatatlasIntlProvider';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
@@ -31,9 +31,9 @@ export function renderWithProviders(
   function Wrapper({ children }: PropsWithChildren<object>) {
     return (
       <Provider store={store}>
-        <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
+        <DatatlasIntlProvider>
           <BrowserRouter>{children}</BrowserRouter>
-        </IntlProvider>
+        </DatatlasIntlProvider>
       </Provider>
     );
   }

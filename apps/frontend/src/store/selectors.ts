@@ -15,7 +15,7 @@ export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
   return state.visState?.mapInfo as MapInfoInterface;
 };
 
-export const selectLocale = createSelector(selectKeplerState, (state) => state?.uiState?.locale || 'en');
+export const selectLocale = (state: RootState) => state.locale;
 
 export const selectProjectById = (state: RootState, projectId) => {
   if (!projectId) {

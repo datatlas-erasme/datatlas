@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
@@ -8,13 +9,12 @@ import { store, persistor } from './store';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { LoginPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
 import { Loader } from './components/Loader';
-import { IntlProvider } from 'react-intl';
 import { AppLayout } from './pages/layouts';
-import { selectLocale } from './store/selectors';
 import { ComponentsPage } from './pages/ComponentsPage';
 import { GlobalStyle } from './style/GlobalStyle';
 import { theme } from './style/theme';
 import LegalMentions from './pages/LegalMentionsPage';
+import { DatatlasIntlProvider } from './components/i18n/DatatlasIntlProvider';
 
 const router = createBrowserRouter([
   {
@@ -61,17 +61,18 @@ if (
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+// const locale = selectLocale(store.getState());
 
 root.render(
   <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <PersistGate loading={<Loader />} persistor={persistor}>
-        <IntlProvider locale={selectLocale(store.getState())} messages={{}}>
+    <DatatlasIntlProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <PersistGate loading={<Loader />} persistor={persistor}>
           <RouterProvider router={router} />
-        </IntlProvider>
-      </PersistGate>
-    </ThemeProvider>
+        </PersistGate>
+      </ThemeProvider>
+    </DatatlasIntlProvider>
   </Provider>
 );
 

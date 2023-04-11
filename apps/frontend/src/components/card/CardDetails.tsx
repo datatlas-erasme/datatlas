@@ -48,11 +48,11 @@ const CardProjectDetails = ({ owner, createdAt, title, contributors }: CardProje
       <h4>{owner.name}</h4>
       <h3>{title}</h3>
       <p className={'status'}>
-        <FormattedMessage defaultMessage={'Projet modifié'} /> {useTimeElapsed(createdAt)}
+        <FormattedMessage id="project.projectUpdated" defaultMessage={'Projet modifié'} /> {useTimeElapsed(createdAt)}
       </p>
       <ActionsCardContainer>
         <p>
-          <FormattedMessage defaultMessage={'Contributeurs'} />
+          <FormattedMessage id="project.contributors" defaultMessage={'Contributeurs'} />
         </p>
         <InfoProjectBadges numbersContributors={contributors.length} />
       </ActionsCardContainer>

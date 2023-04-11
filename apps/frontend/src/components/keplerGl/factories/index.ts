@@ -1,5 +1,7 @@
+export * from './map-control-panel';
 export * from './FilterManagerFactory';
 export * from './InteractionManagerFactory';
+export * from './KeplerGlFactory';
 export * from './LayerConfiguratorFactory';
 export * from './LayerManagerFactory';
 export * from './LayerPanelFactory';

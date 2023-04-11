@@ -4,21 +4,26 @@ import {
   replaceLayerManager,
   replaceLayerPanelHeader,
   replaceLayerPanel,
+  replaceLocalePanel,
   replaceFilterManager,
   replaceLayerConfigurator,
   replaceInteractionManager,
+  replaceKeplerGL,
   replacePanelHeader,
   replaceTooltipConfig,
 } from './factories';
 
+// ⚠ Order matters ⚠
 export const KeplerGl = injectComponents([
-  replaceLoadDataModal(),
+  replaceKeplerGL(),
+  replacePanelHeader(),
   replaceLayerManager(),
+  replaceLoadDataModal(),
   replaceLayerPanel(),
   replaceLayerPanelHeader(),
+  replaceLocalePanel(),
   replaceFilterManager(),
   replaceLayerConfigurator(),
   replaceInteractionManager(),
-  replacePanelHeader(),
   replaceTooltipConfig(),
 ]);
