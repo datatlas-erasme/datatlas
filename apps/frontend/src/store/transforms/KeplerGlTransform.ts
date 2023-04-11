@@ -3,7 +3,8 @@ import { KeplerGlState } from 'kepler.gl/reducers';
 import { KeplerGlSchema } from 'kepler.gl/schemas';
 import { SavedMap } from 'kepler.gl/src';
 import { reducer as keplerGlReducer, registerMap } from '../reducers/keplerGl';
-import { addDataToMap, setMapInfo, wrapTo } from 'kepler.gl/actions';
+import { addDataToMap, setMapInfo, wrapTo, setLocale as setKeplerMapLocale } from 'kepler.gl/actions';
+import { getDefaultLocale } from '../../i18n/utils';
 
 export const KeplerGlTransform = createTransform(
   (inboundState: Record<string, KeplerGlState>) => {
@@ -17,7 +18,12 @@ export const KeplerGlTransform = createTransform(
       const wrapToMap = wrapTo(id);
       const savedMap = outboundState[id];
       const loadedMap = KeplerGlSchema.load(savedMap);
-      const actions = [registerMap(id), wrapToMap(addDataToMap(loadedMap)), wrapToMap(setMapInfo(savedMap.info))];
+      const actions = [
+        registerMap(id),
+        wrapToMap(addDataToMap(loadedMap)),
+        wrapToMap(setMapInfo(savedMap.info)),
+        wrapToMap(setKeplerMapLocale(getDefaultLocale())),
+      ];
 
       return { ...inboundState, ...actions.reduce(keplerGlReducer, {}) };
     }, {});

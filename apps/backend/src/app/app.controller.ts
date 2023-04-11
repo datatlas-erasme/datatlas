@@ -1,4 +1,4 @@
-import { Controller, Request, Post, UseGuards, Logger } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from '../auth/local-auth.guard';
 import { AuthService } from '../auth/auth.service';
 
@@ -9,17 +9,6 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
-    const test = await this.authService.login(req.body);
-    Logger.log(test);
-    return test;
+    return await this.authService.login(req.body);
   }
-  /*
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    console.log('début route profile');
-    console.log(req);
-    Logger.log('intérieur de la fonction de profile');
-    return req.user;
-  }*/
 }

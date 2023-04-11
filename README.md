@@ -14,6 +14,10 @@ Run `lint` on whole repository
 nx run-many --target=lint
 ```
 
+### Internationalization
+
+> see [./apps/frontend/src/i18n/index.md](./apps/frontend/src/i18n/index.md)
+
 ### Frontend
 
 **Kepler.gl** uses **Mapbox GL JS** to render map styles.

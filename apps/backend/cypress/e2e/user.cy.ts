@@ -1,3 +1,5 @@
+import { Roles, UserDto } from '@datatlas/shared/models';
+
 describe('USER ACTIONS', () => {
   /*
       TEST TO MAKE IN THIS ORDER :
@@ -7,24 +9,22 @@ describe('USER ACTIONS', () => {
       - Creating, reading, updating and deleting a new user as admin with fake jwt.
       - Creating, reading, updating and deleting a new user as admin with correct jwt
    */
-  const user_test_editor = {
+  const user_test_editor: UserDto = {
     username: 'user_test_editor_20',
     password: 'user_test_pw',
-    role: 'EDITOR',
+    role: Roles.EDITOR,
     active: true,
   };
-  const user_test_admin = {
+  const user_test_admin: UserDto = {
     username: 'user_test_admin_20',
     password: 'user_test_pw',
-    role: 'ADMIN',
+    role: Roles.ADMIN,
     active: true,
   };
   let jwtEditorUser;
   let idEditorUser;
   let jwtAdminUser;
-  let idAdminUser;
   let idUserTestEditor;
-  let idUserTestAdmin;
 
   it('User -> can reach API', () => {
     cy.request('GET', '/api/user').then((response) => {
@@ -59,7 +59,6 @@ describe('USER ACTIONS', () => {
       failOnStatusCode: false,
     }).then((response) => {
       jwtAdminUser = response.body.access_token;
-      idAdminUser = response.body.user_id;
       expect(response.status).to.eq(201);
     });
   });
@@ -121,7 +120,6 @@ describe('USER ACTIONS', () => {
       },
       failOnStatusCode: false,
     }).then((response) => {
-      idUserTestAdmin = response.body;
       expect(response.status).to.eq(201);
       expect(response.body).to.be.a('number').greaterThan(0);
     });

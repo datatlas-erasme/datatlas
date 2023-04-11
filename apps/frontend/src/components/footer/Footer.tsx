@@ -25,6 +25,7 @@ const FooterContainer = styled.footer`
       }
       ul {
         display: flex;
+        align-items: center;
         li {
           width: max-content;
           padding-left: 10px;
@@ -61,32 +62,38 @@ const Footer = () => (
   <FooterContainer>
     <div>
       <LogoContainer>
-        <Link to={'/'} rel={'noreferrer'}>
+        <Link to={'/login'} rel={'noreferrer'}>
           <DatatlasLogo />
         </Link>
-        <Link to={'https://www.erasme.org/'} target={'_blank'} rel={'noreferrer'}>
+        <a href={'https://www.erasme.org/'} target={'_blank'} rel={'noreferrer'}>
           <ErasmeLogo />
-        </Link>
-        <Link to={'https://www.grandlyon.com/'} target={'_blank'} rel={'noreferrer'}>
+        </a>
+        <a href={'https://www.grandlyon.com/'} target={'_blank'} rel={'noreferrer'}>
           <MetropoleLogo />
-        </Link>
-        <Link to={'https://www.economie.gouv.fr/plan-de-relance'} target={'_blank'} rel={'noreferrer'}>
+        </a>
+        <a
+          href={
+            'https://agence-cohesion-territoires.gouv.fr/france-relance-un-plan-de-cohesion-economique-sociale-et-territoriale-216'
+          }
+          target={'_blank'}
+          rel={'noreferrer'}
+        >
           <FranceRelanceLogo />
-        </Link>
+        </a>
       </LogoContainer>
-      <GithubLink bgColor={'current'} />
     </div>
     <div>
       <p className={'text-licence'}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud.
+        Un projet mené par Erasme, laboratoire d'innovation de la Métropole de Lyon, avec le soutien de France Relance
       </p>
       <ul>
         <li>
-          <a href={'/'}>© Datatlas</a>
+          <Link to={'/legalmentions'} rel={'noreferrer'}>
+            Mentions Légales
+          </Link>
         </li>
         <li>
-          <a href={'/'}>Mentions Légales</a>
+          <GithubLink bgColor={'current'} />
         </li>
       </ul>
     </div>

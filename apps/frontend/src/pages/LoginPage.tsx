@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
 import { Layout } from './layouts';
 import { LoginForm } from '../components/forms';
 import { DatatlasLogoSquare } from '../components/logos';
 import FirstShapeBg from '../assets/shapes/first-shape.svg';
 import SecondShapeBg from '../assets/shapes/second-shape.svg';
 import { StyledLabel } from '../components/forms';
-import { FormattedMessage } from 'react-intl';
 import GithubLink from '../components/buttons/GithubLink';
 import SidePanelButton from '../components/buttons/SidePanelButton';
 
@@ -50,19 +50,20 @@ const AboutWrapper = styled.div<AboutWrapperInterface>`
   transform: ${({ displayAbout }) => (displayAbout ? 'translateX(0)' : 'translateX(-100%)')};
   transition: transform 0.8s ease-in-out;
   p,
-  ul,
   h2,
+  ul,
   h3 {
     color: ${({ theme }) => theme.panelBackgroundLT};
     margin: 10px 0;
   }
 
   ul {
-    height: 75px;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    margin: 20px 0;
+    margin: 0 0 10px;
+    li {
+      font-size: ${({ theme }) => theme.fontSize};
+    }
   }
 `;
 const LoginFormWrapper = styled.div`
@@ -96,39 +97,33 @@ export const LoginPage = () => {
           <h4>L’outil de création de cartographies web interactives qui valorise vos données</h4>
         </div>
         <p>
-          Vous souhaitez rejoindre l'expérimentation et tester l'outil ?{' '}
-          <a href={'mailto:administrateur@metropole.fr'}>Contacter l'administrateur</a>
+          Vous souhaitez rejoindre l'expérimentation et tester l'outil ?
+          <a href={'mailto:aangelot@grandlyon.com'}>Contacter l'administrateur</a>
         </p>
       </LogoWrapper>
       <AboutWrapper displayAbout={displayAbout} ref={bgColorRef}>
         <SidePanelButton onClick={handleDisplayAbout} displayAbout={displayAbout}>
           <StyledLabel htmlFor={'About'}>
-            <FormattedMessage defaultMessage="À propos" />
+            <FormattedMessage id={'about.title'} defaultMessage={'A propos'} />
           </StyledLabel>
         </SidePanelButton>
-        <h2>À propos</h2>
+        <h2>A propos</h2>
         <p>
-          At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-          atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique
-          sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
-        </p>
-        <p>
-          Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi
-          optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est,
-          omnis dolor repellendus.
-        </p>
-        <p>
-          Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates
-          repudiandae sint et molestiae non recusandae.
+          Datatlas est un outil de cartographie interactif. Il permet de créer à la volée des représentations
+          cartographiques croisant plusieurs jeux de données et simplifiant l’animation de la relation usager par le
+          crowdsourcing et les modes de visualisation avancées. Cet outil à destination de porteurs de projets facilite
+          l’accès aux données géographiques pour le grand public. Le projet est open source, nous serions heureux
+          d’échanger avec vous sur vos besoins.
         </p>
         <h3>Contributeurs :</h3>
         <ul>
-          <li>Prénom Nom</li>
-          <li>Prénom Nom</li>
-          <li>Prénom Nom</li>
-          <li>Prénom Nom</li>
-          <li>Prénom Nom</li>
-          <li>Prénom Nom</li>
+          <li>Anthony Angelot (Erasme - Métropole de Lyon)</li>
+          <li>Patrick Vincent (Erasme - Métropole de Lyon)</li>
+          <li>Pierre-Alexandre Racine (Erasme - Métropole de Lyon)</li>
+          <li>Yassin Siouda (Erasme - Métropole de Lyon)</li>
+          <li>Olivier Pierre (Erasme - Métropole de Lyon)</li>
+          <li>Johan Dufour (L'Arrière Guichet)</li>
+          <li>Marion Letorey (ANCT)</li>
         </ul>
         <GithubLink bgColor={bgColorRef.current?.style.backgroundColor} />
       </AboutWrapper>

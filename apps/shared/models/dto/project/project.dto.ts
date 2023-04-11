@@ -1,23 +1,34 @@
 export class ProjectDto {
-  constructor(
-    public title: string,
-    public description: string,
-    public draft: boolean,
-    public datasets: string,
-    public owner: string,
-    public contributors: string,
-    public config: string,
-    public version: string,
-    public createdAt: string
-  ) {
-    this.title = title;
-    this.description = description;
-    this.draft = draft;
-    this.datasets = datasets;
-    this.owner = owner;
-    this.contributors = contributors;
-    this.config = config;
-    this.version = version;
-    this.createdAt = createdAt;
+  id?: number;
+  readonly title?: string;
+  createdAt?: Date;
+  draft?: boolean;
+  datasets?: object;
+  description?: string;
+  owner?: object; // Either id number or user entity.
+  contributors?: object;
+  config?: object;
+  version?: string;
+
+  constructor(projectData: {
+    id?: number;
+    title?: string;
+    draft?: boolean;
+    datasets?: object;
+    description?: string;
+    owner?: object;
+    contributors?: [object]; // Either id number or user entity.
+    config?: object;
+    version?: string;
+  }) {
+    this.id = projectData.id;
+    this.title = projectData.title;
+    this.draft = projectData.draft;
+    this.datasets = projectData.datasets;
+    this.description = projectData.description;
+    this.owner = projectData.owner;
+    this.contributors = projectData.contributors;
+    this.config = projectData.config;
+    this.version = projectData.version;
   }
 }

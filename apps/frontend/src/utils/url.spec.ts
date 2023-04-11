@@ -1,4 +1,4 @@
-/*
+/* eslint-disable no-script-url */
 import { isValidHttpURL } from './url';
 
 describe('isValidHttpURL', () => {
@@ -15,4 +15,4 @@ describe('isValidHttpURL', () => {
     expect(isValidHttpURL('javascript:alert(23)')).toBe(false);
     expect(isValidHttpURL('1')).toBe(false);
   });
-});*/
+});
