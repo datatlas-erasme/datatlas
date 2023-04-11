@@ -1,16 +1,20 @@
-import {Controller, Post, Body, UseGuards, Get, Param, Put, Delete, Req, Logger} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, Req, Logger } from '@nestjs/common';
 import { ExecutionContext } from '@nestjs/common';
 import { ProjectDto } from '@datatlas/shared/models';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
 import { CanModifyProjectGuard } from '../auth/canModifyProject.guard';
 import { UserEntity } from '../user/entities/user.entity';
-import {ValidJwtGuard} from "../auth/validJwt.guard";
-import {AuthService} from "../auth/auth.service";
+import { ValidJwtGuard } from '../auth/validJwt.guard';
+import { AuthService } from '../auth/auth.service';
 
 @Controller('projects')
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService, private readonly userService: UserService, private readonly authService: AuthService) {}
+  constructor(
+    private readonly projectService: ProjectService,
+    private readonly userService: UserService,
+    private readonly authService: AuthService
+  ) {}
 
   @UseGuards(CanModifyProjectGuard) // Check if the user in jwt is the same as the one sent in body.
   @Post()
@@ -36,7 +40,9 @@ export class ProjectController {
     console.log(currentUser);*/
     // Data from current user are needed in case of a non-admin user : only its owned and/or contributed projects will
     // be returned
-    return await this.projectService.findAllAccessibleProjets(this.authService.getUserFromRequest(req.headers.authorization));
+    return await this.projectService.findAllAccessibleProjets(
+      this.authService.getUserFromRequest(req.headers.authorization)
+    );
   }
 
   @Get(':id')

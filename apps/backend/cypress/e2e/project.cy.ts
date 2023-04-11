@@ -76,7 +76,7 @@ describe('PROJECT ACTIONS', () => {
       failOnStatusCode: false,
     }).then((response) => {
       jwtUserEditor = response.body.access_token;
-      idUserEditor= response.body.user_id;
+      idUserEditor = response.body.user_id;
       test_project.owner = idUserAdmin;
       expect(response.status).to.eq(201);
     });

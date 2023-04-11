@@ -1,4 +1,4 @@
-import { Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
@@ -34,7 +34,7 @@ export class AuthService {
     };
   }
 
-  getUserFromRequest(bearerToken:string): Omit<UserDto, 'password'>{
+  getUserFromRequest(bearerToken: string): Omit<UserDto, 'password'> {
     const headerString = bearerToken.split(' ');
     return this.jwtService.decode(headerString[1]) as { [key: string]: never };
   }

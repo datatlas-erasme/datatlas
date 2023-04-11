@@ -8,7 +8,7 @@ import { UserEntity } from '../user/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../auth/constants';
 import { PassportModule } from '@nestjs/passport';
-import {AuthService} from "../auth/auth.service";
+import { AuthService } from '../auth/auth.service';
 
 @Module({
   imports: [

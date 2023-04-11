@@ -1,9 +1,9 @@
-import {Injectable, Logger} from '@nestjs/common';
-import {InjectRepository} from '@mikro-orm/nestjs';
-import {EntityRepository} from '@mikro-orm/core';
-import {ProjectEntity} from './entities/project.entity';
-import {ProjectDto, Roles, UserDto} from '@datatlas/shared/models';
-import {UserEntity} from '../user/entities/user.entity';
+import { Injectable, Logger } from '@nestjs/common';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/core';
+import { ProjectEntity } from './entities/project.entity';
+import { ProjectDto, Roles, UserDto } from '@datatlas/shared/models';
+import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()
 export class ProjectService {
@@ -30,14 +30,14 @@ export class ProjectService {
 
   async findAllAccessibleProjets(currentUser: Omit<UserDto, 'password'>): Promise<ProjectDto[]> {
     // An admin user can see all projects
-    if (currentUser.role==Roles.ADMIN){
+    if (currentUser.role == Roles.ADMIN) {
       return await this.findAll();
     }
     // Other users can only see their own projects where they are owners or contributors.
     return await this.findProjectsOfUser(currentUser);
   }
 
-  async findProjectsOfUser(user :Omit<UserDto, 'password'>): Promise<ProjectDto[]>{
+  async findProjectsOfUser(user: Omit<UserDto, 'password'>): Promise<ProjectDto[]> {
     console.log(user);
     //const res = await this.projectRepository.find( { owner: { $eq: user.id }  });
     /*
@@ -48,8 +48,10 @@ export class ProjectService {
         },
       ] });*/
 
-    const res = await this.projectRepository.find({ $or: [{ id: { $eq: user.id } }] }, { populate: ['role', 'role.permissions'] })
-
+    const res = await this.projectRepository.find(
+      { $or: [{ id: { $eq: user.id } }] },
+      { populate: ['role', 'role.permissions'] }
+    );
 
     //const res = await this.projectRepository.find( { $or: [{ id: { $eq: user.id } }, { contributors: { $contains: user.id } }] });
 
