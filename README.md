@@ -13,8 +13,21 @@ cp .env.example .env
 
 ```
 cp .env.example .env
-docker compose -f dev.docker-compose.yml up
+docker compose up
+nx run-many --target=serve
 ```
+
+> **Note**: you must manually configure `pgadmin` :
+>
+> 1. Right-click _Servers > Register > Server..._
+> 2. Under **Connection**:
+>
+> - **Host** `datatlas-db`
+> - **Port**: `5432`
+> - **Username**: `docker`
+> - **Password**: `docker`
+>
+> https://towardsdatascience.com/how-to-run-postgresql-and-pgadmin-using-docker-3a6a8ae918b5
 
 ## Development
 
