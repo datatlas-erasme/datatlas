@@ -18,7 +18,7 @@
     "noImplicitAny": false,
     "noImplicitUseStrict": true,
     "jsx": "react",
-    "typeRoots": ["../../../node_modules/@types", "../../apps/shared/models/types"]
+    "typeRoots": ["../../../node_modules/@types", "../../libs/models/types"]
   },
   "files": [],
   "include": [],

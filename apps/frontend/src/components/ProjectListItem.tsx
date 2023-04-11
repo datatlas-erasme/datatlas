@@ -1,6 +1,6 @@
 import React from 'react';
 import ProjectCard from './card/ProjectCard';
-import { ProjectInterface } from '@datatlas/shared/models';
+import { ProjectInterface } from '@datatlas/models';
 
 export type ProjectListItemProps = ProjectInterface;
 

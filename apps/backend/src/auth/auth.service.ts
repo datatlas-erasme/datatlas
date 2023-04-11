@@ -3,27 +3,29 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { jwtConstants } from './constants';
-import { UserDto } from '@datatlas/models';
+import { LoginDto } from '@datatlas/dtos';
+import { UserCredentials, UserCredentialsInterface } from '@datatlas/models';
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) {}
 
-  async validateUser(userToValidate: Pick<UserDto, 'username' | 'password'>): Promise<boolean> {
-    // Same username ?
-    const user = await this.userService.isUsernameAlreadyInDatabase(userToValidate.username);
-    if (user) {
+  async validateUser(loginDto: LoginDto): Promise<boolean> {
+    // Same email ?
+    const exists = await this.userService.isEmailAlreadyInDatabase(loginDto.email);
+    if (exists) {
       // Same encrypted password ?
-      const userCredentials = await this.userService.getUserByUserName(userToValidate.username);
-      return await bcrypt.compare(userToValidate.password, userCredentials.password);
+      const user = await this.userService.getUserByEmail(loginDto.email);
+      console.log('user', user);
+      return await bcrypt.compare(loginDto.password, user.password);
     }
     return false;
   }
 
-  async login(user: Pick<UserDto, 'username' | 'password'>) {
-    const userCredentials = await this.userService.getUserByUserName(user.username);
-    const payload = {
-      username: userCredentials.username,
+  async login(user: LoginDto) {
+    const userCredentials = await this.userService.getUserByEmail(user.email);
+    const payload: UserCredentialsInterface = {
+      email: userCredentials.email,
       id: userCredentials.id,
       role: userCredentials.role,
       active: userCredentials.active,
@@ -32,5 +34,15 @@ export class AuthService {
       access_token: this.jwtService.sign(payload, jwtConstants),
       user_id: userCredentials.id,
     };
+  }
+
+  async getLoggedUserCredentials(request): Promise<UserCredentials> {
+    const { headers } = request;
+    if (!headers['authorization']) {
+      return null;
+    }
+
+    const headerString = headers['authorization'].split(' ');
+    return new UserCredentials(this.jwtService.decode(headerString[1]) as UserCredentialsInterface);
   }
 }

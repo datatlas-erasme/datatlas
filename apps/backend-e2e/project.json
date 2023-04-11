@@ -1,0 +1,18 @@
+{
+  "name": "backend-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/backend-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/backend-e2e/cypress.config.ts",
+        "baseUrl": "http://localhost:3333",
+        "testingType": "e2e"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["backend"]
+}

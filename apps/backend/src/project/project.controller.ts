@@ -1,40 +1,48 @@
 import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete } from '@nestjs/common';
-import { ProjectDto } from '@datatlas/shared/models';
+import { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
-import { CanModifyProjectGuard } from '../auth/canModifyProject.guard';
+import { IsProjectOwnerGuard } from '../auth/is-project-owner.guard';
+import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { UserEntity } from '../user/entities/user.entity';
+import { ProjectEntity } from './entities/project.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { CanEditProjectGuard } from '../auth/can-edit-project.guard';
 
+@ApiBearerAuth()
 @Controller('projects')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService, private readonly userService: UserService) {}
 
-  @UseGuards(CanModifyProjectGuard) // Check if the user in jwt is the same as the one sent in body.
+  @UseGuards(ValidJwtGuard, IsProjectOwnerGuard) // Check if the user in jwt is the same as the one sent in body.
   @Post()
-  async create(@Body() projectDto: ProjectDto) {
-    const owner = (projectDto.owner = await this.userService.getUserEntity(Number(projectDto.owner)));
-    const contributorEntities: UserEntity[] = [];
+  async create(@Body() projectDto: CreateProjectDto) {
+    console.log('create controller');
+    const owner = await this.userService.getUser(Number(projectDto.ownerId));
+    console.log('owner', owner);
+    const contributors: UserEntity[] = [];
     for (const element of Object.values(projectDto.contributors)) {
-      contributorEntities.push(await this.userService.getUserEntity(element));
+      contributors.push(await this.userService.getUser(element));
     }
-    return this.projectService.create(projectDto, owner, contributorEntities);
+
+    return this.projectService.create(projectDto, owner, contributors);
   }
 
   // No guards ? Everyone can see all projects ?
   @Get()
-  async fetchAll(): Promise<ProjectDto[]> {
+  async fetchAll(): Promise<ProjectEntity[]> {
     return await this.projectService.findAll();
   }
 
   @Get(':id')
-  async fetchOne(@Param('id') id: number): Promise<ProjectDto> {
+  async fetchOne(@Param('id') id: number): Promise<ProjectEntity> {
     return await this.projectService.findOneById(id);
   }
 
-  //@UseGuards(CanModifyProjectGuard) // Check if the user in jwt is the same as the one sent in body.
   @Put(':id')
-  async update(@Param('id') id: number, @Body() ProjectDto: ProjectDto): Promise<void> {
-    return await this.projectService.update(id, ProjectDto);
+  @UseGuards(CanEditProjectGuard)
+  async update(@Param('id') id: number, @Body() projectUpdates: UpdateProjectDto): Promise<ProjectEntity> {
+    return await this.projectService.update(id, projectUpdates);
   }
 
   // Guard : Who decides ? only owner or contributors too ?
