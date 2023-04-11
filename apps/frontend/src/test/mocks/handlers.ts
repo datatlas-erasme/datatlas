@@ -5,7 +5,7 @@ import {
   generateFakeProject,
   generateFakeUser,
   generateFakeProjects,
-} from '@datatlas/shared/models';
+} from '@datatlas/models';
 
 const projectHandlers = [
   rest.get('/api/projects', (req, res, ctx) => {
@@ -34,12 +34,12 @@ const userHandlers = [
   }),
 
   rest.post('/api/login', async (req, res, ctx) => {
-    const { username } = await req.json();
+    const { email } = await req.json();
     return res(
       ctx.json<UserInterface>(
         generateFakeUser({
           id: currentUserId,
-          email: username,
+          email: email,
         })
       )
     );
