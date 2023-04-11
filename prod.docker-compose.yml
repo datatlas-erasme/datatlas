@@ -22,6 +22,8 @@ services:
       args:
         - COPY_PATH=backend
     restart: always
+    env_file:
+      - .env
     ports:
       - 3333:3333
 
@@ -34,5 +36,7 @@ services:
       args:
         - COPY_PATH=frontend
     restart: always
+    env_file:
+      - .env
     ports:
-      - 3000:80
+      - 3000:8080
