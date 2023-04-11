@@ -9,6 +9,7 @@ import { ProjectModule } from '../project/project.module';
 import { AuthService } from '../auth/auth.service';
 import { UserModule } from '../user/user.module';
 import { LocalStrategy } from '../auth/local.strategy';
+import { DatasetModule } from '../dataset/dataset.module';
 
 @Module({
   imports: [
