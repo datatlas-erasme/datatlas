@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import { StartNewProjectForm } from '../forms/StartNewProjectForm';
+import { StartNewProjectForm } from '../forms';
 import { createMap } from '../../store/reducers/keplerGl';
 
 const SideBarContainer = styled.aside`
@@ -22,7 +22,7 @@ const Sidebar = () => {
   return (
     <SideBarContainer>
       <h2>
-        <FormattedMessage defaultMessage={'Démarrer un nouveau projet'} />
+        <FormattedMessage id={'sideBar.createProject'} defaultMessage={'Démarrer un nouveau projet'} />
       </h2>
       <StartNewProjectForm onSubmit={(data) => dispatch(createMap(data))} />
     </SideBarContainer>

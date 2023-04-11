@@ -18,7 +18,7 @@ const actionsBlacklist = [
 
 const persistConfig = {
   key: 'root',
-  blacklist: ['api'],
+  blacklist: ['api', 'locale'],
   storage,
   transforms: [KeplerGlTransform],
 };

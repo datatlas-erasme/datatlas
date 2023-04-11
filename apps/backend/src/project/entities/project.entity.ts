@@ -1,4 +1,6 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToMany, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { UserEntity } from '../../user/entities/user.entity';
+
 @Entity()
 export class ProjectEntity {
   @PrimaryKey()
@@ -8,57 +10,48 @@ export class ProjectEntity {
   title: string;
 
   @Property()
-  //createdAt: Date;
-  createdAt: string;
+  createdAt: Date;
 
   @Property()
   draft: boolean;
 
-  @Property()
-  datasets: string;
+  @Property({ type: 'json' })
+  datasets: object;
 
   @Property()
   description: string;
 
-  @Property()
-  owner: string;
+  @ManyToOne(() => UserEntity)
+  owner!: UserEntity;
 
-  @Property()
-  contributors: string;
+  @ManyToMany(() => UserEntity)
+  contributors: UserEntity[];
 
-  @Property()
-  config: string;
+  @Property({ type: 'json' })
+  config: object;
 
   @Property()
   version: string;
 
   constructor(
     title: string,
-    description: string,
+    createdAt: Date,
     draft: boolean,
-    datasets: string,
-    owner: string,
-    contributors: string,
-    config: string,
-    version: string,
-    createdAt: string
+    datasets: object,
+    description: string,
+    owner: UserEntity,
+    contributors: UserEntity[],
+    config: object,
+    version: string
   ) {
     this.title = title;
-    this.description = description;
+    this.createdAt = createdAt;
     this.draft = draft;
     this.datasets = datasets;
+    this.description = description;
     this.owner = owner;
     this.contributors = contributors;
     this.config = config;
     this.version = version;
-    this.createdAt = createdAt;
   }
-  /*
-
-  @ManyToOne(() => UserEntity)
-  owner: UserEntity;
-
-  @ManyToMany(() => UserEntity)
-  contributors: [UserEntity];
-   */
 }

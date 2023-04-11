@@ -104,10 +104,10 @@ export const LoginPage = () => {
       <AboutWrapper displayAbout={displayAbout} ref={bgColorRef}>
         <SidePanelButton onClick={handleDisplayAbout} displayAbout={displayAbout}>
           <StyledLabel htmlFor={'About'}>
-            <FormattedMessage defaultMessage="À propos" />
+            <FormattedMessage id={'about.title'} defaultMessage={'A propos'} />
           </StyledLabel>
         </SidePanelButton>
-        <h2>À propos</h2>
+        <h2>A propos</h2>
         <p>
           Datatlas est un outil de cartographie interactif. Il permet de créer à la volée des représentations
           cartographiques croisant plusieurs jeux de données et simplifiant l’animation de la relation usager par le
@@ -122,7 +122,7 @@ export const LoginPage = () => {
           <li>Pierre-Alexandre Racine (Erasme - Métropole de Lyon)</li>
           <li>Yassin Siouda (Erasme - Métropole de Lyon)</li>
           <li>Olivier Pierre (Erasme - Métropole de Lyon)</li>
-          <li>Johan Dufour (L’arrière guichet)</li>
+          <li>Johan Dufour (L'Arrière Guichet)</li>
           <li>Marion Letorey (ANCT)</li>
         </ul>
         <GithubLink bgColor={bgColorRef.current?.style.backgroundColor} />

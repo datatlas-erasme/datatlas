@@ -3,7 +3,9 @@ import { faker } from '@faker-js/faker';
 import { registerEntry } from 'kepler.gl';
 import keplerGlReducer, { KeplerGlState } from 'kepler.gl/reducers';
 import { KeplerGlSchema } from 'kepler.gl/schemas';
-import { addDataToMap, setMapInfo, wrapTo } from 'kepler.gl/actions';
+import { addDataToMap, setMapInfo, wrapTo, setLocale as setKeplerMapLocale } from 'kepler.gl/actions';
+import { setLocale as setMapLocale } from 'kepler.gl/dist/actions/ui-state-actions';
+import ActionTypes from 'kepler.gl/dist/constants/action-types';
 import {
   CreateMapPayloadInterface,
   DatatlasSavedMapInterface,
@@ -11,8 +13,9 @@ import {
   KeplerMapFactory,
   ProjectInterface,
 } from '@datatlas/models';
-import { selectCurrentUserId } from '../selectors';
+import { selectCurrentUserId, selectLocale } from '../selectors';
 import { startAppListening } from '../listenerMiddleware';
+import { setLocale } from './locale';
 
 export const registerMap = (id: ProjectInterface['id']) =>
   registerEntry({
@@ -37,7 +40,8 @@ startAppListening({
     const id = faker.datatype.uuid();
     dispatch(registerMap(id));
 
-    const currentUser = selectCurrentUserId(getState());
+    const state = getState();
+    const currentUser = selectCurrentUserId(state);
     if (!currentUser) {
       throw new Error(`Forbidden : user isn't logged in.`);
     }
@@ -46,5 +50,22 @@ startAppListening({
     dispatch(wrapTo(id)(addDataToMap(KeplerGlSchema.load(savedMap))));
     dispatch(wrapTo(id)(setMapInfo(savedMap.info)));
     dispatch(wrapTo(id)(createMapSuccess(savedMap)));
+
+    const locale = selectLocale(state);
+    dispatch(wrapTo(id)(setKeplerMapLocale(locale)));
+  },
+});
+
+startAppListening({
+  type: ActionTypes.SET_LOCALE,
+  effect: async (
+    {
+      payload: {
+        payload: { locale },
+      },
+    }: ReturnType<setMapLocale>,
+    { dispatch }
+  ) => {
+    dispatch(setLocale(locale));
   },
 });

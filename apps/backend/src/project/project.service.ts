@@ -3,6 +3,7 @@ import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/core';
 import { ProjectEntity } from './entities/project.entity';
 import { ProjectDto } from '@datatlas/shared/models';
+import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()
 export class ProjectService {
@@ -11,39 +12,39 @@ export class ProjectService {
     private readonly projectRepository: EntityRepository<ProjectEntity>
   ) {}
 
+  async create(projectDto: ProjectDto, owner: UserEntity, contributors: UserEntity[]): Promise<ProjectEntity> {
+    const project = new ProjectEntity(
+      projectDto.title,
+      new Date(),
+      projectDto.draft,
+      projectDto.datasets,
+      projectDto.description,
+      owner,
+      contributors,
+      projectDto.config,
+      projectDto.version
+    );
+    await this.projectRepository.persistAndFlush(project);
+    return project;
+  }
+
   async findAll(): Promise<ProjectDto[]> {
     return this.projectRepository.findAll();
   }
+
   async findOneById(id: number): Promise<ProjectDto> {
     return this.projectRepository.findOne({ id });
   }
 
-  async update(id: number, projectDto: ProjectDto): Promise<ProjectDto> {
+  async update(id: number, projectDto: ProjectDto): Promise<void> {
     const projectToUpdate = await this.projectRepository.findOne(id);
     this.projectRepository.assign(projectToUpdate, projectDto);
-    await this.projectRepository.persistAndFlush(projectToUpdate);
-    return projectToUpdate;
+    return await this.projectRepository.persistAndFlush(projectToUpdate);
   }
 
   async delete(id: number): Promise<number> {
     const projectToDelete = await this.projectRepository.findOne(id);
     await this.projectRepository.removeAndFlush(projectToDelete);
     return id;
-  }
-
-  async create(projectDto: ProjectDto): Promise<ProjectDto> {
-    const project = new ProjectEntity(
-      projectDto.title,
-      projectDto.description,
-      projectDto.draft,
-      projectDto.datasets,
-      projectDto.owner,
-      projectDto.contributors,
-      projectDto.config,
-      projectDto.version,
-      projectDto.createdAt
-    );
-    await this.projectRepository.persistAndFlush(project);
-    return project;
   }
 }
