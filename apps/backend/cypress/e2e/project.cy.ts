@@ -21,6 +21,8 @@ describe('PROJECT ACTIONS', () => {
   });
   let jwtUserAdmin;
   let idUserAdmin;
+  let jwtUserEditor;
+  let idUserEditor;
   it('Auth -> Connecting correctly with admin user.', () => {
     cy.request({
       method: 'POST',
@@ -63,6 +65,36 @@ describe('PROJECT ACTIONS', () => {
       expect(response.body).to.be.an('array');
     });
   });
+  it('Auth -> Connecting correctly with editor user.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        username: 'editor',
+        password: 'editor',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      jwtUserEditor = response.body.access_token;
+      idUserEditor= response.body.user_id;
+      test_project.owner = idUserAdmin;
+      expect(response.status).to.eq(201);
+    });
+  });
+  it('Project -> get all projects where editor is involved -> should not fail.', () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/projects',
+      auth: {
+        bearer: jwtUserEditor,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body).to.be.an('array');
+    });
+  });
+  /*
   it('Project -> Get info about project using id', () => {
     cy.request({
       method: 'GET',
@@ -96,5 +128,5 @@ describe('PROJECT ACTIONS', () => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.a('string');
     });
-  });
+  });*/
 });

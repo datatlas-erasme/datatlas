@@ -8,6 +8,7 @@ import { UserEntity } from '../user/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../auth/constants';
 import { PassportModule } from '@nestjs/passport';
+import {AuthService} from "../auth/auth.service";
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { PassportModule } from '@nestjs/passport';
     MikroOrmModule.forFeature([ProjectEntity, UserEntity]),
     PassportModule,
   ],
-  providers: [ProjectService, UserService],
+  providers: [AuthService, ProjectService, UserService],
   controllers: [ProjectController],
 })
 export class ProjectModule {}
