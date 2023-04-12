@@ -7,10 +7,9 @@ import styled from 'styled-components';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
 import { StyledLabel } from './StyledLabel';
 import { StyledFormBtn } from '../buttons';
+import { LoginDto } from '@datatlas/models';
 
-export interface LoginFormData {
-  login: string;
-  password: string;
+export interface LoginFormData extends LoginDto {
   rememberMe?: boolean;
 }
 
@@ -73,16 +72,16 @@ export function LoginForm() {
       <StyledLabel htmlFor="login">
         <FormattedMessage id={'loginForm.login'} defaultMessage="Identifiant" />
       </StyledLabel>
-      <StyledLoginInput id="login" defaultValue="" {...register('login', { required: true })} />
-      {errors.login && (
-        <FormattedMessage id={'loginForm.errors.loginRequired'} defaultMessage="This field is required" />
+      <StyledLoginInput id="login" defaultValue="" {...register('username', { required: true })} />
+      {errors.username && (
+        <FormattedMessage id={'loginForm.errors.username.required'} defaultMessage="This field is required" />
       )}
       <StyledLabel htmlFor="password">
         <FormattedMessage id={'loginForm.password'} defaultMessage="Mot de passe" />
       </StyledLabel>
       <StyledLoginInput id="password" type="password" defaultValue="" {...register('password', { required: true })} />
       {errors.password && (
-        <FormattedMessage id={'loginForm.errors.passwordRequired'} defaultMessage="This field is required" />
+        <FormattedMessage id={'loginForm.errors.password.required'} defaultMessage="This field is required" />
       )}
       <StyledLink to={'/'}>
         <FormattedMessage id={'loginForm.forgotPassword'} defaultMessage="J’ai oublié mon mot de passe" />

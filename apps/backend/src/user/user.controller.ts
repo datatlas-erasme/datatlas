@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { UserDto } from '@datatlas/shared/models';
+import { CreateUserDto, UserDto } from '@datatlas/shared/models';
 import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
 import { AdminGuard } from '../auth/admin.guard';
 
@@ -25,19 +26,18 @@ export class UserController {
    * Sends a 201 (with id user as a body response) if all works. In case of already existing username, nothing is done
    * and 0 is sent back.
    */
-  async createUser(@Body() UserDto: UserDto) {
-    return this.userService.createUser(UserDto);
+  async createUser(@Body() createUserDto: CreateUserDto) {
+    return this.userService.createUser(createUserDto);
   }
 
   @Get(':id')
-  @HttpCode(200)
+  @ApiResponse({
+    status: 200,
+    type: UserDto,
+  })
   @UseGuards(SelfOrAdminGuard)
-  /**
-   * Should always send back a UserDTO.
-   * @param params
-   */
-  async getUser(@Param() params): Promise<Omit<UserDto, 'password'>> {
-    return await this.userService.getUser(params.id);
+  findOne(@Param('id') id: string): Promise<UserDto> {
+    return this.userService.getUser(+id);
   }
 
   @Put(':id')

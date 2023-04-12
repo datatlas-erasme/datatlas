@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ProjectInterface, UserInterface } from '@datatlas/shared/models';
 import { loggedIn } from './store/reducers/user';
-import { LoginFormData } from './components/forms/LoginForm';
+import { LoginFormData } from './components/forms';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -17,7 +17,7 @@ export const api = createApi({
     login: builder.mutation<UserInterface, LoginFormData>({
       query(data) {
         return {
-          url: 'login',
+          url: '/api/auth/login',
           method: 'POST',
           body: data,
           credentials: 'include',

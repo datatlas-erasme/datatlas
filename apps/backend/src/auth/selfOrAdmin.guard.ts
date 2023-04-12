@@ -17,6 +17,11 @@ export class SelfOrAdminGuard extends AuthGuard('local') {
      */
     const request = context.switchToHttp().getRequest();
     const { headers } = request;
+
+    if (!headers.authorization) {
+      throw new Error('Unauthorized.');
+    }
+
     const headerString = headers.authorization.split(' ');
     const jwtData = this.jwtService.decode(headerString[1]) as { [key: string]: never };
     // In case of incoherent jwt.
