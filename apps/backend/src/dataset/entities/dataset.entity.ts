@@ -17,11 +17,16 @@ export class DatasetEntity {
   @Property()
   warning: string;
 
-  constructor(url: string, updatedAt: string, checksum: string, warning: string) {
+  @Property({type: 'json', nullable: true})
+  urlData : object;
+
+
+  constructor(url: string, updatedAt: string, checksum: string, warning: string, urlData: object) {
     this.url = url;
     this.updatedAt = updatedAt;
     this.checksum = checksum;
     this.warning = warning;
+    this.urlData = urlData;
   }
   /*
 

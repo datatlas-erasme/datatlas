@@ -1,8 +1,21 @@
 export class DatasetDto {
-  constructor(public url: string, public updatedAt: string, public checksum: string, public warning: string) {
-    this.url = url;
-    this.updatedAt = updatedAt;
-    this.checksum = checksum;
-    this.warning = warning;
+  url: string;
+  updatedAt: string;
+  checksum: string;
+  warning: string;
+  urlData: object;
+  
+  constructor(datasetData: {
+    url: string;
+    updatedAt: string;
+    checksum: string;
+    warning: string;
+    urlData: object;
+  }) {
+    this.url = datasetData.url;
+    this.updatedAt = datasetData.updatedAt;
+    this.checksum = datasetData.checksum;
+    this.warning = datasetData.warning;
+    this.urlData = datasetData.urlData;
   }
 }

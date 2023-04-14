@@ -19,6 +19,7 @@ export class DatasetService {
   }
   async update(id: number, datasetDto: DatasetDto): Promise<DatasetDto> {
     const datasetToUpdate = await this.datasetRepository.findOne(id);
+
     this.datasetRepository.assign(datasetToUpdate, datasetDto);
     await this.datasetRepository.persistAndFlush(datasetToUpdate);
     return datasetToUpdate;
@@ -29,7 +30,23 @@ export class DatasetService {
     return id;
   }
   async create(datasetDto: DatasetDto): Promise<DatasetDto> {
-    const dataset = new DatasetEntity(datasetDto.url, datasetDto.updatedAt, datasetDto.checksum, datasetDto.warning);
+  
+  /*  
+  try {
+    new URL(datasetDto.url);
+  } catch (e) {
+    return e
+  }*/
+
+    // Check if is basenameurl is correct using regex
+
+    // If dataset is a notion.so page, get call the notion helper to get the data.
+    if (datasetDto.url.includes('notion.so')) {
+      console.log('Notion dataset detected.');
+    }
+    
+
+    const dataset = new DatasetEntity(datasetDto.url, datasetDto.updatedAt, datasetDto.checksum, datasetDto.warning, datasetDto.urlData);
     await this.datasetRepository.persistAndFlush(dataset);
     return dataset;
   }

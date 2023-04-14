@@ -6,4 +6,5 @@ export interface DatasetInterface extends KeplerVersionedDataset {
   updatedAt: Date;
   checksum: string;
   warning: string;
+  urlData: object;
 }

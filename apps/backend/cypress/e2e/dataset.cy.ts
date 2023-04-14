@@ -4,13 +4,30 @@ describe('DATASET ACTIONS', () => {
     updatedAt: 'date',
     checksum: 'checksum',
     warning: 'warning',
+    urlData: {
+      title: 'test',
+      description: 'test',
+    },
   };
   const modified_test_dataset = {
     url: 'modified_dataset_test',
     updatedAt: 'updated_date',
     checksum: 'modified_checksum',
     warning: 'modified_warning',
+    urlData: {
+      title: 'modified_test',
+      description: 'modified_test',
+    },
   };
+
+  const notion_test_dataset = {
+    url: "https://notion.so/xxxxxxxx",
+    updatedAt: 'date',
+    checksum: 'checksum',
+    warning: 'warning',
+    urlData: {},
+  };
+
   let id_test_dataset = null;
   it('Dataset -> creation of new dataset (should return new dataset id)', () => {
     cy.request({
@@ -65,6 +82,18 @@ describe('DATASET ACTIONS', () => {
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
+    });
+  });
+  it('Dataset -> Create with Notion url', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/dataset',
+      body: notion_test_dataset,
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+      expect(response.body.id).to.be.a('number').greaterThan(0);
+      id_test_dataset = response.body.id;
     });
   });
 });
