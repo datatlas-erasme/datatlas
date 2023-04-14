@@ -45,16 +45,23 @@ export class ProjectService {
       .where({ contributors: { id: userId } })
       .getMany();*/
     //console.log(user);
-    const res = await this.projectRepository.find({ owner: { $eq: user.id } });
+    //const res = await this.projectRepository.find({ owner: { $eq: user.id } });
 
-    /*
+    //const res2 = await this.projectRepository.find({ contributors: { $in: [user.id] } });
+    //console.log(res2);
+    //return res2;
+
+
     const res = await this.projectRepository.find( { $or: [
         {
           owner: { $eq: user.id }, // All projects owned by current user.
-          //contributors: { $in: [user.id] } // All project where current user is a contributor.
-          contributors: { $contains: user.id.toString() },
         },
-      ] });*/
+        {
+          contributors: { $in: [user.id] }, // All project where current user is a contributor.
+        }
+      ] });
+    console.log(res);
+    return res;
     /*
     const res = await this.projectRepository.find(
       { $or: [{ id: { $eq: user.id } }] },
@@ -88,8 +95,7 @@ export class ProjectService {
           contributors:{$contains: user.id}, // All project where current user is a contributor.
         },
       ] });*/
-    console.log(res);
-    return res;
+    //console.log(res);
   }
 
   async findAll(): Promise<ProjectDto[]> {
