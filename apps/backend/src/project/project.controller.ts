@@ -1,5 +1,4 @@
-import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, Req, Logger } from '@nestjs/common';
-import { ExecutionContext } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, Req } from '@nestjs/common';
 import { ProjectDto } from '@datatlas/shared/models';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
@@ -22,7 +21,11 @@ export class ProjectController {
     const owner = (projectDto.owner = await this.userService.getUserEntity(Number(projectDto.owner)));
     const contributorEntities: UserEntity[] = [];
     for (const element of Object.values(projectDto.contributors)) {
-      contributorEntities.push(await this.userService.getUserEntity(element));
+      const user = await this.userService.getUserEntity(element);
+      // Check the existence of the given contributor.
+      if (user) {
+        contributorEntities.push(user);
+      }
     }
     return this.projectService.create(projectDto, owner, contributorEntities);
   }
@@ -40,9 +43,21 @@ export class ProjectController {
     console.log(currentUser);*/
     // Data from current user are needed in case of a non-admin user : only its owned and/or contributed projects will
     // be returned
-    return await this.projectService.findAllAccessibleProjets(
+    const projects = await this.projectService.findAllAccessibleProjets(
       this.authService.getUserFromRequest(req.headers.authorization)
     );
+    /*
+    //console.log(projects);
+    for (const project of projects){
+      console.log(project);
+      console.log(typeof project.contributors);
+      console.log(count(project.contributors));
+      for (const contributor of project.contributors){
+        console.log('contributeur :');
+        console.log(contributor);
+      }
+    }*/
+    return projects;
   }
 
   @Get(':id')

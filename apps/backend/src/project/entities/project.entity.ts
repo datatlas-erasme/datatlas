@@ -1,4 +1,4 @@
-import { Entity, ManyToMany, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToMany, ManyToOne, PrimaryKey, Property, Filter } from '@mikro-orm/core';
 import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity()
@@ -25,7 +25,7 @@ export class ProjectEntity {
   owner!: UserEntity;
 
   @ManyToMany(() => UserEntity)
-  contributors: UserEntity[];
+  contributors: UserEntity[] | null;
 
   @Property({ type: 'json' })
   config: object;
