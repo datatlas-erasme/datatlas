@@ -26,7 +26,6 @@ async function bootstrap() {
     .setTitle('Datatlas API')
     .setDescription('The datatlas API description')
     .setVersion('0.1')
-    .setBasePath('api')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

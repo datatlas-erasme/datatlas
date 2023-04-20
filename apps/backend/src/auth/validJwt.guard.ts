@@ -1,5 +1,5 @@
 import { AuthGuard } from '@nestjs/passport';
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, HttpException, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 
@@ -15,6 +15,10 @@ export class ValidJwtGuard extends AuthGuard('local') {
      */
     const request = context.switchToHttp().getRequest();
     const { headers } = request;
+    if (!headers.authorization) {
+      throw new HttpException(`Unauthorized.`, 401);
+    }
+
     const headerString = headers.authorization.split(' ');
     const jwtData = this.jwtService.decode(headerString[1]) as { [key: string]: never };
     // In case of incoherent jwt.

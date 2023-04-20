@@ -3,13 +3,14 @@ import { ProjectDto } from '@datatlas/shared/models';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
 import { CanModifyProjectGuard } from '../auth/canModifyProject.guard';
+import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { UserEntity } from '../user/entities/user.entity';
 
 @Controller('projects')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService, private readonly userService: UserService) {}
 
-  @UseGuards(CanModifyProjectGuard) // Check if the user in jwt is the same as the one sent in body.
+  @UseGuards(ValidJwtGuard, CanModifyProjectGuard) // Check if the user in jwt is the same as the one sent in body.
   @Post()
   async create(@Body() projectDto: ProjectDto) {
     const owner = (projectDto.owner = await this.userService.getUserEntity(Number(projectDto.owner)));

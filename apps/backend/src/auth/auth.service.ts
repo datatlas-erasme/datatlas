@@ -3,13 +3,13 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { jwtConstants } from './constants';
-import { UserDto } from '@datatlas/models';
+import { LoginDto } from '@datatlas/models';
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) {}
 
-  async validateUser(userToValidate: Pick<UserDto, 'username' | 'password'>): Promise<boolean> {
+  async validateUser(userToValidate: LoginDto): Promise<boolean> {
     // Same username ?
     const user = await this.userService.isUsernameAlreadyInDatabase(userToValidate.username);
     if (user) {
@@ -20,7 +20,7 @@ export class AuthService {
     return false;
   }
 
-  async login(user: Pick<UserDto, 'username' | 'password'>) {
+  async login(user: LoginDto) {
     const userCredentials = await this.userService.getUserByUserName(user.username);
     const payload = {
       username: userCredentials.username,

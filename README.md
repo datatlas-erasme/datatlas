@@ -74,6 +74,7 @@ nx serve frontend
 
 ### Test
 
+#### Frontend
 ```shell
 npx nx run frontend:test
 ```
@@ -83,6 +84,10 @@ npx nx run frontend:test
 > - https://redux.js.org/usage/writing-tests
 > - https://mswjs.io/
 > - https://github.com/mswjs/examples/tree/master/examples/rest-react/src
+
+#### Cypress
+
+https://github.com/nrwl/nx/tree/master/packages/cypress/docs
 
 ### Backend
 
