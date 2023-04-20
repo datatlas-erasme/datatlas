@@ -5,7 +5,6 @@ const PanelTitleFactory = () => {
 };
 
 PanelTitleFactory.deps = KeplerPanelTitleFactory.deps;
-//deps : variable statique, stocker tout les arguments de la fonction =>  Injection de dépendence
 export function replacePanelTitle() {
   return [KeplerPanelTitleFactory, PanelTitleFactory];
 }

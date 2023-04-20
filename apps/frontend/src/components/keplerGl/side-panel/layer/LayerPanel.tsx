@@ -38,7 +38,6 @@ export const LayerPanel = ({
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
     >
-      {/*A quelle parti appartien ce header ?*/}
       {header}
       {isActive && children}
     </PanelWrapper>

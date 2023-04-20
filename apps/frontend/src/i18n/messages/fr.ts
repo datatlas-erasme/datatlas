@@ -20,10 +20,11 @@ export default {
   'project.contributors': 'Contributeurs',
   'project.projectUpdated': 'Projet modifié',
   'sideBar.createProject': 'Démarrer un nouveau projet',
-  'layerManager.fileformat':
+  'layerManager.fileFormat':
     "Vous pouvez utiliser les formats suivants : CSV / JSON / ... Assurez-vous que l'url contient l'extension du\n fichier.",
-  'layerManager.contactus': 'Le format souhaité n’est pas disponible {link}',
-  'layerManager.contactus.link': 'Contactez-nous',
+  'layerManager.contactUs': 'Le format souhaité n’est pas disponible {link}',
+  'layerManager.contactUs.link': 'Contactez-nous',
+  'layerManager.dataWeight': 'Un trop grand nombre de jeux de données peut altérer le projet',
 
   // Kepler
   sidebar: {

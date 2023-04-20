@@ -31,6 +31,7 @@ export const getLayerConfiguratorProps = (
   onChange: props.updateLayerConfig,
   setColorUI: props.updateLayerColorUI,
 });
+
 export const getVisConfiguratorProps = (
   props: Pick<LayerConfiguratorPropsInterface, 'layer' | 'datasets' | 'updateLayerVisConfig' | 'updateLayerColorUI'>
 ) => ({
@@ -757,7 +758,7 @@ const LayerConfiguratorFactory = (
     const layerChannelConfigProps = getLayerChannelConfigProps({ updateLayerVisualChannelConfig, layer, datasets });
     const dataset = getLayerDataset(datasets, layer);
     const renderTemplate = layer.type && `_render${capitalizeFirstLetter(layer.type)}LayerConfig`;
-    console.log('ÇA JAZZ : ' + layer);
+
     return (
       <StyledLayerConfigurator>
         {layer.layerInfoModal ? <HowToButton onClick={() => openModal(layer.layerInfoModal)} /> : null}

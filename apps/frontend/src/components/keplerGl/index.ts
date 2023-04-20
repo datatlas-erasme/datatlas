@@ -12,10 +12,10 @@ import {
   replacePanelHeader,
   replacePanelTab,
   replaceTooltipConfig,
+  replaceAddDataButtonFactory,
+  replacePanelToggleFactory,
+  replacePanelTitle,
 } from './factories';
-import { replacePanelTitle } from './factories/PanelTitleFactory';
-import { replacePanelToggleFactory } from './factories/PanelToggleFactory';
-import { replaceAddDataButtonFactory } from './factories/AddDataButtonFactory';
 
 // ⚠ Order matters ⚠
 export const KeplerGl = injectComponents([

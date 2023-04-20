@@ -1,13 +1,6 @@
-import { PanelToggleFactory as KeplerPanelToggleFactory } from 'kepler.gl/components';
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-
-const propTypes = {
-  panels: PropTypes.arrayOf(PropTypes.object),
-  activePanel: PropTypes.string,
-  togglePanel: PropTypes.func,
-};
+import { PanelToggleFactory as KeplerPanelToggleFactory } from 'kepler.gl/components';
 
 const PanelHeaderBottom = styled.div.attrs({
   className: 'side-side-panel__header__bottom',
@@ -36,7 +29,6 @@ function PanelToggleFactory(PanelTab) {
     );
   };
 
-  PanelToggle.propTypes = propTypes;
   return PanelToggle;
 }
 

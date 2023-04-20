@@ -63,40 +63,6 @@ type KeplerGlActions = {
   providerActions: typeof ProviderActions;
 };
 
-// Maybe we should think about exporting this or creating a variable
-// as part of the base.js theme
-// const GlobalStyle = styled.div`
-//   font-family: ${({ theme }) => theme.fontFamily};
-//   font-weight: ${({ theme }) => theme.fontWeight};
-//   font-size: ${({ theme }) => theme.fontSize};
-//   line-height: ${({ theme }) => theme.lineHeight};
-//
-//   *,
-//   *:before,
-//   *:after {
-//     -webkit-box-sizing: border-box;
-//     -moz-box-sizing: border-box;
-//     box-sizing: border-box;
-//   }
-//
-//   ul {
-//     margin: 0;
-//     padding: 0;
-//   }
-//
-//   li {
-//     margin: 0;
-//   }
-//
-//   a {
-//     color: ${(props) => props.theme.labelColor};
-//   }
-//
-//   .mapboxgl-ctrl .mapboxgl-ctrl-logo {
-//     display: none;
-//   }
-// `;
-
 interface BottomWidgetOuterProps {
   absolute?: boolean;
 }
