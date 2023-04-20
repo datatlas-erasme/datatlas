@@ -8,7 +8,7 @@ describe('PROJECT ACTIONS', () => {
     description: 'description du projet 2',
     config: { toto: 'test 2' },
     version: 'version test',
-    contributors: [63, 64], // Shall we really send IDs ? Maybe usernames instead ?
+    contributors: [1], // Shall we really send IDs ? Maybe usernames instead ?
   });
   const test_project_modified = new ProjectDto({
     title: 'titre projet test 2_',
@@ -17,12 +17,11 @@ describe('PROJECT ACTIONS', () => {
     description: 'description du projet 2_',
     config: { toto: 'test 2_' },
     version: 'version test_',
-    contributors: [63], // Shall we really send IDs ? Maybe usernames instead ?
+    contributors: [2], // Shall we really send IDs ? Maybe usernames instead ?
   });
   let jwtUserAdmin;
   let idUserAdmin;
   let jwtUserEditor;
-  let idUserEditor;
   it('Auth -> Connecting correctly with admin user.', () => {
     cy.request({
       method: 'POST',
@@ -94,7 +93,6 @@ describe('PROJECT ACTIONS', () => {
       expect(response.body).to.be.an('array');
     });
   });
-  /*
   it('Project -> Get info about project using id', () => {
     cy.request({
       method: 'GET',
@@ -128,5 +126,5 @@ describe('PROJECT ACTIONS', () => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.a('string');
     });
-  });*/
+  });
 });

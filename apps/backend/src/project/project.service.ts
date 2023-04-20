@@ -34,68 +34,20 @@ export class ProjectService {
       return await this.findAll();
     }
     // Other users can only see their own projects where they are owners or contributors.
-    const toto = await this.findProjectsOfUser(currentUser);
-    //console.log(toto);
-    return toto;
+    return await this.findProjectsOfUser(currentUser);
   }
 
   async findProjectsOfUser(user: Omit<UserDto, 'password'>): Promise<ProjectDto[]> {
-    /*
-    const projects = await this.projectRepository.createQueryBuilder('project')
-      .where({ contributors: { id: userId } })
-      .getMany();*/
-    //console.log(user);
-    //const res = await this.projectRepository.find({ owner: { $eq: user.id } });
-
-    //const res2 = await this.projectRepository.find({ contributors: { $in: [user.id] } });
-    //console.log(res2);
-    //return res2;
-
-
-    const res = await this.projectRepository.find( { $or: [
+    return await this.projectRepository.find({
+      $or: [
         {
           owner: { $eq: user.id }, // All projects owned by current user.
         },
         {
           contributors: { $in: [user.id] }, // All project where current user is a contributor.
-        }
-      ] });
-    console.log(res);
-    return res;
-    /*
-    const res = await this.projectRepository.find(
-      { $or: [{ id: { $eq: user.id } }] },
-      { populate: ['role', 'role.permissions'] }
-    );*/
-
-    //const res = this.projectRepository.find({$or: [{ id: { $eq: user.id } }, { contributors: { $contains: user.id }}});
-    /*
-    const books = await booksRepository.find({ author: '...' }, {
-      populate: ['author'],
-      limit: 1,
-      offset: 2,
-      orderBy: { title: QueryOrder.DESC },
-    });
-
-    const res = await this.projectRepository.find(ProjectEntity, {
-      filters: { contributes: { id: user.id } },
-    });
-*/
-    //const res = await this.projectRepository.find( { $or: [{ id: { $eq: user.id } }, { contributors: { $contains: user.id } }] });
-    /*
-    const res = await this.projectRepository.find(
-      ProjectEntity,
-      { $or: [{ role: "admin" }, { role: "moderator" }] },
-    );
-*/
-    /*
-    const res = await this.projectRepository.find( { $or: [
-        {
-          owner: { $eq: user.id }, // All projects owned by current user.
-          contributors:{$contains: user.id}, // All project where current user is a contributor.
         },
-      ] });*/
-    //console.log(res);
+      ],
+    });
   }
 
   async findAll(): Promise<ProjectDto[]> {

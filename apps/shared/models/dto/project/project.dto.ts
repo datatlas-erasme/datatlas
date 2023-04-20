@@ -1,5 +1,4 @@
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { UserEntity } from '@datatlas/shared/models';
+//import { UserEntity } from '@datatlas/shared/models';
 
 export class ProjectDto {
   id?: number;
@@ -8,8 +7,8 @@ export class ProjectDto {
   draft?: boolean;
   datasets?: object;
   description?: string;
-  owner?: object; // Either id number or user entity.
-  contributors?: UserEntity[] | number[];
+  owner?: object; // Either id number or user entity. object[] represents UserEntity[].
+  contributors?: object[] | number[];
   config?: object;
   version?: string;
 
@@ -20,7 +19,7 @@ export class ProjectDto {
     datasets?: object;
     description?: string;
     owner?: object;
-    contributors?: UserEntity[] | number[]; // Either id number or user entity.
+    contributors?: object[] | number[]; // Either id number or user entity. object[] represents UserEntity[].
     config?: object;
     version?: string;
   }) {

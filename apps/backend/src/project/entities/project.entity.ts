@@ -1,4 +1,4 @@
-import { Entity, ManyToMany, ManyToOne, PrimaryKey, Property, Filter } from '@mikro-orm/core';
+import { Entity, ManyToMany, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity()
