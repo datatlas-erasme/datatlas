@@ -16,7 +16,7 @@ const SortableStyledItem = styled.div`
   }
 
   &.sorting-layers .layer-panel__header {
-    background-color: ${({ theme }) => theme.panelBackgroundHover};
+    background-color: ${({ theme }) => theme.panelBackground};
     font-family: ${({ theme }) => theme.fontFamily};
     font-weight: ${({ theme }) => theme.fontWeight};
     font-size: ${({ theme }) => theme.fontSize};
@@ -29,6 +29,7 @@ const SortableStyledItem = styled.div`
     .layer__drag-handle {
       opacity: 1;
       color: ${({ theme }) => theme.textColorHl};
+      border-bottom: none;
     }
   }
 `;

@@ -8,5 +8,9 @@ export * from './LayerPanelFactory';
 export * from './LayerPanelHeaderFactory';
 export * from './LoadDataModalFactory';
 export * from './PanelHeaderFactory';
+export * from './PanelToggleFactory';
 export * from './PanelTabFactory';
+export * from './PanelTitleFactory';
+export * from './AddDataButtonFactory';
+
 export * from './TooltipConfigFactory';

@@ -36,7 +36,6 @@ export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
     border: none;
     background-color: transparent;
   }
-
   .side-panel--container{
     padding: 0;
   }
@@ -44,5 +43,14 @@ export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
   ${ChickletButton} {
     border: solid 1px ${({ theme }) => theme.primaryColor}
 }
-  ,
+
+  .side-side-panel__header__bottom{
+    padding: 0;
+    border-bottom: ${({ theme }) => theme.panelBorderLT};
+  }
+
+  .attrition-logo a.mapboxgl-ctrl-logo {
+    display: none;
+  }
+
 `;

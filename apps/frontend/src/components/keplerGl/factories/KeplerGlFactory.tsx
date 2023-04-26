@@ -3,7 +3,7 @@
 import React, { Component, createRef } from 'react';
 import Console from 'global/console';
 import { bindActionCreators } from 'redux';
-import styled, { ThemeProvider, withTheme } from 'styled-components';
+import styled, { withTheme } from 'styled-components';
 import { createSelector } from 'reselect';
 import { connect as keplerGlConnect } from 'kepler.gl/dist/connect/keplergl-connect';
 import NestedIntlProvider from '../../i18n/NestedIntlProvider';
@@ -62,41 +62,6 @@ type KeplerGlActions = {
   uiStateActions: typeof UIStateActions;
   providerActions: typeof ProviderActions;
 };
-
-// Maybe we should think about exporting this or creating a variable
-// as part of the base.js theme
-const GlobalStyle = styled.div`
-  font-family: ${(props) => props.theme.fontFamily};
-  font-weight: ${(props) => props.theme.fontWeight};
-  font-size: ${(props) => props.theme.fontSize};
-  line-height: ${(props) => props.theme.lineHeight};
-
-  *,
-  *:before,
-  *:after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
-  ul {
-    margin: 0;
-    padding: 0;
-  }
-
-  li {
-    margin: 0;
-  }
-
-  a {
-    text-decoration: none;
-    color: ${(props) => props.theme.labelColor};
-  }
-
-  .mapboxgl-ctrl .mapboxgl-ctrl-logo {
-    display: none;
-  }
-`;
 
 interface BottomWidgetOuterProps {
   absolute?: boolean;
@@ -304,34 +269,28 @@ function DatatlasGLFactory(
             defaultLocale={getDefaultLocale()}
             messages={localeMessages[uiState.locale]}
           >
-            <ThemeProvider theme={theme}>
-              <GlobalStyle
-                className="kepler-gl"
-                id={`kepler-gl__${id}`}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  position: 'relative',
-                  width: `${width}px`,
-                  height: `${height}px`,
-                }}
-                ref={this.root}
-              >
-                <NotificationPanel {...notificationPanelFields} />
-                {!uiState.readOnly && !readOnly && <SidePanel {...sideFields} />}
-                <MapsLayout className="maps">{mapContainers}</MapsLayout>
-                {isExportingImage && <PlotContainer {...plotContainerFields} />}
-                {interactionConfig.geocoder.enabled && <GeoCoderPanel {...geoCoderPanelFields} />}
-                <BottomWidgetOuter absolute>
-                  <BottomWidget ref={this.bottomWidgetRef} {...bottomWidgetFields} containerW={dimensions.width} />
-                </BottomWidgetOuter>
-                <ModalContainer
-                  {...modalContainerFields}
-                  containerW={dimensions.width}
-                  containerH={dimensions.height}
-                />
-              </GlobalStyle>
-            </ThemeProvider>
+            <div
+              className="kepler-gl"
+              id={`kepler-gl__${id}`}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+                width: `${width}px`,
+                height: `${height}px`,
+              }}
+              ref={this.root}
+            >
+              <NotificationPanel {...notificationPanelFields} />
+              {!uiState.readOnly && !readOnly && <SidePanel {...sideFields} />}
+              <MapsLayout className="maps">{mapContainers}</MapsLayout>
+              {isExportingImage && <PlotContainer {...plotContainerFields} />}
+              {interactionConfig.geocoder.enabled && <GeoCoderPanel {...geoCoderPanelFields} />}
+              <BottomWidgetOuter absolute>
+                <BottomWidget ref={this.bottomWidgetRef} {...bottomWidgetFields} containerW={dimensions.width} />
+              </BottomWidgetOuter>
+              <ModalContainer {...modalContainerFields} containerW={dimensions.width} containerH={dimensions.height} />
+            </div>
           </NestedIntlProvider>
         </RootContext.Provider>
       );

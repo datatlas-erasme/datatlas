@@ -1,24 +1,39 @@
 import React, { useCallback } from 'react';
-import { PanelToggleFactory as KeplerPanelToggleFactory } from 'kepler.gl/components';
-import PanelTabFactory from 'kepler.gl/dist/components/side-panel';
 import styled from 'styled-components';
+import { PanelToggleFactory as KeplerPanelToggleFactory } from 'kepler.gl/components';
 
 const PanelHeaderBottom = styled.div.attrs({
   className: 'side-side-panel__header__bottom',
 })`
   background-color: ${(props) => props.theme.sidePanelHeaderBg};
   border-bottom: 1px solid ${(props) => props.theme.sidePanelHeaderBorder};
-  padding: 0 16px;
   display: flex;
-  min-height: 30px;
+  min-height: 80px;
 `;
 
-PanelToggleFactory.deps = [PanelTabFactory];
-function PanelToggleFactory() {
-  return null;
+function PanelToggleFactory(PanelTab) {
+  const PanelToggle = ({ activePanel, panels, togglePanel }) => {
+    const onClick = useCallback(
+      (panel) => {
+        const callback = panel.onClick || togglePanel;
+        callback(panel.id);
+      },
+      [togglePanel]
+    );
+    return (
+      <PanelHeaderBottom>
+        {panels.map((panel) => (
+          <PanelTab key={panel.id} panel={panel} isActive={activePanel === panel.id} onClick={() => onClick(panel)} />
+        ))}
+      </PanelHeaderBottom>
+    );
+  };
+
+  return PanelToggle;
 }
 
 PanelToggleFactory.deps = KeplerPanelToggleFactory.deps;
-export function replacePanelTab() {
+
+export function replacePanelToggleFactory() {
   return [KeplerPanelToggleFactory, PanelToggleFactory];
 }

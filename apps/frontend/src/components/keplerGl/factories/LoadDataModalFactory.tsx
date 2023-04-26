@@ -1,5 +1,5 @@
 import { LoadDataModalFactory as KeplerLoadDataModalFactory, LoadingMethod } from 'kepler.gl/components';
-import { LoadRemoteDatasetForm } from '../../forms/LoadRemoteDatasetForm';
+import { LoadRemoteDatasetForm } from '../../forms';
 
 const LoadDataModalFactory = (...deps) => {
   const LoadDataModal = KeplerLoadDataModalFactory(...deps);
