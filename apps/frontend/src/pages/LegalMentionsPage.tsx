@@ -7,8 +7,8 @@ import { ContentBackground } from '../components/content/StyledContentBackground
 const WrapperLegalMention = styled.div`
   flex-direction: column;
   width: 50vw;
-  padding: 40px 20px;
-  max-height: 100vh;
+  padding: 60px 40px;
+  max-height: 80vh;
   overflow: scroll;
   h1 {
     margin: 20px auto;

@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { PanelToggleFactory as KeplerPanelToggleFactory } from 'kepler.gl/components';
 
+
 const PanelHeaderBottom = styled.div.attrs({
   className: 'side-side-panel__header__bottom',
 })`
