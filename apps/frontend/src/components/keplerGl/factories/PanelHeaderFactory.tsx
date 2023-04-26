@@ -5,6 +5,7 @@ const PanelHeaderFactory = () => {
 };
 
 PanelHeaderFactory.deps = KeplerPanelHeaderFactory.deps;
+
 export function replacePanelHeader() {
   return [KeplerPanelHeaderFactory, PanelHeaderFactory];
 }
