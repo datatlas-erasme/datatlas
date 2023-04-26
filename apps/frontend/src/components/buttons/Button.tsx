@@ -17,7 +17,6 @@ const StyledKeplerButton = styled(KeplerButton)`
   width: auto;
 `;
 export const Button = ({ children, Icon, onClick, type, className }: ButtonPropsInterface) => {
-
   return (
     <StyledKeplerButton onClick={onClick} type={type} className={className}>
       {Icon}
