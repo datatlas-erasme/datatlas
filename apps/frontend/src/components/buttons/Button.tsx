@@ -12,7 +12,7 @@ interface ButtonInterface {
 const StyledKeplerButton = styled(KeplerButton)`
   margin: 10px;
 `;
-const Button = ({ children, Icon, onClick, type }: ButtonInterface) => {
+export const Button = ({ children, Icon, onClick, type }: ButtonInterface) => {
   return (
     <StyledKeplerButton onClick={onClick} type={type}>
       {Icon}
@@ -20,5 +20,3 @@ const Button = ({ children, Icon, onClick, type }: ButtonInterface) => {
     </StyledKeplerButton>
   );
 };
-
-export default Button;
