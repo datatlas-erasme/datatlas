@@ -1,19 +1,14 @@
-import { Inject, Injectable, Scope } from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
+import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { jwtConstants } from './constants';
 import { LoginDto } from '@datatlas/dtos';
-import { UserCredentialsInterface } from '@datatlas/models';
+import { UserCredentials, UserCredentialsInterface } from '@datatlas/models';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class AuthService {
-  constructor(
-    private userService: UserService,
-    private jwtService: JwtService,
-    @Inject(REQUEST) private request: Request
-  ) {}
+  constructor(private userService: UserService, private jwtService: JwtService) {}
 
   async validateUser(loginDto: LoginDto): Promise<boolean> {
     // Same email ?
@@ -41,13 +36,13 @@ export class AuthService {
     };
   }
 
-  async getLoggedUserCredentials(): Promise<UserCredentialsInterface> {
-    const { headers } = this.request;
+  async getLoggedUserCredentials(request): Promise<UserCredentials> {
+    const { headers } = request;
     if (!headers['authorization']) {
       return null;
     }
 
     const headerString = headers['authorization'].split(' ');
-    return this.jwtService.decode(headerString[1]) as UserCredentialsInterface;
+    return new UserCredentials(this.jwtService.decode(headerString[1]) as UserCredentialsInterface);
   }
 }

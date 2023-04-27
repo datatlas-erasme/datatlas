@@ -57,6 +57,6 @@ export class ProjectEntity implements ProjectInterface {
   }
 
   isOwnedBy({ id }: Pick<UserInterface, 'id'>) {
-    return this.id === id;
+    return this.owner.id === id;
   }
 }

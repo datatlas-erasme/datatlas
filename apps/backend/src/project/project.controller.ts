@@ -7,6 +7,7 @@ import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { UserEntity } from '../user/entities/user.entity';
 import { ProjectEntity } from './entities/project.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { CanEditProjectGuard } from '../auth/can-edit-project.guard';
 
 @ApiBearerAuth()
 @Controller('projects')
@@ -39,6 +40,7 @@ export class ProjectController {
   }
 
   @Put(':id')
+  @UseGuards(CanEditProjectGuard)
   async update(@Param('id') id: number, @Body() projectUpdates: UpdateProjectDto): Promise<ProjectEntity> {
     return await this.projectService.update(id, projectUpdates);
   }

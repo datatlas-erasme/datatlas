@@ -7,7 +7,7 @@ export class CreateProjectDto
   readonly title: string;
   draft: boolean;
   datasets: DatasetInterface[];
-  description: string;
+  description?: string;
   ownerId: number;
   contributors: number[];
   config: ConfigDto;
