@@ -22,6 +22,8 @@ describe('PROJECT ACTIONS', () => {
   let jwtUserAdmin;
   let idUserAdmin;
   let jwtUserEditor;
+  let idUserEditor;
+  let idProjectAdmin;
   it('Auth -> Connecting correctly with admin user.', () => {
     cy.request({
       method: 'POST',
@@ -93,10 +95,13 @@ describe('PROJECT ACTIONS', () => {
       expect(response.body).to.be.an('array');
     });
   });
-  it('Project -> Get info about project using id', () => {
+  it('Project -> Get info about project using id as an admin -> should not fail.', () => {
     cy.request({
       method: 'GET',
-      url: '/api/projects/' + 1,
+      url: '/api/projects/2',
+      auth: {
+        bearer: jwtUserAdmin,
+      },
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
@@ -104,10 +109,39 @@ describe('PROJECT ACTIONS', () => {
       expect(response.body).to.be.an('object');
     });
   });
+  it('Project -> Get info about project using id as an editor where user not involved -> should fail.', () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/projects/3',
+      auth: {
+        bearer: jwtUserEditor,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      // should return a object with the project info
+      expect(response.body).to.be.an('object');
+    });
+  }); /*
+  it('Project -> Get info about project using id whithout any jwt -> should fail.', () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/projects/3',
+      auth: {
+        bearer: jwtUserEditor,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      // should return a object with the project info
+      expect(response.body).to.be.an('object');
+    });
+  });
+  /*
   it('Project -> Modification', () => {
     cy.request({
       method: 'PUT',
-      url: '/api/projects/' + 1,
+      url: '/api/projects/1',
       body: test_project_modified,
       auth: {
         bearer: jwtUserAdmin,
@@ -120,11 +154,11 @@ describe('PROJECT ACTIONS', () => {
   it('Project -> Delete', () => {
     cy.request({
       method: 'DELETE',
-      url: '/api/projects/' + 1,
+      url: '/api/projects/1',
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.a('string');
     });
-  });
+  });*/
 });

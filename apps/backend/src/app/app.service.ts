@@ -18,6 +18,6 @@ export class AppService implements OnApplicationBootstrap {
       username: process.env.DUMMY_EDITOR_USERNAME,
       password: process.env.DUMMY_EDITOR_PASSWORD,
     };
-    await this.userService.createUsersOnStartUp(userAdmin, userDummyEditor);
+    //await this.userService.createUsersOnStartUp(userAdmin, userDummyEditor);
   }
 }

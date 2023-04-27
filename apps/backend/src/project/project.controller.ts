@@ -1,5 +1,5 @@
-import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, Req } from '@nestjs/common';
-import { ProjectDto } from '@datatlas/shared/models';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { ProjectDto, Roles, UserDto } from '@datatlas/shared/models';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
 import { CanModifyProjectGuard } from '../auth/canModifyProject.guard';
@@ -27,42 +27,43 @@ export class ProjectController {
         contributorEntities.push(user);
       }
     }
-    return this.projectService.create(projectDto, owner, contributorEntities);
+    return await this.projectService.create(projectDto, owner, contributorEntities);
   }
 
   /**
    * An editor can see all projects he created or where he is a contributor. An unconnected user can not see at all.
    */
-  @UseGuards(ValidJwtGuard) // User must be connected.
+  @UseGuards(ValidJwtGuard) // todo : User no longer needs to be connected -> if not connected, returns all published projects.
   @Get()
   async fetchAll(@Req() req): Promise<ProjectDto[]> {
-    /*
-    console.log('req.headers :');
-    console.log(req.headers.authorization);
-    const currentUser = this.authService.getUserFromRequest(req.headers.authorization);
-    console.log(currentUser);*/
     // Data from current user are needed in case of a non-admin user : only its owned and/or contributed projects will
     // be returned
-    const projects = await this.projectService.findAllAccessibleProjets(
+    return await this.projectService.findAllAccessibleProjets(
       this.authService.getUserFromRequest(req.headers.authorization)
     );
-    /*
-    //console.log(projects);
-    for (const project of projects){
-      console.log(project);
-      console.log(typeof project.contributors);
-      console.log(count(project.contributors));
-      for (const contributor of project.contributors){
-        console.log('contributeur :');
-        console.log(contributor);
-      }
-    }*/
-    return projects;
   }
 
   @Get(':id')
-  async fetchOne(@Param('id') id: number): Promise<ProjectDto> {
-    return await this.projectService.findOneById(id);
+  async fetchOne(@Req() req, @Param('id') id: number): Promise<ProjectDto> {
+    const requestedProject: ProjectDto = await this.projectService.findOneById(id);
+    const requestingUser: UserDto = this.authService.getUserFromRequest(req.headers.authorization);
+    /*
+      We must check if the user can reach this.
+      - Is it published ? -> Everyone can see it.
+      - The requesting user is owner or contributor ? -> He can see and modify.
+     */
+    if (
+      requestingUser.role === Roles.ADMIN ||
+      requestedProject.draft === false /*|| requestingUser.id===requestedProject.owner.id*/
+    ) {
+      return requestedProject;
+    }
+    console.log('---------------------');
+    console.log(requestedProject);
+    console.log(requestingUser);
+    console.log(requestedProject.owner);
+    console.log(requestedProject.owner.id);
+    return requestedProject;
   }
 
   //@UseGuards(CanModifyProjectGuard) // Check if the user in jwt is the same as the one sent in body.
