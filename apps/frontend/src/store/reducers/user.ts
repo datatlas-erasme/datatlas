@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserInterface } from '@datatlas/shared/models';
+import { UserInterface } from '@datatlas/models';
 
 export type UserState = null | UserInterface['id'];
 

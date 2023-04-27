@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { MikroORM } from '@mikro-orm/core';
@@ -11,10 +11,10 @@ import { MikroORM } from '@mikro-orm/core';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-  await app.get(MikroORM).getSchemaGenerator().ensureDatabase();
-  await app.get(MikroORM).getSchemaGenerator().updateSchema();
+  const app = await NestFactory.create(AppModule, {
+    logger: ['verbose'],
+  });
+  app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: false, enableDebugMessages: true }));
 
   await app.get(MikroORM).getSchemaGenerator().ensureDatabase();
   await app.get(MikroORM).getSchemaGenerator().updateSchema();
@@ -26,6 +26,7 @@ async function bootstrap() {
     .setTitle('Datatlas API')
     .setDescription('The datatlas API description')
     .setVersion('0.1')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

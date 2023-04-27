@@ -15,12 +15,14 @@ export class ValidJwtGuard extends AuthGuard('local') {
      */
     const request = context.switchToHttp().getRequest();
     const { headers } = request;
+    console.log('ValidJwtGuard', headers.authorization);
     if (!headers.authorization) {
       throw new HttpException(`Unauthorized.`, 401);
     }
 
     const headerString = headers.authorization.split(' ');
     const jwtData = this.jwtService.decode(headerString[1]) as { [key: string]: never };
+    console.log('jwtData', jwtData);
     // In case of incoherent jwt.
     if (jwtData === null) {
       return false;

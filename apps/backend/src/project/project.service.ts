@@ -1,45 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/core';
 import { ProjectEntity } from './entities/project.entity';
-import { ProjectDto } from '@datatlas/shared/models';
 import { UserEntity } from '../user/entities/user.entity';
+import { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
+import { AuthService } from '../auth/auth.service';
+import { Roles } from '@datatlas/models';
 
 @Injectable()
 export class ProjectService {
   constructor(
     @InjectRepository(ProjectEntity)
-    private readonly projectRepository: EntityRepository<ProjectEntity>
+    private readonly projectRepository: EntityRepository<ProjectEntity>,
+    private readonly authService: AuthService
   ) {}
 
-  async create(projectDto: ProjectDto, owner: UserEntity, contributors: UserEntity[]): Promise<ProjectEntity> {
-    const project = new ProjectEntity(
-      projectDto.title,
-      new Date(),
-      projectDto.draft,
-      projectDto.datasets,
-      projectDto.description,
+  async create(projectDto: CreateProjectDto, owner: UserEntity, contributors: UserEntity[]): Promise<ProjectEntity> {
+    const project = this.projectRepository.create({
+      ...projectDto,
+      createdAt: new Date(),
       owner,
       contributors,
-      projectDto.config,
-      projectDto.version
-    );
+    });
+
     await this.projectRepository.persistAndFlush(project);
+
     return project;
   }
 
-  async findAll(): Promise<ProjectDto[]> {
+  async findAll(): Promise<ProjectEntity[]> {
     return this.projectRepository.findAll();
   }
 
-  async findOneById(id: number): Promise<ProjectDto> {
+  async findOneById(id: number): Promise<ProjectEntity> {
     return this.projectRepository.findOne({ id });
   }
 
-  async update(id: number, projectDto: ProjectDto): Promise<void> {
+  async update(id: number, projectDto: UpdateProjectDto): Promise<ProjectEntity> {
     const projectToUpdate = await this.projectRepository.findOne(id);
+    const userCredentials = await this.authService.getLoggedUserCredentials();
+
+    if (!UserEntity.canEditProject(userCredentials, projectToUpdate)) {
+      throw new UnauthorizedException('Insufficient rights to edit this project.');
+    }
+
     this.projectRepository.assign(projectToUpdate, projectDto);
-    return await this.projectRepository.persistAndFlush(projectToUpdate);
+    await this.projectRepository.persistAndFlush(projectToUpdate);
+
+    return projectToUpdate;
   }
 
   async delete(id: number): Promise<number> {

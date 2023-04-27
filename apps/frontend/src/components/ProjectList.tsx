@@ -1,7 +1,7 @@
 import React from 'react';
 import { ProjectListItem } from './ProjectListItem';
 import { Loader } from './Loader';
-import { ProjectInterface } from '@datatlas/shared/models';
+import { ProjectInterface } from '@datatlas/models';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import styled from 'styled-components';

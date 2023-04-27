@@ -1,5 +1,5 @@
 import { AuthGuard } from '@nestjs/passport';
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, HttpException, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Roles } from '@datatlas/models';
@@ -17,17 +17,24 @@ export class SelfOrAdminGuard extends AuthGuard('local') {
      */
     const request = context.switchToHttp().getRequest();
     const { headers } = request;
+    console.log('SelfOrAdminGuard.authh', headers.authorization);
+    if (!headers.authorization) {
+      throw new HttpException(`Unauthorized.`, 401);
+    }
+
     const headerString = headers.authorization.split(' ');
     const jwtData = this.jwtService.decode(headerString[1]) as { [key: string]: never };
     // In case of incoherent jwt.
+    console.log('SelfOrAdminGuard.jwtData', jwtData);
+    console.log('SelfOrAdminGuard.request.params', request.params.id);
     if (jwtData === null) {
       return false;
     }
     // Is admin ?
-    if (Object.prototype.hasOwnProperty.call(jwtData, 'role') && jwtData?.role === Roles.ADMIN) {
+    if (jwtData?.role === Roles.ADMIN) {
       return true;
     }
     // Is self ?
-    return Object.prototype.hasOwnProperty.call(jwtData, 'id') && jwtData.id == request.params.id;
+    return jwtData.id == request.params.id;
   }
 }

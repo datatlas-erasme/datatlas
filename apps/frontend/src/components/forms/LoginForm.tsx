@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
 import { StyledLabel } from './StyledLabel';
 import { StyledFormBtn } from '../buttons';
-import { LoginDto } from '@datatlas/models';
+import { LoginDto } from '@datatlas/dtos';
 
 export interface LoginFormData extends LoginDto {
   rememberMe?: boolean;
@@ -72,9 +72,9 @@ export function LoginForm() {
       <StyledLabel htmlFor="login">
         <FormattedMessage id={'loginForm.login'} defaultMessage="Identifiant" />
       </StyledLabel>
-      <StyledLoginInput id="login" defaultValue="" {...register('username', { required: true })} />
-      {errors.username && (
-        <FormattedMessage id={'loginForm.errors.username.required'} defaultMessage="This field is required" />
+      <StyledLoginInput id="login" defaultValue="" {...register('email', { required: true })} />
+      {errors.email && (
+        <FormattedMessage id={'loginForm.errors.email.required'} defaultMessage="This field is required" />
       )}
       <StyledLabel htmlFor="password">
         <FormattedMessage id={'loginForm.password'} defaultMessage="Mot de passe" />

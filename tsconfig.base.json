@@ -15,8 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@datatlas/models": ["apps/shared/models/index.ts"],
-      "@datatlas/shared/models": ["apps/shared/models/index.ts"]
+      "@datatlas/dtos": ["libs/dtos/src/index.ts"],
+      "@datatlas/entities": ["libs/entities/src/index.ts"],
+      "@datatlas/models": ["libs/models/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

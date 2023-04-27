@@ -11,6 +11,11 @@
     }
   ],
   "compilerOptions": {
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@datatlas/models": ["libs/models/index.ts"],
+      "@datatlas/dtos": ["libs/dtos/src/index.ts"],
+      "@datatlas/entities": ["libs/entities/src/index.ts"]
+    }
   }
 }

@@ -1,22 +1,18 @@
 {
   "name": "backend-e2e",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "implicitDependencies": ["backend"],
+  "sourceRoot": "apps/backend-e2e/src",
+  "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "executor": "@nrwl/cypress:cypress",
       "options": {
-        "jestConfig": "apps/backend-e2e/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/backend-e2e/**/*.{js,ts}"]
+        "cypressConfig": "apps/backend-e2e/cypress.config.ts",
+        "baseUrl": "http://localhost:3333",
+        "testingType": "e2e"
       }
     }
-  }
+  },
+  "tags": [],
+  "implicitDependencies": ["backend"]
 }

@@ -74,6 +74,14 @@ nx serve frontend
 
 ### Test
 
+Run a single test file:
+
+```
+npx nx run backend-e2e:e2e --spec apps/backend-e2e/src/e2e/user.cy.ts
+```
+
+https://github.com/cypress-io/cypress/issues/2610#issuecomment-1319738814
+
 #### Frontend
 
 ```shell

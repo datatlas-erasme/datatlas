@@ -1,10 +1,13 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { CreateUserDto, UserDto } from '@datatlas/shared/models';
+import { CreateUserDto, UpdateUserDto } from '@datatlas/dtos';
 import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
 import { AdminGuard } from '../auth/admin.guard';
+import { ValidJwtGuard } from '../auth/validJwt.guard';
+import { UserEntity } from './entities/user.entity';
 
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -23,7 +26,7 @@ export class UserController {
   @UseGuards(AdminGuard)
   @Header('Cache-Control', 'none')
   /**
-   * Sends a 201 (with id user as a body response) if all works. In case of already existing username, nothing is done
+   * Sends a 201 (with id user as a body response) if all works. In case of already existing email, nothing is done
    * and 0 is sent back.
    */
   async createUser(@Body() createUserDto: CreateUserDto) {
@@ -33,31 +36,30 @@ export class UserController {
   @Get(':id')
   @ApiResponse({
     status: 200,
-    type: UserDto,
+    type: UserEntity,
   })
-  @UseGuards(SelfOrAdminGuard)
-  findOne(@Param('id') id: string): Promise<UserDto> {
+  @UseGuards(ValidJwtGuard, SelfOrAdminGuard)
+  findOne(@Param('id') id: UserEntity['id']): Promise<UserEntity> {
     return this.userService.getUser(+id);
   }
 
   @Put(':id')
   @HttpCode(204)
-  @UseGuards(AdminGuard) // For now, only admins can do that.
+  @UseGuards(ValidJwtGuard, AdminGuard) // For now, only admins can do that.
   @Header('Cache-Control', 'none')
-  async updateUser(@Param() params, @Body() user: UserDto): Promise<void> {
-    user.id = params.id;
-    return this.userService.updateUser(user);
+  async updateUser(@Param() params, @Body() updateUserDto: UpdateUserDto): Promise<UserEntity> {
+    return this.userService.updateUser(updateUserDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  @UseGuards(AdminGuard) // For now, only admins can do that.
+  @UseGuards(ValidJwtGuard, AdminGuard) // For now, only admins can do that.
   @Header('Cache-Control', 'none')
   /**
    * Delete a user in database using its user_id. Nothing is done if no user has this id.
    * Returns void.
    */
-  async deleteUser(@Param() params): Promise<void> {
-    return this.userService.deleteUserById(params.id);
+  async deleteUser(@Param('id') id: number): Promise<void> {
+    return this.userService.deleteUserById(id);
   }
 }

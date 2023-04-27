@@ -1,8 +1,9 @@
 import { Entity, ManyToMany, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { UserEntity } from '../../user/entities/user.entity';
+import { DatasetInterface, ProjectInterface, SavedMapConfig, UserInterface } from '@datatlas/models';
 
 @Entity()
-export class ProjectEntity {
+export class ProjectEntity implements ProjectInterface {
   @PrimaryKey()
   id: number;
 
@@ -16,34 +17,34 @@ export class ProjectEntity {
   draft: boolean;
 
   @Property({ type: 'json' })
-  datasets: object;
+  datasets: DatasetInterface[];
 
   @Property()
   description: string;
 
   @ManyToOne(() => UserEntity)
-  owner!: UserEntity;
+  owner!: UserInterface;
 
   @ManyToMany(() => UserEntity)
-  contributors: UserEntity[];
+  contributors: UserInterface[];
 
   @Property({ type: 'json' })
-  config: object;
+  config: SavedMapConfig;
 
   @Property()
-  version: string;
+  version: 'v1';
 
-  constructor(
-    title: string,
-    createdAt: Date,
-    draft: boolean,
-    datasets: object,
-    description: string,
-    owner: UserEntity,
-    contributors: UserEntity[],
-    config: object,
-    version: string
-  ) {
+  constructor({
+    title,
+    createdAt,
+    draft,
+    datasets,
+    description,
+    owner,
+    contributors,
+    config,
+    version,
+  }: ProjectInterface) {
     this.title = title;
     this.createdAt = createdAt;
     this.draft = draft;
@@ -53,5 +54,9 @@ export class ProjectEntity {
     this.contributors = contributors;
     this.config = config;
     this.version = version;
+  }
+
+  isOwnedBy({ id }: Pick<UserInterface, 'id'>) {
+    return this.id === id;
   }
 }
