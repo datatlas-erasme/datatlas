@@ -14,7 +14,11 @@ export class AppService implements OnApplicationBootstrap {
     //     -> Users : create one admin user (for true final purpose) and one simple dummy user (for tests)
     // -> todo : explain all tasks made during startup
     Logger.log('SEEDING USERS --- using data from your apps/backend/.env file');
-    const userAdmin = { email: process.env.ADMIN_EMAIL, password: process.env.ADMIN_PASSWORD, role: Roles.ADMIN };
+    const userAdmin = {
+      email: process.env.ADMIN_EMAIL,
+      password: process.env.ADMIN_PASSWORD,
+      role: Roles.ADMIN,
+    };
     const userDummyEditor = {
       email: process.env.DUMMY_EDITOR_EMAIL,
       password: process.env.DUMMY_EDITOR_PASSWORD,
