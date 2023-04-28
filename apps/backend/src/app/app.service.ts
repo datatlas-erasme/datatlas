@@ -17,7 +17,7 @@ export class AppService implements OnApplicationBootstrap {
     const userAdmin = {
       email: process.env.ADMIN_EMAIL,
       password: process.env.ADMIN_PASSWORD,
-      role: Roles.ADMIN
+      role: Roles.ADMIN,
     };
     const userDummyEditor = {
       email: process.env.DUMMY_EDITOR_EMAIL,

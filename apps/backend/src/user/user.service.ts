@@ -73,7 +73,6 @@ export class UserService {
     userAdmin: Pick<CreateUserDto, 'email' | 'password'>,
     userDummyEditor: Pick<CreateUserDto, 'email' | 'password'>
   ) {
-    console.log('dans le create on startup');
     try {
       console.log('userAdmin', userAdmin);
       await this.createUser(userAdmin);
