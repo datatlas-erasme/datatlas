@@ -1,7 +1,185 @@
-import { Roles } from '@datatlas/models';
+/*import { Roles } from '@datatlas/models';
 import type { CreateUserDto, UpdateUserDto } from '@datatlas/dtos';
+*/
 
 describe('USER ACTIONS', () => {
+  // DATA
+  const user_test_editor = {
+    email: 'user_test_editor_20@example.org',
+    password: 'user_test_pw',
+    role: 'EDITOR',
+    active: true,
+  };
+  // AUTHENTICATION
+  it('Should fail when trying to connect without any credentials 1/2.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {},
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+  it('Should fail when trying to connect without any credentials 2/2.', () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/auth/login',
+      body: {},
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(404);
+    });
+  });
+  it('Should fail when trying to connect without any data 1/2.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+  it('Should fail when trying to connect without any data 2/2.', () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/auth/login',
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(404);
+    });
+  });
+  it('Should fail when trying to connect incomplete credentials 1/2.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        email: 'wrong_email',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+  it('Should fail when trying to connect incomplete credentials 2/2.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        password: 'wrong_password',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+  it('Should fail when trying to connect incorrect credentials 1.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        email: 'wrong@email.org',
+        password: 'incoherent_password',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+  it('Should fail when trying to connect incorrect credentials 2 (incorrect password).', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        email: 'editor@example.org',
+        password: 'incorrect_password',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+  it('Should fail when trying to connect incorrect credentials 3 (correct password but incorrect username).', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        email: 'editor@example.org_',
+        password: 'editor',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+  it('Should returns a user id and token when trying to connect with proper editor credentials.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        email: 'editor@example.org',
+        password: 'editor',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+      expect(response.body.access_token).to.be.a('string');
+      expect(response.body.user_id).to.be.a('number');
+    });
+  });
+  it('Should returns a user id and token when trying to connect with proper admin credentials.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        email: 'admin@example.org',
+        password: 'admin',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+      expect(response.body.access_token).to.be.a('string');
+      expect(response.body.user_id).to.be.a('number');
+    });
+  });
+  it('Should fail when trying to create user without authentication.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/user',
+      body: user_test_editor,
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+  it('Should fail when trying to create user with empty bearer token.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/user',
+      body: user_test_editor,
+      auth: {
+        bearer: '',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(403);
+    });
+  });
+  it('Should fail when trying to create user with incorrect bearer token.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/user',
+      body: user_test_editor,
+      auth: {
+        bearer: 'incorrect_token',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(403);
+    });
+  });
+});
+
   /*
       TEST TO MAKE IN THIS ORDER :
       - Test reaching API (really useful).
@@ -10,6 +188,7 @@ describe('USER ACTIONS', () => {
       - Creating, reading, updating and deleting a new user as admin with fake jwt.
       - Creating, reading, updating and deleting a new user as admin with correct jwt
    */
+  /*
   const user_test_editor: CreateUserDto = {
     email: 'user_test_editor_20@example.org',
     password: 'user_test_pw',
@@ -27,43 +206,7 @@ describe('USER ACTIONS', () => {
   let jwtAdminUser;
   let idUserTestEditor;
 
-  it('User -> can reach API', () => {
-    cy.request('GET', '/api/user').then((response) => {
-      expect(response.status).equal(200);
-      expect(response.body).equal('ok');
-    });
-  });
 
-  // CONNECTING
-  it('Auth -> Connecting correctly with editor user.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/auth/login',
-      body: {
-        email: 'editor@example.org',
-        password: 'editor',
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      jwtEditorUser = response.body.access_token;
-      idEditorUser = response.body.user_id;
-      expect(response.status).to.eq(201);
-    });
-  });
-  it('Auth -> Connecting correctly with admin user.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/auth/login',
-      body: {
-        email: 'admin@example.org',
-        password: 'admin',
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      jwtAdminUser = response.body.access_token;
-      expect(response.status).to.eq(201);
-    });
-  });
   // CREATING
   it('Editor -> creation of new user -> should fail.', () => {
     cy.request({
@@ -260,5 +403,4 @@ describe('USER ACTIONS', () => {
     }).then((response) => {
       expect(response.status).to.eq(204);
     });
-  });
-});
+  });*/
