@@ -18,6 +18,11 @@
     "noImplicitAny": false,
     "noImplicitUseStrict": true,
     "jsx": "react",
+    "paths": {
+      "@datatlas/models": ["libs/models/index.ts"],
+      "@datatlas/dtos": ["libs/dtos/src/index.ts"],
+      "@datatlas/entities": ["libs/entities/src/index.ts"]
+    },
     "typeRoots": ["../../../node_modules/@types", "../../libs/models/types"]
   },
   "files": [],
