@@ -10,7 +10,6 @@ export class AppController {
   @UseGuards(AuthGuard('local'))
   @Post('auth/login')
   async login(@Body() loginDto: LoginDto) {
-    console.log('dzadzadza');
     return this.authService.login(loginDto);
   }
 }
