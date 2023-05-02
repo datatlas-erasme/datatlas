@@ -6,6 +6,8 @@ import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
 import { AdminGuard } from '../auth/admin.guard';
 import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { UserEntity } from './entities/user.entity';
+import { CanCreateUserGuard } from '../auth/can-create-user.guard';
+import { CanGetUserGuard } from '../auth/can-get-user';
 
 @ApiBearerAuth()
 @Controller('user')
@@ -17,30 +19,30 @@ export class UserController {
   @Get()
   @HttpCode(200)
   @Header('Cache-Control', 'none')
-  async test(): Promise<string> {
+  test(): string {
     return 'ok';
   }
 
   @Post()
   @HttpCode(201)
-  @UseGuards(AdminGuard)
+  @UseGuards(CanCreateUserGuard)
   @Header('Cache-Control', 'none')
   /**
-   * Sends a 201 (with id user as a body response) if all works. In case of already existing email, nothing is done
-   * and 0 is sent back.
+   * Sends a 201 (with id user as a body response) if all works. In case of already existing email, returns error 400.
    */
   async createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
   }
 
-  @Get(':id')
+  @Get(':id') /*
   @ApiResponse({
     status: 200,
     type: UserEntity,
-  })
-  @UseGuards(ValidJwtGuard, SelfOrAdminGuard)
+  })*/
+  //@UseGuards(ValidJwtGuard, SelfOrAdminGuard)
+  @UseGuards(CanGetUserGuard)
   findOne(@Param('id') id: UserEntity['id']): Promise<UserEntity> {
-    return this.userService.getUser(+id);
+    return this.userService.getUser(id);
   }
 
   @Put(':id')

@@ -16,7 +16,6 @@ export class AuthService {
     if (exists) {
       // Same encrypted password ?
       const user = await this.userService.getUserByEmail(loginDto.email);
-      console.log('user', user);
       return await bcrypt.compare(loginDto.password, user.password);
     }
     return false;
@@ -41,8 +40,16 @@ export class AuthService {
     if (!headers['authorization']) {
       return null;
     }
-
     const headerString = headers['authorization'].split(' ');
-    return new UserCredentials(this.jwtService.decode(headerString[1]) as UserCredentialsInterface);
+    if (headerString.length !== 2) {
+      // No bearer token fount.
+      return null;
+    }
+    const decode = this.jwtService.decode(headerString[1]);
+    if (decode === null) {
+      // Unknown bearer token.
+      return null;
+    }
+    return new UserCredentials(decode as UserCredentialsInterface);
   }
 }
