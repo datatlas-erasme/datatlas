@@ -1,14 +1,18 @@
-import type {CreateUserDto} from '@datatlas/dtos';
-import {Roles} from "@datatlas/models";
-import {number} from "prop-types";
+import type { CreateUserDto } from '@datatlas/dtos';
+import { Roles } from '@datatlas/models';
+import { number } from 'prop-types';
 
 describe('USER ACTIONS', () => {
   // RANDOM
-  const random = "x".repeat(5)
-    .replace(/./g, c => "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[Math.floor(Math.random() * 62) ] );
+  const random = 'x'
+    .repeat(5)
+    .replace(
+      /./g,
+      (c) => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 62)]
+    );
   // DATA
-  const user_test_editor:CreateUserDto = {
-    email: 'user_test_editor_'+random+'@example.org',
+  const user_test_editor: CreateUserDto = {
+    email: 'user_test_editor_' + random + '@example.org',
     password: 'user_test_pw',
     role: Roles.EDITOR,
     active: true,

@@ -41,11 +41,13 @@ export class AuthService {
       return null;
     }
     const headerString = headers['authorization'].split(' ');
-    if (headerString.length!==2){ // No bearer token fount.
+    if (headerString.length !== 2) {
+      // No bearer token fount.
       return null;
     }
     const decode = this.jwtService.decode(headerString[1]);
-    if (decode===null){ // Unknown bearer token.
+    if (decode === null) {
+      // Unknown bearer token.
       return null;
     }
     return new UserCredentials(decode as UserCredentialsInterface);

@@ -6,7 +6,7 @@ import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
 import { AdminGuard } from '../auth/admin.guard';
 import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { UserEntity } from './entities/user.entity';
-import {CanCreateUserGuard} from "../auth/can-create-user.guard";
+import { CanCreateUserGuard } from '../auth/can-create-user.guard';
 
 @ApiBearerAuth()
 @Controller('user')
