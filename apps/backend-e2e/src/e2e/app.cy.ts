@@ -1,4 +1,4 @@
-escribe('Backend', () => {
+describe('Backend', () => {
   beforeEach(() => cy.visit('/api/'));
 
   it('Should display the API documentation', () => {
