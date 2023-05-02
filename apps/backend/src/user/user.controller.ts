@@ -6,6 +6,7 @@ import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
 import { AdminGuard } from '../auth/admin.guard';
 import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { UserEntity } from './entities/user.entity';
+import {CanCreateUserGuard} from "../auth/can-create-user.guard";
 
 @ApiBearerAuth()
 @Controller('user')
@@ -23,7 +24,7 @@ export class UserController {
 
   @Post()
   @HttpCode(201)
-  @UseGuards(AdminGuard)
+  @UseGuards(CanCreateUserGuard)
   @Header('Cache-Control', 'none')
   /**
    * Sends a 201 (with id user as a body response) if all works. In case of already existing email, nothing is done
