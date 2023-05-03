@@ -1,16 +1,24 @@
-import { DatasetInterface, HasOwnerIdInterface, ProjectInterface } from '@datatlas/models';
+import { DatasetInterface, ProjectInterface } from '@datatlas/models';
 import { ConfigDto } from './config.dto';
+import { IsBoolean, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 export class CreateProjectDto
-  implements Omit<Partial<ProjectInterface>, 'id' | 'owner' | 'contributors' | 'createdAt'>, HasOwnerIdInterface
+  implements Omit<Partial<ProjectInterface>, 'id' | 'owner' | 'contributors' | 'createdAt'>
 {
-  readonly title: string;
-  draft: boolean;
-  datasets: DatasetInterface[];
+  @IsString()
+  title: string;
+  @IsOptional()
+  @IsBoolean()
+  draft? = true;
+  datasets: DatasetInterface[] = [];
+  @IsOptional()
+  @IsString()
   description?: string;
-  ownerId: number;
-  contributors: number[];
-  config: ConfigDto;
+  contributors: number[] = [];
+  @IsOptional()
+  @ValidateNested()
+  config: ConfigDto = new ConfigDto();
+  @IsOptional()
   version? = 'v1' as const;
 
   constructor(createProjectDto: CreateProjectDto) {

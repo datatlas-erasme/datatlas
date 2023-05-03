@@ -7,7 +7,7 @@ import { UserInterface } from '@datatlas/models';
 
 interface CardProjectDetailsInterface {
   owner: UserInterface;
-  description: string;
+  description?: string;
   createdAt: Date;
   title: string;
   contributors: UserInterface[];
