@@ -14,7 +14,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['verbose'],
   });
-  app.useGlobalPipes(new ValidationPipe({ forbidUnknownValues: false, enableDebugMessages: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      skipMissingProperties: false,
+      enableDebugMessages: true,
+      transform: true,
+    })
+  );
 
   await app.get(MikroORM).getSchemaGenerator().ensureDatabase();
   await app.get(MikroORM).getSchemaGenerator().updateSchema();

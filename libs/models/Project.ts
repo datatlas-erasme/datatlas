@@ -16,7 +16,7 @@ export class Project implements ProjectInterface {
   createdAt: Date;
   draft: boolean;
   datasets: DatasetInterface[] = [];
-  description: string;
+  description?: string;
   owner: UserInterface;
   contributors: UserInterface[];
   config: KeplerMapConfig;
