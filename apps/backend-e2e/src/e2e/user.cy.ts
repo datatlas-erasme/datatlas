@@ -19,6 +19,7 @@ describe('USER ACTIONS', () => {
   };
   let editorToken: string;
   let adminToken: string;
+  let editorId: number;
   // AUTHENTICATION
   it('Should fail when trying to connect without any credentials 1/2.', () => {
     cy.request({
@@ -217,6 +218,7 @@ describe('USER ACTIONS', () => {
       expect(response.body.role).to.eq(user_test_editor.role);
       expect(response.body.email).to.eq(user_test_editor.email);
       expect(response.body.active).to.eq(user_test_editor.active);
+      editorId = response.body.id;
     });
   });
   it('Should fail when trying to add user with already used email (with admin bearer token).', () => {
@@ -230,6 +232,18 @@ describe('USER ACTIONS', () => {
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(400);
+    });
+  });
+  it('Should fail when requesting info about another user as an editor.', () => {
+    cy.request({
+      method: 'GET',
+      url: `/api/user/ + ${editorId}`,
+      failOnStatusCode: false,
+      auth: {
+        bearer: editorToken,
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(403);
     });
   });
 });
@@ -261,68 +275,6 @@ describe('USER ACTIONS', () => {
   let idUserTestEditor;
 
 
-  // CREATING
-  it('Editor -> creation of new user -> should fail.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/user',
-      body: user_test_editor,
-      auth: {
-        bearer: jwtEditorUser,
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(403);
-    });
-  });
-  it('Admin -> creation of new editor user -> should not fail.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/user',
-      body: user_test_editor,
-      auth: {
-        bearer: jwtAdminUser,
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      console.log('response.body', response.body);
-      idUserTestEditor = response.body.id;
-      expect(response.status).to.eq(201);
-      expect(response.body).to.be.a('number').greaterThan(0);
-    });
-  });
-  it('Admin -> creation of same new editor user -> should fail', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/user',
-      body: {
-        email: user_test_editor.email,
-        password: 'random_string',
-        role: Roles.EDITOR,
-        active: false,
-      } as CreateUserDto,
-      auth: {
-        bearer: jwtAdminUser,
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(400);
-    });
-  });
-  it('Admin -> creation of new admin user -> should not fail.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/user',
-      body: user_test_admin,
-      auth: {
-        bearer: jwtAdminUser,
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(201);
-      expect(response.body.id).to.be.a('number').greaterThan(0);
-    });
-  });
   // READING
   it('Editor -> Get info about another user as an editor -> should fail.', () => {
     cy.request({
