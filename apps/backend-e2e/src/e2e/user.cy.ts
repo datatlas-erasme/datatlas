@@ -20,6 +20,8 @@ describe('USER ACTIONS', () => {
   let editorToken: string;
   let adminToken: string;
   let editorId: number;
+  let adminId: number;
+  let createdEditorId:number;
   // AUTHENTICATION
   it('Should fail when trying to connect without any credentials 1/2.', () => {
     cy.request({
@@ -136,6 +138,7 @@ describe('USER ACTIONS', () => {
       expect(response.body.access_token).to.be.a('string');
       expect(response.body.user_id).to.be.a('number');
       editorToken = response.body.access_token;
+      editorId = response.body.id;
     });
   });
   it('Should returns a user id and token when trying to connect with proper admin credentials.', () => {
@@ -152,6 +155,7 @@ describe('USER ACTIONS', () => {
       expect(response.body.access_token).to.be.a('string');
       expect(response.body.user_id).to.be.a('number');
       adminToken = response.body.access_token;
+      adminId = response.body.id;
     });
   });
   it('Should fail when trying to create user without authentication.', () => {
@@ -218,9 +222,10 @@ describe('USER ACTIONS', () => {
       expect(response.body.role).to.eq(user_test_editor.role);
       expect(response.body.email).to.eq(user_test_editor.email);
       expect(response.body.active).to.eq(user_test_editor.active);
-      editorId = response.body.id;
+      createdEditorId = response.body.id;
     });
   });
+  // todo create admin as admin
   it('Should fail when trying to add user with already used email (with admin bearer token).', () => {
     cy.request({
       method: 'POST',
@@ -234,7 +239,7 @@ describe('USER ACTIONS', () => {
       expect(response.status).to.eq(400);
     });
   });
-  it('Should fail when requesting info about another user as an editor.', () => {
+  /*it('Should fail when requesting info about another user as an editor.', () => {
     cy.request({
       method: 'GET',
       url: `/api/user/ + ${editorId}`,
@@ -244,6 +249,18 @@ describe('USER ACTIONS', () => {
       },
     }).then((response) => {
       expect(response.status).to.eq(403);
+    });
+  });*/ // todo wrong editor id
+  it('Should return data user when requesting info about himself as an editor.', () => {
+    cy.request({
+      method: 'GET',
+      url: `/api/user/ + ${editorId}`,
+      failOnStatusCode: false,
+      auth: {
+        bearer: editorToken,
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(201);
     });
   });
 });

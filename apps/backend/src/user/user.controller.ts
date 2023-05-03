@@ -42,7 +42,7 @@ export class UserController {
   //@UseGuards(ValidJwtGuard, SelfOrAdminGuard)
   @UseGuards(CanGetUserGuard)
   findOne(@Param('id') id: UserEntity['id']): Promise<UserEntity> {
-    return this.userService.getUser(+id);
+    return this.userService.getUser(id);
   }
 
   @Put(':id')
