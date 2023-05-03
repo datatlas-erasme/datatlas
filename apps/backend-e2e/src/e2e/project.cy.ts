@@ -1,4 +1,4 @@
-import type { CreateProjectDto, ProjectDto, UpdateProjectDto } from '@datatlas/dtos';
+import type { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 
 describe('PROJECT ACTIONS', () => {
   const testCreateProject: CreateProjectDto = {
@@ -8,7 +8,6 @@ describe('PROJECT ACTIONS', () => {
     description: 'description du projet 2',
     config: undefined,
     version: 'v1' as const,
-    ownerId: 1,
     contributors: [63, 64], // Shall we really send IDs ? Maybe usernames instead ?
   };
   const testUpdateProjectDto: UpdateProjectDto = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { CreateMapPayloadInterface, DEFAULT_MAP_STYLES } from '@datatlas/models';
+import { CreateMapPayloadInterface, KeplerMapStyle } from '@datatlas/models';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
 import { StyledFormBtn } from '../buttons';
 import { StyledLabel } from '../forms';
@@ -36,7 +36,7 @@ export function StartNewProjectForm({ onSubmit }: StartNewProjectFormProps) {
         <FormattedMessage id={'createProjectForm.mapStyle'} defaultMessage={'Sélectionnez un fond de carte'} />
       </StyledLabel>
       <select {...register('mapStyleId')}>
-        {DEFAULT_MAP_STYLES.map(({ id, label }) => (
+        {KeplerMapStyle.DEFAULT_MAP_STYLES.map(({ id, label }) => (
           <option key={id} value={id}>
             {label}
           </option>

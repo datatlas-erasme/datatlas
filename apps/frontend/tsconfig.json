@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "strictPropertyInitialization": false,
 
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -20,8 +21,7 @@
     "jsx": "react",
     "paths": {
       "@datatlas/models": ["libs/models/index.ts"],
-      "@datatlas/dtos": ["libs/dtos/src/index.ts"],
-      "@datatlas/entities": ["libs/entities/src/index.ts"]
+      "@datatlas/dtos": ["libs/dtos/src/index.ts"]
     },
     "typeRoots": ["../../../node_modules/@types", "../../libs/models/types"]
   },

@@ -49,6 +49,20 @@ nx run-many --target=lint
 
 > see [./apps/frontend/src/i18n/index.md](./apps/frontend/src/i18n/index.md)
 
+### Update dependencies
+
+For example update `nestjs` :
+
+```shell
+npx npm-check-updates --filter "@nestjs/*" -u
+```
+
+Or to update `mikro-orm` :
+
+```
+npx npm-check-updates --filter "@mikro-orm/*" -u
+```
+
 ### Frontend
 
 **Kepler.gl** uses **Mapbox GL JS** to render map styles.
