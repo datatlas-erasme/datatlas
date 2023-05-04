@@ -68,7 +68,7 @@ describe('AUTHENTIFICATION TESTS', () => {
   it('Auth -> Check self-profile of admin user with wrong jwt.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${idUserAdmin}`,
+      url: `/api/users/${idUserAdmin}`,
       failOnStatusCode: false,
       auth: {
         bearer: 'incorrect_jwt',
@@ -80,7 +80,7 @@ describe('AUTHENTIFICATION TESTS', () => {
   it('Auth -> Check self-profile of admin user with correct jwt.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${idUserAdmin}`,
+      url: `/api/users/${idUserAdmin}`,
       failOnStatusCode: false,
       auth: {
         bearer: jwtUser,
@@ -124,7 +124,7 @@ describe('AUTHENTIFICATION TESTS', () => {
   it('Auth -> Check self-profile of editor user with wrong jwt.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${idUserEditor}`,
+      url: `/api/users/${idUserEditor}`,
       failOnStatusCode: false,
       auth: {
         bearer: 'incorrect_jwt',
@@ -136,7 +136,7 @@ describe('AUTHENTIFICATION TESTS', () => {
   it('Auth -> Check self-profile of editor user with correct jwt.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${idUserEditor}`,
+      url: `/api/users/${idUserEditor}`,
       failOnStatusCode: false,
       auth: {
         bearer: jwtUser,

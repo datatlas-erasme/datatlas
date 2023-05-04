@@ -168,7 +168,7 @@ describe('USER ACTIONS', () => {
   it('Should fail when trying to create user without authentication.', () => {
     cy.request({
       method: 'POST',
-      url: '/api/user',
+      url: '/api/users',
       body: user_test_editor,
       failOnStatusCode: false,
     }).then((response) => {
@@ -178,7 +178,7 @@ describe('USER ACTIONS', () => {
   it('Should fail when trying to create user with empty bearer token.', () => {
     cy.request({
       method: 'POST',
-      url: '/api/user',
+      url: '/api/users',
       body: user_test_editor,
       auth: {
         bearer: '',
@@ -191,7 +191,7 @@ describe('USER ACTIONS', () => {
   it('Should fail when trying to create user with incorrect bearer token.', () => {
     cy.request({
       method: 'POST',
-      url: '/api/user',
+      url: '/api/users',
       body: user_test_editor,
       auth: {
         bearer: 'incorrect_token',
@@ -204,7 +204,7 @@ describe('USER ACTIONS', () => {
   it('Should fail when trying to create user with editor bearer token.', () => {
     cy.request({
       method: 'POST',
-      url: '/api/user',
+      url: '/api/users',
       body: user_test_editor,
       auth: {
         bearer: editorToken,
@@ -217,7 +217,7 @@ describe('USER ACTIONS', () => {
   it('Should return new user when trying to create user with admin bearer token.', () => {
     cy.request({
       method: 'POST',
-      url: '/api/user',
+      url: '/api/users',
       body: user_test_editor,
       auth: {
         bearer: adminToken,
@@ -235,7 +235,7 @@ describe('USER ACTIONS', () => {
   it('Should return new user when trying to create an admin user with admin bearer token.', () => {
     cy.request({
       method: 'POST',
-      url: '/api/user',
+      url: '/api/users',
       body: user_test_admin,
       auth: {
         bearer: adminToken,
@@ -253,7 +253,7 @@ describe('USER ACTIONS', () => {
   it('Should fail when trying to add user with already used email (with admin bearer token).', () => {
     cy.request({
       method: 'POST',
-      url: '/api/user',
+      url: '/api/users',
       body: user_test_editor,
       auth: {
         bearer: adminToken,
@@ -266,7 +266,7 @@ describe('USER ACTIONS', () => {
   it('Should return data user when requesting info about himself as an editor.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${editorId}`,
+      url: `/api/users/${editorId}`,
       failOnStatusCode: false,
       auth: {
         bearer: editorToken,
@@ -282,7 +282,7 @@ describe('USER ACTIONS', () => {
   it('Should fail when requesting info about another user as an editor.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${createdEditorId}`,
+      url: `/api/users/${createdEditorId}`,
       failOnStatusCode: false,
       auth: {
         bearer: editorToken,
@@ -294,7 +294,7 @@ describe('USER ACTIONS', () => {
   it('Should return data user when requesting info about himself as an admin.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${adminId}`,
+      url: `/api/users/${adminId}`,
       failOnStatusCode: false,
       auth: {
         bearer: adminToken,
@@ -310,7 +310,7 @@ describe('USER ACTIONS', () => {
   it('Should return data user when requesting info about another user as an admin.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${createdEditorId}`,
+      url: `/api/users/${createdEditorId}`,
       failOnStatusCode: false,
       auth: {
         bearer: adminToken,
@@ -326,7 +326,7 @@ describe('USER ACTIONS', () => {
   it('Should return data from all users when requesting them as an admin.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/`,
+      url: `/api/users/`,
       failOnStatusCode: false,
       auth: {
         bearer: adminToken,
@@ -339,7 +339,7 @@ describe('USER ACTIONS', () => {
   it('Should fail when trying to get all users as an editor.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/`,
+      url: `/api/users/`,
       failOnStatusCode: false,
       auth: {
         bearer: editorToken,
@@ -381,7 +381,7 @@ describe('USER ACTIONS', () => {
   it('Editor -> Get info about another user as an editor -> should fail.', () => {
     cy.request({
       method: 'GET',
-      url: '/api/user/' + idUserTestEditor,
+      url: '/api/users/' + idUserTestEditor,
       failOnStatusCode: false,
       auth: {
         bearer: jwtEditorUser,
@@ -393,7 +393,7 @@ describe('USER ACTIONS', () => {
   it('Admin -> Get info about another user as an admin -> should not fail.', () => {
     cy.request({
       method: 'GET',
-      url: '/api/user/' + idEditorUser,
+      url: '/api/users/' + idEditorUser,
       failOnStatusCode: false,
       auth: {
         bearer: jwtAdminUser,
@@ -417,7 +417,7 @@ describe('USER ACTIONS', () => {
     };
     cy.request({
       method: 'PUT',
-      url: '/api/user/' + idEditorUser,
+      url: '/api/users/' + idEditorUser,
       body,
       failOnStatusCode: false,
       auth: {
@@ -438,7 +438,7 @@ describe('USER ACTIONS', () => {
 
     cy.request({
       method: 'PUT',
-      url: '/api/user/' + idUserTestEditor,
+      url: '/api/users/' + idUserTestEditor,
       body,
       failOnStatusCode: false,
       auth: {
@@ -458,7 +458,7 @@ describe('USER ACTIONS', () => {
     };
     cy.request({
       method: 'PUT',
-      url: '/api/user/' + idUserTestEditor,
+      url: '/api/users/' + idUserTestEditor,
       body,
       failOnStatusCode: false,
       auth: {
@@ -478,7 +478,7 @@ describe('USER ACTIONS', () => {
     };
     cy.request({
       method: 'PUT',
-      url: '/api/user/' + idUserTestEditor,
+      url: '/api/users/' + idUserTestEditor,
       body,
       failOnStatusCode: false,
       auth: {
@@ -491,7 +491,7 @@ describe('USER ACTIONS', () => {
   it('Editor -> Deletion of any user -> should fail.', () => {
     cy.request({
       method: 'DELETE',
-      url: '/api/user/' + idUserTestEditor,
+      url: '/api/users/' + idUserTestEditor,
       failOnStatusCode: false,
       auth: {
         bearer: jwtEditorUser,
@@ -503,7 +503,7 @@ describe('USER ACTIONS', () => {
   it('Admin -> Deletion of editor created for tests -> should not fail.', () => {
     cy.request({
       method: 'DELETE',
-      url: '/api/user/' + idUserTestEditor,
+      url: '/api/users/' + idUserTestEditor,
       failOnStatusCode: false,
       auth: {
         bearer: jwtAdminUser,

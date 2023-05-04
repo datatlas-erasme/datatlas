@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { CreateUserDto, GetUserDto, UpdateUserDto } from '@datatlas/dtos';
 import { AdminGuard } from '../auth/admin.guard';
@@ -10,7 +10,7 @@ import { CanGetUserGuard } from '../auth/can-get-user.guard';
 import { CanGetUsersGuard } from '../auth/can-get-users.guard';
 
 @ApiBearerAuth()
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -20,20 +20,13 @@ export class UserController {
   @HttpCode(201)
   @UseGuards(CanCreateUserGuard)
   @Header('Cache-Control', 'none')
-  /**
-   * Sends a 201 (with id user as a body response) if all works. In case of already existing email, returns error 400.
-   */
   async createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
   }
 
-  @Get(':id') /*
-  @ApiResponse({
-    status: 200,
-    type: UserEntity,
-  })*/
+  @Get(':id')
   @UseGuards(CanGetUserGuard)
-  findOne(@Param('id') id: UserEntity['id']): Promise<GetUserDto> {
+  findOne(@Param('id') id: number): Promise<GetUserDto> {
     return this.userService.getUserDto(id);
   }
 
