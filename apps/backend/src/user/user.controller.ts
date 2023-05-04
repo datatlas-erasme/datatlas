@@ -1,66 +1,52 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto } from '@datatlas/dtos';
-import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
-import { AdminGuard } from '../auth/admin.guard';
-import { ValidJwtGuard } from '../auth/validJwt.guard';
-import { UserEntity } from './entities/user.entity';
+import { CreateUserDto, GetUserDto, UpdateUserDto } from '@datatlas/dtos';
 import { CanCreateUserGuard } from '../auth/can-create-user.guard';
-import { CanGetUserGuard } from '../auth/can-get-user';
+import { CanGetUserGuard } from '../auth/can-get-user.guard';
+import { CanGetUsersGuard } from '../auth/can-get-users.guard';
+import { CanEditUserGuard } from '../auth/can-edit-user.guard';
+import { CanDeleteUserGuard } from '../auth/can-delete_user.guard';
 
 @ApiBearerAuth()
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   // todo check if @headers should be placed on each route and if so, place them with proper options
 
-  @Get()
-  @HttpCode(200)
-  @Header('Cache-Control', 'none')
-  test(): string {
-    return 'ok';
-  }
-
   @Post()
   @HttpCode(201)
   @UseGuards(CanCreateUserGuard)
   @Header('Cache-Control', 'none')
-  /**
-   * Sends a 201 (with id user as a body response) if all works. In case of already existing email, returns error 400.
-   */
   async createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
   }
 
-  @Get(':id') /*
-  @ApiResponse({
-    status: 200,
-    type: UserEntity,
-  })*/
-  //@UseGuards(ValidJwtGuard, SelfOrAdminGuard)
+  @Get(':id')
   @UseGuards(CanGetUserGuard)
-  findOne(@Param('id') id: UserEntity['id']): Promise<UserEntity> {
-    return this.userService.getUser(id);
+  findOne(@Param('id') id: number): Promise<GetUserDto> {
+    return this.userService.getUserDto(id);
+  }
+
+  @UseGuards(CanGetUsersGuard)
+  @Get()
+  async findAll(): Promise<GetUserDto[]> {
+    return await this.userService.findAll();
   }
 
   @Put(':id')
-  @HttpCode(204)
-  @UseGuards(ValidJwtGuard, AdminGuard) // For now, only admins can do that.
+  @HttpCode(200)
+  @UseGuards(CanEditUserGuard)
   @Header('Cache-Control', 'none')
-  async updateUser(@Param() params, @Body() updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    return this.userService.updateUser(updateUserDto);
+  async updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<GetUserDto> {
+    return await this.userService.updateUser({ ...updateUserDto, id: id });
   }
 
   @Delete(':id')
   @HttpCode(204)
-  @UseGuards(ValidJwtGuard, AdminGuard) // For now, only admins can do that.
+  @UseGuards(CanDeleteUserGuard)
   @Header('Cache-Control', 'none')
-  /**
-   * Delete a user in database using its user_id. Nothing is done if no user has this id.
-   * Returns void.
-   */
   async deleteUser(@Param('id') id: number): Promise<void> {
     return this.userService.deleteUserById(id);
   }

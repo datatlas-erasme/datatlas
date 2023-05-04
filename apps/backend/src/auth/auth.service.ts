@@ -36,8 +36,10 @@ export class AuthService {
   }
 
   async getLoggedUserCredentials(request): Promise<UserCredentials> {
+    console.log('dans le loggedusercred');
     const { headers } = request;
     if (!headers['authorization']) {
+      console.log('pas de auth');
       return null;
     }
     const headerString = headers['authorization'].split(' ');

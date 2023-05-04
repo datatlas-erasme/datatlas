@@ -1,3 +1,5 @@
+import {faker} from "@faker-js/faker";
+
 describe('AUTHENTIFICATION TESTS', () => {
   /*
       TESTS TO MAKE IN THIS ORDER
@@ -29,8 +31,8 @@ describe('AUTHENTIFICATION TESTS', () => {
       method: 'POST',
       url: '/api/auth/login',
       body: {
-        email: 'unknown_user_toto@example.org', // todo make it random (using faker ?)
-        password: 'unknown_user_pw',
+        email: faker.internet.email(),
+        password: faker.internet.password(),
       },
       failOnStatusCode: false,
     }).then((response) => {
@@ -43,7 +45,7 @@ describe('AUTHENTIFICATION TESTS', () => {
       url: '/api/auth/login',
       body: {
         email: 'admin@example.org',
-        password: 'unknown_user_pw',
+        password: faker.internet.password(),
       },
       failOnStatusCode: false,
     }).then((response) => {
@@ -68,7 +70,7 @@ describe('AUTHENTIFICATION TESTS', () => {
   it('Auth -> Check self-profile of admin user with wrong jwt.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${idUserAdmin}`,
+      url: `/api/users/${idUserAdmin}`,
       failOnStatusCode: false,
       auth: {
         bearer: 'incorrect_jwt',
@@ -80,7 +82,7 @@ describe('AUTHENTIFICATION TESTS', () => {
   it('Auth -> Check self-profile of admin user with correct jwt.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${idUserAdmin}`,
+      url: `/api/users/${idUserAdmin}`,
       failOnStatusCode: false,
       auth: {
         bearer: jwtUser,
@@ -124,7 +126,7 @@ describe('AUTHENTIFICATION TESTS', () => {
   it('Auth -> Check self-profile of editor user with wrong jwt.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${idUserEditor}`,
+      url: `/api/users/${idUserEditor}`,
       failOnStatusCode: false,
       auth: {
         bearer: 'incorrect_jwt',
@@ -136,7 +138,7 @@ describe('AUTHENTIFICATION TESTS', () => {
   it('Auth -> Check self-profile of editor user with correct jwt.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/${idUserEditor}`,
+      url: `/api/users/${idUserEditor}`,
       failOnStatusCode: false,
       auth: {
         bearer: jwtUser,
