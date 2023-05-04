@@ -37,7 +37,8 @@ export class UserService {
     return new GetUserDto(getUserDto);
   }
 
-  async getUserByEmail(email: string): Promise<UserEntity> { // Function to remove ?
+  async getUserByEmail(email: string): Promise<UserEntity> {
+    // Function to remove ?
     return await this.userRepository.findOne({ email }).then((user) => {
       if (user !== null) {
         return user;
@@ -47,9 +48,9 @@ export class UserService {
   }
 
   async findAll(): Promise<GetUserDto[]> {
-    const userEntities:UserEntity[] = await this.userRepository.findAll();
-    const userDtos:GetUserDto[] = [];
-    for (const userEntity of userEntities){
+    const userEntities: UserEntity[] = await this.userRepository.findAll();
+    const userDtos: GetUserDto[] = [];
+    for (const userEntity of userEntities) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...getUserDto } = userEntity;
       userDtos.push(getUserDto);
