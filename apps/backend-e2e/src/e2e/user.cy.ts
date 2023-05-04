@@ -17,11 +17,18 @@ describe('USER ACTIONS', () => {
     role: Roles.EDITOR,
     active: true,
   };
+  const user_test_admin: CreateUserDto = {
+    email: 'user_test_admin_' + random + '@example.org',
+    password: 'user_test_pw',
+    role: Roles.ADMIN,
+    active: true,
+  };
   let editorToken: string;
   let adminToken: string;
   let editorId: number;
   let adminId: number;
   let createdEditorId: number;
+  let createdAdminId: number;
   // AUTHENTICATION
   it('Should fail when trying to connect without any credentials 1/2.', () => {
     cy.request({
@@ -225,7 +232,24 @@ describe('USER ACTIONS', () => {
       createdEditorId = response.body.id;
     });
   });
-  // todo create admin as admin
+  it('Should return new user when trying to create an admin user with admin bearer token.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/user',
+      body: user_test_admin,
+      auth: {
+        bearer: adminToken,
+      },
+      failOnStatusCode: false,
+    }).then((response: Cypress.Response<GetUserDto>) => {
+      expect(response.status).to.eq(201);
+      expect(response.body.id).to.be.a('number').greaterThan(0);
+      expect(response.body.role).to.eq(user_test_admin.role);
+      expect(response.body.email).to.eq(user_test_admin.email);
+      expect(response.body.active).to.eq(user_test_admin.active);
+      createdAdminId = response.body.id;
+    });
+  });
   it('Should fail when trying to add user with already used email (with admin bearer token).', () => {
     cy.request({
       method: 'POST',
@@ -295,7 +319,7 @@ describe('USER ACTIONS', () => {
       expect(response.status).to.eq(200);
       expect(response.body.id).to.be.a('number').greaterThan(0);
       expect(response.body.email).to.eq(user_test_editor.email);
-      expect(response.body.role).to.eq('EDITOR');
+      expect(response.body.role).to.eq(user_test_editor.role);
       expect(response.body.active).to.eq('true');
     });
   });
