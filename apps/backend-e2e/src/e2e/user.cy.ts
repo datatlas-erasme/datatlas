@@ -1,25 +1,18 @@
 import type { CreateUserDto, GetUserDto } from '@datatlas/dtos';
 import { Roles } from '@datatlas/models';
-import { number } from 'prop-types';
+import {faker} from "@faker-js/faker";
 
 describe('USER ACTIONS', () => {
-  // RANDOM
-  const random = 'x'
-    .repeat(5)
-    .replace(
-      /./g,
-      (c) => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[Math.floor(Math.random() * 62)]
-    );
   // DATA
   const user_test_editor: CreateUserDto = {
-    email: 'user_test_editor_' + random + '@example.org',
-    password: 'user_test_pw',
+    email: faker.internet.email(),
+    password: faker.internet.password(),
     role: Roles.EDITOR,
     active: true,
   };
   const user_test_admin: CreateUserDto = {
-    email: 'user_test_admin_' + random + '@example.org',
-    password: 'user_test_pw',
+    email: faker.internet.email(),
+    password: faker.internet.password(),
     role: Roles.ADMIN,
     active: true,
   };
