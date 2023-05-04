@@ -1,11 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useGetSavedProjectsQuery } from '../api';
-import { selectCurrentUserProjects } from '../store/selectors';
+import { useGetProjectsQuery } from '../store/api';
 import { ProjectList } from '../components/ProjectList';
 import Sidebar from '../components/sidebar/Sidebar';
 import { DisplayButton } from '../components/buttons';
+import { selectProjects } from '../store/selectors';
+import { useSelector } from 'react-redux';
 
 const LayoutProjects = styled.div`
   display: flex;
@@ -32,8 +32,8 @@ const HeaderProjects = styled.div`
 `;
 
 export const ProjectsPage = () => {
-  const { isLoading, isSuccess, isError, error } = useGetSavedProjectsQuery();
-  const projects = useSelector(selectCurrentUserProjects);
+  const { isLoading, isFetching, isSuccess, isError, error } = useGetProjectsQuery();
+  const projects = useSelector(selectProjects);
 
   return (
     <React.StrictMode>
@@ -44,8 +44,9 @@ export const ProjectsPage = () => {
             <DisplayButton>Voir tous</DisplayButton>
           </HeaderProjects>
           <ProjectList
-            projects={projects}
+            data={projects}
             isLoading={isLoading}
+            isFetching={isFetching}
             isSuccess={isSuccess}
             isError={isError}
             error={error}

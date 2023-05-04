@@ -2,9 +2,7 @@ import { createTransform } from 'redux-persist';
 import { KeplerGlState } from 'kepler.gl/reducers';
 import { KeplerGlSchema } from 'kepler.gl/schemas';
 import { SavedMap } from 'kepler.gl/src';
-import { reducer as keplerGlReducer, registerMap } from '../reducers/keplerGl';
-import { addDataToMap, setMapInfo, wrapTo, setLocale as setKeplerMapLocale } from 'kepler.gl/actions';
-import { getDefaultLocale } from '../../i18n/utils';
+import { addSavedMapToState } from '../reducers/keplerGl';
 
 export const KeplerGlTransform = createTransform(
   (inboundState: Record<string, KeplerGlState>) => {
@@ -15,17 +13,7 @@ export const KeplerGlTransform = createTransform(
   },
   (outboundState: Record<string, SavedMap>) => {
     return Object.keys(outboundState).reduce((inboundState, id) => {
-      const wrapToMap = wrapTo(id);
-      const savedMap = outboundState[id];
-      const loadedMap = KeplerGlSchema.load(savedMap);
-      const actions = [
-        registerMap(id),
-        wrapToMap(addDataToMap(loadedMap)),
-        wrapToMap(setMapInfo(savedMap.info)),
-        wrapToMap(setKeplerMapLocale(getDefaultLocale())),
-      ];
-
-      return { ...inboundState, ...actions.reduce(keplerGlReducer, {}) };
+      return addSavedMapToState(inboundState, { id, savedMap: outboundState[id] });
     }, {});
   },
   { whitelist: ['keplerGl'] }

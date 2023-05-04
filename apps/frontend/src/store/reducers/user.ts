@@ -1,16 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserInterface } from '@datatlas/models';
+import { LoginResponse } from '@datatlas/dtos';
 
-export type UserState = null | UserInterface['id'];
+export type UserState = {
+  id: number | null;
+  accessToken: string | null;
+};
 
-export const initialState = null as UserState;
+export const initialState: UserState = {
+  id: null,
+  accessToken: null,
+};
 
 const slice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    loggedIn: (state, action: PayloadAction<UserInterface>) => action.payload.id,
-    logout: () => null,
+    loggedIn: (state, { payload }: PayloadAction<LoginResponse>) => ({
+      id: payload.user_id,
+      accessToken: payload.access_token,
+    }),
+    logout: () => initialState,
   },
 });
 

@@ -14,6 +14,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['verbose'],
   });
+  app.enableCors({
+    credentials: true,
+    origin: true,
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       skipMissingProperties: false,

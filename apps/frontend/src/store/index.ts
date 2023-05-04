@@ -6,9 +6,9 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import { enhanceReduxMiddleware } from 'kepler.gl';
 import { reducer as rootReducer } from './reducers';
 import { initialState } from './reducers';
-import { api } from '../api';
+import { api } from './api';
 import { listenerMiddleware } from './listenerMiddleware';
-import { KeplerGlTransform } from './transforms/KeplerGlTransform';
+import './effects';
 
 const actionsBlacklist = [
   '@@keplerComponents.gl/MOUSE_MOVE',
@@ -18,9 +18,10 @@ const actionsBlacklist = [
 
 const persistConfig = {
   key: 'root',
-  blacklist: ['api', 'locale'],
+  // `api` slice could be persisted with a bit more work.
+  blacklist: ['locale', 'keplerGl', 'api'],
   storage,
-  transforms: [KeplerGlTransform],
+  transforms: [],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

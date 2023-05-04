@@ -1,17 +1,14 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { useAppDispatch } from '../../store';
 import { logout } from '../../store/reducers/user';
-import { RootState } from '../../store/reducers';
-import { selectProjectById } from '../../store/selectors';
-import { ProjectInterface } from '@datatlas/models';
 import { DatatlasLogo, HomeIcon } from '../logos';
 import { StyledBadgeOutline } from '../badges';
 import { Clock } from 'kepler.gl/dist/components/common/icons';
 import { HelpIcon, WheelIcon } from '../icon';
+import { useGetProjectQuery } from '../../store/api';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -83,7 +80,9 @@ const ProjectButton = styled.button`
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
-  const project = useSelector<RootState, ProjectInterface | null>((state) => selectProjectById(state, id));
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { data } = useGetProjectQuery(+id);
 
   return (
     <NavContainer>
@@ -93,7 +92,7 @@ const Navbar = () => {
         </Link>
         <DatatlasLogo />
       </NavContainerLogo>
-      {project && <ProjectButton>{project.title}</ProjectButton>}
+      {data && <ProjectButton>{data.title}</ProjectButton>}
       <NavItemsList>
         <li>
           <NavItem to={'/'}>

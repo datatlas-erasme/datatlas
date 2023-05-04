@@ -29,6 +29,10 @@ nx run-many --target=serve
 >
 > https://towardsdatascience.com/how-to-run-postgresql-and-pgadmin-using-docker-3a6a8ae918b5
 
+**Setup app `.env` :**
+
+> See **app** [./apps/frontend/README.md](./apps/frontend/README.md).
+
 ## Development
 
 ### Code quality
@@ -45,10 +49,6 @@ Run `lint` on whole repository
 nx run-many --target=lint
 ```
 
-### Internationalization
-
-> see [./apps/frontend/src/i18n/index.md](./apps/frontend/src/i18n/index.md)
-
 ### Update dependencies
 
 For example update `nestjs` :
@@ -63,29 +63,6 @@ Or to update `mikro-orm` :
 npx npm-check-updates --filter "@mikro-orm/*" -u
 ```
 
-### Frontend
-
-**Kepler.gl** uses **Mapbox GL JS** to render map styles.
-You must configure the `REACT_APP_MAPBOX_ACCESS_TOKEN` environment variable in a `.env` file (see `./apps/frontend/.env.example` for an example).
-
-> https://docs.mapbox.com/help/getting-started/access-tokens/
-
-```
-nx serve frontend
-```
-
-#### Stack
-
-- [redux-toolkit](https://redux-toolkit.js.org/) to handle `redux` related stuff.
-- [RTK Query](https://redux.js.org/tutorials/essentials/part-7-rtk-query-basics) is used to make API calls.
-
-> We're querying the `api` state slice to display data in components.
-> So the previous `projects` state slice isn't used right now but be used in the future if state normalization is required.
->
-> - https://redux-toolkit.js.org/api/createEntityAdapter
-> - https://redux.js.org/tutorials/essentials/part-8-rtk-query-advanced#transforming-responses
-> - https://dev.to/srmagura/the-great-redux-toolkit-debate-5045
-
 ### Test
 
 Run a single test file:
@@ -95,18 +72,6 @@ npx nx run backend-e2e:e2e --spec apps/backend-e2e/src/e2e/user.cy.ts
 ```
 
 https://github.com/cypress-io/cypress/issues/2610#issuecomment-1319738814
-
-#### Frontend
-
-```shell
-npx nx run frontend:test
-```
-
-> Some useful resources to understand the **frontend** testing strategy :
->
-> - https://redux.js.org/usage/writing-tests
-> - https://mswjs.io/
-> - https://github.com/mswjs/examples/tree/master/examples/rest-react/src
 
 #### Cypress
 
