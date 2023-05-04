@@ -27,12 +27,6 @@ export class UserService {
     return user;
   }
 
-  async isEmailAlreadyInDatabase(email: string): Promise<boolean> {
-    return this.userRepository.findOne({ email }).then((user) => {
-      return user != null;
-    });
-  }
-
   async getUser(id: number): Promise<UserEntity> {
     return this.userRepository.findOne({ id });
   }
@@ -41,6 +35,26 @@ export class UserService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...getUserDto } = await this.userRepository.findOne({ id });
     return new GetUserDto(getUserDto);
+  }
+
+  async getUserByEmail(email: string): Promise<UserEntity> { // Function to remove ?
+    return await this.userRepository.findOne({ email }).then((user) => {
+      if (user !== null) {
+        return user;
+      }
+      throw new Error('Unknown email');
+    });
+  }
+
+  async findAll(): Promise<GetUserDto[]> {
+    const userEntities:UserEntity[] = await this.userRepository.findAll();
+    const userDtos:GetUserDto[] = [];
+    for (const userEntity of userEntities){
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...getUserDto } = userEntity;
+      userDtos.push(getUserDto);
+    }
+    return userDtos;
   }
 
   async updateUser(updateUserDto: UpdateUserDto): Promise<UserEntity> {
@@ -55,23 +69,9 @@ export class UserService {
     return user;
   }
 
-  async hashString(textToHash: string): Promise<string> {
-    console.log('textToHash', textToHash);
-    return await bcrypt.hash(textToHash, 16);
-  }
-
   async deleteUserById(userId: number): Promise<void> {
     return this.userRepository.nativeDelete(userId).then(() => {
       return;
-    });
-  }
-
-  async getUserByEmail(email: string): Promise<UserEntity> {
-    return await this.userRepository.findOne({ email }).then((user) => {
-      if (user !== null) {
-        return user;
-      }
-      throw new Error('Unknown email');
     });
   }
 
@@ -95,7 +95,14 @@ export class UserService {
     }
   }
 
-  findAll() {
-    return this.userRepository.findAll();
+  async isEmailAlreadyInDatabase(email: string): Promise<boolean> {
+    return this.userRepository.findOne({ email }).then((user) => {
+      return user != null;
+    });
+  }
+
+  async hashString(textToHash: string): Promise<string> {
+    console.log('textToHash', textToHash);
+    return await bcrypt.hash(textToHash, 16);
   }
 }

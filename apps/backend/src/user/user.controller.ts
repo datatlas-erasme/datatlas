@@ -6,7 +6,8 @@ import { AdminGuard } from '../auth/admin.guard';
 import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { UserEntity } from './entities/user.entity';
 import { CanCreateUserGuard } from '../auth/can-create-user.guard';
-import { CanGetUserGuard } from '../auth/can-get-user';
+import { CanGetUserGuard } from '../auth/can-get-user.guard';
+import { CanGetUsersGuard } from '../auth/can-get-users.guard';
 
 @ApiBearerAuth()
 @Controller('user')
@@ -14,13 +15,6 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   // todo check if @headers should be placed on each route and if so, place them with proper options
-
-  @Get()
-  @HttpCode(200)
-  @Header('Cache-Control', 'none')
-  test(): string {
-    return 'ok';
-  }
 
   @Post()
   @HttpCode(201)
@@ -41,6 +35,12 @@ export class UserController {
   @UseGuards(CanGetUserGuard)
   findOne(@Param('id') id: UserEntity['id']): Promise<GetUserDto> {
     return this.userService.getUserDto(id);
+  }
+
+  @UseGuards(CanGetUsersGuard)
+  @Get()
+  async findAll(): Promise<GetUserDto[]> {
+    return await this.userService.findAll();
   }
 
   @Put(':id')

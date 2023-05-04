@@ -333,6 +333,19 @@ describe('USER ACTIONS', () => {
       },
     }).then((response: Cypress.Response<GetUserDto[]>) => {
       expect(response.status).to.eq(200);
+      expect(response.body).to.be.a('array');
+    });
+  });
+  it('Should fail when trying to get all users as an editor.', () => {
+    cy.request({
+      method: 'GET',
+      url: `/api/user/`,
+      failOnStatusCode: false,
+      auth: {
+        bearer: editorToken,
+      },
+    }).then((response: Cypress.Response<GetUserDto[]>) => {
+      expect(response.status).to.eq(403);
     });
   });
 });
