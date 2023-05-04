@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { Layout } from './layouts';
 import { LoginForm } from '../components/forms';
 import { DatatlasLogoSquare } from '../components/logos';
@@ -9,6 +11,7 @@ import SecondShapeBg from '../assets/shapes/second-shape.svg';
 import { StyledLabel } from '../components/forms';
 import GithubLink from '../components/buttons/GithubLink';
 import SidePanelButton from '../components/buttons/SidePanelButton';
+import { selectCurrentUserId } from '../store/selectors';
 
 interface AboutWrapperInterface {
   displayAbout: boolean;
@@ -83,6 +86,10 @@ const LoginFormWrapper = styled.div`
 export const LoginPage = () => {
   const [displayAbout, setDisplayAbout] = useState(false);
   const bgColorRef = useRef<HTMLDivElement>(null);
+  const currentUserId = useSelector(selectCurrentUserId);
+  if (currentUserId) {
+    return <Navigate to="/" />;
+  }
 
   const handleDisplayAbout = (e) => {
     e.preventDefault();

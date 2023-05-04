@@ -6,6 +6,7 @@ import { ProjectInterface } from '@datatlas/models';
 import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
 import { useAppDispatch } from '../../store';
+import { toKeplerId } from '../../store/selectors';
 
 export type ProjectCardProps = ProjectInterface;
 
@@ -21,7 +22,7 @@ const ProjectCard = (props: ProjectCardProps) => {
   const dispatch = useAppDispatch();
   const handleRemove = (e) => {
     e.preventDefault();
-    dispatch(deleteEntry(props.id));
+    dispatch(deleteEntry(toKeplerId(props.id)));
   };
   const handleCopy = (e) => {
     e.preventDefault();

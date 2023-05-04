@@ -1,27 +1,27 @@
 import { rest } from 'msw';
-import {
-  ProjectInterface,
-  UserInterface,
-  generateFakeProject,
-  generateFakeUser,
-  generateFakeProjects,
-} from '@datatlas/models';
+import { UserInterface, generateFakeUser, generateArray } from '@datatlas/models';
+import { generateFakeProjectDto, ProjectDto } from '@datatlas/dtos';
+
+const currentUserId = 1;
+const currentUser = generateFakeUser({ id: currentUserId });
 
 const projectHandlers = [
-  rest.get('/api/projects', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json<ProjectInterface[]>(generateFakeProjects()), ctx.delay(30));
+  rest.get(`${process.env.REACT_APP_API_BASE_URL}/projects`, (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json<ProjectDto[]>(generateArray().map((id) => generateFakeProjectDto({ id, owner: currentUserId }))),
+      ctx.delay(30)
+    );
   }),
-  rest.post('/api/projects', async (req, res, ctx) => {
+  rest.post(`${process.env.REACT_APP_API_BASE_URL}/projects`, async (req, res, ctx) => {
     const payload = await req.json();
-    return res(ctx.json<ProjectInterface>(generateFakeProject(payload)));
+    return res(ctx.json<ProjectDto>(generateFakeProjectDto({ ...payload, owner: currentUserId })));
   }),
 ];
 
-const currentUserId = 1;
-
 const userHandlers = [
-  rest.get('/api/me', (req, res, ctx) => {
-    return res(ctx.json<UserInterface>(generateFakeUser({ id: currentUserId })));
+  rest.get(`${process.env.REACT_APP_API_BASE_URL}/me`, (req, res, ctx) => {
+    return res(ctx.json<UserInterface>(currentUser));
   }),
 
   rest.get('/users', (req, res, ctx) => {
@@ -30,19 +30,12 @@ const userHandlers = [
       throw new Error('Not found.');
     }
 
-    return res(ctx.json(generateFakeUser({ id: parseInt(id, 10) })));
+    return res(ctx.json(currentUser));
   }),
 
-  rest.post('/api/login', async (req, res, ctx) => {
+  rest.post(`${process.env.REACT_APP_API_BASE_URL}/login`, async (req, res, ctx) => {
     const { email } = await req.json();
-    return res(
-      ctx.json<UserInterface>(
-        generateFakeUser({
-          id: currentUserId,
-          email: email,
-        })
-      )
-    );
+    return res(ctx.json<UserInterface>({ ...currentUser, email }));
   }),
 ];
 

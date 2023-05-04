@@ -1,9 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { StartNewProjectForm } from '../forms';
-import { createMap } from '../../store/reducers/keplerGl';
 
 const SideBarContainer = styled.aside`
   position: sticky;
@@ -17,16 +15,13 @@ const SideBarContainer = styled.aside`
   }
 `;
 
-const Sidebar = () => {
-  const dispatch = useDispatch();
-  return (
-    <SideBarContainer>
-      <h2>
-        <FormattedMessage id={'sideBar.createProject'} defaultMessage={'Démarrer un nouveau projet'} />
-      </h2>
-      <StartNewProjectForm onSubmit={(data) => dispatch(createMap(data))} />
-    </SideBarContainer>
-  );
-};
+const Sidebar = () => (
+  <SideBarContainer>
+    <h2>
+      <FormattedMessage id={'sideBar.createProject'} defaultMessage={'Démarrer un nouveau projet'} />
+    </h2>
+    <StartNewProjectForm />
+  </SideBarContainer>
+);
 
 export default Sidebar;

@@ -1,14 +1,12 @@
-import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from './reducers';
-import { api } from '../api';
-import { Project, ProjectInterface, MapInfoInterface } from '@datatlas/models';
+import { getUser } from './api';
+import { MapInfoInterface, Project, ProjectInterface } from '@datatlas/models';
 import { KeplerGlState } from 'kepler.gl/reducers';
 
-const selectState = (state: RootState) => state;
+export const toKeplerId = (id: number) => String(id).toLocaleUpperCase();
 
-export const selectKeplerState = (state: RootState) => state.keplerGl;
 export const selectKeplerInstanceById = (state: RootState, instanceId: ProjectInterface['id']) =>
-  state.keplerGl[instanceId];
+  state.keplerGl[toKeplerId(instanceId)];
 export const isFileLoading = (state: RootState, instanceId: ProjectInterface['id']) =>
   selectKeplerInstanceById(state, instanceId).visState.fileLoading;
 export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
@@ -17,40 +15,31 @@ export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
 
 export const selectLocale = (state: RootState) => state.locale;
 
-export const selectProjectById = (state: RootState, projectId) => {
-  if (!projectId) {
-    return null;
-  }
-
-  const keplerState = selectKeplerInstanceById(state, projectId);
-  const { ownerId } = selectMapInfoFromKeplerGlState(keplerState);
-  const user = ownerId ? selectUserById(state, ownerId) : undefined;
-
-  return Project.createProjectFromKeplerInstance(projectId, keplerState, user);
-};
-
 export const selectProjects = (state: RootState) => {
-  const keplerState = selectKeplerState(state);
-  return Object.keys(keplerState)
+  return Object.keys(state.keplerGl)
     .map((id) => selectProjectById(state, id))
     .filter((project) => project) as ProjectInterface[];
 };
 
-export const selectProjectsByOwnerId = createSelector(
-  selectProjects,
-  (state, ownerId) => ownerId,
-  (result, ownerId) => {
-    const { data } = result;
-    if (data) {
-      return data.filter((project) => project.ownerId === ownerId);
-    }
-    return [];
+export const selectProjectById = (state: RootState, projectId) => {
+  const keplerState = selectKeplerInstanceById(state, projectId);
+  if (!keplerState) {
+    return null;
   }
-);
 
-export const selectUserById = (state, id) => api.endpoints.getUser.select(id)(state)?.data ?? {};
-export const selectCurrentUserId = (state: RootState) => state.user;
+  const { ownerId } = selectMapInfoFromKeplerGlState(keplerState);
+  const user = ownerId ? selectUserById(state, ownerId) : undefined;
+  if (!user) {
+    console.error(`User isn't defined : ${ownerId}`);
+    console.warn(`Once GetProjectDto is defined, the owner id must be required.`);
+    return null;
+  }
 
-export const selectCurrentUserProjects = createSelector(selectState, selectCurrentUserId, (state, currentUserId) =>
-  selectProjects(state)
-);
+  return Project.createProjectFromKeplerInstance(projectId, keplerState, user);
+};
+
+export const selectUserById = (state, id) => {
+  return getUser.select(id)(state)?.data;
+};
+export const selectCurrentUserId = (state: RootState) => state.user.id;
+export const selectAccessToken = (state: RootState) => state.user.accessToken;

@@ -7,7 +7,7 @@ import type { PreloadedState } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { initialState, reducer, RootState } from '../store/reducers';
-import { api } from '../api';
+import { api } from '../store/api';
 import { DatatlasIntlProvider } from '../components/i18n/DatatlasIntlProvider';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
@@ -23,7 +23,7 @@ export function renderWithProviders(
     store = configureStore({
       reducer,
       preloadedState,
-      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(api.middleware),
     }),
     ...renderOptions
   }: ExtendedRenderOptions = {}

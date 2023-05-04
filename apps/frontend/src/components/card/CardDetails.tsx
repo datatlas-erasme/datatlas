@@ -42,7 +42,7 @@ const ActionsCardContainer = styled.div`
   margin: 10px 0;
 `;
 
-const CardProjectDetails = ({ owner, createdAt, title, contributors }: CardProjectDetailsInterface) => {
+const CardProjectDetails = ({ owner, createdAt, title, contributors = [] }: CardProjectDetailsInterface) => {
   return (
     <ContentCardContainer>
       <h4>{owner.name}</h4>

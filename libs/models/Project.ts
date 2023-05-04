@@ -11,7 +11,7 @@ import { DatatlasSavedMapInterface } from './DatatlasSavedMapInterface';
 import { generateFakeUser } from './mocks/generators';
 
 export class Project implements ProjectInterface {
-  id: number | string;
+  id: number;
   title: string;
   createdAt: Date;
   draft: boolean;
@@ -64,7 +64,7 @@ export class Project implements ProjectInterface {
     title: ProjectInterface['title'];
   }): DraftProjectInterface {
     return {
-      id: faker.datatype.uuid(),
+      id: faker.datatype.number({ min: 1 }),
       title,
       description: '',
       ownerId,
@@ -77,7 +77,7 @@ export class Project implements ProjectInterface {
   }
 
   static createProjectFromKeplerInstance(
-    id: ProjectInterface['id'],
+    id: string,
     keplerGlState: KeplerGlState,
     owner: UserInterface
   ): ProjectInterface {
@@ -88,7 +88,7 @@ export class Project implements ProjectInterface {
       ...Project.createPartialProjectFromKeplerSavedMap(savedMap),
       draft: true,
       owner,
-      id,
+      id: parseInt(id),
       contributors: faker.helpers.arrayElements([generateFakeUser()]),
     };
   }
@@ -97,6 +97,8 @@ export class Project implements ProjectInterface {
     savedMap: DatatlasSavedMapInterface
   ): Omit<ProjectInterface, 'owner' | 'id' | 'draft' | 'contributors' | 'copyEnabled'> {
     return {
+      title: '',
+      description: '',
       ...savedMap.config,
       ...savedMap.info,
       datasets: savedMap.datasets.map(Project.mapVersionedKeplerDatasetToDataset),

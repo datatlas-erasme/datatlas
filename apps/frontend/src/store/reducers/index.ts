@@ -1,13 +1,13 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { reducer as userReducer, initialState as userInitialState } from './user';
-import { reducer as keplerGlReducer } from './keplerGl';
+import { reducer as keplerReducer } from './keplerGl';
 import { reducer as localeReducer, initialState as localeInitialState } from './locale';
-import { api } from '../../api';
+import { api } from '../api';
 
 export const reducer = combineReducers({
-  keplerGl: keplerGlReducer,
-  user: userReducer,
+  keplerGl: keplerReducer,
   locale: localeReducer,
+  user: userReducer,
   [api.reducerPath]: api.reducer,
 });
 

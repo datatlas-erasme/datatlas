@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { jwtConstants } from './constants';
-import { LoginDto } from '@datatlas/dtos';
+import { LoginDto, LoginResponse } from '@datatlas/dtos';
 import { UserCredentials, UserCredentialsInterface } from '@datatlas/models';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class AuthService {
     return false;
   }
 
-  async login(user: LoginDto) {
+  async login(user: LoginDto): Promise<LoginResponse> {
     const userCredentials = await this.userService.getUserByEmail(user.email);
     const payload: UserCredentialsInterface = {
       email: userCredentials.email,

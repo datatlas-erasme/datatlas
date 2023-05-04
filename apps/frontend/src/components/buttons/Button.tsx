@@ -1,26 +1,22 @@
-import React, { MouseEventHandler, ReactElement, ReactNode, ButtonHTMLAttributes } from 'react';
+import React, { ReactElement, ReactNode, ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 import { Button as KeplerButton } from 'kepler.gl/dist/components/common/styled-components';
 
-type ButtonPropsInterface = {
+interface ButtonPropsInterface extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  type?: ButtonHTMLAttributes<HTMLButtonElement>;
   Icon?: ReactElement;
-  onClick?: MouseEventHandler;
-  className?: string;
-  isInactive?: boolean;
-  width: string;
-};
+}
 
 const StyledKeplerButton = styled(KeplerButton)`
   margin: 10px;
-  width: auto;
 `;
-export const Button = ({ children, Icon, onClick, type, className }: ButtonPropsInterface) => {
+const Button = ({ children, Icon, ...props }: ButtonPropsInterface) => {
   return (
-    <StyledKeplerButton onClick={onClick} type={type} className={className}>
+    <StyledKeplerButton {...props}>
       {Icon}
       {children}
     </StyledKeplerButton>
   );
 };
+
+export default Button;
