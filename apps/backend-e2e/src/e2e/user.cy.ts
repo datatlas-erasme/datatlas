@@ -21,7 +21,7 @@ describe('USER ACTIONS', () => {
   let adminToken: string;
   let editorId: number;
   let adminId: number;
-  let createdEditorId:number;
+  let createdEditorId: number;
   // AUTHENTICATION
   it('Should fail when trying to connect without any credentials 1/2.', () => {
     cy.request({
