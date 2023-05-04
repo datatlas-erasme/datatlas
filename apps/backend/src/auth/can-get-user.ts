@@ -1,5 +1,5 @@
 import { AuthGuard } from '@nestjs/passport';
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Roles } from '@datatlas/models';
 import { AuthService } from './auth.service';
@@ -22,8 +22,8 @@ export class CanGetUserGuard extends AuthGuard('local') {
     if (userCredentials === null) {
       return false;
     }
-    console.log(userCredentials);
-    console.log(request);
-    return userCredentials.role === Roles.ADMIN;
+    if (userCredentials.role === Roles.ADMIN || parseInt(request.params.id) === userCredentials.id) {
+      return true;
+    }
   }
 }

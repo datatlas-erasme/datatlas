@@ -2,7 +2,7 @@ import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/core';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto, UpdateUserDto } from '@datatlas/dtos';
+import { CreateUserDto, GetUserDto, UpdateUserDto } from '@datatlas/dtos';
 import { UserEntity } from './entities/user.entity';
 
 @Injectable()
@@ -33,8 +33,14 @@ export class UserService {
     });
   }
 
-  async getUser(id = 0): Promise<UserEntity> {
+  async getUser(id: number): Promise<UserEntity> {
     return this.userRepository.findOne({ id });
+  }
+
+  async getUserDto(id: number): Promise<GetUserDto> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...getUserDto } = await this.userRepository.findOne({ id });
+    return new GetUserDto(getUserDto);
   }
 
   async updateUser(updateUserDto: UpdateUserDto): Promise<UserEntity> {

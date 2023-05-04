@@ -1,8 +1,7 @@
 import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { CreateUserDto, UpdateUserDto } from '@datatlas/dtos';
-import { SelfOrAdminGuard } from '../auth/selfOrAdmin.guard';
+import { CreateUserDto, GetUserDto, UpdateUserDto } from '@datatlas/dtos';
 import { AdminGuard } from '../auth/admin.guard';
 import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { UserEntity } from './entities/user.entity';
@@ -39,10 +38,9 @@ export class UserController {
     status: 200,
     type: UserEntity,
   })*/
-  //@UseGuards(ValidJwtGuard, SelfOrAdminGuard)
   @UseGuards(CanGetUserGuard)
-  findOne(@Param('id') id: UserEntity['id']): Promise<UserEntity> {
-    return this.userService.getUser(id);
+  findOne(@Param('id') id: UserEntity['id']): Promise<GetUserDto> {
+    return this.userService.getUserDto(id);
   }
 
   @Put(':id')

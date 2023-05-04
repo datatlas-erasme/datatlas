@@ -1,4 +1,4 @@
-import type { CreateUserDto } from '@datatlas/dtos';
+import type { CreateUserDto, GetUserDto } from '@datatlas/dtos';
 import { Roles } from '@datatlas/models';
 import { number } from 'prop-types';
 
@@ -133,12 +133,12 @@ describe('USER ACTIONS', () => {
         password: 'editor',
       },
       failOnStatusCode: false,
-    }).then((response) => {
+    }).then((response: Cypress.Response<{ access_token: string; user_id: number }>) => {
       expect(response.status).to.eq(201);
       expect(response.body.access_token).to.be.a('string');
       expect(response.body.user_id).to.be.a('number');
       editorToken = response.body.access_token;
-      editorId = response.body.id;
+      editorId = response.body.user_id;
     });
   });
   it('Should returns a user id and token when trying to connect with proper admin credentials.', () => {
@@ -150,12 +150,12 @@ describe('USER ACTIONS', () => {
         password: 'admin',
       },
       failOnStatusCode: false,
-    }).then((response) => {
+    }).then((response: Cypress.Response<{ access_token: string; user_id: number }>) => {
       expect(response.status).to.eq(201);
       expect(response.body.access_token).to.be.a('string');
       expect(response.body.user_id).to.be.a('number');
       adminToken = response.body.access_token;
-      adminId = response.body.id;
+      adminId = response.body.user_id;
     });
   });
   it('Should fail when trying to create user without authentication.', () => {
@@ -239,10 +239,26 @@ describe('USER ACTIONS', () => {
       expect(response.status).to.eq(400);
     });
   });
-  /*it('Should fail when requesting info about another user as an editor.', () => {
+  it('Should return data user when requesting info about himself as an editor.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/ + ${editorId}`,
+      url: `/api/user/${editorId}`,
+      failOnStatusCode: false,
+      auth: {
+        bearer: editorToken,
+      },
+    }).then((response: Cypress.Response<GetUserDto>) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.id).to.be.a('number').greaterThan(0);
+      expect(response.body.email).to.eq('editor@example.org');
+      expect(response.body.role).to.eq('EDITOR');
+      expect(response.body.active).to.eq('true');
+    });
+  });
+  it('Should fail when requesting info about another user as an editor.', () => {
+    cy.request({
+      method: 'GET',
+      url: `/api/user/${createdEditorId}`,
       failOnStatusCode: false,
       auth: {
         bearer: editorToken,
@@ -250,17 +266,49 @@ describe('USER ACTIONS', () => {
     }).then((response) => {
       expect(response.status).to.eq(403);
     });
-  });*/ // todo wrong editor id
-  it('Should return data user when requesting info about himself as an editor.', () => {
+  });
+  it('Should return data user when requesting info about himself as an admin.', () => {
     cy.request({
       method: 'GET',
-      url: `/api/user/ + ${editorId}`,
+      url: `/api/user/${adminId}`,
       failOnStatusCode: false,
       auth: {
-        bearer: editorToken,
+        bearer: adminToken,
       },
-    }).then((response) => {
-      expect(response.status).to.eq(201);
+    }).then((response: Cypress.Response<GetUserDto>) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.id).to.be.a('number').greaterThan(0);
+      expect(response.body.email).to.eq('admin@example.org');
+      expect(response.body.role).to.eq('ADMIN');
+      expect(response.body.active).to.eq('true');
+    });
+  });
+  it('Should return data user when requesting info about another user as an admin.', () => {
+    cy.request({
+      method: 'GET',
+      url: `/api/user/${createdEditorId}`,
+      failOnStatusCode: false,
+      auth: {
+        bearer: adminToken,
+      },
+    }).then((response: Cypress.Response<GetUserDto>) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.id).to.be.a('number').greaterThan(0);
+      expect(response.body.email).to.eq(user_test_editor.email);
+      expect(response.body.role).to.eq('EDITOR');
+      expect(response.body.active).to.eq('true');
+    });
+  });
+  it('Should return data from all users when requesting them as an admin.', () => {
+    cy.request({
+      method: 'GET',
+      url: `/api/user/`,
+      failOnStatusCode: false,
+      auth: {
+        bearer: adminToken,
+      },
+    }).then((response: Cypress.Response<GetUserDto[]>) => {
+      expect(response.status).to.eq(200);
     });
   });
 });
