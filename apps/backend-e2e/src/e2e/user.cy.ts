@@ -1,6 +1,6 @@
 import type { CreateUserDto, GetUserDto } from '@datatlas/dtos';
 import { Roles } from '@datatlas/models';
-import {faker} from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 
 describe('USER ACTIONS', () => {
   // DATA

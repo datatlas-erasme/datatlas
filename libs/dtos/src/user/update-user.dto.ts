@@ -1,5 +1,5 @@
 import { Roles, UserInterface } from '@datatlas/models';
-import {IsBoolean, IsNumber, IsOptional, IsString} from "class-validator";
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto implements Partial<UserInterface> {
   @IsNumber()

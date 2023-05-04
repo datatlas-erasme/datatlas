@@ -1,5 +1,5 @@
 import { Roles, UserInterface } from '@datatlas/models';
-import {IsBoolean, IsOptional, IsString} from "class-validator";
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserDto implements Omit<Partial<UserInterface>, 'id' | 'name'> {
   @IsString()
