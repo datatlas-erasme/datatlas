@@ -2,16 +2,13 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useLoginMutation } from '../../api';
 import styled from 'styled-components';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
+import { useLoginMutation } from '../../store/api';
 import { StyledLabel } from './StyledLabel';
 import { StyledFormBtn } from '../buttons';
-import { LoginDto } from '@datatlas/dtos';
-
-export interface LoginFormData extends LoginDto {
-  rememberMe?: boolean;
-}
+import { isApiError } from '../../utils/rtk';
+import { LoginFormData } from '../../models';
 
 const StyledLoginForm = styled.form`
   display: flex;
@@ -55,7 +52,7 @@ export function LoginForm() {
       navigate(from);
     }
     if (isError) {
-      console.error(error);
+      console.error('formError', error);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
@@ -86,6 +83,12 @@ export function LoginForm() {
       <StyledLink to={'/'}>
         <FormattedMessage id={'loginForm.forgotPassword'} defaultMessage="J’ai oublié mon mot de passe" />
       </StyledLink>
+
+      {isError && isApiError(error) && (
+        <p>
+          {error.data.statusCode} {error.data.message}
+        </p>
+      )}
 
       <StyledFormBtn
         type="submit"

@@ -31,7 +31,7 @@ export const generateFakeDatasetData = (
   partialDatasetData: Partial<DatasetInterface['data']> = {}
 ): DatasetInterface['data'] => ({
   id: faker.datatype.string(5),
-  allData: generateArray().map(() => [[generateFakeGeoJsonFeature(), faker.animal.bear()]]),
+  allData: generateArray(2).map(() => [[generateFakeGeoJsonFeature(), faker.animal.bear()]]),
   label: 'Bears',
   color: faker.color.rgb({ format: 'decimal' }),
   fields: [
@@ -60,4 +60,5 @@ export const generateFakeProject = (partialProject: Partial<ProjectInterface> = 
   config: new KeplerMapConfig(),
   ...partialProject,
 });
+
 export const generateFakeProjects = () => generateArray().map((id) => generateFakeProject({ id }));

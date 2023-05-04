@@ -111,7 +111,6 @@ function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
                       inactive={hadEmptyFilter(reversedIndexGroupedByLayerIdx[layerIdx])}
                       onClick={(e) => {
                         e.preventDefault();
-                        console.log(datasets[layer.config.dataId]);
                         addFilter(layer.config.dataId);
                       }}
                       IconComponent={Add}

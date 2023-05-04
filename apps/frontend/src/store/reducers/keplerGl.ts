@@ -1,71 +1,93 @@
-import { createAction, Reducer } from '@reduxjs/toolkit';
-import { faker } from '@faker-js/faker';
+import { AnyAction, createAction, Reducer } from '@reduxjs/toolkit';
 import { registerEntry } from 'kepler.gl';
 import keplerGlReducer, { KeplerGlState } from 'kepler.gl/reducers';
 import { KeplerGlSchema } from 'kepler.gl/schemas';
 import { addDataToMap, setMapInfo, wrapTo, setLocale as setKeplerMapLocale } from 'kepler.gl/actions';
-import { setLocale as setMapLocale } from 'kepler.gl/dist/actions/ui-state-actions';
-import ActionTypes from 'kepler.gl/dist/constants/action-types';
-import {
-  CreateMapPayloadInterface,
-  DatatlasSavedMapInterface,
-  KeplerMapState,
-  KeplerMapFactory,
-  ProjectInterface,
-} from '@datatlas/models';
-import { selectCurrentUserId, selectLocale } from '../selectors';
-import { startAppListening } from '../listenerMiddleware';
-import { setLocale } from './locale';
+import { DatatlasSavedMapInterface, KeplerMapState, MapInfoInterface } from '@datatlas/models';
+import { ProjectDto } from '@datatlas/dtos';
+import { getDefaultLocale } from '../../i18n/utils';
+import { getProject, getProjects } from '../api';
+import { KeplerMapFactory } from '../../kepler';
+import { toKeplerId } from '../selectors';
 
-export const registerMap = (id: ProjectInterface['id']) =>
+export const registerMap = (id: string, mint = true) =>
   registerEntry({
     id,
     initialUiState: undefined,
     mapStylesReplaceDefault: undefined,
     mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
     mapboxApiUrl: undefined,
-    mint: true,
+    mint,
   });
 
-export const createMap = createAction<CreateMapPayloadInterface>('CREATE_MAP');
-export const createMapSuccess = createAction<DatatlasSavedMapInterface>('CREATE_MAP_SUCCESS');
+export const UPDATE_MAP_INFO = 'UPDATE_MAP_INFO';
+export const updateMapInfo = createAction<Partial<MapInfoInterface>>(UPDATE_MAP_INFO);
 
-export const reducer: Reducer<KeplerGlState> = keplerGlReducer.initialState({
-  mapState: new KeplerMapState(),
-});
-
-startAppListening({
-  actionCreator: createMap,
-  effect: async ({ payload }, { dispatch, getState }) => {
-    const id = faker.datatype.uuid();
-    dispatch(registerMap(id));
-
-    const state = getState();
-    const currentUser = selectCurrentUserId(state);
-    if (!currentUser) {
-      throw new Error(`Forbidden : user isn't logged in.`);
-    }
-
-    const savedMap = KeplerMapFactory.createFromFormData(payload, currentUser);
-    dispatch(wrapTo(id)(addDataToMap(KeplerGlSchema.load(savedMap))));
-    dispatch(wrapTo(id)(setMapInfo(savedMap.info)));
-    dispatch(wrapTo(id)(createMapSuccess(savedMap)));
-
-    const locale = selectLocale(state);
-    dispatch(wrapTo(id)(setKeplerMapLocale(locale)));
-  },
-});
-
-startAppListening({
-  type: ActionTypes.SET_LOCALE,
-  effect: async (
-    {
-      payload: {
-        payload: { locale },
+export const keplerReducer: Reducer<KeplerGlState> = keplerGlReducer
+  .initialState({
+    mapState: new KeplerMapState(),
+  })
+  .plugin({
+    [UPDATE_MAP_INFO]: (state, action) => ({
+      ...state,
+      visState: {
+        ...state.visState,
+        mapInfo: {
+          ...state.visState.mapInfo,
+          ...action.payload,
+        },
       },
-    }: ReturnType<setMapLocale>,
-    { dispatch }
-  ) => {
-    dispatch(setLocale(locale));
-  },
-});
+    }),
+  });
+
+export const addProjectToKeplerState = (state: Record<string, KeplerGlState> = {}, project: ProjectDto) =>
+  addSavedMapToState(state, {
+    id: toKeplerId(project.id),
+    savedMap: KeplerMapFactory.createFromProjectDto(project),
+  });
+
+// This deserves a better name.
+export const getConversionActions = (
+  keplerId: string,
+  savedMap: DatatlasSavedMapInterface,
+  locale = getDefaultLocale()
+) => {
+  const loadedMap = KeplerGlSchema.load(savedMap);
+  const wrapToMap = wrapTo(keplerId);
+  return [
+    registerMap(keplerId),
+    wrapToMap(addDataToMap(loadedMap)),
+    wrapToMap(setMapInfo(savedMap.info)),
+    wrapToMap(setKeplerMapLocale(locale)),
+  ];
+};
+
+export const addSavedMapToState = (
+  state: Record<string, KeplerGlState> = {},
+  {
+    id,
+    savedMap,
+  }: {
+    id: string;
+    savedMap: DatatlasSavedMapInterface;
+  }
+) => {
+  const actions = getConversionActions(id, savedMap);
+
+  return actions.reduce(keplerReducer, state);
+};
+
+export const customReducer = (state: KeplerGlState, action: AnyAction) => {
+  if (getProjects.matchFulfilled(action)) {
+    return action.payload.reduce((previousState, project) => {
+      return { ...previousState, ...addProjectToKeplerState(state, project) };
+    }, {});
+  }
+
+  if (getProject.matchFulfilled(action)) {
+    return addProjectToKeplerState(state, action.payload);
+  }
+
+  return keplerReducer(state, action);
+};
+export const reducer = customReducer;

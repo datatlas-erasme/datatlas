@@ -10,14 +10,14 @@ export class CreateProjectDto
   @IsOptional()
   @IsBoolean()
   draft? = true;
-  datasets: DatasetInterface[] = [];
+  datasets?: DatasetInterface[] = [];
   @IsOptional()
   @IsString()
   description?: string;
-  contributors: number[] = [];
+  contributors?: number[] = [];
   @IsOptional()
   @ValidateNested()
-  config: ConfigDto = new ConfigDto();
+  config?: ConfigDto = new ConfigDto();
   @IsOptional()
   version? = 'v1' as const;
 
