@@ -5,3 +5,4 @@ export * from './Checkbox';
 export * from './Radio';
 export * from './Dropdown';
 export * from './ScrollBar';
+export * from './HintText';

@@ -41,6 +41,8 @@ export const themeBoxBorder = {
 export const themeText = {
   fontWeight: 400,
   fontSize: themeFontSize.sText,
+  fontSizeMedium: themeFontSize.smText,
+  fontSizeXsmall: themeFontSize.xsText,
   fontFamily: `Verdana, 'Helvetica Neue', Helvetica, sans-serif`,
   lineHeight: 1.71429,
   labelColor: themeColors.primaryColor,
@@ -54,7 +56,7 @@ export const themeText = {
   subtextColorLT: themeColors.greyMedium,
   subtextColorActive: themeColors.primaryColor,
   panelToggleBorderColor: themeColors.primaryColor,
-  panelTabWidth: '30px',
+  panelTabWidth: 'auto',
   titleTextColor: themeColors.primaryColor,
   textColorHl: themeColors.primaryColor,
   textColorHlLT: themeColors.primaryColor,
@@ -63,6 +65,8 @@ export const themeText = {
   activeColorHover: themeColors.primaryColor,
   errorColor: '#F9042C',
   logoColor: themeColors.primaryColor,
+  hintTextFontSize: themeFontSize.xsText,
+  hintTextColor: themeColors.greyMedium,
 };
 
 // THEME BUTTON
@@ -99,12 +103,13 @@ export const themeBtn = {
   linkBtnActBgdHover: 'transparent',
   linkBtnBorder: `0`,
 
+  // Cancel Modal
   negativeBtnBgd: themeText.errorColor,
-  negativeBtnActBgd: themeColors.yellow,
-  negativeBtnBgdHover: themeColors.yellow,
+  negativeBtnActBgd: themeColors.blueDark,
+  negativeBtnBgdHover: themeColors.blueDark,
   negativeBtnBorder: '0',
-  negativeBtnColor: themeColors.primaryColor,
-  negativeBtnActColor: themeColors.primaryColor,
+  negativeBtnColor: themeColors.secondaryColor,
+  negativeBtnActColor: themeColors.secondaryColor,
 
   floatingBtnBgd: themeColors.greyExtraLight,
   floatingBtnActBgd: themeColors.greyMedium,
@@ -146,14 +151,14 @@ export const themeInput = {
 
   inputColor: themeColors.primaryColor,
   inputBorderRadius: '3px',
-  inputPlaceholderColor: themeColors.greyLight,
-  inputPlaceholderColorLT: themeColors.greyLight,
+  inputPlaceholderColor: themeColors.greyMedium,
+  inputPlaceholderColorLT: themeColors.greyMedium,
   inputPlaceholderFontWeight: 400,
   inputBoxShadow: 'none',
   inputBoxShadowActive: 'none',
   inputBoxShadowActiveLT: 'none',
-  secondaryInputBgd: themeColors.greyExtraLight,
-  secondaryInputBgdHover: themeColors.secondaryColor,
+  secondaryInputBgd: themeColors.secondaryColor,
+  secondaryInputBgdHover: themeColors.greyExtraLight,
   secondaryInputBgdActive: themeColors.greyExtraLight,
   secondaryInputColor: themeColors.primaryColor,
   secondaryInputBorderColor: themeColors.greyLight,
@@ -170,7 +175,7 @@ export const themeSelect = {
   selectFontWeight: 400,
   selectFontWeightBold: 500,
 
-  selectColorPlaceHolder: themeColors.secondaryColor,
+  selectColorPlaceHolder: themeColors.greyMedium,
   selectColorPlaceHolderLT: themeText.titleColorLT,
   selectBackground: themeInput.inputBgd,
   selectBackgroundHover: themeInput.inputBgdHover,
@@ -246,7 +251,7 @@ export const themeSidePanel = {
   layerConfigGroupMarginBottom: 12,
   layerConfigGroupPaddingLeft: 18,
 
-  sidePanelInnerPadding: 16,
+  sidePanelInnerPadding: 0,
   sidePanelBorder: 0,
   sidePanelBorderColor: 'transparent',
   sidePanelBg: themeColors.secondaryColor,
@@ -267,12 +272,12 @@ export const themeSidePanel = {
   panelHeaderIconActive: themeColors.primaryColor,
   panelHeaderIconHover: themeText.textColorHl,
   panelHeaderHeight: 48,
-  layerPanelHeaderHeight: 48,
+  layerPanelHeaderHeight: 52,
   panelBoxShadow: '0 6px 12px 0 rgba(0,0,0,0.16)',
   panelBorderRadius: '2px',
   panelBackgroundLT: themeColors.secondaryColor,
-  panelToggleMarginRight: 12,
-  panelToggleBottomPadding: 6,
+  panelToggleMarginRight: 0,
+  panelToggleBottomPadding: 10,
 
   panelBorderColor: themeColors.greyDark,
   panelBorder: `1px solid ${themeBoxBorder.borderColor}`,
@@ -459,7 +464,7 @@ export const themeLayerConfigGroupLabel = {
   layerConfigGroupLabelBorderLeft: '2px',
   layerConfigGroupLabelMargin: '-12px',
   layerConfigGroupLabelPadding: '10px',
-  layerConfigGroupColor: 'transparent',
+  layerConfigGroupColor: themeColors.secondaryColor,
   // layerConfigGroupLabel label
   layerConfigGroupLabelLabelMargin: '0',
   layerConfigGroupLabelLabelFontSize: '12px',
@@ -467,10 +472,10 @@ export const themeLayerConfigGroupLabel = {
 
 // THEME layerConfigurator
 export const themeLayerConfigurator = {
-  layerConfiguratorBorder: '0',
-  layerConfiguratorBorderColor: '',
+  layerConfiguratorBorder: 'none',
+  layerConfiguratorBorderColor: 'transparent',
   layerConfiguratorMargin: '12px',
-  layerConfiguratorPadding: '12px 0 8px 0',
+  layerConfiguratorPadding: '10px 15px',
 };
 
 // styledConfigGroupHeader

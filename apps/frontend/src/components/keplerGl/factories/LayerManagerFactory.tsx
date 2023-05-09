@@ -1,5 +1,6 @@
 import React from 'react';
 import { createSelector } from 'reselect';
+import styled from 'styled-components';
 import {
   LayerManagerFactory as KeplerLayerManagerFactory,
   LayerPanelFactory as KeplerLayerPanelFactory,
@@ -10,7 +11,26 @@ import { PanelComponentPropsInterface } from '../types/PanelComponentPropsInterf
 import { uiStateActions, visStateActions } from 'kepler.gl/actions';
 import { LayerTypeOptionInterface } from '../types/LayerTypeOptionInterface';
 import { SortableLayerList } from '../side-panel/layer/SortableLayerList';
+import { HintText } from '../base';
+import { Warning } from 'kepler.gl/dist/components/common/icons';
+import { themeColors } from '../../../style/constants';
+import { FormattedMessage } from 'react-intl';
 
+const StyledSidePanelSection = styled(SidePanelSection)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  background-color: ${({ theme }) => theme.sidePanelHeaderBg};
+
+  p {
+    font-size: ${({ theme }) => theme.fontSizeXsmall};
+    margin: 5px 0;
+  }
+  a {
+    font-weight: 700;
+  }
+`;
 const layerClassSelector = (props) => props.layerClasses;
 const layerTypeOptionsSelector = createSelector(layerClassSelector, (layerClasses) =>
   Object.keys(layerClasses).map((key) => {
@@ -87,6 +107,23 @@ const LayerManagerFactory = (
 
     return (
       <div className="layer-manager">
+        <StyledSidePanelSection>
+          <AddDataButton onClick={showAddDataModal} isInactive={!defaultDataset} width={'auto'} />
+          <HintText>
+            <Warning stroke={themeColors.greyMedium} />
+            <FormattedMessage id={'layerManager.dataWeight'} />
+          </HintText>
+
+          <p>
+            <FormattedMessage id={'layerManager.fileFormat'} />
+          </p>
+          <p>
+            <FormattedMessage
+              id={'layerManager.contactUs'}
+              values={{ link: <a href={'https://data.grandlyon.com/'}>Contactez-nous</a> }}
+            />
+          </p>
+        </StyledSidePanelSection>
         <SortableLayerList
           layers={layers}
           layerOrder={layerOrder}
@@ -103,9 +140,6 @@ const LayerManagerFactory = (
             />
           )}
         />
-        <SidePanelSection>
-          <AddDataButton onClick={showAddDataModal} isInactive={!defaultDataset} width="105px" />
-        </SidePanelSection>
       </div>
     );
   };

@@ -5,7 +5,6 @@ import { useGetSavedProjectsQuery } from '../api';
 import { selectCurrentUserProjects } from '../store/selectors';
 import { ProjectList } from '../components/ProjectList';
 import Sidebar from '../components/sidebar/Sidebar';
-import { DisplayButton } from '../components/buttons';
 
 const LayoutProjects = styled.div`
   display: flex;
@@ -41,7 +40,6 @@ export const ProjectsPage = () => {
         <ProjectsContainer>
           <HeaderProjects>
             <h2>Mes Projets</h2>
-            <DisplayButton>Voir tous</DisplayButton>
           </HeaderProjects>
           <ProjectList
             projects={projects}
