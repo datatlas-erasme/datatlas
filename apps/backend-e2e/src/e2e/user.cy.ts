@@ -424,9 +424,32 @@ describe('USER ACTIONS', () => {
       expect(response.status).to.eq(400);
     });
   });
+  it('Should fail when an editor tries to delete any user.', () => {
+    cy.request({
+      method: 'DELETE',
+      url: `/api/users/${createdEditorId}`,
+      auth: {
+        bearer: editorToken,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(403);
+    });
+  });
+  it('Should return HTML code 204 when admin suppresses a user.', () => {
+    cy.request({
+      method: 'DELETE',
+      url: `/api/users/${createdEditorId}`,
+      auth: {
+        bearer: adminToken,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(204);
+    });
+  });
 });
 /*
-  // UPDATING
   it('Editor -> Deletion of any user -> should fail.', () => {
     cy.request({
       method: 'DELETE',
