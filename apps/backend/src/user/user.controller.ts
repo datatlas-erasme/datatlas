@@ -1,13 +1,13 @@
-import {Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards} from '@nestjs/common';
-import {ApiBearerAuth} from '@nestjs/swagger';
-import {UserService} from './user.service';
-import {CreateUserDto, GetUserDto, UpdateUserDto} from '@datatlas/dtos';
-import {AdminGuard} from '../auth/admin.guard';
-import {ValidJwtGuard} from '../auth/validJwt.guard';
-import {CanCreateUserGuard} from '../auth/can-create-user.guard';
-import {CanGetUserGuard} from '../auth/can-get-user.guard';
-import {CanGetUsersGuard} from '../auth/can-get-users.guard';
-import {CanEditUserGuard} from '../auth/can-edit-user.guard';
+import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { UserService } from './user.service';
+import { CreateUserDto, GetUserDto, UpdateUserDto } from '@datatlas/dtos';
+import { AdminGuard } from '../auth/admin.guard';
+import { ValidJwtGuard } from '../auth/validJwt.guard';
+import { CanCreateUserGuard } from '../auth/can-create-user.guard';
+import { CanGetUserGuard } from '../auth/can-get-user.guard';
+import { CanGetUsersGuard } from '../auth/can-get-users.guard';
+import { CanEditUserGuard } from '../auth/can-edit-user.guard';
 
 @ApiBearerAuth()
 @Controller('users')
@@ -43,7 +43,7 @@ export class UserController {
   async updateUser(@Param() params, @Body() updateUserDto: UpdateUserDto): Promise<GetUserDto> {
     console.log('je mets à jour cet utilisateur');
     console.log(updateUserDto);
-    return await this.userService.updateUser({...updateUserDto, id: params.id});
+    return await this.userService.updateUser({ ...updateUserDto, id: params.id });
   }
 
   @Delete(':id')

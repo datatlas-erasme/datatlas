@@ -381,18 +381,17 @@ describe('USER ACTIONS', () => {
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
-      /*
       expect(response.body.email).to.eq(mail);
       expect(response.body.role).to.eq(Roles.EDITOR);
       expect(response.body.active).to.eq(true);
-      expect(response.body.id).to.eq(String(createdEditorId));*/
+      expect(response.body.id).to.eq(String(editorId));
     });
   });
   it('Should fail when an editor tries to modify another user.', () => {
     const mail = faker.internet.email();
     cy.request({
       method: 'PUT',
-      url: `/api/users/${editorId}`,
+      url: `/api/users/${createdEditorId}`,
       body: {
         email: mail,
         password: faker.internet.password(),
@@ -404,12 +403,7 @@ describe('USER ACTIONS', () => {
       },
       failOnStatusCode: false,
     }).then((response) => {
-      expect(response.status).to.eq(200);
-      /*
-      expect(response.body.email).to.eq(mail);
-      expect(response.body.role).to.eq(Roles.EDITOR);
-      expect(response.body.active).to.eq(true);
-      expect(response.body.id).to.eq(String(createdEditorId));*/
+      expect(response.status).to.eq(403);
     });
   });
 });
