@@ -59,6 +59,11 @@ export class UserService {
   }
 
   async updateUser(updateUserDto: UpdateUserDto & { id: number }): Promise<GetUserDto> {
+    const alreadyExists = await this.isEmailAlreadyInDatabase(updateUserDto.email);
+    if (alreadyExists) {
+      throw new HttpException(`User already exists.`, 400);
+    }
+
     if (updateUserDto.password) {
       updateUserDto.password = await this.hashString(updateUserDto.password);
     }
