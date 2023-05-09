@@ -8,6 +8,7 @@ import { UserEntity } from './entities/user.entity';
 import { CanCreateUserGuard } from '../auth/can-create-user.guard';
 import { CanGetUserGuard } from '../auth/can-get-user.guard';
 import { CanGetUsersGuard } from '../auth/can-get-users.guard';
+import {CanEditUserGuard} from "../auth/can-edit-user.guard";
 
 @ApiBearerAuth()
 @Controller('users')
@@ -37,11 +38,15 @@ export class UserController {
   }
 
   @Put(':id')
-  @HttpCode(204)
-  @UseGuards(ValidJwtGuard, AdminGuard) // For now, only admins can do that.
+  @HttpCode(200)
+  @UseGuards(CanEditUserGuard)
   @Header('Cache-Control', 'none')
-  async updateUser(@Param() params, @Body() updateUserDto: UpdateUserDto): Promise<UserEntity> {
-    return this.userService.updateUser(updateUserDto);
+  async updateUser(@Param() params, @Body() updateUserDto: UpdateUserDto): Promise<GetUserDto> {
+    const returnttt = await this.userService.updateUser({ ...updateUserDto, id: params.id });
+    console.log('toto');
+    console.log(returnttt);
+    console.log('titi');
+    return returnttt;
   }
 
   @Delete(':id')

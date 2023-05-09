@@ -341,8 +341,30 @@ describe('USER ACTIONS', () => {
       expect(response.status).to.eq(403);
     });
   });
+  it('Should return data user when updating its data with admin bearer token.', () => {
+    const mail = faker.internet.email();
+    cy.request({
+      method: 'PUT',
+      url: `/api/users/${createdEditorId}`,
+      body: {
+        email: mail,
+        password: faker.internet.password(),
+        role: Roles.EDITOR,
+        active: true,
+      },
+      auth: {
+        bearer: adminToken,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.email).to.eq(mail);
+      expect(response.body.role).to.eq(Roles.EDITOR);
+      expect(response.body.active).to.eq(true);
+      expect(response.body.id).to.eq(String(createdEditorId));
+    });
+  });
 });
-
 /*
       TEST TO MAKE IN THIS ORDER :
       - Test reaching API (really useful).
@@ -352,53 +374,6 @@ describe('USER ACTIONS', () => {
       - Creating, reading, updating and deleting a new user as admin with correct jwt
    */
 /*
-  const user_test_editor: CreateUserDto = {
-    email: 'user_test_editor_20@example.org',
-    password: 'user_test_pw',
-    role: Roles.EDITOR,
-    active: true,
-  };
-  const user_test_admin: CreateUserDto = {
-    email: 'user_test_admin_20@example.org',
-    password: 'user_test_pw',
-    role: Roles.ADMIN,
-    active: true,
-  };
-  let jwtEditorUser;
-  let idEditorUser;
-  let jwtAdminUser;
-  let idUserTestEditor;
-
-
-  // READING
-  it('Editor -> Get info about another user as an editor -> should fail.', () => {
-    cy.request({
-      method: 'GET',
-      url: '/api/users/' + idUserTestEditor,
-      failOnStatusCode: false,
-      auth: {
-        bearer: jwtEditorUser,
-      },
-    }).then((response) => {
-      expect(response.status).to.eq(403);
-    });
-  });
-  it('Admin -> Get info about another user as an admin -> should not fail.', () => {
-    cy.request({
-      method: 'GET',
-      url: '/api/users/' + idEditorUser,
-      failOnStatusCode: false,
-      auth: {
-        bearer: jwtAdminUser,
-      },
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      expect(response.body.id).to.eq(idEditorUser);
-      expect(response.body.email).to.eq('editor@example.org');
-      expect(response.body.role).to.eq(Roles.EDITOR);
-      expect(response.body.active).to.eq(true);
-    });
-  });
   // UPDATING
   it('Editor -> Modification of self is forbidden (for now)-> should fail.', () => {
     const body: UpdateUserDto = {
