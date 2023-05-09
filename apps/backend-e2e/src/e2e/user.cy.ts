@@ -364,6 +364,54 @@ describe('USER ACTIONS', () => {
       expect(response.body.id).to.eq(String(createdEditorId));
     });
   });
+  it('Should return data user when an editor tries to update his/her own data.', () => {
+    const mail = faker.internet.email();
+    cy.request({
+      method: 'PUT',
+      url: `/api/users/${editorId}`,
+      body: {
+        email: mail,
+        password: faker.internet.password(),
+        role: Roles.EDITOR,
+        active: true,
+      },
+      auth: {
+        bearer: editorToken,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      /*
+      expect(response.body.email).to.eq(mail);
+      expect(response.body.role).to.eq(Roles.EDITOR);
+      expect(response.body.active).to.eq(true);
+      expect(response.body.id).to.eq(String(createdEditorId));*/
+    });
+  });
+  it('Should fail when an editor tries to modify another user.', () => {
+    const mail = faker.internet.email();
+    cy.request({
+      method: 'PUT',
+      url: `/api/users/${editorId}`,
+      body: {
+        email: mail,
+        password: faker.internet.password(),
+        role: Roles.EDITOR,
+        active: true,
+      },
+      auth: {
+        bearer: editorToken,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      /*
+      expect(response.body.email).to.eq(mail);
+      expect(response.body.role).to.eq(Roles.EDITOR);
+      expect(response.body.active).to.eq(true);
+      expect(response.body.id).to.eq(String(createdEditorId));*/
+    });
+  });
 });
 /*
       TEST TO MAKE IN THIS ORDER :

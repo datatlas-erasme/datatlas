@@ -11,15 +11,16 @@ export class CanEditUserGuard extends AuthGuard('local') {
   }
 
   /**
-   * Only admins can create new users.
+   * Only admins can edit users. In addition, a user can update his/her own data.
    * @param context
    */
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     const userCredentials = await this.authService.getLoggedUserCredentials(request);
+    console.log(userCredentials);
     if (userCredentials === null) {
       return false;
     }
-    return userCredentials.role === Roles.ADMIN;
+    return userCredentials.role === Roles.ADMIN || parseInt(request.params.id) === userCredentials.id;
   }
 }

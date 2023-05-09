@@ -22,8 +22,7 @@ export class CanGetUserGuard extends AuthGuard('local') {
     if (userCredentials === null) {
       return false;
     }
-    if (userCredentials.role === Roles.ADMIN || parseInt(request.params.id) === userCredentials.id) {
-      return true;
-    }
+    return userCredentials.role === Roles.ADMIN || parseInt(request.params.id) === userCredentials.id;
+
   }
 }
