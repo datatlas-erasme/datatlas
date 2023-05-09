@@ -1,9 +1,9 @@
-import {HttpException, Injectable, Logger} from '@nestjs/common';
-import {InjectRepository} from '@mikro-orm/nestjs';
-import {EntityRepository} from '@mikro-orm/core';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityRepository } from '@mikro-orm/core';
 import * as bcrypt from 'bcrypt';
-import {CreateUserDto, GetUserDto, UpdateUserDto} from '@datatlas/dtos';
-import {UserEntity} from './entities/user.entity';
+import { CreateUserDto, GetUserDto, UpdateUserDto } from '@datatlas/dtos';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -58,12 +58,12 @@ export class UserService {
     return userDtos;
   }
 
-  async updateUser(updateUserDto: UpdateUserDto & {id:number} ): Promise<GetUserDto> {
+  async updateUser(updateUserDto: UpdateUserDto & { id: number }): Promise<GetUserDto> {
     if (updateUserDto.password) {
       updateUserDto.password = await this.hashString(updateUserDto.password);
     }
 
-    const user : UserEntity = await this.userRepository.upsert(updateUserDto);
+    const user: UserEntity = await this.userRepository.upsert(updateUserDto);
     await this.userRepository.flush();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...getUserDto } = user;
