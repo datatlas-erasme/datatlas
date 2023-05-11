@@ -158,6 +158,7 @@ describe('USER ACTIONS', () => {
       adminId = response.body.user_id;
     });
   });
+  // CREATE
   it('Should fail when trying to create user without authentication.', () => {
     cy.request({
       method: 'POST',
@@ -205,6 +206,23 @@ describe('USER ACTIONS', () => {
       failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(403);
+    });
+  });
+  it('Should fail when sending incomplete data for user creation.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/users',
+      body: {
+        password: faker.internet.password(),
+        role: Roles.EDITOR,
+        active: true,
+      },
+      auth: {
+        bearer: adminToken,
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(400);
     });
   });
   it('Should return new user when trying to create user with admin bearer token.', () => {
@@ -256,6 +274,7 @@ describe('USER ACTIONS', () => {
       expect(response.status).to.eq(400);
     });
   });
+  // READ
   it('Should return data user when requesting info about himself as an editor.', () => {
     cy.request({
       method: 'GET',
@@ -341,6 +360,7 @@ describe('USER ACTIONS', () => {
       expect(response.status).to.eq(403);
     });
   });
+  // UPDATE
   it('Should return data user when updating its data with admin bearer token.', () => {
     const mail = faker.internet.email();
     cy.request({
@@ -424,6 +444,7 @@ describe('USER ACTIONS', () => {
       expect(response.status).to.eq(400);
     });
   });
+  // DELETE
   it('Should fail when an editor tries to delete any user.', () => {
     cy.request({
       method: 'DELETE',
@@ -449,28 +470,3 @@ describe('USER ACTIONS', () => {
     });
   });
 });
-/*
-  it('Editor -> Deletion of any user -> should fail.', () => {
-    cy.request({
-      method: 'DELETE',
-      url: '/api/users/' + idUserTestEditor,
-      failOnStatusCode: false,
-      auth: {
-        bearer: jwtEditorUser,
-      },
-    }).then((response) => {
-      expect(response.status).to.eq(403);
-    });
-  });
-  it('Admin -> Deletion of editor created for tests -> should not fail.', () => {
-    cy.request({
-      method: 'DELETE',
-      url: '/api/users/' + idUserTestEditor,
-      failOnStatusCode: false,
-      auth: {
-        bearer: jwtAdminUser,
-      },
-    }).then((response) => {
-      expect(response.status).to.eq(204);
-    });
-  });*/

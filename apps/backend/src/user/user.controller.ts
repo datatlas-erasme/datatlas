@@ -39,13 +39,13 @@ export class UserController {
   @HttpCode(200)
   @UseGuards(CanEditUserGuard)
   @Header('Cache-Control', 'none')
-  async updateUser(@Param() params, @Body() updateUserDto: UpdateUserDto): Promise<GetUserDto> {
-    return await this.userService.updateUser({ ...updateUserDto, id: params.id });
+  async updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<GetUserDto> {
+    return await this.userService.updateUser({ ...updateUserDto, id: id });
   }
 
   @Delete(':id')
   @HttpCode(204)
-  @UseGuards(CanDeleteUserGuard) // For now, only admins can do that.
+  @UseGuards(CanDeleteUserGuard)
   @Header('Cache-Control', 'none')
   async deleteUser(@Param('id') id: number): Promise<void> {
     return this.userService.deleteUserById(id);
