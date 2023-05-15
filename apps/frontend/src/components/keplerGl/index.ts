@@ -15,6 +15,7 @@ import {
   replaceAddDataButtonFactory,
   replacePanelToggleFactory,
   replacePanelTitle,
+  replaceMapControl,
 } from './factories';
 
 // ⚠ Order matters ⚠
@@ -25,6 +26,7 @@ export const KeplerGl = injectComponents([
   replaceLoadDataModal(),
   replaceLayerPanel(),
   replaceLayerPanelHeader(),
+  replaceMapControl(),
   replaceLocalePanel(),
   replaceFilterManager(),
   replaceLayerConfigurator(),
