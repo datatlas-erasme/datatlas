@@ -85,11 +85,11 @@ export class Project implements ProjectInterface {
     // @ts-ignore
     const savedMap = KeplerGlSchema.save(keplerGlState) as DatatlasSavedMapInterface;
     return {
-      ...Project.createPartialProjectFromKeplerSavedMap(savedMap),
       draft: true,
-      owner,
+      contributors: [],
+      ...Project.createPartialProjectFromKeplerSavedMap(savedMap),
       id: parseInt(id),
-      contributors: faker.helpers.arrayElements([generateFakeUser()]),
+      owner,
     };
   }
 

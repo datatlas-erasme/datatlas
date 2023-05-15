@@ -7,6 +7,7 @@ export * from './LayerManagerFactory';
 export * from './LayerPanelFactory';
 export * from './LayerPanelHeaderFactory';
 export * from './LoadDataModalFactory';
+export * from './MapControlFactory';
 export * from './PanelHeaderFactory';
 export * from './PanelTabFactory';
 export * from './TooltipConfigFactory';

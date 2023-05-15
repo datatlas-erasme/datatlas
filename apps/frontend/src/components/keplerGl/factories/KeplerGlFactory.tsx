@@ -112,7 +112,7 @@ const BottomWidgetOuter = styled.div<BottomWidgetOuterProps>(
   }`
 );
 
-type KeplerGLBasicProps = {
+export type KeplerGLBasicProps = {
   mapboxApiAccessToken: string;
   mapboxApiUrl?: string;
   id: string;

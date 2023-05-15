@@ -11,9 +11,6 @@ import { PanelComponentPropsInterface } from '../types/PanelComponentPropsInterf
 import { uiStateActions, visStateActions } from 'kepler.gl/actions';
 import { LayerTypeOptionInterface } from '../types/LayerTypeOptionInterface';
 import { SortableLayerList } from '../side-panel/layer/SortableLayerList';
-import Button from '../../buttons/Button';
-import { useForward } from '../../../hooks/useForward';
-import { updateMapInfo } from '../../../store/reducers/keplerGl';
 
 const layerClassSelector = (props) => props.layerClasses;
 const layerTypeOptionsSelector = createSelector(layerClassSelector, (layerClasses) =>
@@ -66,7 +63,6 @@ const LayerManagerFactory = (
     removeDataset,
   }: PanelComponentPropsInterface) => {
     const { toggleModal: openModal } = uiStateActions;
-    const forward = useForward();
 
     const defaultDataset = Object.keys(datasets)[0];
 
@@ -91,15 +87,8 @@ const LayerManagerFactory = (
       layerTypeOptions,
     };
 
-    const handlePublish = () => {
-      forward(updateMapInfo({ draft: false }));
-    };
-
     return (
       <div className="layer-manager">
-        <div>
-          <Button onClick={handlePublish}>Publish</Button>
-        </div>
         <SortableLayerList
           layers={layers}
           layerOrder={layerOrder}
