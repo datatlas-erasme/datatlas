@@ -41,11 +41,22 @@ export class ProjectController {
 
   @Put(':id')
   @UseGuards(CanEditProjectGuard)
-  async update(@Param('id') id: number, @Body() projectUpdates: UpdateProjectDto): Promise<ProjectEntity> {
-    return await this.projectService.update(id, projectUpdates);
+  async update(@Param('id') id: number, @Body() projectUpdated: UpdateProjectDto): Promise<ProjectEntity> {
+    /* todo algo
+    // get the project entity in database
+    // assign each attribute except owner and contributors
+    // assign owner as entity
+    // assign contributors eas entity
+    */
+    const owner: UserEntity = await this.userService.getUser(projectUpdated.ownerId);
+    const contributors: UserEntity[] = [];
+    for (const contributor in projectUpdated.contributors) {
+      const contributorEntity: UserEntity = await this.userService.getUser(projectUpdated.contributors[contributor]);
+      contributors.push(contributorEntity);
+    }
+    return await this.projectService.update(projectUpdated, owner, contributors);
   }
 
-  // Guard : Who decides ? only owner or contributors too ?
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<number> {
     return await this.projectService.delete(id);

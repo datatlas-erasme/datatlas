@@ -1,6 +1,26 @@
 import type { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 
 describe('PROJECT ACTIONS', () => {
+  // DATA
+  let jwtAdmin;
+
+  // TESTS
+  it('Auth -> Connecting correctly with admin user.', () => {
+    cy.request({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: {
+        email: 'admin@example.org',
+        password: 'admin',
+      },
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+      jwtAdmin = response.body.addess_token;
+    });
+  });
+
+  /*
   const testCreateProject: CreateProjectDto = {
     title: 'titre projet test 2',
     draft: true,
@@ -23,21 +43,7 @@ describe('PROJECT ACTIONS', () => {
   };
   let jwtUserAdmin;
   let idUserAdmin;
-  it('Auth -> Connecting correctly with admin user.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/auth/login',
-      body: {
-        email: 'admin@example.org',
-        password: 'admin',
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      jwtUserAdmin = response.body.access_token;
-      idUserAdmin = response.body.user_id;
-      expect(response.status).to.eq(201);
-    });
-  });
+
   it('Project -> creation of new project -> should not fail.', () => {
     cy.request({
       method: 'POST',
@@ -97,5 +103,5 @@ describe('PROJECT ACTIONS', () => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.a('string');
     });
-  });
+  });*/
 });

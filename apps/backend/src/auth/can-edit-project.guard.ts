@@ -16,14 +16,14 @@ export class CanEditProjectGuard extends AuthGuard('local') {
   }
 
   async canActivate(context: ExecutionContext) {
+    // todo check if id in params equals id in jwt
     const request = context.switchToHttp().getRequest();
     const userCredentials = await this.authService.getLoggedUserCredentials(request);
-
     if (userCredentials === null) {
       return false;
     }
 
-    const projectToUpdate = await this.projectService.findOneById(request);
+    const projectToUpdate = await this.projectService.findOneById(parseInt(request.params.id));
 
     if (!UserCredentials.canEditProject(userCredentials, projectToUpdate)) {
       throw new UnauthorizedException('Insufficient rights to edit this project.');

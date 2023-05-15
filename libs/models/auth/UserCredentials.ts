@@ -17,10 +17,12 @@ export class UserCredentials implements UserCredentialsInterface {
   }
 
   static canEditProject(user: UserCredentials, project: ProjectInterface) {
+    console.log('can edit static');
     return (user.id === project.owner.id || user.role === Roles.ADMIN) && user.active;
   }
 
   canEditProject(project: ProjectInterface) {
+    console.log('can edit objet');
     return UserCredentials.canEditProject(this, project);
   }
 }
