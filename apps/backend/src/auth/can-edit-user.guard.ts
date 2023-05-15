@@ -15,10 +15,7 @@ export class CanEditUserGuard extends AuthGuard('local') {
    * @param context
    */
   async canActivate(context: ExecutionContext) {
-    console.log('dans la garde');
     const request = context.switchToHttp().getRequest();
-    console.log('request :');
-    console.log(request);
     const userCredentials = await this.authService.getLoggedUserCredentials(request);
     console.log(userCredentials);
     if (userCredentials === null) {

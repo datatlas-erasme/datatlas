@@ -30,15 +30,17 @@ export class ProjectService {
   }
 
   async findOneById(id: number): Promise<ProjectEntity> {
-    return this.projectRepository.findOne({ id });
+    return await this.projectRepository.findOne({ id });
   }
 
-  async update(id: number, projectDto: UpdateProjectDto): Promise<ProjectEntity> {
-    const projectToUpdate = await this.projectRepository.findOne(id);
-    this.projectRepository.assign(projectToUpdate, projectDto);
-    await this.projectRepository.persistAndFlush(projectToUpdate);
-
-    return projectToUpdate;
+  async update(projectDto: UpdateProjectDto, owner: UserEntity, contributors: UserEntity[]): Promise<ProjectEntity> {
+    const project = this.projectRepository.upsert({
+      ...projectDto,
+      owner,
+      contributors,
+    });
+    await this.projectRepository.flush();
+    return project;
   }
 
   async delete(id: number): Promise<number> {
