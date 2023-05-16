@@ -5,7 +5,6 @@ export * from './ProjectInterface';
 export * from './user';
 export * from './UserInterface';
 export * from './NormalizedProjectInterface';
-export * from './DraftProjectInterface';
 export * from './Dataset';
 export * from './DatasetInterface';
 export * from './DatatlasSavedMapInterface';
