@@ -14,10 +14,8 @@ export class AdminGuard extends AuthGuard('local') {
     /*
         CHECKING IS ADMIN ? -> USE THE JWT
      */
-    // todo deport duplicated stuff about jwt data extraction (in an interface ? static method ?)
     const request = context.switchToHttp().getRequest();
     const { headers } = request;
-    console.log('AdminGuard.auth', headers.authorization);
     if (!headers.authorization) {
       throw new HttpException(`Unauthorized.`, 401);
     }
@@ -25,7 +23,6 @@ export class AdminGuard extends AuthGuard('local') {
     const headerString = headers.authorization.split(' ');
     const jwtData = this.jwtService.decode(headerString[1]) as { [key: string]: never };
 
-    console.log('AdminGuard.jwtData', jwtData);
     // In case of incoherent jwt.
     if (jwtData === null) {
       return false;
