@@ -9,8 +9,8 @@ export class ValidJwtGuard extends AuthGuard('local') {
     super();
   }
 
-  canActivate(context: ExecutionContext) {
-    const jwtData = this.authService.getLoggedUserCredentials(context.switchToHttp().getRequest());
+  async canActivate(context: ExecutionContext) {
+    const jwtData = await this.authService.getLoggedUserCredentials(context.switchToHttp().getRequest());
     return jwtData !== null;
   }
 }

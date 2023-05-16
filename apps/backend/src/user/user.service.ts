@@ -86,7 +86,6 @@ export class UserService {
     userDummyEditor: Pick<CreateUserDto, 'email' | 'password'>
   ) {
     try {
-      console.log('userAdmin', userAdmin);
       await this.createUser(userAdmin);
     } catch (e) {
       console.log(e);
