@@ -42,12 +42,6 @@ export class ProjectController {
   @Put(':id')
   @UseGuards(CanEditProjectGuard)
   async update(@Param('id') id: number, @Body() projectUpdated: UpdateProjectDto): Promise<ProjectEntity> {
-    /* todo algo
-    // get the project entity in database
-    // assign each attribute except owner and contributors
-    // assign owner as entity
-    // assign contributors eas entity
-    */
     const owner: UserEntity = await this.userService.getUser(projectUpdated.ownerId);
     const contributors: UserEntity[] = [];
     for (const contributor in projectUpdated.contributors) {

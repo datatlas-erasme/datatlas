@@ -1,5 +1,5 @@
 import { AuthGuard } from '@nestjs/passport';
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {BadRequestException, ExecutionContext, Injectable, UnauthorizedException} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { UserCredentials } from '@datatlas/models';
 import { AuthService } from './auth.service';
@@ -16,11 +16,16 @@ export class CanEditProjectGuard extends AuthGuard('local') {
   }
 
   async canActivate(context: ExecutionContext) {
-    // todo check if id in params equals id in jwt
     const request = context.switchToHttp().getRequest();
     const userCredentials = await this.authService.getLoggedUserCredentials(request);
+
+    // Requesting user must be logged.
     if (userCredentials === null) {
       return false;
+    }
+    // Id received in GET params must be the same as the id received in body
+    if (parseInt(request.params.id) !== parseInt(request.body.id)){
+      throw new BadRequestException('Id project sent in parameter is different to id project sent in body.');
     }
 
     const projectToUpdate = await this.projectService.findOneById(parseInt(request.params.id));
