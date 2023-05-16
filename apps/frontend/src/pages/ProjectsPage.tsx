@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useGetProjectsQuery } from '../store/api';
 import { ProjectList } from '../components/ProjectList';
 import Sidebar from '../components/sidebar/Sidebar';
-import { DisplayButton } from '../components/buttons';
 import { selectProjects } from '../store/selectors';
 import { useSelector } from 'react-redux';
 

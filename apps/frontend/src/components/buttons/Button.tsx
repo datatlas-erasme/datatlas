@@ -5,12 +5,14 @@ import { Button as KeplerButton } from 'kepler.gl/dist/components/common/styled-
 interface ButtonPropsInterface extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   Icon?: ReactElement;
+  isInactive?: boolean;
+  width?: string;
 }
 
 const StyledKeplerButton = styled(KeplerButton)`
   margin: 10px;
 `;
-const Button = ({ children, Icon, ...props }: ButtonPropsInterface) => {
+export const Button = ({ children, Icon, ...props }: ButtonPropsInterface) => {
   return (
     <StyledKeplerButton {...props}>
       {Icon}

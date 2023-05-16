@@ -22,6 +22,8 @@ import {
 export const KeplerGl = injectComponents([
   replaceKeplerGL(),
   replacePanelHeader(),
+  replacePanelToggleFactory(),
+  replacePanelTab(),
   replaceLayerManager(),
   replaceLoadDataModal(),
   replaceLayerPanel(),
@@ -31,8 +33,6 @@ export const KeplerGl = injectComponents([
   replaceFilterManager(),
   replaceLayerConfigurator(),
   replaceInteractionManager(),
-  replacePanelToggleFactory(),
-  replacePanelTab(),
   replaceTooltipConfig(),
   replacePanelTitle(),
   replaceAddDataButtonFactory(),
