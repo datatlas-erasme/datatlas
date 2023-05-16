@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import { KeplerGlSchema } from 'kepler.gl/schemas';
 import { KeplerGlState } from 'kepler.gl/reducers';
 import { KeplerMapConfig, KeplerVersionedDataset, KeplerVersionedMapConfig } from './kepler';
@@ -6,9 +5,7 @@ import { ProjectInterface } from './ProjectInterface';
 import { DatasetInterface } from './DatasetInterface';
 import { UserInterface } from './UserInterface';
 import { NormalizedProjectInterface } from './NormalizedProjectInterface';
-import { DraftProjectInterface } from './DraftProjectInterface';
 import { DatatlasSavedMapInterface } from './DatatlasSavedMapInterface';
-import { generateFakeUser } from './mocks/generators';
 
 export class Project implements ProjectInterface {
   id: number;
@@ -40,7 +37,7 @@ export class Project implements ProjectInterface {
     return {
       ...props,
       ownerId: owner.id,
-      contributors: contributors.map(({ id }) => id),
+      contributorIds: contributors.map(({ id }) => id),
     };
   }
 
@@ -54,26 +51,6 @@ export class Project implements ProjectInterface {
 
   isDraft() {
     return Project.isDraft(this);
-  }
-
-  static createDraft({
-    ownerId,
-    title,
-  }: {
-    ownerId: UserInterface['id'];
-    title: ProjectInterface['title'];
-  }): DraftProjectInterface {
-    return {
-      id: faker.datatype.number({ min: 1 }),
-      title,
-      description: '',
-      ownerId,
-      draft: true,
-      datasets: [],
-      ...new KeplerVersionedMapConfig(),
-      createdAt: new Date(),
-      contributors: [],
-    };
   }
 
   static createProjectFromKeplerInstance(
