@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx nx format:write --base=dev
+npx nx format:check --base=dev
 npx nx affected:lint --base=dev
