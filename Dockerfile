@@ -19,7 +19,7 @@ ARG NODE_ENV
 ENV NODE_ENV=$NODE_ENV
 
 # Bundle app source
-COPY ./apps/shared /build/apps/shared
+COPY ./libs /build/libs
 COPY ./.eslintrc.json /build/.eslintrc.json
 COPY ./config-overrides.js /build/config-overrides.js
 COPY apps/$COPY_PATH/ /build/apps/$COPY_PATH/
