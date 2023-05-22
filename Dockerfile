@@ -26,11 +26,7 @@ COPY apps/$COPY_PATH/ /build/apps/$COPY_PATH/
 COPY tsconfig.base.json /build/tsconfig.base.json
 COPY .babelrc /build/.babelrc
 COPY nx.json /build/nx.json
-
-
-# if frontend create a .env file with the env variable REACT_APP_MAPBOX_ACCESS_TOKEN="defaultMapboxToken"
-RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_MAPBOX_ACCESS_TOKEN="defaultMapboxToken"' > .env; fi
-
+COPY ./.env ./.env
 
 # Creates a "dist" folder with the production build
 RUN npx nx build $COPY_PATH
@@ -42,11 +38,12 @@ WORKDIR /app
 # copy using the target
 COPY --from=builder /build/dist/apps/$COPY_PATH/* ./dist
 
-
-RUN npm i @nestjs/platform-express
+WORKDIR /app/dist
+RUN npm install --force
+RUN npm install @faker-js/faker
 
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "main.js" ]
 
 FROM nginx:1.21.3-alpine as frontend
 
