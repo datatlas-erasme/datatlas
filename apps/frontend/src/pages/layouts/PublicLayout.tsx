@@ -4,7 +4,7 @@ import Footer from '../../components/footer/Footer';
 
 export type LayoutProps = PropsWithChildren<object>;
 
-const LayoutWrapper = styled.div`
+const PublicLayoutWrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
@@ -12,11 +12,11 @@ const LayoutWrapper = styled.div`
   width: 100vw;
 `;
 
-export const Layout = ({ children }: LayoutProps) => {
+export const PublicLayout = ({ children }: LayoutProps) => {
   return (
-    <LayoutWrapper>
+    <PublicLayoutWrapper>
       {children}
       <Footer />
-    </LayoutWrapper>
+    </PublicLayoutWrapper>
   );
 };

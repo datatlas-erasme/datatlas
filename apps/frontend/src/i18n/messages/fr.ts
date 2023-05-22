@@ -16,6 +16,7 @@ export default {
   'loginForm.submit': 'Connexion',
   'navigationBar.help': 'Aide',
   'navigationBar.logout': 'Déconnexion',
+  'navigationBar.login': 'Connexion',
   'navigationBar.settings': 'Réglages',
   'project.contributors': 'Contributeurs',
   'project.projectUpdated': 'Projet modifié',
