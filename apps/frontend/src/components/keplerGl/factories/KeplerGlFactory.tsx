@@ -54,6 +54,7 @@ import KeplerGlFactory, {
 } from 'kepler.gl/dist/components/kepler-gl';
 import { getDefaultLocale } from '../../../i18n/utils';
 import { AppDispatch } from '../../../store';
+import { KeplerGlExtraProps } from '../types';
 
 type KeplerGlActions = {
   visStateActions: typeof VisStateActions;
@@ -110,7 +111,7 @@ export type KeplerGLBasicProps = {
   bottomMapContainerProps?: object;
 };
 
-type KeplerGLProps = KeplerGlState & KeplerGlActions & KeplerGLBasicProps;
+type KeplerGLProps = KeplerGlState & KeplerGlActions & KeplerGLBasicProps & KeplerGlExtraProps;
 
 // @ts-ignore
 type KeplerGlSelector = (...args: any[]) => KeplerGlState;

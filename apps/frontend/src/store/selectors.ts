@@ -38,8 +38,10 @@ export const selectProjectById = (state: RootState, projectId) => {
   return Project.createProjectFromKeplerInstance(projectId, keplerState, user);
 };
 
-export const selectUserById = (state, id) => {
-  return getUser.select(id)(state)?.data;
-};
+export const selectUserById = (state, id) => getUser.select(id)(state)?.data;
+
 export const selectCurrentUserId = (state: RootState) => state.user.id;
+
+export const selectLoggedIn = (state: RootState) => !!selectCurrentUserId(state);
+
 export const selectAccessToken = (state: RootState) => state.user.accessToken;

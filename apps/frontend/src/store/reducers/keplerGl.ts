@@ -22,6 +22,9 @@ export const registerMap = (id: string, mint = true) =>
 export const UPDATE_MAP_INFO = 'UPDATE_MAP_INFO';
 export const updateMapInfo = createAction<Partial<MapInfoInterface>>(UPDATE_MAP_INFO);
 
+export const UPDATE_READ_STATE = 'UPDATE_READ_STATE';
+export const updateReadState = createAction<boolean>(UPDATE_READ_STATE);
+
 export const keplerReducer: Reducer<KeplerGlState> = keplerGlReducer
   .initialState({
     mapState: new KeplerMapState(),
@@ -38,6 +41,13 @@ export const keplerReducer: Reducer<KeplerGlState> = keplerGlReducer
           ...state.visState.mapInfo,
           ...action.payload,
         },
+      },
+    }),
+    [UPDATE_READ_STATE]: (state, action) => ({
+      ...state,
+      uiState: {
+        ...state.uiState,
+        readOnly: action.payload,
       },
     }),
   });
