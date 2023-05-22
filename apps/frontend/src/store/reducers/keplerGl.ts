@@ -1,9 +1,8 @@
 import { AnyAction, createAction, Reducer } from '@reduxjs/toolkit';
 import { registerEntry } from 'kepler.gl';
 import keplerGlReducer, { KeplerGlState } from 'kepler.gl/reducers';
-import { KeplerGlSchema } from 'kepler.gl/schemas';
 import { addDataToMap, setMapInfo, wrapTo, setLocale as setKeplerMapLocale } from 'kepler.gl/actions';
-import { DatatlasSavedMapInterface, KeplerMapState, MapInfoInterface } from '@datatlas/models';
+import { DatatlasSavedMapInterface, KeplerMapState, KeplerMapStyle, MapInfoInterface } from '@datatlas/models';
 import { ProjectDto } from '@datatlas/dtos';
 import { getDefaultLocale } from '../../i18n/utils';
 import { getProject, getProjects } from '../api';
@@ -26,6 +25,9 @@ export const updateMapInfo = createAction<Partial<MapInfoInterface>>(UPDATE_MAP_
 export const keplerReducer: Reducer<KeplerGlState> = keplerGlReducer
   .initialState({
     mapState: new KeplerMapState(),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    mapStyle: new KeplerMapStyle({ mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN }),
   })
   .plugin({
     [UPDATE_MAP_INFO]: (state, action) => ({
@@ -52,7 +54,7 @@ export const getConversionActions = (
   savedMap: DatatlasSavedMapInterface,
   locale = getDefaultLocale()
 ) => {
-  const loadedMap = KeplerGlSchema.load(savedMap);
+  const loadedMap = KeplerMapFactory.load(savedMap);
   const wrapToMap = wrapTo(keplerId);
   return [
     registerMap(keplerId),

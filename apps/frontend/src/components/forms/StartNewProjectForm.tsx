@@ -3,17 +3,11 @@ import { useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
-import { BaseMapStyle } from 'kepler.gl/reducers';
-import { KeplerMapStyle, ProjectInterface } from '@datatlas/models';
-import { CreateProjectDto } from '@datatlas/dtos';
+import { KeplerMapStyle } from '@datatlas/models';
 import { StyledFormBtn } from '../buttons';
 import { StyledLabel } from '../forms';
 import { useCreateProjectMutation } from '../../store/api';
-
-export interface CreateMapPayloadInterface extends CreateProjectDto {
-  mapStyleId: BaseMapStyle['id'];
-  template?: ProjectInterface['id'];
-}
+import { CreateProjectFormData } from '../../models';
 
 export function StartNewProjectForm() {
   const [createProject, { isLoading, isSuccess, error, isError, data }] = useCreateProjectMutation();
@@ -23,7 +17,7 @@ export function StartNewProjectForm() {
     reset,
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
-  } = useForm<CreateMapPayloadInterface>();
+  } = useForm<CreateProjectFormData>();
   const intl = useIntl();
 
   useEffect(() => {
