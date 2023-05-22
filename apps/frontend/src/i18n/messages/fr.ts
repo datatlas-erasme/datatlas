@@ -1,3 +1,5 @@
+import { LOCALES } from '../locales';
+
 export default {
   // Datatlas
   'about.title': 'A propos',
@@ -190,6 +192,7 @@ export default {
     rectangle: 'Rectangle',
     hide: 'Masquer',
     show: 'Afficher',
+    ...LOCALES,
   },
   editor: {
     filterLayer: 'Filtrer les couches',

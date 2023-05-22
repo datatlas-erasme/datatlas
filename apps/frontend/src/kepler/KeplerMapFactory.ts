@@ -4,8 +4,11 @@ import {
   KeplerVersionedMapConfig,
   ProjectInterface,
   DatatlasSavedMapInterface,
+  KeplerMapStyle,
 } from '@datatlas/models';
 import { ProjectDto } from '@datatlas/dtos';
+import { KeplerGlSchema } from 'kepler.gl/schemas';
+import { SavedMap, LoadedMap } from 'kepler.gl/src';
 
 export class KeplerMapFactory {
   public static createFromProjectDto({
@@ -59,6 +62,7 @@ export class KeplerMapFactory {
     config,
     version,
   }: Pick<ProjectInterface, 'config' | 'version'>): KeplerVersionedMapConfig {
+    console.log('getKeplerVersionedMapConfigFromProject token', config.mapStyle);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return new KeplerVersionedMapConfig(config, version);
@@ -68,5 +72,17 @@ export class KeplerMapFactory {
     datasets,
   }: Pick<ProjectInterface, 'datasets'>): KeplerVersionedDataset[] {
     return datasets;
+  }
+
+  public static load(savedMap: SavedMap): LoadedMap {
+    const loadedMap = KeplerGlSchema.load(savedMap);
+
+    return {
+      ...loadedMap,
+      config: {
+        ...loadedMap.config,
+        mapStyle: KeplerMapStyle.enhance(loadedMap.config.mapStyle),
+      },
+    };
   }
 }

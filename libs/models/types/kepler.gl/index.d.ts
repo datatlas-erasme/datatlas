@@ -25,6 +25,19 @@ declare module 'kepler.gl/dist/reducers/vis-state-updaters' {
   export { DEFAULT_ANIMATION_CONFIG } from 'kepler.gl/src/reducers/vis-state-updaters';
 }
 
+declare module 'kepler.gl/dist/reducers/map-style-updaters' {
+  export function getInitialInputStyle(): {
+    accessToken: null;
+    error: false;
+    isValid: false;
+    label: null;
+    style: null;
+    url: null;
+    icon: null;
+    custom: true;
+  };
+}
+
 declare module 'kepler.gl/schemas' {
   export * from 'kepler.gl/src/schemas';
 }

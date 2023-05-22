@@ -10,7 +10,7 @@ export const MapStylesTransform = createTransform(
         ...outboundState[id],
         mapStyle: {
           ...outboundState[id].mapStyle,
-          mapStyles: KeplerMapStyle.createMapStyles(),
+          mapStyles: KeplerMapStyle.createMapStyles({}, process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || ''),
         },
       };
       return inboundState;

@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { REHYDRATE } from 'redux-persist';
-import { CreateProjectDto, LoginResponse, ProjectDto, UpdateProjectDto } from '@datatlas/dtos';
-import { LoginFormData } from '../models';
+import { LoginResponse, ProjectDto, UpdateProjectDto } from '@datatlas/dtos';
+import { CreateProjectFormData, LoginFormData } from '../models';
 import { loggedIn } from './reducers/user';
-import { UserInterface } from '@datatlas/models';
+import { KeplerMapStyle, UserInterface } from '@datatlas/models';
 import { selectAccessToken, selectLocale, toKeplerId } from './selectors';
 import { getConversionActions } from './reducers/keplerGl';
 import { KeplerMapFactory } from '../kepler';
@@ -79,14 +79,23 @@ export const api = createApi({
         query: (id) => `/projects/${id}`,
         providesTags: (projectDto) => (projectDto ? [createProjectTag(projectDto)] : []),
       }),
-      createProject: builder.mutation<ProjectDto, CreateProjectDto>({
-        query: (body) => ({
+      createProject: builder.mutation<ProjectDto, CreateProjectFormData>({
+        query: (data) => ({
           url: `/projects`,
           method: 'POST',
-          body,
+          body: {
+            ...data,
+            config: {
+              ...data.config,
+              mapStyle: new KeplerMapStyle({
+                mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
+                styleType: data.mapStyleId,
+              }),
+            },
+          },
         }),
         invalidatesTags: ['Projects', projectListTag],
-        async onQueryStarted(arg, { dispatch, queryFulfilled, getState }) {
+        async onQueryStarted({ mapStyleId }, { dispatch, queryFulfilled, getState }) {
           const { data: projectDto } = await queryFulfilled;
           // Force update of the `getProjects` cache entry.
           dispatch(
@@ -102,6 +111,7 @@ export const api = createApi({
           // (see `effects.ts`)
           const state = getState();
           const savedMap = KeplerMapFactory.createFromProjectDto(projectDto);
+
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           const locale = selectLocale(state);
