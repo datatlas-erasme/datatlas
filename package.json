@@ -117,6 +117,7 @@
     "class-validator": "^0.14.0",
     "classnames": "^2.3.2",
     "core-js": "^3.6.5",
+    "jwt-decode": "^3.1.2",
     "kepler.gl": "^2.5.5",
     "luxon": "^3.2.1",
     "msw": "^0.49.2",
