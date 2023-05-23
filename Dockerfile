@@ -26,7 +26,6 @@ COPY apps/$COPY_PATH/ /build/apps/$COPY_PATH/
 COPY tsconfig.base.json /build/tsconfig.base.json
 COPY .babelrc /build/.babelrc
 COPY nx.json /build/nx.json
-COPY ./.env ./.env
 
 # Creates a "dist" folder with the production build
 RUN npx nx build $COPY_PATH
