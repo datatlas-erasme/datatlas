@@ -90,6 +90,11 @@ const Navbar = () => {
   const { data } = useGetProjectQuery(id ?? skipToken);
   const loggedIn = useSelector(selectLoggedIn);
 
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
+
   return (
     <NavContainer>
       <NavContainerLogo>
@@ -122,7 +127,7 @@ const Navbar = () => {
 
         <li>
           {loggedIn ? (
-            <button onClick={() => dispatch(logout())}>
+            <button onClick={handleLogout}>
               <BadgesItem>
                 <Clock />
               </BadgesItem>
