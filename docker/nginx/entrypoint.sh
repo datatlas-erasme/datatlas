@@ -1,9 +1,9 @@
-# replace in static/js replace defaultMapboxToken in js folder with the actual token
-sed -i "s/defaultMapboxToken/$REACT_APP_MAPBOX_ACCESS_TOKEN/g" /usr/share/nginx/html/static/js/*.js
-# same with defaultLocale
-sed -i "s/defaultLocale/$REACT_APP_DEFAULT_LOCALE/g" /usr/share/nginx/html/static/js/*.js
-# same with defaultApiBaseUrl
-sed -i "s/defaultApiBaseUrl/$REACT_APP_API_BASE_URL/g" /usr/share/nginx/html/static/js/*.js
+# create an .env-config.js file in the static/js folder
+echo "window._env_ = {" > /usr/share/nginx/html/static/js/.env-config.js 
+echo "  REACT_APP_MAPBOX_ACCESS_TOKEN: \"$REACT_APP_MAPBOX_ACCESS_TOKEN\"," >> /usr/share/nginx/html/static/js/.env-config.js
+echo "  REACT_APP_DEFAULT_LOCALE: \"$REACT_APP_DEFAULT_LOCALE\"," >> /usr/share/nginx/html/static/js/.env-config.js
+echo "  REACT_APP_API_BASE_URL: \"$REACT_APP_API_BASE_URL\"" >> /usr/share/nginx/html/static/js/.env-config.js
+echo "};" >> /usr/share/nginx/html/static/js/.env-config.js
 
 
 # add the env-config.js file to the index.html file
