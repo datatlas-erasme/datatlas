@@ -27,6 +27,11 @@ COPY tsconfig.base.json /build/tsconfig.base.json
 COPY .babelrc /build/.babelrc
 COPY nx.json /build/nx.json
 
+# REACT_APP_MAPBOX_ACCESS_TOKEN  REACT_APP_DEFAULT_LOCALE REACT_APP_API_BASE_URL
+RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_MAPBOX_ACCESS_TOKEN="defaultMapboxToken"' > .env; fi
+RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_DEFAULT_LOCALE="defaultLocale"' >> .env; fi
+RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_API_BASE_URL="defaultApiBaseUrl"' >> .env; fi
+
 # Creates a "dist" folder with the production build
 RUN npx nx build $COPY_PATH
 
