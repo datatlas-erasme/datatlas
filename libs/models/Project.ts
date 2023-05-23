@@ -49,6 +49,28 @@ export class Project implements ProjectInterface {
     return draft;
   }
 
+  static isOwner({ ownerId }: Pick<NormalizedProjectInterface, 'ownerId'>, partialUser?: Pick<UserInterface, 'id'>) {
+    return !!partialUser && ownerId === partialUser.id;
+  }
+
+  static isPublished({ draft }: Pick<ProjectInterface, 'draft'>) {
+    return !draft;
+  }
+
+  static canView(
+    { ownerId, draft }: Pick<NormalizedProjectInterface, 'ownerId' | 'draft'>,
+    partialUser?: Pick<UserInterface, 'id'>
+  ) {
+    return Project.isPublished({ draft }) || Project.isOwner({ ownerId }, partialUser);
+  }
+
+  static canEdit(
+    { ownerId }: Pick<NormalizedProjectInterface, 'ownerId'>,
+    partialUser?: Pick<UserInterface, 'id'>
+  ): boolean {
+    return !!partialUser && Project.isOwner({ ownerId }, partialUser);
+  }
+
   isDraft() {
     return Project.isDraft(this);
   }

@@ -1,10 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useGetProjectsQuery } from '../store/api';
 import { ProjectList } from '../components/ProjectList';
 import Sidebar from '../components/sidebar/Sidebar';
+import { AuthenticatedGuard } from '../components/guards';
+import { useGetProjectsQuery } from '../store/api';
 import { selectProjects } from '../store/selectors';
-import { useSelector } from 'react-redux';
 
 const LayoutProjects = styled.div`
   display: flex;
@@ -36,22 +37,24 @@ export const ProjectsPage = () => {
 
   return (
     <React.StrictMode>
-      <LayoutProjects>
-        <ProjectsContainer>
-          <HeaderProjects>
-            <h2>Mes Projets</h2>
-          </HeaderProjects>
-          <ProjectList
-            data={projects}
-            isLoading={isLoading}
-            isFetching={isFetching}
-            isSuccess={isSuccess}
-            isError={isError}
-            error={error}
-          />
-        </ProjectsContainer>
-        <Sidebar />
-      </LayoutProjects>
+      <AuthenticatedGuard>
+        <LayoutProjects>
+          <ProjectsContainer>
+            <HeaderProjects>
+              <h2>Mes Projets</h2>
+            </HeaderProjects>
+            <ProjectList
+              data={projects}
+              isLoading={isLoading}
+              isFetching={isFetching}
+              isSuccess={isSuccess}
+              isError={isError}
+              error={error}
+            />
+          </ProjectsContainer>
+          <Sidebar />
+        </LayoutProjects>
+      </AuthenticatedGuard>
     </React.StrictMode>
   );
 };

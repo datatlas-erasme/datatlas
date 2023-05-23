@@ -1,3 +1,4 @@
+import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { RootState } from './reducers';
 import { getUser } from './api';
 import { MapInfoInterface, Project, ProjectInterface } from '@datatlas/models';
@@ -38,8 +39,29 @@ export const selectProjectById = (state: RootState, projectId) => {
   return Project.createProjectFromKeplerInstance(projectId, keplerState, user);
 };
 
-export const selectUserById = (state, id) => {
-  return getUser.select(id)(state)?.data;
-};
+export const selectUserById = (state, id) => getUser.select(id)(state)?.data;
+
 export const selectCurrentUserId = (state: RootState) => state.user.id;
+
+export const selectLoggedIn = (state: RootState) => !!selectCurrentUserId(state);
+
 export const selectAccessToken = (state: RootState) => state.user.accessToken;
+
+export const selectIsTokenExpired = (state: RootState) => {
+  const token = selectAccessToken(state);
+  if (!token) {
+    return false;
+  }
+
+  const decodedToken = jwtDecode<JwtPayload>(token);
+  console.log(decodedToken);
+  if (!decodedToken) {
+    throw new Error("Couldn't decode token.");
+  }
+
+  if (!decodedToken.exp) {
+    throw new Error('No expiration date was found in the access token.');
+  }
+
+  return Date.now() >= decodedToken.exp * 1000;
+};

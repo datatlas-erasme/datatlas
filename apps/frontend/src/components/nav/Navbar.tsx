@@ -1,14 +1,17 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
+import { Clock } from 'kepler.gl/dist/components/common/icons';
+import { useSelector } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/dist/query/react';
+import { StyledBadgeOutline } from '../badges';
+import { HelpIcon, WheelIcon } from '../icon';
+import { DatatlasLogo, HomeIcon } from '../logos';
 import { useAppDispatch } from '../../store';
 import { logout } from '../../store/reducers/user';
-import { DatatlasLogo, HomeIcon } from '../logos';
-import { StyledBadgeOutline } from '../badges';
-import { Clock } from 'kepler.gl/dist/components/common/icons';
-import { HelpIcon, WheelIcon } from '../icon';
 import { useGetProjectQuery } from '../../store/api';
+import { selectLoggedIn } from '../../store/selectors';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -80,9 +83,17 @@ const ProjectButton = styled.button`
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const { data } = useGetProjectQuery(+id);
+  const { data } = useGetProjectQuery(id ?? skipToken);
+  const loggedIn = useSelector(selectLoggedIn);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
 
   return (
     <NavContainer>
@@ -93,6 +104,7 @@ const Navbar = () => {
         <DatatlasLogo />
       </NavContainerLogo>
       {data && <ProjectButton>{data.title}</ProjectButton>}
+
       <NavItemsList>
         <li>
           <NavItem to={'/'}>
@@ -102,21 +114,33 @@ const Navbar = () => {
             <FormattedMessage id={'navigationBar.help'} defaultMessage={'Aide'} />
           </NavItem>
         </li>
+        {loggedIn && (
+          <li>
+            <NavItem to={'/'}>
+              <BadgesItem>
+                <WheelIcon />
+              </BadgesItem>
+              <FormattedMessage id={'navigationBar.settings'} defaultMessage={'Réglages'} />
+            </NavItem>
+          </li>
+        )}
+
         <li>
-          <NavItem to={'/'}>
-            <BadgesItem>
-              <WheelIcon />
-            </BadgesItem>
-            <FormattedMessage id={'navigationBar.settings'} defaultMessage={'Réglages'} />
-          </NavItem>
-        </li>
-        <li>
-          <button onClick={() => dispatch(logout())}>
-            <BadgesItem>
-              <Clock />
-            </BadgesItem>
-            <FormattedMessage id={'navigationBar.logout'} defaultMessage={'Logout'} />
-          </button>
+          {loggedIn ? (
+            <button onClick={handleLogout}>
+              <BadgesItem>
+                <Clock />
+              </BadgesItem>
+              <FormattedMessage id={'navigationBar.logout'} defaultMessage={'Logout'} />
+            </button>
+          ) : (
+            <button onClick={() => navigate('/login')}>
+              <BadgesItem>
+                <Clock />
+              </BadgesItem>
+              <FormattedMessage id={'navigationBar.login'} defaultMessage={'Login'} />
+            </button>
+          )}
         </li>
       </NavItemsList>
     </NavContainer>

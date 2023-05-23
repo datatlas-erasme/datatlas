@@ -1,12 +1,11 @@
 import React from 'react';
-import { Outlet, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { selectCurrentUserId } from '../../store/selectors';
 import Navbar from '../../components/nav/Navbar';
 import Footer from '../../components/footer/Footer';
-import { getUser } from '../../store/api';
-import { Loader } from '../../components/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsTokenExpired } from '../../store/selectors';
+import { logout } from '../../store/reducers/user';
 
 const LayoutStyle = styled.div`
   display: flex;
@@ -14,18 +13,12 @@ const LayoutStyle = styled.div`
   height: 100vh;
 `;
 export const AppLayout = () => {
-  const currentUserId = useSelector(selectCurrentUserId);
-  if (!currentUserId) {
-    return <Navigate to="/login" />;
-  }
-
-  const { isLoading, isFetching } = getUser.useQuery(currentUserId, {
-    skip: false,
-    refetchOnMountOrArgChange: true,
-  });
-
-  if (isLoading || isFetching) {
-    return <Loader />;
+  const isTokenExpired = useSelector(selectIsTokenExpired);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  if (isTokenExpired) {
+    dispatch(logout());
+    navigate('/login');
   }
 
   return (

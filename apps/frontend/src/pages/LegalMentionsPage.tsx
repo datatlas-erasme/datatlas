@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Layout } from './layouts';
+import { PublicLayout } from './layouts';
 import { ContentBackground } from '../components/content/StyledContentBackground';
 
 const WrapperLegalMention = styled.div`
@@ -23,7 +23,7 @@ const WrapperLegalMention = styled.div`
 
 const LegalMentions = () => {
   return (
-    <Layout>
+    <PublicLayout>
       <WrapperLegalMention>
         <h1>Mentions légales</h1>
         <p>
@@ -187,7 +187,7 @@ const LegalMentions = () => {
         </p>
       </WrapperLegalMention>
       <ContentBackground />
-    </Layout>
+    </PublicLayout>
   );
 };
 export default LegalMentions;
