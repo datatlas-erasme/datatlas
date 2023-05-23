@@ -107,6 +107,10 @@ export class UserService {
   }
 
   async hashString(textToHash: string): Promise<string> {
+    if (!textToHash) {
+      throw new Error('You must provide a string to hash.');
+    }
+
     return await bcrypt.hash(textToHash, 16);
   }
 }
