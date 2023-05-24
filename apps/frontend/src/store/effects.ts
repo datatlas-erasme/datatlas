@@ -28,13 +28,18 @@ startAppListening({
       // '@@kepler.gl/UPDATE_MAP',
       '@@kepler.gl/ADD_DATA_TO_MAP',
       '@@kepler.gl/REMOVE_DATASET',
+      '@@kepler.gl/MAP_CONFIG_CHANGE',
+      // Layers
       '@@kepler.gl/LAYER_TYPE_CHANGE',
       '@@kepler.gl/LAYER_CONFIG_CHANGE',
       '@@kepler.gl/LAYER_VIS_CONFIG_CHANGE',
+      // Filters
       '@@kepler.gl/SET_FILTER',
+      '@@kepler.gl/REMOVE_FILTER',
+      // Interactions
       '@@kepler.gl/INTERACTION_CONFIG_CHANGE',
+      // Map style
       '@@kepler.gl/MAP_STYLE_CHANGE',
-      '@@kepler.gl/MAP_CONFIG_CHANGE',
     ])
   ),
   effect: async (action, { dispatch, getState }) => {

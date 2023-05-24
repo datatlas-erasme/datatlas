@@ -10,7 +10,11 @@ export class KeplerMapConfig implements SavedMapConfig {
   mapStyle: KeplerMapStyle = new KeplerMapStyle();
   visState: KeplerVisState = new KeplerVisState();
 
-  constructor(properties?: Partial<SavedMapConfig>) {
+  constructor({ visState, ...properties }: Partial<SavedMapConfig> = {}) {
     Object.assign(this, properties);
+
+    if (visState) {
+      this.visState = KeplerVisState.removeInvalidFilters(visState);
+    }
   }
 }
