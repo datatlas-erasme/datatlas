@@ -8,8 +8,7 @@ const FooterContainer = styled.footer`
   display: flex;
   flex-flow: row wrap;
   flex-direction: column;
-  position: static;
-  padding: 20px 40px;
+  padding: 20px 40px 8px 40px;
   width: 100vw;
   p,
   li {
@@ -32,6 +31,10 @@ const FooterContainer = styled.footer`
           &:first-child {
             padding-right: 10px;
             border-right: 1px solid;
+          }
+          &:last-child {
+            padding-right: 0;
+            border-right: 0;
           }
         }
       }
@@ -81,6 +84,11 @@ const Footer = () => (
           <FranceRelanceLogo />
         </a>
       </LogoContainer>
+      <ul>
+        <li>
+          <GithubLink bgColor={'current'} />
+        </li>
+      </ul>
     </div>
     <div>
       <p className={'text-licence'}>
@@ -91,9 +99,6 @@ const Footer = () => (
           <Link to={'/legalmentions'} rel={'noreferrer'}>
             Mentions Légales
           </Link>
-        </li>
-        <li>
-          <GithubLink bgColor={'current'} />
         </li>
       </ul>
     </div>

@@ -11,7 +11,6 @@ const LayoutProjects = styled.div`
   display: flex;
   flex: auto;
   width: 100vw;
-  overflow: scroll;
   background-color: ${({ theme }) => theme.layoutBGColor};
 `;
 

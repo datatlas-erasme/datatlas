@@ -17,27 +17,22 @@ const NavContainer = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;
   background-color: ${(props) => props.theme.navBackgroundColor};
 `;
 const NavContainerLogo = styled.div`
   display: flex;
   align-items: center;
-  svg {
-    width: 100px;
-    :nth-child(1) {
-      border-right: 1px solid ${({ theme }) => theme.greyMedium};
-    }
-    :nth-child(2) {
-      margin: 0 20px;
-    }
+
+  ${DatatlasLogo} {
+    height: 38px;
+    margin: 0 19px;
   }
 `;
 const NavItemsList = styled.ul`
   display: flex;
   justify-content: space-around;
   list-style: none;
-  padding: 20px;
+  padding: 18px;
   font-family: ${(props) => props.theme.fontFamily};
   li {
     align-self: center;
@@ -80,6 +75,14 @@ const ProjectButton = styled.button`
   font-weight: 400;
 `;
 
+const HomeLink = styled(Link)`
+  padding: 19px;
+  border-right: 1px solid ${({ theme }) => theme.greyMedium};
+  svg {
+    width: 19px;
+  }
+`;
+
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
@@ -98,11 +101,12 @@ const Navbar = () => {
   return (
     <NavContainer>
       <NavContainerLogo>
-        <Link to={'/'}>
+        <HomeLink to={'/'}>
           <HomeIcon />
-        </Link>
+        </HomeLink>
         <DatatlasLogo />
       </NavContainerLogo>
+
       {data && <ProjectButton>{data.title}</ProjectButton>}
 
       <NavItemsList>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { PublicLayout } from './layouts';
+import { PublicLayout } from '../components/layouts';
 import { ContentBackground } from '../components/content/StyledContentBackground';
 
 const WrapperLegalMention = styled.div`

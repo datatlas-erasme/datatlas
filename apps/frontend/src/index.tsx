@@ -7,9 +7,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import reportWebVitals from './reportWebVitals';
 import { store, persistor } from './store';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { LoginPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
+import { LoginPage, SandboxMapPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
 import { Loader } from './components/Loader';
-import { AppLayout } from './pages/layouts';
+import { AppLayout } from './components/layouts';
 import { ComponentsPage } from './pages/ComponentsPage';
 import { GlobalStyle } from './style/GlobalStyle';
 import { theme } from './style/theme';
@@ -46,6 +46,10 @@ const router = createBrowserRouter([
     path: '/components',
     element: <ComponentsPage />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: '/sandbox',
+    element: <SandboxMapPage />,
   },
 ]);
 
