@@ -6,7 +6,7 @@ export class KeplerVersionedMapConfig implements KeplerVersionedMapConfigInterfa
   version = 'v1' as const;
 
   constructor(config: KeplerMapConfig = new KeplerMapConfig(), version = 'v1' as const) {
-    this.config = config;
+    this.config = new KeplerMapConfig(config);
     this.version = version;
   }
 }
