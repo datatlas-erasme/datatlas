@@ -7,7 +7,7 @@ import Footer from '../../components/footer/Footer';
 const LayoutStyle = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
 `;
 export const AppLayout = () => {
   return (

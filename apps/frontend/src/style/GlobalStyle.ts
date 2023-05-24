@@ -9,8 +9,17 @@ export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
     font-family: ${({ theme }) => theme.fontFamily};
   }
 
-  html{
+  html {
     scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
   }
 
   h2{

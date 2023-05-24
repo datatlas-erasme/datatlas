@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { PublicLayout } from './layouts';
+import { PublicLayout } from '../components/layouts';
 import { LoginForm } from '../components/forms';
 import { DatatlasLogoSquare } from '../components/logos';
 import FirstShapeBg from '../assets/shapes/first-shape.svg';
@@ -74,7 +74,6 @@ const LoginFormWrapper = styled.div`
   align-items: center;
   justify-content: center;
   flex-grow: 1;
-  min-height: 85vh;
   max-width: 100vw;
   background-image: url(${SecondShapeBg});
   background-repeat: no-repeat;
@@ -104,7 +103,7 @@ export const LoginPage = () => {
           <h4>L’outil de création de cartographies web interactives qui valorise vos données</h4>
         </div>
         <p>
-          Vous souhaitez rejoindre l'expérimentation et tester l'outil ?
+          Vous souhaitez rejoindre l'expérimentation et tester l'outil ?&nbsp;
           <a href={'mailto:aangelot@grandlyon.com'}>Contacter l'administrateur</a>
         </p>
       </LogoWrapper>

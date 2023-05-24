@@ -6,16 +6,21 @@ export type LayoutProps = PropsWithChildren<object>;
 
 const PublicLayoutWrapper = styled.div`
   display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+`;
+
+const Content = styled.div`
+  flex-grow: 1;
+  display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-  min-height: 100vh;
-  width: 100vw;
 `;
 
 export const PublicLayout = ({ children }: LayoutProps) => {
   return (
     <PublicLayoutWrapper>
-      {children}
+      <Content>{children}</Content>
       <Footer />
     </PublicLayoutWrapper>
   );
