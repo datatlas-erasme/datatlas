@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
 import { KeplerMapStyle } from '@datatlas/models';
 import { StyledFormBtn } from '../buttons';
-import { StyledLabel } from '../forms';
+import { FormError, StyledLabel } from '../forms';
 import { useCreateProjectMutation } from '../../store/api';
 import { CreateProjectFormData } from '../../models';
 
@@ -18,8 +18,6 @@ export function StartNewProjectForm() {
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
   } = useForm<CreateProjectFormData>();
-  const intl = useIntl();
-
   useEffect(() => {
     if (isSuccess && data) {
       navigate(`/projects/${data.id}`);
@@ -47,7 +45,9 @@ export function StartNewProjectForm() {
       {/* register your input into the hook by invoking the "register" function */}
       <Input id="title" defaultValue="" {...register('title', { required: true })} />
       {errors.title && (
-        <FormattedMessage id={'createProjectForm.titleRequired'} defaultMessage="This field is required" />
+        <FormError>
+          <FormattedMessage id={'createProjectForm.titleRequired'} defaultMessage="This field is required" />
+        </FormError>
       )}
       <StyledLabel htmlFor={'selectMap'}>
         2.
@@ -60,10 +60,9 @@ export function StartNewProjectForm() {
           </option>
         ))}
       </select>
-      <StyledFormBtn
-        type="submit"
-        value={intl.formatMessage({ id: 'createProjectForm.submit', defaultMessage: 'Créer' })}
-      />
+      <StyledFormBtn loading={isLoading}>
+        <FormattedMessage id={'createProjectForm.submit'} defaultMessage="Créer" />
+      </StyledFormBtn>
     </form>
   );
 }

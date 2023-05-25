@@ -9,6 +9,7 @@ import { StyledLabel } from './StyledLabel';
 import { StyledFormBtn } from '../buttons';
 import { isApiError } from '../../utils/rtk';
 import { LoginFormData } from '../../models';
+import { FormError } from './FormError';
 
 const StyledLoginForm = styled.form`
   display: flex;
@@ -76,18 +77,24 @@ export function LoginForm({ forgotPasswordEnabled = false, rememberMeEnabled = f
       </StyledLabel>
       <StyledLoginInput id="login" defaultValue="" {...register('email', { required: true })} />
       {errors.email && (
-        <FormattedMessage id={'loginForm.errors.email.required'} defaultMessage="This field is required" />
+        <FormError>
+          <FormattedMessage id={'loginForm.errors.email.required'} defaultMessage="This field is required" />
+        </FormError>
       )}
       <StyledLabel htmlFor="password">
         <FormattedMessage id={'loginForm.password'} defaultMessage="Mot de passe" />
       </StyledLabel>
       <StyledLoginInput id="password" type="password" defaultValue="" {...register('password', { required: true })} />
       {errors.password && (
-        <FormattedMessage id={'loginForm.errors.password.required'} defaultMessage="This field is required" />
+        <FormError>
+          <FormattedMessage id={'loginForm.errors.password.required'} defaultMessage="This field is required" />
+        </FormError>
       )}
       {forgotPasswordEnabled && (
         <StyledLink to={'/'}>
-          <FormattedMessage id={'loginForm.forgotPassword'} defaultMessage="J’ai oublié mon mot de passe" />
+          <FormError>
+            <FormattedMessage id={'loginForm.forgotPassword'} defaultMessage="J’ai oublié mon mot de passe" />
+          </FormError>
         </StyledLink>
       )}
 
@@ -97,10 +104,9 @@ export function LoginForm({ forgotPasswordEnabled = false, rememberMeEnabled = f
         </p>
       )}
 
-      <StyledFormBtn
-        type="submit"
-        value={intl.formatMessage({ id: 'loginForm.submit', defaultMessage: 'Connexion' })}
-      />
+      <StyledFormBtn loading={isLoading}>
+        {intl.formatMessage({ id: 'loginForm.submit', defaultMessage: 'Connexion' })}
+      </StyledFormBtn>
       {rememberMeEnabled && (
         <div>
           <input id="rememberMe" type={'checkbox'} {...register('rememberMe', { required: false })} />

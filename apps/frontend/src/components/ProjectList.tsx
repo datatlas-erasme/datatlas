@@ -24,7 +24,7 @@ const ContainerProjectList = styled.div`
 export const ProjectList = ({ data, isLoading, isFetching, isSuccess, isError, error }: ProjectListProps) => {
   let content;
   if (isLoading || isFetching) {
-    content = <Loader />;
+    content = <Loader dark />;
   } else if (isSuccess) {
     content = data ? data.map((project) => <ProjectListItem key={project.id} {...project} />) : [];
   } else if (isError && error) {
