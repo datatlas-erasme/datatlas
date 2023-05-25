@@ -32,7 +32,12 @@ const StyledLoginInput = styled(Input)`
   width: 20vw;
 `;
 
-export function LoginForm() {
+interface LoginFormProps {
+  forgotPasswordEnabled?: boolean;
+  rememberMeEnabled?: boolean;
+}
+
+export function LoginForm({ forgotPasswordEnabled = false, rememberMeEnabled = false }: LoginFormProps) {
   const {
     reset,
     register,
@@ -80,9 +85,11 @@ export function LoginForm() {
       {errors.password && (
         <FormattedMessage id={'loginForm.errors.password.required'} defaultMessage="This field is required" />
       )}
-      <StyledLink to={'/'}>
-        <FormattedMessage id={'loginForm.forgotPassword'} defaultMessage="J’ai oublié mon mot de passe" />
-      </StyledLink>
+      {forgotPasswordEnabled && (
+        <StyledLink to={'/'}>
+          <FormattedMessage id={'loginForm.forgotPassword'} defaultMessage="J’ai oublié mon mot de passe" />
+        </StyledLink>
+      )}
 
       {isError && isApiError(error) && (
         <p>
@@ -94,12 +101,14 @@ export function LoginForm() {
         type="submit"
         value={intl.formatMessage({ id: 'loginForm.submit', defaultMessage: 'Connexion' })}
       />
-      <div>
-        <input id="rememberMe" type={'checkbox'} {...register('rememberMe', { required: false })} />
-        <p>
-          <FormattedMessage id={'loginForm.rememberMe'} defaultMessage="Se souvenir de moi" />
-        </p>
-      </div>
+      {rememberMeEnabled && (
+        <div>
+          <input id="rememberMe" type={'checkbox'} {...register('rememberMe', { required: false })} />
+          <p>
+            <FormattedMessage id={'loginForm.rememberMe'} defaultMessage="Se souvenir de moi" />
+          </p>
+        </div>
+      )}
     </StyledLoginForm>
   );
 }
