@@ -1,3 +1,4 @@
+export * from './FormError';
 export * from './LoadRemoteDatasetForm';
 export * from './LoginForm';
 export * from './StartNewProjectForm';
