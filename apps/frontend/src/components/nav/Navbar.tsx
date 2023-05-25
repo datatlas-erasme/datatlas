@@ -83,7 +83,12 @@ const HomeLink = styled(Link)`
   }
 `;
 
-const Navbar = () => {
+interface NavbarProps {
+  helpButtonEnabled?: boolean;
+  settingsButtonEnabled?: boolean;
+}
+
+const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false }: NavbarProps) => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -110,15 +115,17 @@ const Navbar = () => {
       {data && <ProjectButton>{data.title}</ProjectButton>}
 
       <NavItemsList>
-        <li>
-          <NavItem to={'/'}>
-            <BadgesItem>
-              <HelpIcon />
-            </BadgesItem>
-            <FormattedMessage id={'navigationBar.help'} defaultMessage={'Aide'} />
-          </NavItem>
-        </li>
-        {loggedIn && (
+        {helpButtonEnabled && (
+          <li>
+            <NavItem to={'/'}>
+              <BadgesItem>
+                <HelpIcon />
+              </BadgesItem>
+              <FormattedMessage id={'navigationBar.help'} defaultMessage={'Aide'} />
+            </NavItem>
+          </li>
+        )}
+        {loggedIn && settingsButtonEnabled && (
           <li>
             <NavItem to={'/'}>
               <BadgesItem>
