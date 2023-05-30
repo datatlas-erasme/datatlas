@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Header,
+  HttpCode,
+  NotFoundException,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { CreateUserDto, GetUserDto, UpdateUserDto } from '@datatlas/dtos';
@@ -26,7 +38,11 @@ export class UserController {
   @Get(':id')
   @UseGuards(CanGetUserGuard)
   findOne(@Param('id') id: number): Promise<GetUserDto> {
-    return this.userService.getUserDto(id);
+    const user = this.userService.getUserDto(id);
+    if (user === null) {
+      throw new NotFoundException('User not found');
+    }
+    return user;
   }
 
   @UseGuards(CanGetUsersGuard)
