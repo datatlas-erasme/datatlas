@@ -17,7 +17,6 @@ export class SelfOrAdminGuard extends AuthGuard('local') {
      */
     const request = context.switchToHttp().getRequest();
     const { headers } = request;
-    console.log('SelfOrAdminGuard.authh', headers.authorization);
     if (!headers.authorization) {
       throw new HttpException(`Unauthorized.`, 401);
     }
@@ -25,8 +24,6 @@ export class SelfOrAdminGuard extends AuthGuard('local') {
     const headerString = headers.authorization.split(' ');
     const jwtData = this.jwtService.decode(headerString[1]) as { [key: string]: never };
     // In case of incoherent jwt.
-    console.log('SelfOrAdminGuard.jwtData', jwtData);
-    console.log('SelfOrAdminGuard.request.params', request.params.id);
     if (jwtData === null) {
       return false;
     }

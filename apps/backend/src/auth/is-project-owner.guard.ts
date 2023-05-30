@@ -17,7 +17,6 @@ export class IsProjectOwnerGuard extends AuthGuard('local') {
         - IS THE ID IN JWT THE SAME AS IN THE SENT OBJECT ?
      */
     const request = context.switchToHttp().getRequest<{ body: HasOwnerIdInterface; headers }>();
-    console.log('request', request);
     const { headers } = request;
     const headerString = headers.authorization.split(' ');
     const jwtData = this.jwtService.decode(headerString[1]) as { [key: string]: never };
