@@ -85,6 +85,22 @@ nx serve backend
 
 > Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
 
+#### Swagger
+
+You can reach swagger and see all the API routes at http://localhost:3333/api/
+
+Please note that most routes require an authentication. Reach it out via this route `/api/auth/login` and
+sending this body :
+
+```json
+{
+  "email": "your_email",
+  "password": "your-password"
+}
+```
+
+Those credentials are the one you should have put in your `.env` file.
+
 ## Design
 
 **Figma** sketch :
