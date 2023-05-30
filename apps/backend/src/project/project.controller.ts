@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, Req } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, Req, NotFoundException } from '@nestjs/common';
 import { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
@@ -35,7 +35,11 @@ export class ProjectController {
 
   @Get(':id')
   async fetchOne(@Param('id') id: number): Promise<ProjectEntity> {
-    return await this.projectService.findOneById(id);
+    const project = await this.projectService.findOneById(id);
+    if (project === null) {
+      throw new NotFoundException('Project not found');
+    }
+    return project;
   }
 
   @Put(':id')
