@@ -88,14 +88,12 @@ export class UserService {
     try {
       await this.createUser(userAdmin);
     } catch (e) {
-      console.log(e);
       Logger.log('Admin already in database.');
     }
 
     try {
       await this.createUser(userDummyEditor);
     } catch (e) {
-      console.log(e);
       Logger.log('Editor already in database.');
     }
   }
