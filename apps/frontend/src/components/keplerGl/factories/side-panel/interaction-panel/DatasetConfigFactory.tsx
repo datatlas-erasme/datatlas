@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import { SidePanelSection, SBFlexboxNoMargin, Button } from 'kepler.gl/dist/components/common/styled-components';
+import {
+  SidePanelSection,
+  SBFlexboxNoMargin,
+  Button,
+} from 'kepler.gl/dist/components/common/styled-components';
 import TooltipChickletFactory from 'kepler.gl/dist/components/side-panel/interaction-panel/tooltip-config/tooltip-chicklet';
 import { TooltipConfigFactory as KeplerTooltipConfigFactory } from 'kepler.gl/components';
+import { Datasets, TooltipField } from 'kepler.gl/src/reducers/vis-state-updaters';
 
-const TooltipConfigWrapper = styled.div`
-  .item-selector > div > div {
-    overflow: visible;
-  }
-`;
-
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: inherit;
   padding: 0;
 
@@ -27,9 +26,22 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-TooltipConfigFactory.deps = KeplerTooltipConfigFactory.deps;
-function TooltipConfigFactory(DatasetTag, FieldSelector) {
-  const DatasetTooltipConfig = ({ config, onChange, dataset }) => {
+export interface DatasetConfig {
+  fieldsToShow: { [key: string]: TooltipField[] };
+}
+
+export interface DatasetConfigProps<C extends DatasetConfig> {
+  config: C;
+  onChange: (config: C) => void;
+  dataset: Datasets[string];
+}
+
+export function DatasetConfigFactory<C extends DatasetConfig>(
+  DatasetTag: ComponentType<any>,
+  FieldSelector: ComponentType<any>
+) {
+  return ({ config, onChange, dataset }: DatasetConfigProps<C>) => {
+
     const dataId = dataset.id;
     return (
       <SidePanelSection key={dataId}>
@@ -52,7 +64,7 @@ function TooltipConfigFactory(DatasetTag, FieldSelector) {
                 width="54px"
                 secondary
               >
-                <FormattedMessage id="fieldSelector.clearAll" />
+                <FormattedMessage id="fieldSelector.clearAll" defaultMessage="Clear all" />
               </Button>
             </ButtonWrapper>
           )}
@@ -85,18 +97,6 @@ function TooltipConfigFactory(DatasetTag, FieldSelector) {
       </SidePanelSection>
     );
   };
-
-  return ({ config, datasets, onChange }) => {
-    return (
-      <TooltipConfigWrapper>
-        {Object.keys(config.fieldsToShow).map((dataId) => (
-          <DatasetTooltipConfig key={dataId} config={config} onChange={onChange} dataset={datasets[dataId]} />
-        ))}
-      </TooltipConfigWrapper>
-    );
-  };
 }
 
-export function replaceTooltipConfig() {
-  return [KeplerTooltipConfigFactory, TooltipConfigFactory];
-}
+DatasetConfigFactory.deps = KeplerTooltipConfigFactory.deps;

@@ -1,4 +1,5 @@
 export * from './map-control-panel';
+export * from './side-panel';
 export * from './FilterManagerFactory';
 export * from './InteractionManagerFactory';
 export * from './KeplerGlFactory';
@@ -13,5 +14,3 @@ export * from './PanelToggleFactory';
 export * from './PanelTabFactory';
 export * from './PanelTitleFactory';
 export * from './AddDataButtonFactory';
-
-export * from './TooltipConfigFactory';

@@ -1,9 +1,10 @@
 import React from 'react';
 import { InteractionManagerFactory as KeplerInteractionManagerFactory } from 'kepler.gl/components';
 
-type InteractionConfigType = 'tooltip' | 'geocoder' | 'brush' | 'coordinate';
+export type InteractionConfigType = 'tooltip' | 'geocoder' | 'brush' | 'coordinate' | 'filters';
 
-const enabledInteractionConfigTypes: InteractionConfigType[] = ['tooltip'];
+
+const enabledInteractionConfigTypes: InteractionConfigType[] = ['tooltip', 'filters'];
 
 function InteractionManagerFactory(InteractionPanel) {
   return ({ interactionConfig, datasets, visStateActions }) => {
