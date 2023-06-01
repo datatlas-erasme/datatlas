@@ -111,7 +111,7 @@ export type KeplerGLBasicProps = {
   bottomMapContainerProps?: object;
 };
 
-type KeplerGLProps = KeplerGlState & KeplerGlActions & KeplerGLBasicProps & KeplerGlExtraProps;
+export type KeplerGLProps = KeplerGlState & KeplerGlActions & KeplerGLBasicProps & KeplerGlExtraProps;
 
 // @ts-ignore
 type KeplerGlSelector = (...args: any[]) => KeplerGlState;

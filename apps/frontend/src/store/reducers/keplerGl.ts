@@ -6,8 +6,13 @@ import { DatatlasSavedMapInterface, KeplerMapState, KeplerMapStyle, MapInfoInter
 import { ProjectDto } from '@datatlas/dtos';
 import { getDefaultLocale } from '../../i18n/utils';
 import { getProject, getProjects } from '../api';
-import { KeplerMapFactory } from '../../kepler';
+import { keplerMapFactory, KeplerMapFactory } from '../../kepler';
 import { toKeplerId } from '../selectors';
+import { INITIAL_VIS_STATE } from 'kepler.gl/dist/reducers/vis-state-updaters';
+import {
+  DatatlasGlVisStateInterface,
+  getDefaultInteractionConfig,
+} from '../../../../../libs/models/kepler/DatatlasGlVisState';
 
 export const registerMap = (id: string, mint = true) =>
   registerEntry({
@@ -25,9 +30,17 @@ export const updateMapInfo = createAction<Partial<MapInfoInterface>>(UPDATE_MAP_
 export const UPDATE_READ_STATE = 'UPDATE_READ_STATE';
 export const updateReadState = createAction<boolean>(UPDATE_READ_STATE);
 
-export const keplerReducer: Reducer<KeplerGlState> = keplerGlReducer
+export interface DatatlasGlState extends KeplerGlState {
+  visState: DatatlasGlVisStateInterface;
+}
+
+export const keplerReducer: Reducer<DatatlasGlState> = keplerGlReducer
   .initialState({
     mapState: new KeplerMapState(),
+    visState: {
+      ...INITIAL_VIS_STATE,
+      interactionConfig: getDefaultInteractionConfig(),
+    },
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     mapStyle: new KeplerMapStyle({ mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN }),
@@ -50,6 +63,62 @@ export const keplerReducer: Reducer<KeplerGlState> = keplerGlReducer
         readOnly: action.payload,
       },
     }),
+    ['@@kepler.gl/ADD_DATA_TO_MAP']: (state, action) => {
+      const emptyFieldsToShow = Array.isArray(action.payload.datasets)
+        ? action.payload.datasets.reduce((fieldsToShow, { info: { id } }) => ({ ...fieldsToShow, [id]: [] }), {})
+        : { [action.payload.datasets.info.id]: [] };
+
+      const fieldsToShow =
+        action.payload?.config?.visState?.interactionConfig?.filters?.fieldsToShow || emptyFieldsToShow;
+
+      return {
+        ...state,
+        visState: {
+          ...state.visState,
+          interactionConfig: {
+            ...state.visState.interactionConfig,
+            filters: {
+              ...state.visState.interactionConfig.filters,
+              config: {
+                ...state.visState.interactionConfig.filters.config,
+                fieldsToShow: {
+                  ...state.visState.interactionConfig.filters.config.fieldsToShow,
+                  ...fieldsToShow,
+                },
+              },
+            },
+          },
+        },
+      };
+    },
+    ['@@kepler.gl/REMOVE_DATASET']: (state, action) => {
+      const fieldsToShow = Object.keys(state.visState.interactionConfig.filters.config.fieldsToShow).reduce(
+        (leftFieldsToShow, datasetId) => {
+          if (datasetId !== action.dataId) {
+            leftFieldsToShow[datasetId] = state.visState.interactionConfig.filters.config.fieldsToShow[datasetId];
+          }
+          return leftFieldsToShow;
+        },
+        {}
+      );
+
+      return {
+        ...state,
+        visState: {
+          ...state.visState,
+          interactionConfig: {
+            ...state.visState.interactionConfig,
+            filters: {
+              ...state.visState.interactionConfig.filters,
+              config: {
+                ...state.visState.interactionConfig.filters.config,
+                fieldsToShow,
+              },
+            },
+          },
+        },
+      };
+    },
   });
 
 export const addProjectToKeplerState = (state: Record<string, KeplerGlState> = {}, project: ProjectDto) =>
@@ -64,7 +133,7 @@ export const getConversionActions = (
   savedMap: DatatlasSavedMapInterface,
   locale = getDefaultLocale()
 ) => {
-  const loadedMap = KeplerMapFactory.load(savedMap);
+  const loadedMap = keplerMapFactory.load(savedMap);
   const wrapToMap = wrapTo(keplerId);
   return [
     registerMap(keplerId),

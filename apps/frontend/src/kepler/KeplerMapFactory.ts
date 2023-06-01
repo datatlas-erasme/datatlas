@@ -7,10 +7,17 @@ import {
   KeplerMapStyle,
 } from '@datatlas/models';
 import { ProjectDto } from '@datatlas/dtos';
-import { KeplerGlSchema } from 'kepler.gl/schemas';
 import { SavedMap, LoadedMap } from 'kepler.gl/src';
+import { KeplerGlSchema } from 'kepler.gl/schemas';
+import { schemaManager } from './schema-manager';
 
 export class KeplerMapFactory {
+  schemaManager: KeplerGlSchema;
+
+  constructor(schemaManager: KeplerGlSchema) {
+    this.schemaManager = schemaManager;
+  }
+
   public static createFromProjectDto({
     datasets,
     config,
@@ -73,8 +80,8 @@ export class KeplerMapFactory {
     return datasets;
   }
 
-  public static load(savedMap: SavedMap): LoadedMap {
-    const loadedMap = KeplerGlSchema.load(savedMap);
+  public load(savedMap: SavedMap): LoadedMap {
+    const loadedMap = this.schemaManager.load(savedMap);
 
     return {
       ...loadedMap,
@@ -85,3 +92,5 @@ export class KeplerMapFactory {
     };
   }
 }
+
+export const keplerMapFactory = new KeplerMapFactory(schemaManager);

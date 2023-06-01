@@ -6,8 +6,8 @@ import {
   SavedFilter,
   SavedLayer,
 } from 'kepler.gl/schemas/schema-manager';
-import { getDefaultInteraction } from 'kepler.gl/dist/utils/interaction-utils';
 import { DEFAULT_ANIMATION_CONFIG } from 'kepler.gl/dist/reducers/vis-state-updaters';
+import { DatatlasGlInteractionConfigInterface, getDefaultInteractionConfig } from './DatatlasGlVisState';
 
 export class KeplerVisState implements SavedVisState {
   animationConfig: SavedAnimationConfig;
@@ -31,7 +31,7 @@ export class KeplerVisState implements SavedVisState {
     splitMaps: [],
   });
 
-  public static getDefaultInteractionConfig = (): SavedInteractionConfig => getDefaultInteraction();
+  public static getDefaultInteractionConfig = (): DatatlasGlInteractionConfigInterface => getDefaultInteractionConfig();
 
   public static getDefaultAnimationConfig = (): SavedAnimationConfig => DEFAULT_ANIMATION_CONFIG;
 

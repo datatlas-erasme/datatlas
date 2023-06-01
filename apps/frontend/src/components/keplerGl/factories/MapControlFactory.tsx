@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { MapControlFactory as KeplerMapControlFactory } from 'kepler.gl/components';
 import KeplerGlLogo from 'kepler.gl/dist/components/common/logo';
-import { KeplerGLBasicProps } from './KeplerGlFactory';
+import { KeplerGLProps } from './KeplerGlFactory';
 import { PublishButton } from '../../buttons/PublishButton';
+import { Menu } from '../../Menu';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/reducers';
+import { useParams } from 'react-router-dom';
 
 const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
   right: 0;
@@ -23,7 +27,7 @@ const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
 
 const LegendLogo = <KeplerGlLogo version={false} appName={process.env.REACT_APP_NAME || 'Datatlas'} />;
 
-interface MapControlProps extends KeplerGLBasicProps {
+interface MapControlProps extends KeplerGLProps {
   actionComponents: Component[];
   isSplit: boolean;
   top: number;
@@ -55,10 +59,19 @@ function MapControlFactory(
     top = 0,
     mapIndex = 0,
     logoComponent = LegendLogo,
+    datasets,
     ...props
   }: MapControlProps) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { id } = useParams();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const filtersConfig = useSelector<RootState>((state) => state.keplerGl[id].visState.interactionConfig.filters);
+    // console.log('datasets', datasets);
+    // console.log('props', props);
+    // console.log('filtersConfig', filtersConfig);
     return (
       <StyledMapControl className="map-control" top={top}>
+        <Menu datasets={datasets} filtersConfig={filtersConfig} />
         {actionComponents.map((ActionComponent, index) => (
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
@@ -69,6 +82,7 @@ function MapControlFactory(
             top={top}
             mapIndex={mapIndex}
             logoComponent={LegendLogo}
+            datasets={datasets}
             {...props}
           />
         ))}
