@@ -7,6 +7,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { MikroORM } from '@mikro-orm/core';
+import * as bodyParser from 'body-parser';
 
 import { AppModule } from './app/app.module';
 
@@ -25,6 +26,8 @@ async function bootstrap() {
       transform: true,
     })
   );
+  app.use(bodyParser.json({ limit: '10mb' }));
+  app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
   await app.get(MikroORM).getSchemaGenerator().ensureDatabase();
   await app.get(MikroORM).getSchemaGenerator().updateSchema();
