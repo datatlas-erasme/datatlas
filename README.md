@@ -121,3 +121,10 @@ Run `nx graph` to see a diagram of the dependencies of the projects.
 ### Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+### Troubleshooting
+
+#### pgpass on my local machine does not automaticly connect to datatlas postgres database
+
+The mounted pgpass file should have 0600 permissions. If not, pgpass will ignore it.
+`chmod 0600 docker/pgadmin/pgpass`

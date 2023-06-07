@@ -22,3 +22,6 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - '5431:80'
+    volumes:
+      - ./docker/pgadmin/servers.json:/pgadmin4/servers.json
+      - ./docker/pgadmin/pgpass:/pgpass
