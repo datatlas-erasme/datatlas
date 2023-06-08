@@ -1,77 +1,70 @@
-import React, { ButtonHTMLAttributes, LiHTMLAttributes, useState } from 'react';
+import React, { ButtonHTMLAttributes, LiHTMLAttributes, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
-import { KeplerTable } from 'kepler.gl/src';
-import { appInjector } from 'kepler.gl/dist/components';
-import { RangeFilter as RangeFilterFactory } from 'kepler.gl/dist/components/filters';
-import { FiltersConfigInterface } from '../../../../libs/models/kepler/DatatlasGlVisState';
+import { Datasets, Filter } from 'kepler.gl/src/reducers/vis-state-updaters';
+import { Layer, KeplerTable } from 'kepler.gl/src';
 import { FilterField } from './keplerGl/factories';
-import { Field } from 'kepler.gl/src/utils/table-utils/kepler-table';
+import { FiltersConfigInterface } from '@datatlas/models';
+import { createFilterComponent } from './keplerGl/factories/side-panel/filter-components';
 
-// [FILTER_TYPES.timeRange]: TimeRangeFilterPanel,
-//   [FILTER_TYPES.select]: SingleSelectFilterPanel,
-//   [FILTER_TYPES.multiSelect]: MultiSelectFilterPanel,
-//   [FILTER_TYPES.range]: RangeFilterPanel,
-//   [FILTER_TYPES.polygon]: PolygonFilterPanel
+export const MenuIconButton = ({ ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => (
+  <MenuIcon as="button" {...props} />
+);
 
-// export const TimeRangeSlider = appInjector.get(TimeRangeSliderFactory);
-// export const RangeFilter = appInjector.get();
-export const RangeFilter = appInjector.get(RangeFilterFactory);
-//
-// RangeFilterFactory(RangeSlider) {
-// TimeRangeFilterFactory
-// PolygonFilterFactory
-// SingleSelectFilterFactory
-// MultiSelectFilterFactory
-
-interface MenuIconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
-
-export const MenuIconButton = ({ ...props }: MenuIconButtonProps) => <MenuIcon as="button" {...props} />;
-
-export const MenuIcon = styled((props) => <div {...props} />)``;
+export const MenuIcon = styled((props) => <div {...props} />)`
+  align-self: center;
+  justify-self: flex-end;
+`;
 
 export const ToggleMenuButton = ({ open, ...props }) => <MenuIconButton {...props}>{open ? 'X' : 'O'}</MenuIconButton>;
 
-interface DatasetMenuProps extends LiHTMLAttributes<HTMLLIElement> {
-  dataset: KeplerTable;
-  fields?: FilterField[];
-  unfolded?: boolean;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type SetFilter = (idx: number, prop: string, value: any) => void;
+
+interface FilterFactoryProps {
+  filter: Filter;
+  setFilter: SetFilter;
 }
 
-export const FilterFactory = ({ da, field }) => {
-  // class KeplerTable {
-  //   constructor({info = {}, data, color, metadata, supportedFilterTypes}) {
-  // console.log('dataset', dataset);
-  // console.log('dataset.getColumnFilterProps', dataset.getColumnFilterProps);
-  return <div>{}</div>;
+export const FilterComponentFactory = (props: FilterFactoryProps) => {
+  const FilterComponent = createFilterComponent(props.filter);
+
+  return FilterComponent ? <FilterComponent {...props} /> : null;
 };
 
-export const DatasetMenu = ({ dataset, unfolded, fields, ...props }: DatasetMenuProps) => {
-  // getFilterProps
-  // KeplerTable.getColumnFilterProps
+interface DatasetMenuProps extends LiHTMLAttributes<HTMLLIElement> {
+  datasets: Datasets;
+  fields?: FilterField[];
+  filters: Filter[];
+  layer: Layer;
+  unfolded?: boolean;
+  reversedIndex: number[]; // An array of filters index in reverse order.
+  setFilter: SetFilter;
+}
 
-  console.log('getColumnFilterProps', typeof dataset.getColumnFilterProps());
-  console.log('fields', fields);
-
-  const fieldsFilterProps: Field['filterProps'][] = fields
-    ? fields.map(({ name }) => dataset.getColumnFilterProps(name))
-    : [];
-
-  console.log('fieldsFilterProps', fieldsFilterProps);
-
+export const DatasetMenu = ({
+  datasets,
+  filters,
+  unfolded,
+  fields,
+  reversedIndex,
+  layer,
+  setFilter,
+  ...props
+}: DatasetMenuProps) => {
   return (
     <li {...props}>
-      <h3>
-        {dataset.label} <MenuIcon />
-      </h3>
-      {fieldsFilterProps.length && (
+      <MenuTitleSection>
+        <h2>{layer.config.label}</h2>
+        <MenuIcon />
+      </MenuTitleSection>
+      {reversedIndex.length && (
         <ul>
-          {fieldsFilterProps.map((filterProps) => (
+          {reversedIndex.map((idx) => (
             <li>
-              <h4>{filterProps.name}</h4>
+              <h3>{filters[idx].name}</h3>
               <ul>
                 <li>
-                  <RangeFilter setFilter={() => {}} filter={filterProps} />
+                  <FilterComponentFactory setFilter={(value) => setFilter(idx, 'value', value)} filter={filters[idx]} />
                 </li>
               </ul>
             </li>
@@ -86,38 +79,75 @@ export const DatasetMenu = ({ dataset, unfolded, fields, ...props }: DatasetMenu
 interface MenuProps {
   datasets: Datasets;
   filtersConfig?: FiltersConfigInterface;
+  filters: Filter[];
+  layers: Layer[];
+  setFilter: SetFilter;
 }
 
-export const Menu = styled(({ datasets, filtersConfig, ...props }: MenuProps) => {
+export const MenuTitleSection = styled.div`
+  display: inline-flex;
+  flex: 0 0 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+export const Menu = styled(({ datasets, filters = [], layers, filtersConfig, setFilter, ...props }: MenuProps) => {
   const [open, setOpen] = useState<boolean>();
   const [unfoldedDataset, setUnfoldedDataset] = useState<KeplerTable['id']>();
   // const toField = createToField(datasets.fields);
 
+  // const isAnyFilterAnimating = filters.some((f) => f.isAnimating);
+  // const hadEmptyFilter = (reversedIndex) => reversedIndex.map((idx) => filters[idx]).some((f) => !f.name);
+  const reversedIndexGroupedByLayerIdx = useMemo(() => {
+    return layers.reduce(
+      (filtersGroupedByLayerIdx, layer, layerIdx) => ({
+        ...filtersGroupedByLayerIdx,
+        [layerIdx]: filters.reduce((reversedIndex: number[], filter, filterIdx) => {
+          if (filter.dataId.includes(layer.config.dataId)) {
+            reversedIndex.unshift(filterIdx);
+          }
 
+          return reversedIndex;
+        }, []),
+      }),
+      {}
+    );
+    // eslint-disable-next-line
+  }, [layers.length, filters.length]);
+
+  console.log('layers', layers);
+  console.log('reversedIndexGroupedByLayerIdx', reversedIndexGroupedByLayerIdx);
+
+  /*
+  fields={
+    filtersConfig && filtersConfig.config.fieldsToShow[dataset.id]
+    ? dataset.fields.filter((field) =>
+      filtersConfig.config.fieldsToShow[dataset.id].find(({ name }) => name === field.name)
+    )
+    : []
+}
+*/
+  console.log('reversedIndexGroupedByLayerIdx', reversedIndexGroupedByLayerIdx);
   return (
     <ul {...props}>
       <li>
-        <h2>
-          Recherche & filtres <ToggleMenuButton open={open} onClick={() => setOpen(!open)} />
-        </h2>
+        <MenuTitleSection>
+          <span>Recherche & filtres</span>
+          <ToggleMenuButton open={open} onClick={() => setOpen(!open)} />
+        </MenuTitleSection>
         {open && (
           <ul>
-            <li>
-              <RangeFilter setFilter={() => {}} filter={{}} />
-            </li>
-            {Object.values(datasets).map((dataset) => (
+            {Object.keys(reversedIndexGroupedByLayerIdx).map((layerIdx) => (
               <DatasetMenu
-                key={`datasetMenu[${dataset.id}]`}
-                dataset={dataset}
-                fields={
-                  filtersConfig && filtersConfig.config.fieldsToShow[dataset.id]
-                    ? dataset.fields.filter((field) =>
-                        filtersConfig.config.fieldsToShow[dataset.id].find(({ name }) => name === field.name)
-                      )
-                    : []
-                }
-                unfolded={dataset.id === unfoldedDataset}
-                onClick={() => setUnfoldedDataset(dataset.id)}
+                datasets={datasets}
+                reversedIndex={reversedIndexGroupedByLayerIdx[layerIdx]}
+                filters={filters}
+                layer={layers[layerIdx]}
+                setFilter={setFilter}
+                key={`datasetMenu-${layerIdx}`}
+                unfolded={layerIdx === unfoldedDataset}
+                onClick={() => setUnfoldedDataset(layerIdx)}
               />
             ))}
           </ul>
@@ -126,6 +156,26 @@ export const Menu = styled(({ datasets, filtersConfig, ...props }: MenuProps) =>
     </ul>
   );
 })`
-  color: white;
-  background-color: black;
+  display: flex;
+
+  li {
+    padding: 7px 13px;
+  }
+
+  li > ${MenuTitleSection} {
+  }
+
+  ul,
+  ul > ul {
+    padding: 0;
+  }
+
+  li,
+  ul > li {
+    background-color: black;
+    color: red;
+    padding: 7px 0;
+    display: flex;
+    flex-direction: column;
+  }
 `;

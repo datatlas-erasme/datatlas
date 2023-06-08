@@ -1,4 +1,5 @@
 export * from './DatasetFactory';
+export * from './DatatlasGlVisState';
 export * from './KeplerMapConfig';
 export * from './KeplerMapState';
 export * from './KeplerMapStyle';

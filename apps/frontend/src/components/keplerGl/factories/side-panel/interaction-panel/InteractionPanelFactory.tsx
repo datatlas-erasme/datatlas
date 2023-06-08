@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { ComponentType, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
@@ -42,12 +43,15 @@ const InteractionPanelFactory =
       const onChange = (newConfig) => _updateConfig({ config: newConfig });
       switch (config.id) {
         case 'tooltip':
+          // @ts-ignore
           return <TooltipConfig datasets={datasets} config={config.config} onChange={onChange} />;
 
         case 'brush':
+          // @ts-ignore
           return <BrushConfig config={config.config} onChange={onChange} />;
 
         case 'filters':
+          // @ts-ignore
           return <FiltersConfig datasets={datasets} config={config.config} onChange={onChange} />;
 
         default:
