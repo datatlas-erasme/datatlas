@@ -1,19 +1,24 @@
+import { Filter } from 'kepler.gl';
+import { KeplerGlState } from 'kepler.gl/reducers';
+import { FiltersConfigInterface, MapInfoInterface, ProjectInterface } from '@datatlas/models';
 import { RootState } from './reducers';
 import { getUser } from './api';
-import { MapInfoInterface, ProjectInterface } from '@datatlas/models';
-import { KeplerGlState } from 'kepler.gl/reducers';
 import { createSelector } from 'reselect';
 import { projectFactory } from '../kepler';
 
 export const toKeplerId = (id: number) => String(id).toLocaleUpperCase();
 
-export const selectKeplerInstanceById = (state: RootState, instanceId: ProjectInterface['id']) =>
-  state.keplerGl[toKeplerId(instanceId)];
-export const isFileLoading = (state: RootState, instanceId: ProjectInterface['id']) =>
+export const selectKeplerInstanceById = (state: RootState, instanceId: string) => state.keplerGl[instanceId];
+export const isFileLoading = (state: RootState, instanceId: string) =>
   selectKeplerInstanceById(state, instanceId).visState.fileLoading;
 export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
   return state.visState?.mapInfo as MapInfoInterface;
 };
+
+export const selectFilters = (state: RootState, instanceId: string): Filter[] =>
+  selectKeplerInstanceById(state, instanceId).visState.filters;
+export const selectFiltersConfig = (state: RootState, instanceId: string): FiltersConfigInterface =>
+  selectKeplerInstanceById(state, instanceId).visState.interactionConfig.filters;
 
 export const selectLocale = (state: RootState) => state.locale;
 

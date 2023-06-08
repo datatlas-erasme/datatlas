@@ -1,11 +1,7 @@
 import React, { ComponentType } from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import {
-  SidePanelSection,
-  SBFlexboxNoMargin,
-  Button,
-} from 'kepler.gl/dist/components/common/styled-components';
+import { SidePanelSection, SBFlexboxNoMargin, Button } from 'kepler.gl/dist/components/common/styled-components';
 import TooltipChickletFactory from 'kepler.gl/dist/components/side-panel/interaction-panel/tooltip-config/tooltip-chicklet';
 import { TooltipConfigFactory as KeplerTooltipConfigFactory } from 'kepler.gl/components';
 import { Datasets, TooltipField } from 'kepler.gl/src/reducers/vis-state-updaters';
@@ -41,7 +37,6 @@ export function DatasetConfigFactory<C extends DatasetConfig>(
   FieldSelector: ComponentType<any>
 ) {
   return ({ config, onChange, dataset }: DatasetConfigProps<C>) => {
-
     const dataId = dataset.id;
     return (
       <SidePanelSection key={dataId}>

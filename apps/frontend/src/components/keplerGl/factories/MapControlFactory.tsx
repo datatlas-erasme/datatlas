@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Filter } from 'kepler.gl';
 import { MapControlFactory as KeplerMapControlFactory } from 'kepler.gl/components';
 import KeplerGlLogo from 'kepler.gl/dist/components/common/logo';
 import { KeplerGLProps } from './KeplerGlFactory';
@@ -8,6 +10,10 @@ import { Menu } from '../../Menu';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/reducers';
 import { useParams } from 'react-router-dom';
+import { useForward } from '../../../hooks/useForward';
+import { setFilter } from 'kepler.gl/dist/actions/vis-state-actions';
+import { selectFilters, selectFiltersConfig } from '../../../store/selectors';
+import { FiltersConfigInterface } from '@datatlas/models';
 
 const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
   right: 0;
@@ -60,18 +66,28 @@ function MapControlFactory(
     mapIndex = 0,
     logoComponent = LegendLogo,
     datasets,
+    layers,
     ...props
   }: MapControlProps) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { id } = useParams();
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const filtersConfig = useSelector<RootState>((state) => state.keplerGl[id].visState.interactionConfig.filters);
-    // console.log('datasets', datasets);
-    // console.log('props', props);
-    // console.log('filtersConfig', filtersConfig);
+
+    if (!id) {
+      return null;
+    }
+
+    const forward = useForward();
+    const filters = useSelector<RootState, Filter[]>((state) => selectFilters(state, id));
+    const filtersConfig = useSelector<RootState, FiltersConfigInterface>((state) => selectFiltersConfig(state, id));
+
     return (
       <StyledMapControl className="map-control" top={top}>
-        <Menu datasets={datasets} filtersConfig={filtersConfig} />
+        <Menu
+          datasets={datasets}
+          filtersConfig={filtersConfig}
+          filters={filters}
+          layers={layers}
+          setFilter={(idx: number, prop: string, value: any) => forward(setFilter(idx, prop, value))}
+        />
         {actionComponents.map((ActionComponent, index) => (
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
@@ -83,6 +99,8 @@ function MapControlFactory(
             mapIndex={mapIndex}
             logoComponent={LegendLogo}
             datasets={datasets}
+            filters={filters}
+            layers={layers}
             {...props}
           />
         ))}

@@ -9,10 +9,7 @@ import { getProject, getProjects } from '../api';
 import { keplerMapFactory, KeplerMapFactory } from '../../kepler';
 import { toKeplerId } from '../selectors';
 import { INITIAL_VIS_STATE } from 'kepler.gl/dist/reducers/vis-state-updaters';
-import {
-  DatatlasGlVisStateInterface,
-  getDefaultInteractionConfig,
-} from '../../../../../libs/models/kepler/DatatlasGlVisState';
+import { DatatlasGlVisStateInterface, getDefaultInteractionConfig } from '@datatlas/models';
 
 export const registerMap = (id: string, mint = true) =>
   registerEntry({

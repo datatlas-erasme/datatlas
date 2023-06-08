@@ -45,6 +45,60 @@ npx nx run frontend:test
 > - https://redux.js.org/tutorials/essentials/part-8-rtk-query-advanced#transforming-responses
 > - https://dev.to/srmagura/the-great-redux-toolkit-debate-5045
 
+## Kepler.gl
+
+### Filters
+
+Filters props can be retrieved via the `dataset` which is an instance of a `KeplerTable` : `dataset.getColumnFilterProps`
+
+`visState.layerdata` is the state slice holding the data rendered on the map.
+This part is recalculated from the `datasets` and `filters` part when an updated occurs.
+
+Each type of layer implement an `updateData` method which may internally call `calculateDataAttribute`.
+
+```javascript
+export const LayerClasses = {
+  [LAYER_TYPES.point]: PointLayer,
+  [LAYER_TYPES.arc]: ArcLayer,
+  [LAYER_TYPES.line]: LineLayer,
+  [LAYER_TYPES.grid]: GridLayer,
+  [LAYER_TYPES.hexagon]: HexagonLayer,
+  [LAYER_TYPES.geojson]: GeojsonLayer,
+  [LAYER_TYPES.cluster]: ClusterLayer,
+  [LAYER_TYPES.icon]: IconLayer,
+  [LAYER_TYPES.heatmap]: HeatmapLayer,
+  [LAYER_TYPES.hexagonId]: H3Layer,
+  [LAYER_TYPES['3D']]: ScenegraphLayer,
+  [LAYER_TYPES.trip]: TripLayer,
+  [LAYER_TYPES.s2]: S2GeometryLayer,
+};
+```
+
+All these layers have there own implementation of `calculateDataAttribute` :
+`AggregationLayer`
+`ArcLayer`
+`GeojsonLayer`
+`HexagonLayer`
+`IconLayer`
+`PointLayer`
+`S2GeometryLayer`
+`TripLayer`
+
+Imported data are imported with `processFileData` :
+
+```
+  if (isKeplerGlMap(data)) {
+    format = DATASET_FORMATS.keplergl;
+    processor = processKeplerglJSON;
+  } else if (isRowObject(data)) {
+    format = DATASET_FORMATS.row;
+    processor = processRowObject;
+  } else if (isGeoJson(data)) {
+    format = DATASET_FORMATS.geojson;
+    processor = processGeojson;
+  }
+```
+
 ### Side effects
 
 Side effects should be handled _via_ `@reduxjs/toolkit` but first, you should ask yourself :

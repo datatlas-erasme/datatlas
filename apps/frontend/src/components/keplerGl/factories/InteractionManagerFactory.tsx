@@ -3,7 +3,6 @@ import { InteractionManagerFactory as KeplerInteractionManagerFactory } from 'ke
 
 export type InteractionConfigType = 'tooltip' | 'geocoder' | 'brush' | 'coordinate' | 'filters';
 
-
 const enabledInteractionConfigTypes: InteractionConfigType[] = ['tooltip', 'filters'];
 
 function InteractionManagerFactory(InteractionPanel) {
