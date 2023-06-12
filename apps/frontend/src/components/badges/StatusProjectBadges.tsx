@@ -10,10 +10,10 @@ const BadgeOutlineStatus = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => props.theme.primaryBtnColor};
-  border: 1px solid ${(props) => props.theme.primaryBtnBgd};
+  background-color: ${({ theme }) => theme.primaryBtnColor};
+  border: 1px solid ${({ theme }) => theme.primaryBtnBgd};
   padding: 5px 10px;
-  font-size: ${(props) => props.theme.fontSizeXs};
+  font-size: ${({ theme }) => theme.fontSizeXs};
   font-weight: 700;
   svg {
     padding-right: 5px;

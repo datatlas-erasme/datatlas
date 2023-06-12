@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { DatatlasLogo, MetropoleLogo, ErasmeLogo, FranceRelanceLogo } from '../logos';
-import GithubLink from '../buttons/GithubLink';
+import { GithubLink } from '../buttons';
 
 const FooterContainer = styled.footer`
   display: flex;

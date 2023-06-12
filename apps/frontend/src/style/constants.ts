@@ -335,7 +335,7 @@ export const themeModal = {
   modalPortableLateralPadding: '36px',
 
   modalOverLayZ: 1001,
-  modalOverlayBgd: 'rgba(0, 0, 0, 0.5)',
+  modalOverlayBgd: 'rgba(7, 104, 159, 0.85)',
   modalContentZ: 10002,
   modalFooterZ: 10001,
   modalTitleZ: 10003,
@@ -481,7 +481,7 @@ export const themeLayerConfigurator = {
 // styledConfigGroupHeader
 export const styledConfigGroupHeaderBorder = '2px';
 
-// Export map modal
+// Export map modals
 export const exportIntraSectionMargin = '8';
 
 // Scrollbar

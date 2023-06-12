@@ -7,8 +7,8 @@ const SideBarContainer = styled.aside`
   position: sticky;
   top: 0;
   width: 30vw;
-  padding: ${(props) => props.theme.layoutsBoxContainer};
-  background-color: ${(props) => props.theme.sidebarProjectBG};
+  padding: ${({ theme }) => theme.layoutsBoxContainer};
+  background-color: ${({ theme }) => theme.sidebarProjectBG};
   form {
     display: flex;
     flex-direction: column;
