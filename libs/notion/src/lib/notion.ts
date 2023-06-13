@@ -31,7 +31,8 @@ export function notion(jsonData: { object: string; results: Array<{ properties: 
     for (const field in notionFields) {
       console.log(notionFields[field]);
       //console.log(row.properties[notionFields[field].name]);
-      console.log(extractContentOfNotionField(row.properties[notionFields[field].name]));
+      const data = extractContentOfNotionField(row.properties[notionFields[field].name]);
+      console.log(data);
     }
   }
   return {
@@ -73,14 +74,33 @@ export function extractContentOfNotionField(jsonContent: { type }): string | str
   if (jsonContent.type === 'phone_number') {
     return jsonContent[jsonContent.type];
   }
-  /* todo : need more examples before integrating this.
-  if (jsonContent.type==='rich_text'){
+
+  if (jsonContent.type === 'rich_text') {
+    /*
+        RICH TEXTS COULD BE ANYTHING !
+        I CHOSE TO EXTRACT DATA THIS WAY :
+        --> [] -> returns ''
+        --> huge object with href not empty -> returns href content
+        --> in other cases -> returns plain_text content
+     */
+    if (jsonContent[jsonContent.type].length === 0) {
+      return '';
+    } else if (
+      jsonContent[jsonContent.type][0].href != '' &&
+      jsonContent[jsonContent.type][0].href != 'null' &&
+      jsonContent[jsonContent.type][0].href != null
+    ) {
+      return jsonContent[jsonContent.type][0].href;
+    }
+    return jsonContent[jsonContent.type][0].plain_text;
+
     return jsonContent[jsonContent.type];
-  }*/
-  // todo need more examples
+  }
   if (jsonContent.type === 'select') {
-    console.log(jsonContent[jsonContent.type]);
-    return 'toto';
+    if (jsonContent[jsonContent.type] !== null) {
+      return jsonContent[jsonContent.type].name;
+    }
+    return '';
   }
   if (jsonContent.type === 'multi_select') {
     const multiSelect: string[] = [];
