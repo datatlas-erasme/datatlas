@@ -55,20 +55,16 @@ export function extractContentOfNotionField(jsonContent: { type }): string | str
   }
   const multiSelect: string[] = [];
   switch (jsonContent.type) {
-    case 'title':
-      return jsonContent[jsonContent.type][0].plain_text;
-    case 'email':
-      return jsonContent[jsonContent.type];
-    case 'number':
-      return jsonContent[jsonContent.type];
-    case 'url':
-      return jsonContent[jsonContent.type];
-    case 'date':
-      return jsonContent[jsonContent.type].start;
     case 'created_time':
-      return jsonContent[jsonContent.type];
+    case 'email':
+    case 'number':
     case 'phone_number':
-      return jsonContent[jsonContent.type];
+    case 'url':
+      return jsonContent[jsonContent.type] ?? '';
+    case 'title':
+      return jsonContent[jsonContent.type][0].plain_text ?? '';
+    case 'date':
+      return jsonContent[jsonContent.type].start ?? '';
     case 'rich_text':
       /*
         RICH TEXTS COULD BE ANYTHING !
@@ -84,19 +80,19 @@ export function extractContentOfNotionField(jsonContent: { type }): string | str
         jsonContent[jsonContent.type][0].href != 'null' &&
         jsonContent[jsonContent.type][0].href != null
       ) {
-        return jsonContent[jsonContent.type][0].href;
+        return jsonContent[jsonContent.type][0].href ?? '';
       }
       return jsonContent[jsonContent.type][0].plain_text;
     case 'select':
       if (jsonContent[jsonContent.type] !== null) {
-        return jsonContent[jsonContent.type].name;
+        return jsonContent[jsonContent.type].name ?? '';
       }
       return '';
     case 'multi_select':
       for (const field in jsonContent[jsonContent.type]) {
         multiSelect.push(jsonContent[jsonContent.type][field].name);
       }
-      return multiSelect;
+      return multiSelect ?? '';
   }
   return '';
 }
