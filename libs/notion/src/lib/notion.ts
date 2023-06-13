@@ -28,16 +28,17 @@ export function notion(jsonData: { object: string; results: Array<{ properties: 
 
   // THEN COLLECT THE DATA
   for (const row of jsonData.results) {
+    const newRow = [];
+    let count = 0;
     for (const field in notionFields) {
-      console.log(notionFields[field]);
-      //console.log(row.properties[notionFields[field].name]);
-      const data = extractContentOfNotionField(row.properties[notionFields[field].name]);
-      console.log(data);
+      newRow[count] = extractContentOfNotionField(row.properties[notionFields[field].name]);
+      count++;
     }
+    rows.push(newRow);
   }
   return {
     fields: notionFields,
-    rows: [],
+    rows: rows,
   };
 }
 
@@ -93,8 +94,6 @@ export function extractContentOfNotionField(jsonContent: { type }): string | str
       return jsonContent[jsonContent.type][0].href;
     }
     return jsonContent[jsonContent.type][0].plain_text;
-
-    return jsonContent[jsonContent.type];
   }
   if (jsonContent.type === 'select') {
     if (jsonContent[jsonContent.type] !== null) {
@@ -109,5 +108,5 @@ export function extractContentOfNotionField(jsonContent: { type }): string | str
     }
     return multiSelect;
   }
-  return 'toto';
+  return '';
 }
