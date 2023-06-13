@@ -5,7 +5,7 @@ export function notion(jsonData: { object: string; results: Array<{ properties: 
 } {
   const notionFieldnames: Array<string> = [];
   const notionFields: Array<{ name; format; type }> = [];
-  const rows = [];
+  //const rows = [];
 
   // FIRST, GRAB ALL THE FIELD NAMES.
   for (const row of jsonData.results) {
@@ -16,7 +16,7 @@ export function notion(jsonData: { object: string; results: Array<{ properties: 
       }
     }
   }
-  // SECONDLY, CREATE ALL THE FIELD DECLARATION.
+  // SECONDLY, CREATE ALL THE FIELD DECLARATIONS.
   for (const fieldName in notionFieldnames) {
     notionFields.push({
       name: notionFieldnames[fieldName],
@@ -24,20 +24,14 @@ export function notion(jsonData: { object: string; results: Array<{ properties: 
       type: typeTranslationNotionToGeoJson(jsonData.results[0]['properties'][notionFieldnames[fieldName]]),
     });
   }
+  //console.log(notionFields);
 
-  console.log(notionFields);
-  /*
   // THEN GRAB THE DATA
   for (const row of jsonData.results) {
-    for (const field in notionFields){
+    for (const field in notionFields) {
       console.log(notionFields[field]);
-      console.log(row.properties[notionFields[field]]);
     }
-  }*/ /*
-  return {
-    fields: notionFields,
-    rows,
-  };*/
+  }
   return {
     fields: notionFields,
     rows: [],

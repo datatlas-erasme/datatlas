@@ -1,0 +1,499 @@
+{
+  "object": "list",
+  "results": [
+    {
+      "object": "page",
+      "id": "49fd3c15-109d-49d4-8eac-a1f403ca1777",
+      "created_time": "2021-09-01T09:39:00.000Z",
+      "last_edited_time": "2022-03-21T10:04:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "8bb512ce-3337-4843-a11b-b314900b65b9"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "70392a6c-79b4-4cfd-9ddb-447bb3ba6613"
+      },
+      "cover": null,
+      "icon": null,
+      "parent": {
+        "type": "database_id",
+        "database_id": "8dc9e3a3-44f5-4e4d-b756-917acf047af3"
+      },
+      "archived": false,
+      "properties": {
+        "latitude": {
+          "id": "%3CTAC",
+          "type": "number",
+          "number": 45.768004
+        },
+        "Commentaire": {
+          "id": "Bmld",
+          "type": "rich_text",
+          "rich_text": []
+        },
+        "Description": {
+          "id": "HLmI",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Chaque année, partout en France, la Fête de la Science invite le grand public à découvrir les dernières actualités, innovations et à s’amuser avec toutes les sciences. Laboratoires, entreprises, associations, musées et autres acteurs culturels… se mobilisent et proposent des animations, expositions, conférences, visites pour petits et grands.\nInitiée et soutenue par le Ministère de l’Enseignement supérieur, de la Recherche et de l’Innovation, la Fête de la Science fêtera cette année ses 30 ans.\nChercheurs, experts, médiateurs, venez partager votre passion, présenter vos métiers pour cette édition anniversaire qui aura lieu du 1er au 11 octobre 2021.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Chaque année, partout en France, la Fête de la Science invite le grand public à découvrir les dernières actualités, innovations et à s’amuser avec toutes les sciences. Laboratoires, entreprises, associations, musées et autres acteurs culturels… se mobilisent et proposent des animations, expositions, conférences, visites pour petits et grands.\nInitiée et soutenue par le Ministère de l’Enseignement supérieur, de la Recherche et de l’Innovation, la Fête de la Science fêtera cette année ses 30 ans.\nChercheurs, experts, médiateurs, venez partager votre passion, présenter vos métiers pour cette édition anniversaire qui aura lieu du 1er au 11 octobre 2021.",
+              "href": null
+            }
+          ]
+        },
+        "Adresse": {
+          "id": "W%5BEY",
+          "type": "rich_text",
+          "rich_text": []
+        },
+        "Date-debut": {
+          "id": "XdBR",
+          "type": "date",
+          "date": {
+            "start": "2021-10-01",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "statut": {
+          "id": "ZARZ",
+          "type": "select",
+          "select": {
+            "id": "d56371b6-2d9c-45e8-8651-2d88dc435783",
+            "name": "Validé",
+            "color": "green"
+          }
+        },
+        "longitude": {
+          "id": "%5B%7DX%5B",
+          "type": "number",
+          "number": 4.836158
+        },
+        "icon": {
+          "id": "%5DwNE",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "employees",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "employees",
+              "href": null
+            }
+          ]
+        },
+        "Contributeur-membre-structure ?": {
+          "id": "%5EsEk",
+          "type": "select",
+          "select": null
+        },
+        "Publics": {
+          "id": "%60jp%60",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "f0cf4204-b18b-46d8-8dd1-30dda67e174e",
+              "name": "Grand public",
+              "color": "gray"
+            }
+          ]
+        },
+        "Email-evenement": {
+          "id": "cNAU",
+          "type": "email",
+          "email": "fetedelascience-lyon-rhone @universite-lyon.fr"
+        },
+        "date-ajout": {
+          "id": "fR%3Ck",
+          "type": "created_time",
+          "created_time": "2021-09-01T09:39:00.000Z"
+        },
+        "Image": {
+          "id": "gqyS",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "eurekasliderenf-1188.jpg",
+                "link": {
+                  "url": "https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ac0e6e90-c83c-486c-936e-95ae4994ae07/eurekasliderenf-1188.jpg"
+                }
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "eurekasliderenf-1188.jpg",
+              "href": "https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ac0e6e90-c83c-486c-936e-95ae4994ae07/eurekasliderenf-1188.jpg"
+            }
+          ]
+        },
+        "Telephone": {
+          "id": "h_Id",
+          "type": "phone_number",
+          "phone_number": null
+        },
+        "Nom-contributeur": {
+          "id": "k%60%3Bi",
+          "type": "rich_text",
+          "rich_text": []
+        },
+        "Date-fin": {
+          "id": "mI%7Dk",
+          "type": "date",
+          "date": {
+            "start": "2021-10-11",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "saisie interne ou externe ?": {
+          "id": "rt%7CB",
+          "type": "select",
+          "select": {
+            "id": "54f7f277-a7d6-44ff-af41-3e3f2e5a2c81",
+            "name": "Interne / Notion",
+            "color": "pink"
+          }
+        },
+        "Site-web": {
+          "id": "%7CBR%3D",
+          "type": "url",
+          "url": "https://popsciences.universite-lyon.fr/grands-evenements/fete-de-science/?cn-reloaded=1"
+        },
+        "Types": {
+          "id": "%7Cgqf",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "a639526c-6b01-4fdc-9f7d-02047a004bf6",
+              "name": "L'innovation (technologie méthodes R&D...)",
+              "color": "green"
+            },
+            {
+              "id": "f4317355-a974-4f20-92ef-971de4261f2e",
+              "name": "La culture et les sciences",
+              "color": "default"
+            }
+          ]
+        },
+        "Email-contributeur": {
+          "id": "%7DnxD",
+          "type": "email",
+          "email": null
+        },
+        "Nom-evenement": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Fête de la Science",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Fête de la Science",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/F-te-de-la-Science-49fd3c15109d49d48eaca1f403ca1777"
+    },
+    {
+      "object": "page",
+      "id": "e5087496-eebd-4b69-b5b4-42d0c6571541",
+      "created_time": "2021-08-26T16:06:00.000Z",
+      "last_edited_time": "2022-05-30T11:17:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "8bb512ce-3337-4843-a11b-b314900b65b9"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "70392a6c-79b4-4cfd-9ddb-447bb3ba6613"
+      },
+      "cover": null,
+      "icon": null,
+      "parent": {
+        "type": "database_id",
+        "database_id": "8dc9e3a3-44f5-4e4d-b756-917acf047af3"
+      },
+      "archived": false,
+      "properties": {
+        "latitude": {
+          "id": "%3CTAC",
+          "type": "number",
+          "number": 45.737899
+        },
+        "Commentaire": {
+          "id": "Bmld",
+          "type": "rich_text",
+          "rich_text": []
+        },
+        "Description": {
+          "id": "HLmI",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Le grand rendez-vous international de l'industrie en France du 6 au 9 septembre 2021 Eurexpo Lyon. En tout juste deux éditions, Global Industrie s'est imposé comme l'un des tout premiers salons mondiaux consacrés à l'industrie. Son positionnement résolument moderne orienté à la fois vers l'industrie du futur et l'international explique le succès rencontré dès ses débuts à Paris et qui n'a fait que s'amplifier à Lyon. L’ensemble des acteurs de l’industrie sont ainsi assurés d’y rencontrer leurs actuels et nouveaux partenaires et d’y trouver le produit, l’équipement, le savoir-faire ou la solution qu’ils recherchent, réalisant au passage un gain de temps, d’investissement et d’efficacité important.\nUne gageure rendue possible par le rassemblement de 4 salons complémentaires leaders en leur domaine : MIDEST (sous-traitance industrielle), SMART INDUSTRIES (industrie connectée, collaborative et efficiente), INDUSTRIE (technologies et équipements de production) et TOLEXPO (solutions et équipements pour la tôlerie).",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Le grand rendez-vous international de l'industrie en France du 6 au 9 septembre 2021 Eurexpo Lyon. En tout juste deux éditions, Global Industrie s'est imposé comme l'un des tout premiers salons mondiaux consacrés à l'industrie. Son positionnement résolument moderne orienté à la fois vers l'industrie du futur et l'international explique le succès rencontré dès ses débuts à Paris et qui n'a fait que s'amplifier à Lyon. L’ensemble des acteurs de l’industrie sont ainsi assurés d’y rencontrer leurs actuels et nouveaux partenaires et d’y trouver le produit, l’équipement, le savoir-faire ou la solution qu’ils recherchent, réalisant au passage un gain de temps, d’investissement et d’efficacité important.\nUne gageure rendue possible par le rassemblement de 4 salons complémentaires leaders en leur domaine : MIDEST (sous-traitance industrielle), SMART INDUSTRIES (industrie connectée, collaborative et efficiente), INDUSTRIE (technologies et équipements de production) et TOLEXPO (solutions et équipements pour la tôlerie).",
+              "href": null
+            }
+          ]
+        },
+        "Adresse": {
+          "id": "W%5BEY",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Eurexpo Lyon, Bd de l'Europe, 69680 Chassieu",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Eurexpo Lyon, Bd de l'Europe, 69680 Chassieu",
+              "href": null
+            }
+          ]
+        },
+        "Date-debut": {
+          "id": "XdBR",
+          "type": "date",
+          "date": {
+            "start": "2021-09-06",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "statut": {
+          "id": "ZARZ",
+          "type": "select",
+          "select": {
+            "id": "d56371b6-2d9c-45e8-8651-2d88dc435783",
+            "name": "Validé",
+            "color": "green"
+          }
+        },
+        "longitude": {
+          "id": "%5B%7DX%5B",
+          "type": "number",
+          "number": 4.938283
+        },
+        "icon": {
+          "id": "%5DwNE",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "employees",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "employees",
+              "href": null
+            }
+          ]
+        },
+        "Contributeur-membre-structure ?": {
+          "id": "%5EsEk",
+          "type": "select",
+          "select": null
+        },
+        "Publics": {
+          "id": "%60jp%60",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "7a62e11d-9550-428b-a144-111d94f655a1",
+              "name": "Entreprises / professionnels",
+              "color": "default"
+            },
+            {
+              "id": "01abdd5b-c375-42b2-b2f5-b92df284dddd",
+              "name": "Collectivités / secteur public",
+              "color": "purple"
+            }
+          ]
+        },
+        "Email-evenement": {
+          "id": "cNAU",
+          "type": "email",
+          "email": "contact.globalindustrie@gl-events.com"
+        },
+        "date-ajout": {
+          "id": "fR%3Ck",
+          "type": "created_time",
+          "created_time": "2021-08-26T16:06:00.000Z"
+        },
+        "Image": {
+          "id": "gqyS",
+          "type": "rich_text",
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "839e15b801fe8fe847bbec42535ae417.jpeg",
+                "link": {
+                  "url": "https://s3-us-west-2.amazonaws.com/secure.notion-static.com/df105d56-d48b-4c5f-bf64-a3f2c734f038/839e15b801fe8fe847bbec42535ae417.jpeg"
+                }
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "839e15b801fe8fe847bbec42535ae417.jpeg",
+              "href": "https://s3-us-west-2.amazonaws.com/secure.notion-static.com/df105d56-d48b-4c5f-bf64-a3f2c734f038/839e15b801fe8fe847bbec42535ae417.jpeg"
+            }
+          ]
+        },
+        "Telephone": {
+          "id": "h_Id",
+          "type": "phone_number",
+          "phone_number": "+33 (0)5 53 36 78 78"
+        },
+        "Nom-contributeur": {
+          "id": "k%60%3Bi",
+          "type": "rich_text",
+          "rich_text": []
+        },
+        "Date-fin": {
+          "id": "mI%7Dk",
+          "type": "date",
+          "date": {
+            "start": "2021-09-09",
+            "end": null,
+            "time_zone": null
+          }
+        },
+        "saisie interne ou externe ?": {
+          "id": "rt%7CB",
+          "type": "select",
+          "select": {
+            "id": "54f7f277-a7d6-44ff-af41-3e3f2e5a2c81",
+            "name": "Interne / Notion",
+            "color": "pink"
+          }
+        },
+        "Site-web": {
+          "id": "%7CBR%3D",
+          "type": "url",
+          "url": "https://global-industrie.com/fr"
+        },
+        "Types": {
+          "id": "%7Cgqf",
+          "type": "multi_select",
+          "multi_select": [
+            {
+              "id": "c09224ac-9308-41c0-84c6-f041b182a932",
+              "name": "L'économie",
+              "color": "gray"
+            }
+          ]
+        },
+        "Email-contributeur": {
+          "id": "%7DnxD",
+          "type": "email",
+          "email": null
+        },
+        "Nom-evenement": {
+          "id": "title",
+          "type": "title",
+          "title": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Global Industrie",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Global Industrie",
+              "href": null
+            }
+          ]
+        }
+      },
+      "url": "https://www.notion.so/Global-Industrie-e5087496eebd4b69b5b442d0c6571541"
+    }
+  ],
+  "next_cursor": null,
+  "has_more": false,
+  "type": "page",
+  "page": {}
+}
