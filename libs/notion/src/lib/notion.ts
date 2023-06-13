@@ -54,59 +54,50 @@ export function extractContentOfNotionField(jsonContent: { type }): string | str
   if (jsonContent.type == null || jsonContent.type == 'null') {
     return '';
   }
-  if (jsonContent.type === 'title') {
-    return jsonContent[jsonContent.type][0].plain_text;
-  }
-  if (jsonContent.type === 'email') {
-    return jsonContent[jsonContent.type];
-  }
-  if (jsonContent.type === 'number') {
-    return jsonContent[jsonContent.type];
-  }
-  if (jsonContent.type === 'url') {
-    return jsonContent[jsonContent.type];
-  }
-  if (jsonContent.type === 'date') {
-    return jsonContent[jsonContent.type].start;
-  }
-  if (jsonContent.type === 'created_time') {
-    return jsonContent[jsonContent.type];
-  }
-  if (jsonContent.type === 'phone_number') {
-    return jsonContent[jsonContent.type];
-  }
-
-  if (jsonContent.type === 'rich_text') {
-    /*
+  const multiSelect: string[] = [];
+  switch (jsonContent.type) {
+    case 'title':
+      return jsonContent[jsonContent.type][0].plain_text;
+    case 'email':
+      return jsonContent[jsonContent.type];
+    case 'number':
+      return jsonContent[jsonContent.type];
+    case 'url':
+      return jsonContent[jsonContent.type];
+    case 'date':
+      return jsonContent[jsonContent.type].start;
+    case 'created_time':
+      return jsonContent[jsonContent.type];
+    case 'phone_number':
+      return jsonContent[jsonContent.type];
+    case 'rich_text':
+      /*
         RICH TEXTS COULD BE ANYTHING !
         I CHOSE TO EXTRACT DATA THIS WAY :
         --> [] -> returns ''
         --> huge object with href not empty -> returns href content
         --> in other cases -> returns plain_text content
      */
-    if (jsonContent[jsonContent.type].length === 0) {
+      if (jsonContent[jsonContent.type].length === 0) {
+        return '';
+      } else if (
+        jsonContent[jsonContent.type][0].href != '' &&
+        jsonContent[jsonContent.type][0].href != 'null' &&
+        jsonContent[jsonContent.type][0].href != null
+      ) {
+        return jsonContent[jsonContent.type][0].href;
+      }
+      return jsonContent[jsonContent.type][0].plain_text;
+    case 'select':
+      if (jsonContent[jsonContent.type] !== null) {
+        return jsonContent[jsonContent.type].name;
+      }
       return '';
-    } else if (
-      jsonContent[jsonContent.type][0].href != '' &&
-      jsonContent[jsonContent.type][0].href != 'null' &&
-      jsonContent[jsonContent.type][0].href != null
-    ) {
-      return jsonContent[jsonContent.type][0].href;
-    }
-    return jsonContent[jsonContent.type][0].plain_text;
-  }
-  if (jsonContent.type === 'select') {
-    if (jsonContent[jsonContent.type] !== null) {
-      return jsonContent[jsonContent.type].name;
-    }
-    return '';
-  }
-  if (jsonContent.type === 'multi_select') {
-    const multiSelect: string[] = [];
-    for (const field in jsonContent[jsonContent.type]) {
-      multiSelect.push(jsonContent[jsonContent.type][field].name);
-    }
-    return multiSelect;
+    case 'multi_select':
+      for (const field in jsonContent[jsonContent.type]) {
+        multiSelect.push(jsonContent[jsonContent.type][field].name);
+      }
+      return multiSelect;
   }
   return '';
 }
