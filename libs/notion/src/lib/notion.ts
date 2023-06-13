@@ -24,7 +24,6 @@ export function notion(jsonData: { object: string; results: Array<{ properties: 
       type: typeTranslationNotionToGeoJson(jsonData.results[0]['properties'][notionFieldnames[fieldName]]),
     });
   }
-  //console.log(notionFields);
 
   // THEN COLLECT THE DATA
   for (const row of jsonData.results) {
