@@ -8,6 +8,7 @@ import { ProjectEntity } from './entities/project.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { CanEditProjectGuard } from '../auth/can-edit-project.guard';
 import { AuthService } from '../auth/auth.service';
+import { UserCredentials } from '@datatlas/models';
 
 @ApiBearerAuth()
 @Controller('projects')
@@ -29,8 +30,12 @@ export class ProjectController {
   }
 
   @Get()
-  async fetchAll(): Promise<ProjectEntity[]> {
-    return await this.projectService.findAll();
+  /**
+   * This function should return only published and/or owned projects.
+   */
+  async fetchAll(@Req() req): Promise<ProjectEntity[]> {
+    const userCredentials: UserCredentials = await this.authService.getLoggedUserCredentials(req);
+    return await this.projectService.findAll(userCredentials);
   }
 
   @Get(':id')
