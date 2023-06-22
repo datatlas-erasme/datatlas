@@ -2,6 +2,7 @@ import { RootState } from './reducers';
 import { getUser } from './api';
 import { MapInfoInterface, Project, ProjectInterface } from '@datatlas/models';
 import { KeplerGlState } from 'kepler.gl/reducers';
+import { createSelector } from 'reselect';
 
 export const toKeplerId = (id: number) => String(id).toLocaleUpperCase();
 
@@ -30,9 +31,7 @@ export const selectProjectById = (state: RootState, projectId) => {
   const { ownerId } = selectMapInfoFromKeplerGlState(keplerState);
   const user = ownerId ? selectUserById(state, ownerId) : undefined;
   if (!user) {
-    console.error(`User isn't defined : ${ownerId}`);
-    console.warn(`Once GetProjectDto is defined, the owner id must be required.`);
-    return null;
+    console.warn(`User ${ownerId} isn't loaded yet.`);
   }
 
   return Project.createProjectFromKeplerInstance(projectId, keplerState, user);
@@ -45,3 +44,11 @@ export const selectCurrentUserId = (state: RootState) => state.user.id;
 export const selectLoggedIn = (state: RootState) => !!selectCurrentUserId(state);
 
 export const selectAccessToken = (state: RootState) => state.user.accessToken;
+
+export const selectMyProjects = createSelector(selectProjects, selectCurrentUserId, (projects, currentUserId) =>
+  projects.filter(({ owner }) => owner?.id === currentUserId)
+);
+
+export const selectCommunityProjects = createSelector(selectProjects, selectCurrentUserId, (projects, currentUserId) =>
+  projects.filter(({ owner }) => owner?.id !== currentUserId)
+);

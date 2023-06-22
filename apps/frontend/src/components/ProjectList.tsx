@@ -4,10 +4,10 @@ import { ProjectListItem } from './ProjectListItem';
 import { Loader } from './Loader';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
-import { ProjectInterface } from '@datatlas/models';
+import { LoadingProjectInterface } from '@datatlas/models';
 
 export interface ProjectListProps {
-  data?: ProjectInterface[];
+  data?: LoadingProjectInterface[];
   isLoading: boolean;
   isSuccess: boolean;
   isFetching: boolean;

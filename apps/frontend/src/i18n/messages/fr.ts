@@ -2,6 +2,8 @@ import { LOCALES } from '../locales';
 
 export default {
   // Datatlas
+  'dashboard.my_projects': 'Mes projets',
+  'dashboard.community_projects': 'Communauté Datatlas',
   'about.title': 'A propos',
   'createProjectForm.mapStyle': 'Sélectionnez un fond de carte',
   'createProjectForm.projectName': 'Entrez le nom du projet',

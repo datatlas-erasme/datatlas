@@ -2,13 +2,13 @@ import React from 'react';
 import { deleteEntry } from 'kepler.gl/actions';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ProjectInterface } from '@datatlas/models';
+import { LoadingProjectInterface } from '@datatlas/models';
 import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
 import { useAppDispatch } from '../../store';
 import { toKeplerId } from '../../store/selectors';
 
-export type ProjectCardProps = ProjectInterface;
+export type ProjectCardProps = LoadingProjectInterface;
 
 const CardContainer = styled(Link)`
   display: flex;

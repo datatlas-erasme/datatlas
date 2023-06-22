@@ -6,6 +6,7 @@ import { DatasetInterface } from './DatasetInterface';
 import { UserInterface } from './UserInterface';
 import { NormalizedProjectInterface } from './NormalizedProjectInterface';
 import { DatatlasSavedMapInterface } from './DatatlasSavedMapInterface';
+import { LoadingProjectInterface } from './LoadingProjectInterface';
 
 export class Project implements ProjectInterface {
   id: number;
@@ -78,8 +79,8 @@ export class Project implements ProjectInterface {
   static createProjectFromKeplerInstance(
     id: string,
     keplerGlState: KeplerGlState,
-    owner: UserInterface
-  ): ProjectInterface {
+    owner?: UserInterface
+  ): LoadingProjectInterface {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const savedMap = KeplerGlSchema.save(keplerGlState) as DatatlasSavedMapInterface;

@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
+import { UserInterface } from '@datatlas/models';
 import useTimeElapsed from '../../hooks/useTimeElapsed';
 import InfoProjectBadges from '../badges/InfoProjectBadges';
-import { UserInterface } from '@datatlas/models';
 
 interface CardProjectDetailsInterface {
-  owner: UserInterface;
+  owner?: UserInterface;
   description?: string;
   createdAt: Date;
   title: string;
@@ -45,7 +45,7 @@ const ActionsCardContainer = styled.div`
 const CardProjectDetails = ({ owner, createdAt, title, contributors = [] }: CardProjectDetailsInterface) => {
   return (
     <ContentCardContainer>
-      <h4>{owner.name}</h4>
+      <h4>{owner?.name}</h4>
       <h3>{title}</h3>
       <p className={'status'}>
         <FormattedMessage id="project.projectUpdated" defaultMessage={'Projet modifié'} /> {useTimeElapsed(createdAt)}
