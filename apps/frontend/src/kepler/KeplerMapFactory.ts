@@ -62,7 +62,6 @@ export class KeplerMapFactory {
     config,
     version,
   }: Pick<ProjectInterface, 'config' | 'version'>): KeplerVersionedMapConfig {
-    console.log('getKeplerVersionedMapConfigFromProject token', config.mapStyle);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return new KeplerVersionedMapConfig(config, version);

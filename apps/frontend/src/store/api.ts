@@ -73,11 +73,31 @@ export const api = createApi({
         query: () => '/projects',
         providesTags: (projects) =>
           projects ? projects.map(createProjectTag).concat([projectListTag]) : [projectListTag],
+        async onQueryStarted(args, { dispatch, queryFulfilled }) {
+          try {
+            const { data } = await queryFulfilled;
+            data.map(({ owner }) => dispatch(getUser.initiate(owner)));
+          } catch (error) {
+            console.error(error);
+            // dispatch an error notification
+          }
+        },
         // onCacheEntryAdded: () => {},
       }),
       getProject: builder.query<ProjectDto, number>({
         query: (id) => `/projects/${id}`,
         providesTags: (projectDto) => (projectDto ? [createProjectTag(projectDto)] : []),
+        async onQueryStarted(args, { dispatch, queryFulfilled }) {
+          try {
+            const {
+              data: { owner },
+            } = await queryFulfilled;
+            await dispatch(getUser.initiate(owner));
+          } catch (error) {
+            console.error(error);
+            // dispatch an error notification
+          }
+        },
       }),
       createProject: builder.mutation<ProjectDto, CreateProjectFormData>({
         query: (data) => ({

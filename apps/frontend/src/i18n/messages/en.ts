@@ -1,5 +1,7 @@
 export default {
   // Datatlas
+  'dashboard.my_projects': 'My projects',
+  'dashboard.community_projects': 'Community',
   'about.title': 'About',
   'createProjectForm.mapStyle': 'Select a map style',
   'createProjectForm.projectName': 'Name of the project',

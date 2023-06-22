@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
 import { ProjectList } from '../components/ProjectList';
 import Sidebar from '../components/sidebar/Sidebar';
 import { AuthenticatedGuard } from '../components/guards';
 import { useGetProjectsQuery } from '../store/api';
-import { selectProjects } from '../store/selectors';
+import { selectCommunityProjects, selectMyProjects } from '../store/selectors';
 
 const LayoutProjects = styled.div`
   display: flex;
@@ -25,31 +26,69 @@ const ProjectsContainer = styled.main`
 
 const HeaderProjects = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
-  justify-content: space-between;
   padding: ${({ theme }) => theme.cardBoxContainer};
+
+  h2 {
+    padding-top: 2px;
+    padding-bottom: 5px;
+  }
+
+  p {
+    padding-top: 2px;
+    padding-bottom: 5px;
+  }
 `;
 
 export const ProjectsPage = () => {
   const { isLoading, isFetching, isSuccess, isError, error } = useGetProjectsQuery();
-  const projects = useSelector(selectProjects);
+  const myProjects = useSelector(selectMyProjects);
+  const communityProjects = useSelector(selectCommunityProjects);
 
   return (
     <React.StrictMode>
       <AuthenticatedGuard>
         <LayoutProjects>
           <ProjectsContainer>
-            <HeaderProjects>
-              <h2>Mes Projets</h2>
-            </HeaderProjects>
-            <ProjectList
-              data={projects}
-              isLoading={isLoading}
-              isFetching={isFetching}
-              isSuccess={isSuccess}
-              isError={isError}
-              error={error}
-            />
+            {myProjects.length > 0 && (
+              <>
+                <HeaderProjects>
+                  <h2>
+                    <FormattedMessage id={'dashboard.my_projects'} defaultMessage={'Mes Projets'} />
+                  </h2>
+                </HeaderProjects>
+                <ProjectList
+                  data={myProjects}
+                  isLoading={isLoading}
+                  isFetching={isFetching}
+                  isSuccess={isSuccess}
+                  isError={isError}
+                  error={error}
+                />
+              </>
+            )}
+            {communityProjects.length > 0 && (
+              <>
+                <HeaderProjects>
+                  <h2>
+                    <FormattedMessage id={'dashboard.community_projects'} defaultMessage={'Communauté Datatlas'} />
+                  </h2>
+                  <p>
+                    Vous trouverez ici les projets partagés par l’ensemble de la communauté Datatlas, n’hésitez pas à
+                    les découvrir et à vous en inspirer !
+                  </p>
+                </HeaderProjects>
+                <ProjectList
+                  data={communityProjects}
+                  isLoading={isLoading}
+                  isFetching={isFetching}
+                  isSuccess={isSuccess}
+                  isError={isError}
+                  error={error}
+                />
+              </>
+            )}
           </ProjectsContainer>
           <Sidebar />
         </LayoutProjects>

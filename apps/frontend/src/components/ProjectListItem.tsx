@@ -1,8 +1,8 @@
 import React from 'react';
+import { LoadingProjectInterface } from '@datatlas/models';
 import ProjectCard from './card/ProjectCard';
-import { ProjectInterface } from '@datatlas/models';
 
-export type ProjectListItemProps = ProjectInterface;
+export type ProjectListItemProps = LoadingProjectInterface;
 
 export const ProjectListItem = (props: ProjectListItemProps) => {
   return <ProjectCard {...props} />;
