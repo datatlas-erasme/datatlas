@@ -2,11 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
+import { Project } from '@datatlas/models';
 import KeplerMap from '../components/KeplerMap';
 import { getUser, useGetProjectQuery } from '../store/api';
 import { Loader } from '../components/Loader';
 import { selectCurrentUserId } from '../store/selectors';
-import { Project } from '@datatlas/models';
 
 export const ProjectPage = () => {
   const { id } = useParams();
@@ -30,7 +30,7 @@ export const ProjectPage = () => {
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <KeplerMap id={id} readOnly={!project || (project && !Project.canEdit({ ownerId: project.owner }, user))} />
+      <KeplerMap id={id} readOnly={!Project.canUserEdit(project, user)} />
     </div>
   );
 };

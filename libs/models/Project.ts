@@ -7,6 +7,7 @@ import { UserInterface } from './UserInterface';
 import { NormalizedProjectInterface } from './NormalizedProjectInterface';
 import { DatatlasSavedMapInterface } from './DatatlasSavedMapInterface';
 import { LoadingProjectInterface } from './LoadingProjectInterface';
+import { Roles } from './user';
 
 export class Project implements ProjectInterface {
   id: number;
@@ -70,6 +71,14 @@ export class Project implements ProjectInterface {
     partialUser?: Pick<UserInterface, 'id'>
   ): boolean {
     return !!partialUser && Project.isOwner({ ownerId }, partialUser);
+  }
+
+  static canUserEdit(partialProject?: { owner: number }, partialUser?: Pick<UserInterface, 'role' | 'id'>): boolean {
+    return (
+      !!partialUser &&
+      !!partialProject &&
+      (partialProject.owner === partialUser.id || partialUser?.role === Roles.ADMIN)
+    );
   }
 
   isDraft() {
