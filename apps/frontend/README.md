@@ -47,6 +47,12 @@ npx nx run frontend:test
 
 ## Kepler.gl
 
+### Schema
+
+You may add or remove properties from KeplerGl schema.
+
+> see `apps/frontend/src/kepler/schema-manager.ts` for some examples.
+
 ### Filters
 
 Filters props can be retrieved via the `dataset` which is an instance of a `KeplerTable` : `dataset.getColumnFilterProps`

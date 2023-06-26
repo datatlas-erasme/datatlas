@@ -30,6 +30,8 @@ export default {
   'layerManager.contactUs': 'Le format souhaité n’est pas disponible {link}',
   'layerManager.contactUs.link': 'Contactez-nous',
   'layerManager.dataWeight': 'Un trop grand nombre de jeux de données peut altérer le projet',
+  'filterManager.filter.make_public.label': 'Rendre ce filtre public',
+  'filterManager.filter.make_public.tooltip': 'Affiche ce filtre aux visiteurs',
 
   // Kepler
   sidebar: {

@@ -1,3 +1,4 @@
+export * from './filter-panel';
 export * from './map-control-panel';
 export * from './side-panel';
 export * from './FilterManagerFactory';

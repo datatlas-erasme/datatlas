@@ -1,9 +1,9 @@
 import React, { ButtonHTMLAttributes, LiHTMLAttributes, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Datasets, Filter } from 'kepler.gl/src/reducers/vis-state-updaters';
+import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
 import { Layer, KeplerTable } from 'kepler.gl/src';
 import { FilterField } from './keplerGl/factories';
-import { FiltersConfigInterface } from '@datatlas/models';
+import { Filter, FiltersConfigInterface, SetFilter } from '@datatlas/models';
 import { createFilterComponent } from './keplerGl/factories/side-panel/filter-components';
 
 export const MenuIconButton = ({ ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => (
@@ -16,9 +16,6 @@ export const MenuIcon = styled((props) => <div {...props} />)`
 `;
 
 export const ToggleMenuButton = ({ open, ...props }) => <MenuIconButton {...props}>{open ? 'X' : 'O'}</MenuIconButton>;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type SetFilter = (idx: number, prop: string, value: any) => void;
 
 interface FilterFactoryProps {
   filter: Filter;
@@ -104,7 +101,7 @@ export const Menu = styled(({ datasets, filters = [], layers, filtersConfig, set
       (filtersGroupedByLayerIdx, layer, layerIdx) => ({
         ...filtersGroupedByLayerIdx,
         [layerIdx]: filters.reduce((reversedIndex: number[], filter, filterIdx) => {
-          if (filter.dataId.includes(layer.config.dataId)) {
+          if (filter.dataId.includes(layer.config.dataId) && filter.public) {
             reversedIndex.unshift(filterIdx);
           }
 
