@@ -27,20 +27,20 @@ services:
       - ./docker/pgadmin/pgpass:/pgpass
 
   backend:
-      container_name: dev-datatlas-backend
-      build:
-        dockerfile: dev.Dockerfile
-        context: .
-      command: backend
-      depends_on:
-        - postgres
-      env_file:
-        - .env
-      #volumes:
-        #- ./apps/backend:/datatlas/apps/backend
-        #- ./node_modules:/datatlas/node_modules
-      ports:
-        - 3333:3333
+    container_name: dev-datatlas-backend
+    build:
+      dockerfile: dev.Dockerfile
+      context: .
+    command: backend
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    #volumes:
+    #- ./apps/backend:/datatlas/apps/backend
+    #- ./node_modules:/datatlas/node_modules
+    ports:
+      - 3333:3333
 
   frontend:
     container_name: datatlas-frontend
@@ -51,8 +51,8 @@ services:
     env_file:
       - .env
     #volumes:
-      #- ./apps/frontend:/datatlas/apps/frontend
-      #- ./node_modules:/datatlas/node_modules
+    #- ./apps/frontend:/datatlas/apps/frontend
+    #- ./node_modules:/datatlas/node_modules
     mem_limit: 2048m
     ports:
       - 3000:3000

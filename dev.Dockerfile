@@ -12,7 +12,9 @@ FROM node:lts-alpine
 
 COPY  --from=builder /datatlas /datatlas
 
+WORKDIR /datatlas
+
 # Install app dependencies
 RUN npm install @nrwl/cli -g
 
-ENTRYPOINT [ "npx", "nx", "serve" ]
+CMD [ "npx", "nx", "serve" ]
