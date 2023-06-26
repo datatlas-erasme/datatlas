@@ -2,7 +2,7 @@ import { AnyAction, createAction, Reducer } from '@reduxjs/toolkit';
 import { registerEntry } from 'kepler.gl';
 import keplerGlReducer, { KeplerGlState } from 'kepler.gl/reducers';
 import { addDataToMap, setMapInfo, wrapTo, setLocale as setKeplerMapLocale } from 'kepler.gl/actions';
-import { DatatlasSavedMapInterface, KeplerMapState, KeplerMapStyle, MapInfoInterface } from '@datatlas/models';
+import { DatatlasSavedMapInterface, Filter, KeplerMapState, KeplerMapStyle, MapInfoInterface } from '@datatlas/models';
 import { ProjectDto } from '@datatlas/dtos';
 import { getDefaultLocale } from '../../i18n/utils';
 import { getProject, getProjects } from '../api';
@@ -29,6 +29,7 @@ export const updateReadState = createAction<boolean>(UPDATE_READ_STATE);
 
 export interface DatatlasGlState extends KeplerGlState {
   visState: DatatlasGlVisStateInterface;
+  filters: Filter[];
 }
 
 export const keplerReducer: Reducer<DatatlasGlState> = keplerGlReducer

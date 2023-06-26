@@ -8,6 +8,7 @@ export * from './NormalizedProjectInterface';
 export * from './Dataset';
 export * from './DatasetInterface';
 export * from './DatatlasSavedMapInterface';
+export * from './filters';
 export * from './LoadingProjectInterface';
 export * from './MapInfoInterface';
 export * from './mocks/generators';

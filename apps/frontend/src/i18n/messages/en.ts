@@ -27,6 +27,8 @@ export default {
   'layerManager.contactUs': 'The desired format is not available {link}',
   'layerManager.contactUs.link': 'Contact us',
   'layerManager.dataWeight': 'Too many datasets can corrupt the project',
+  'filterManager.filter.make_public.label': 'Make this filter public',
+  'filterManager.filter.make_public.tooltip': 'Show filter to visitors',
 
   // Kepler
   'sidebar.panels.layer': 'Data',
