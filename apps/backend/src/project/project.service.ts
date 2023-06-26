@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/core';
 import { ProjectEntity } from './entities/project.entity';
@@ -47,11 +47,11 @@ export class ProjectService {
     return await this.projectRepository.findOne({ id });
   }
 
-  async update(projectDto: UpdateProjectDto, owner: UserEntity, contributors: UserEntity[]): Promise<ProjectEntity> {
+  async update(projectDto: UpdateProjectDto, contributors: UserEntity[], owner?: UserEntity): Promise<ProjectEntity> {
     const project = this.projectRepository.upsert({
       ...projectDto,
-      owner,
-      contributors,
+      ...(owner ? { owner } : {}),
+      ...(contributors.length > 0 ? { contributors } : {}),
     });
     await this.projectRepository.flush();
     return project;

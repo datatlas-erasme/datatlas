@@ -1,15 +1,13 @@
-import { DatasetInterface, HasOwnerIdInterface, ProjectInterface } from '@datatlas/models';
+import { DatasetInterface, ProjectInterface } from '@datatlas/models';
 import { ConfigDto } from './config.dto';
 
-export class UpdateProjectDto
-  implements Omit<Partial<ProjectInterface>, 'owner' | 'contributors' | 'createdAt'>, HasOwnerIdInterface
-{
+export class UpdateProjectDto implements Omit<Partial<ProjectInterface>, 'owner' | 'contributors' | 'createdAt'> {
   id: number;
   readonly title: string;
   draft: boolean;
   datasets: DatasetInterface[];
   description: string;
-  ownerId: number;
+  ownerId?: number;
   contributors: number[];
   config: ConfigDto;
   version? = 'v1' as const;
