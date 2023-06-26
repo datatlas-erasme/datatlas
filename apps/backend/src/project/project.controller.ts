@@ -1,4 +1,16 @@
-import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, Req, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Get,
+  Param,
+  Put,
+  Delete,
+  Req,
+  NotFoundException,
+  Logger,
+} from '@nestjs/common';
 import { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
@@ -56,7 +68,11 @@ export class ProjectController {
       const contributorEntity: UserEntity = await this.userService.getUser(projectUpdated.contributors[contributor]);
       contributors.push(contributorEntity);
     }
-    return await this.projectService.update(projectUpdated, owner, contributors);
+    return await this.projectService.update(
+      projectUpdated,
+      contributors.filter((u) => !!u),
+      owner
+    );
   }
 
   @Delete(':id')
