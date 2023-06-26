@@ -1,4 +1,4 @@
-FROM node:lts as builder
+FROM node:lts 
 
 # Create app directory
 WORKDIR /datatlas
@@ -8,13 +8,9 @@ COPY ./ /datatlas/
 
 RUN npm install --force
 
-FROM node:lts-alpine
-
-COPY  --from=builder /datatlas /datatlas
-
-WORKDIR /datatlas
-
 # Install app dependencies
 RUN npm install @nrwl/cli -g
 
-CMD [ "npx", "nx", "serve" ]
+CMD ["tail", "-f", "/dev/null"]
+
+

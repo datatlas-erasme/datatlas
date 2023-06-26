@@ -15,8 +15,8 @@ services:
   backend:
     container_name: datatlas-backend
     build:
-      dockerfile: Dockerfile
-      context: .
+      dockerfile: docker/Dockerfile
+      context: ../
       target: backend
       args:
         - COPY_PATH=backend
@@ -29,8 +29,8 @@ services:
   frontend:
     container_name: datatlas-frontend
     build:
-      dockerfile: Dockerfile
-      context: .
+      dockerfile: docker/Dockerfile
+      context: ../
       target: frontend
       args:
         - COPY_PATH=frontend
