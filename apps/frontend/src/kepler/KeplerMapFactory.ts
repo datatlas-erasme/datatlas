@@ -91,6 +91,10 @@ export class KeplerMapFactory {
       },
     };
   }
+
+  public save(keplerGlState): DatatlasSavedMapInterface {
+    return this.schemaManager.save(keplerGlState);
+  }
 }
 
 export const keplerMapFactory = new KeplerMapFactory(schemaManager);

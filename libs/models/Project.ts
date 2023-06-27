@@ -85,6 +85,9 @@ export class Project implements ProjectInterface {
     return Project.isDraft(this);
   }
 
+  /**
+   * @deprecated use ProjectFactory.createProjectFromKeplerInstance instead
+   */
   static createProjectFromKeplerInstance(
     id: string,
     keplerGlState: KeplerGlState,

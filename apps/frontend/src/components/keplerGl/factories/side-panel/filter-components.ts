@@ -1,7 +1,6 @@
 import { ComponentType } from 'react';
 import {
   RangeFilter as RangeFilterFactory,
-  MultiSelectFilter as MultiSelectFilterFactory,
   TimeRangeFilter as TimeRangeFilterFactory,
   SingleSelectFilter as SingleSelectFactory,
   PolygonFilter as PolygonFilterFactory,
@@ -9,6 +8,7 @@ import {
 import { FILTER_TYPES } from 'kepler.gl/dist/constants/default-settings';
 import { appInjector } from 'kepler.gl/dist/components';
 import { Filter } from 'kepler.gl';
+import { MultiSelectFilterFactory } from '../../../menu/filters/MultiSelectFilterFactory';
 
 const filterComponentFactories: Record<string, ComponentType<any>> = {
   [FILTER_TYPES.timeRange]: TimeRangeFilterFactory,
@@ -21,7 +21,9 @@ const filterComponentFactories: Record<string, ComponentType<any>> = {
 const filterComponents = Object.keys(filterComponentFactories).reduce(
   (components, key) => ({
     ...components,
-    [key]: appInjector.get(filterComponentFactories[key]),
+    [key]: filterComponentFactories[key].deps
+      ? appInjector.get(filterComponentFactories[key])
+      : filterComponentFactories[key](),
   }),
   {}
 );

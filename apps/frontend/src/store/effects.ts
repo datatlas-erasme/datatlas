@@ -47,6 +47,8 @@ startAppListening({
       const state = getState();
       const id = action.payload.meta._id_;
       const projectDto = selectProjectById(state, action.payload.meta._id_);
+
+      console.log('projectdto~', projectDto);
       if (!projectDto) {
         throw new Error(`Couldn't find a project with id ${id}`);
       }

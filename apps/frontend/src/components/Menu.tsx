@@ -13,6 +13,7 @@ export const MenuIconButton = ({ ...props }: ButtonHTMLAttributes<HTMLButtonElem
 export const MenuIcon = styled((props) => <div {...props} />)`
   align-self: center;
   justify-self: flex-end;
+  padding: 3px;
 `;
 
 export const ToggleMenuButton = ({ open, ...props }) => <MenuIconButton {...props}>{open ? 'X' : 'O'}</MenuIconButton>;
@@ -50,17 +51,19 @@ export const DatasetMenu = ({
 }: DatasetMenuProps) => {
   return (
     <li {...props}>
-      <MenuTitleSection>
+      <MenuSectionHeading>
         <h2>{layer.config.label}</h2>
-        <MenuIcon />
-      </MenuTitleSection>
+        <MenuIcon style={{ backgroundColor: `rgb(${layer.config.color})` }} />
+      </MenuSectionHeading>
       {reversedIndex.length && (
         <ul>
           {reversedIndex.map((idx) => (
             <li>
-              <h3>{filters[idx].name}</h3>
+              <MenuSectionHeading style={{ backgroundColor: `rgb(${layer.config.color})` }}>
+                <h3>{filters[idx].name}</h3>
+              </MenuSectionHeading>
               <ul>
-                <li>
+                <li style={{ backgroundColor: `rgb(${layer.config.color})` }}>
                   <FilterComponentFactory setFilter={(value) => setFilter(idx, 'value', value)} filter={filters[idx]} />
                 </li>
               </ul>
@@ -68,6 +71,10 @@ export const DatasetMenu = ({
           ))}
         </ul>
       )}
+      <MenuSectionHeading>
+        <h3>Infos jeu de données & glosssaire</h3>
+        <MenuIcon>i</MenuIcon>
+      </MenuSectionHeading>
     </li>
   );
 };
@@ -81,16 +88,15 @@ interface MenuProps {
   setFilter: SetFilter;
 }
 
-export const MenuTitleSection = styled.div`
+export const MenuSectionHeading = styled.div`
   display: inline-flex;
-  flex: 0 0 100%;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 `;
 
 export const Menu = styled(({ datasets, filters = [], layers, filtersConfig, setFilter, ...props }: MenuProps) => {
-  const [open, setOpen] = useState<boolean>();
+  const [open, setOpen] = useState<boolean>(true);
   const [unfoldedDataset, setUnfoldedDataset] = useState<KeplerTable['id']>();
   // const toField = createToField(datasets.fields);
 
@@ -111,28 +117,15 @@ export const Menu = styled(({ datasets, filters = [], layers, filtersConfig, set
       {}
     );
     // eslint-disable-next-line
-  }, [layers.length, filters.length]);
+  }, [layers.length, filters]);
 
-  console.log('layers', layers);
-  console.log('reversedIndexGroupedByLayerIdx', reversedIndexGroupedByLayerIdx);
-
-  /*
-  fields={
-    filtersConfig && filtersConfig.config.fieldsToShow[dataset.id]
-    ? dataset.fields.filter((field) =>
-      filtersConfig.config.fieldsToShow[dataset.id].find(({ name }) => name === field.name)
-    )
-    : []
-}
-*/
-  console.log('reversedIndexGroupedByLayerIdx', reversedIndexGroupedByLayerIdx);
   return (
     <ul {...props}>
-      <li>
-        <MenuTitleSection>
+      <li className="first-element">
+        <MenuSectionHeading>
           <span>Recherche & filtres</span>
           <ToggleMenuButton open={open} onClick={() => setOpen(!open)} />
-        </MenuTitleSection>
+        </MenuSectionHeading>
         {open && (
           <ul>
             {Object.keys(reversedIndexGroupedByLayerIdx).map((layerIdx) => (
@@ -154,12 +147,12 @@ export const Menu = styled(({ datasets, filters = [], layers, filtersConfig, set
   );
 })`
   display: flex;
+  color: white;
 
-  li {
-    padding: 7px 13px;
-  }
-
-  li > ${MenuTitleSection} {
+  // @todo remove when custom filters interfaces are implemented
+  .side-panel-panel__label {
+    padding-left: 13px;
+    color: white;
   }
 
   ul,
@@ -167,12 +160,33 @@ export const Menu = styled(({ datasets, filters = [], layers, filtersConfig, set
     padding: 0;
   }
 
-  li,
-  ul > li {
-    background-color: black;
-    color: red;
-    padding: 7px 0;
+  li {
     display: flex;
     flex-direction: column;
+  }
+
+  li.first-element > ${MenuSectionHeading} {
+    margin-bottom: 13px;
+    border-bottom: 0;
+    text-transform: uppercase;
+  }
+
+  li.first-element > ${MenuSectionHeading}, li.first-element > ul > li {
+    background-color: black;
+    border-radius: 7px;
+    margin-bottom: 7px;
+  }
+
+  ${MenuSectionHeading} {
+    column-gap: 7px;
+    padding: 7px 13px;
+    border-bottom: 1px solid white;
+  }
+  ${MenuSectionHeading} :first-child {
+    text-transform: capitalize;
+  }
+  ${MenuSectionHeading}:last-child h3 {
+    font-size: 10px;
+    text-transform: uppercase;
   }
 `;
