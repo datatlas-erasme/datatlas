@@ -5,7 +5,6 @@ import get from 'lodash.get';
 import { ALL_FIELD_TYPES, FILTER_TYPES } from 'kepler.gl/dist/constants/default-settings';
 import KeplerFilterPanelFactory from 'kepler.gl/dist/components/side-panel/filter-panel/filter-panel';
 import Switch from 'kepler.gl/dist/components/common/switch';
-import { PanelLabel, StyledFilterContent } from 'kepler.gl/dist/components/common/styled-components';
 import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
 import { Filter, SetFilter } from '@datatlas/models';
 import { FormattedMessage } from 'react-intl';
@@ -93,7 +92,7 @@ function FilterPanelFactory(
     [FILTER_TYPES.polygon]: PolygonFilterPanel,
   };
 
-  return ({ idx, setFilter, ...props }: FilterPanelProps) => {
+  return (props: FilterPanelProps) => {
     /* selectors */
     const fieldsSelector = (props) => {
       const datasetId = props.filter.dataId[0];
@@ -122,7 +121,7 @@ function FilterPanelFactory(
         )
     );
 
-    const { filter } = props;
+    const { setFilter, filter, idx } = props;
     const FilterFilterComponent = (filter.type && FilterPanelComponents[filter.type]) || FilterPanelComponents.default;
     const allAvailableFields = availableFieldsSelector(props);
 

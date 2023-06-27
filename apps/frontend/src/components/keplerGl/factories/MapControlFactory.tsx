@@ -50,13 +50,13 @@ function MapControlFactory(
   LocalePanel
 ) {
   const DEFAULT_ACTIONS = [
-    PublishButton,
-    SplitMapButton,
-    LayerSelectorPanel,
-    Toggle3dButton,
-    MapLegendPanel,
-    MapDrawPanel,
-    LocalePanel,
+    // PublishButton,
+    // SplitMapButton,
+    // LayerSelectorPanel,
+    // Toggle3dButton,
+    // MapLegendPanel,
+    // MapDrawPanel,
+    // LocalePanel,
   ];
 
   return ({

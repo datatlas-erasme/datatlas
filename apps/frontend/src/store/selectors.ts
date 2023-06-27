@@ -40,7 +40,7 @@ export const selectProjectById = (state: RootState, projectId) => {
     console.warn(`User ${ownerId} isn't loaded yet.`);
   }
 
-  return projectFactory.createProjectFromState(projectId, keplerState, user);
+  return projectFactory.createProjectFromKeplerInstance(projectId, keplerState, user);
 };
 
 export const selectUserById = (state, id) => getUser.select(id)(state)?.data;
