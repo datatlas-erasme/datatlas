@@ -5,10 +5,14 @@ import { Layer, KeplerTable } from 'kepler.gl/src';
 import { FilterField } from './keplerGl/factories';
 import { Filter, FiltersConfigInterface, SetFilter } from '@datatlas/models';
 import { createFilterComponent } from './keplerGl/factories/side-panel/filter-components';
+import { Option } from './menu/filters';
 
-export const MenuIconButton = ({ ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => (
+export const MenuIconButton = styled(({ ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => (
   <MenuIcon as="button" {...props} />
-);
+))`
+  cursor: pointer;
+  border-radius: 50%;
+`;
 
 export const MenuIcon = styled((props) => <div {...props} />)`
   align-self: center;
@@ -16,11 +20,12 @@ export const MenuIcon = styled((props) => <div {...props} />)`
   padding: 3px;
 `;
 
-export const ToggleMenuButton = ({ open, ...props }) => <MenuIconButton {...props}>{open ? 'X' : 'O'}</MenuIconButton>;
+export const ToggleMenuButton = ({ open, ...props }) => <MenuIconButton {...props}>{open ? '⨯' : '☰'}</MenuIconButton>;
 
 interface FilterFactoryProps {
   filter: Filter;
   setFilter: SetFilter;
+  layer: Layer;
 }
 
 export const FilterComponentFactory = (props: FilterFactoryProps) => {
@@ -28,6 +33,8 @@ export const FilterComponentFactory = (props: FilterFactoryProps) => {
 
   return FilterComponent ? <FilterComponent {...props} /> : null;
 };
+
+export type LayerConfigChange = (oldLayer: Layer, newConfig: Partial<Layer>) => void;
 
 interface DatasetMenuProps extends LiHTMLAttributes<HTMLLIElement> {
   datasets: Datasets;
@@ -37,6 +44,7 @@ interface DatasetMenuProps extends LiHTMLAttributes<HTMLLIElement> {
   unfolded?: boolean;
   reversedIndex: number[]; // An array of filters index in reverse order.
   setFilter: SetFilter;
+  layerConfigChange: LayerConfigChange;
 }
 
 export const DatasetMenu = ({
@@ -47,13 +55,24 @@ export const DatasetMenu = ({
   reversedIndex,
   layer,
   setFilter,
+  layerConfigChange,
   ...props
 }: DatasetMenuProps) => {
+  const toggleVisibility = (e) => {
+    e.stopPropagation();
+    const isVisible = !layer.config.isVisible;
+    layerConfigChange(layer, { isVisible });
+  };
+
   return (
     <li {...props}>
       <MenuSectionHeading>
         <h2>{layer.config.label}</h2>
-        <MenuIcon style={{ backgroundColor: `rgb(${layer.config.color})` }} />
+        <MenuIcon style={{ backgroundColor: `rgb(${layer.config.color})`, height: 13, width: 13 }} />
+      </MenuSectionHeading>
+      <MenuSectionHeading>
+        <span>Afficher le jeu de données</span>
+        <MenuIconButton onClick={toggleVisibility}>{layer.config.isVisible ? '👁' : '🕶'}</MenuIconButton>
       </MenuSectionHeading>
       {reversedIndex.length && (
         <ul>
@@ -62,11 +81,11 @@ export const DatasetMenu = ({
               <MenuSectionHeading style={{ backgroundColor: `rgb(${layer.config.color})` }}>
                 <h3>{filters[idx].name}</h3>
               </MenuSectionHeading>
-              <ul>
-                <li style={{ backgroundColor: `rgb(${layer.config.color})` }}>
-                  <FilterComponentFactory setFilter={(value) => setFilter(idx, 'value', value)} filter={filters[idx]} />
-                </li>
-              </ul>
+              <FilterComponentFactory
+                setFilter={(value) => setFilter(idx, 'value', value)}
+                filter={filters[idx]}
+                layer={layer}
+              />
             </li>
           ))}
         </ul>
@@ -86,66 +105,70 @@ interface MenuProps {
   filters: Filter[];
   layers: Layer[];
   setFilter: SetFilter;
+  layerConfigChange: LayerConfigChange;
 }
 
 export const MenuSectionHeading = styled.div`
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
 
-export const Menu = styled(({ datasets, filters = [], layers, filtersConfig, setFilter, ...props }: MenuProps) => {
-  const [open, setOpen] = useState<boolean>(true);
-  const [unfoldedDataset, setUnfoldedDataset] = useState<KeplerTable['id']>();
-  // const toField = createToField(datasets.fields);
+export const Menu = styled(
+  ({ datasets, filters = [], layers, layerConfigChange, filtersConfig, setFilter, ...props }: MenuProps) => {
+    const [open, setOpen] = useState<boolean>(true);
+    const [unfoldedDataset, setUnfoldedDataset] = useState<KeplerTable['id']>();
+    // const toField = createToField(datasets.fields);
 
-  // const isAnyFilterAnimating = filters.some((f) => f.isAnimating);
-  // const hadEmptyFilter = (reversedIndex) => reversedIndex.map((idx) => filters[idx]).some((f) => !f.name);
-  const reversedIndexGroupedByLayerIdx = useMemo(() => {
-    return layers.reduce(
-      (filtersGroupedByLayerIdx, layer, layerIdx) => ({
-        ...filtersGroupedByLayerIdx,
-        [layerIdx]: filters.reduce((reversedIndex: number[], filter, filterIdx) => {
-          if (filter.dataId.includes(layer.config.dataId) && filter.public) {
-            reversedIndex.unshift(filterIdx);
-          }
+    // const isAnyFilterAnimating = filters.some((f) => f.isAnimating);
+    // const hadEmptyFilter = (reversedIndex) => reversedIndex.map((idx) => filters[idx]).some((f) => !f.name);
+    const reversedIndexGroupedByLayerIdx = useMemo(() => {
+      return layers.reduce(
+        (filtersGroupedByLayerIdx, layer, layerIdx) => ({
+          ...filtersGroupedByLayerIdx,
+          [layerIdx]: filters.reduce((reversedIndex: number[], filter, filterIdx) => {
+            if (filter.dataId.includes(layer.config.dataId) && filter.public) {
+              reversedIndex.unshift(filterIdx);
+            }
 
-          return reversedIndex;
-        }, []),
-      }),
-      {}
+            return reversedIndex;
+          }, []),
+        }),
+        {}
+      );
+      // eslint-disable-next-line
+    }, [layers.length, filters]);
+
+    return (
+      <ul {...props}>
+        <li className="first-element">
+          <MenuSectionHeading>
+            <span>Recherche & filtres</span>
+            <ToggleMenuButton open={open} onClick={() => setOpen(!open)} />
+          </MenuSectionHeading>
+          {open && (
+            <ul>
+              {Object.keys(reversedIndexGroupedByLayerIdx).map((layerIdx) => (
+                <DatasetMenu
+                  datasets={datasets}
+                  reversedIndex={reversedIndexGroupedByLayerIdx[layerIdx]}
+                  filters={filters}
+                  layer={layers[layerIdx]}
+                  setFilter={setFilter}
+                  layerConfigChange={layerConfigChange}
+                  key={`datasetMenu-${layerIdx}`}
+                  unfolded={layerIdx === unfoldedDataset}
+                  onClick={() => setUnfoldedDataset(layerIdx)}
+                />
+              ))}
+            </ul>
+          )}
+        </li>
+      </ul>
     );
-    // eslint-disable-next-line
-  }, [layers.length, filters]);
-
-  return (
-    <ul {...props}>
-      <li className="first-element">
-        <MenuSectionHeading>
-          <span>Recherche & filtres</span>
-          <ToggleMenuButton open={open} onClick={() => setOpen(!open)} />
-        </MenuSectionHeading>
-        {open && (
-          <ul>
-            {Object.keys(reversedIndexGroupedByLayerIdx).map((layerIdx) => (
-              <DatasetMenu
-                datasets={datasets}
-                reversedIndex={reversedIndexGroupedByLayerIdx[layerIdx]}
-                filters={filters}
-                layer={layers[layerIdx]}
-                setFilter={setFilter}
-                key={`datasetMenu-${layerIdx}`}
-                unfolded={layerIdx === unfoldedDataset}
-                onClick={() => setUnfoldedDataset(layerIdx)}
-              />
-            ))}
-          </ul>
-        )}
-      </li>
-    </ul>
-  );
-})`
+  }
+)`
   display: flex;
   color: white;
 
@@ -163,6 +186,7 @@ export const Menu = styled(({ datasets, filters = [], layers, filtersConfig, set
   li {
     display: flex;
     flex-direction: column;
+    line-height: initial;
   }
 
   li.first-element > ${MenuSectionHeading} {
@@ -171,22 +195,40 @@ export const Menu = styled(({ datasets, filters = [], layers, filtersConfig, set
     text-transform: uppercase;
   }
 
+  li.first-element > ${MenuSectionHeading} :first-child {
+    font-size: 16px;
+  }
+
   li.first-element > ${MenuSectionHeading}, li.first-element > ul > li {
     background-color: black;
     border-radius: 7px;
     margin-bottom: 7px;
   }
 
-  ${MenuSectionHeading} {
-    column-gap: 7px;
-    padding: 7px 13px;
+  ${MenuSectionHeading}, ${Option} {
+    display: flex;
+    column-gap: 13px;
+    padding: 13px 15px 13px 17px;
     border-bottom: 1px solid white;
   }
   ${MenuSectionHeading} :first-child {
     text-transform: capitalize;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 130%;
   }
-  ${MenuSectionHeading}:last-child h3 {
-    font-size: 10px;
+
+  li.first-element > ${MenuSectionHeading} :first-child,
+  ${MenuSectionHeading}:last-child h3,
+  ${Option} {
     text-transform: uppercase;
+  }
+
+  ul li ${MenuSectionHeading}:last-child :first-child {
+    font-size: 12px;
+  }
+
+  ul li ${MenuSectionHeading}:last-child > * {
+    display: none;
   }
 `;

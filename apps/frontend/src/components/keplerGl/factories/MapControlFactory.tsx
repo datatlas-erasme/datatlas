@@ -5,15 +5,15 @@ import { Filter } from 'kepler.gl';
 import { MapControlFactory as KeplerMapControlFactory } from 'kepler.gl/components';
 import KeplerGlLogo from 'kepler.gl/dist/components/common/logo';
 import { KeplerGLProps } from './KeplerGlFactory';
-import { PublishButton } from '../../buttons/PublishButton';
 import { Menu } from '../../Menu';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/reducers';
 import { useParams } from 'react-router-dom';
 import { useForward } from '../../../hooks/useForward';
-import { setFilter } from 'kepler.gl/dist/actions/vis-state-actions';
+import { setFilter, layerConfigChange } from 'kepler.gl/dist/actions/vis-state-actions';
 import { selectFilters, selectFiltersConfig } from '../../../store/selectors';
 import { FiltersConfigInterface } from '@datatlas/models';
+import { Layer } from 'kepler.gl/src';
 
 const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
   right: 0;
@@ -87,6 +87,9 @@ function MapControlFactory(
           filters={filters}
           layers={layers}
           setFilter={(idx: number, prop: string, value: any) => forward(setFilter(idx, prop, value))}
+          layerConfigChange={(oldLayer: Layer, newConfig: Partial<Layer>) =>
+            forward(layerConfigChange(oldLayer, newConfig))
+          }
         />
         {actionComponents.map((ActionComponent, index) => (
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
