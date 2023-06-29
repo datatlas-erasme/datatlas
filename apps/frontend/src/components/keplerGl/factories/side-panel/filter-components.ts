@@ -1,14 +1,13 @@
 import { ComponentType } from 'react';
+import { Filter } from 'kepler.gl';
 import {
-  RangeFilter as RangeFilterFactory,
   TimeRangeFilter as TimeRangeFilterFactory,
   SingleSelectFilter as SingleSelectFactory,
   PolygonFilter as PolygonFilterFactory,
 } from 'kepler.gl/dist/components/filters';
 import { FILTER_TYPES } from 'kepler.gl/dist/constants/default-settings';
-import { appInjector } from 'kepler.gl/dist/components';
-import { Filter } from 'kepler.gl';
-import { MultiSelectFilterFactory } from '../../../menu/filters/MultiSelectFilterFactory';
+import { appInjector } from '../../injector';
+import { MultiSelectFilterFactory, RangeFilterFactory } from '../filter-panel';
 
 const filterComponentFactories: Record<string, ComponentType<any>> = {
   [FILTER_TYPES.timeRange]: TimeRangeFilterFactory,
@@ -18,18 +17,8 @@ const filterComponentFactories: Record<string, ComponentType<any>> = {
   [FILTER_TYPES.polygon]: PolygonFilterFactory,
 };
 
-const filterComponents = Object.keys(filterComponentFactories).reduce(
-  (components, key) => ({
-    ...components,
-    [key]: filterComponentFactories[key].deps
-      ? appInjector.get(filterComponentFactories[key])
-      : filterComponentFactories[key](),
-  }),
-  {}
-);
-
 export const isTypeSupported = ({ type }: { type: string }): boolean => {
-  if (!filterComponents[type]) {
+  if (!filterComponentFactories[type]) {
     console.warn(`Field type ${type} isn't supported.`);
     return false;
   }
@@ -43,7 +32,7 @@ export const createFilterComponent = (filter: Filter): ComponentType<any> | null
     return null;
   }
 
-  const filterComponent = filterComponents[filter.type];
+  const filterComponent = appInjector.get(filterComponentFactories[filter.type]);
 
   if (!filterComponent) {
     console.warn(`Filter ${filter.id} type ${filter.type} isn't supported.`);

@@ -2,10 +2,8 @@ import React, { ButtonHTMLAttributes, LiHTMLAttributes, useMemo, useState } from
 import styled from 'styled-components';
 import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
 import { Layer, KeplerTable } from 'kepler.gl/src';
-import { FilterField } from './keplerGl/factories';
+import { FilterField, Option, createFilterComponent } from './keplerGl/factories';
 import { Filter, FiltersConfigInterface, SetFilter } from '@datatlas/models';
-import { createFilterComponent } from './keplerGl/factories/side-panel/filter-components';
-import { Option } from './menu/filters';
 
 export const MenuIconButton = styled(({ ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => (
   <MenuIcon as="button" {...props} />
@@ -23,15 +21,17 @@ export const MenuIcon = styled((props) => <div {...props} />)`
 export const ToggleMenuButton = ({ open, ...props }) => <MenuIconButton {...props}>{open ? '⨯' : '☰'}</MenuIconButton>;
 
 interface FilterFactoryProps {
+  idx: number;
   filter: Filter;
   setFilter: SetFilter;
   layer: Layer;
+  style?: React.CSSProperties;
 }
 
 export const FilterComponentFactory = (props: FilterFactoryProps) => {
   const FilterComponent = createFilterComponent(props.filter);
 
-  return FilterComponent ? <FilterComponent {...props} /> : null;
+  return FilterComponent && <FilterComponent {...props} />;
 };
 
 export type LayerConfigChange = (oldLayer: Layer, newConfig: Partial<Layer>) => void;
@@ -74,25 +74,21 @@ export const DatasetMenu = ({
         <span>Afficher le jeu de données</span>
         <MenuIconButton onClick={toggleVisibility}>{layer.config.isVisible ? '👁' : '🕶'}</MenuIconButton>
       </MenuSectionHeading>
-      {reversedIndex.length && (
+      {reversedIndex.length > 0 && (
         <ul>
           {reversedIndex.map((idx) => (
-            <li>
+            <li key={`filters-${idx}`}>
               <MenuSectionHeading style={{ backgroundColor: `rgb(${layer.config.color})` }}>
                 <h3>{filters[idx].name}</h3>
               </MenuSectionHeading>
-              <FilterComponentFactory
-                setFilter={(value) => setFilter(idx, 'value', value)}
-                filter={filters[idx]}
-                layer={layer}
-              />
+              <FilterComponentFactory idx={idx} setFilter={setFilter} filter={filters[idx]} layer={layer} />
             </li>
           ))}
         </ul>
       )}
       <MenuSectionHeading>
         <h3>Infos jeu de données & glosssaire</h3>
-        <MenuIcon>i</MenuIcon>
+        <MenuIcon>🛈</MenuIcon>
       </MenuSectionHeading>
     </li>
   );
@@ -230,5 +226,45 @@ export const Menu = styled(
 
   ul li ${MenuSectionHeading}:last-child > * {
     display: none;
+  }
+
+  ul li ${MenuSectionHeading} + .range-slider__container {
+    padding: 1px 9px 13px 11px;
+  }
+
+  .kg-range-slider {
+  }
+
+  .kg-range-slider .kg-range-slider__plot .histogram-bars rect {
+    fill: rgba(255, 255, 255, 0.5);
+  }
+
+  .kg-range-slider .kg-range-slider__brush .selection {
+    fill: white;
+    fill-opacity: 0.4;
+  }
+
+  .kg-range-slider .kg-range-slider__slider .kg-range-slider {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .kg-range-slider .kg-range-slider__slider .kg-range-slider__bar {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .kg-range-slider .kg-range-slider__brush .handle--custom {
+    fill: rgba(255, 255, 255, 0.8);
+  }
+  .kg-range-slider .kg-range-slider__slider .kg-range-slider__handle {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .kg-range-slider .kg-range-slider__slider .kg-range-slider__handle:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .kg-range-slider .range-slider__input-group .kg-range-slider__input {
+    background-color: white;
   }
 `;
