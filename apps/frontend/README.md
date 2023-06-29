@@ -47,6 +47,20 @@ npx nx run frontend:test
 
 ## Kepler.gl
 
+### Dependency injection
+
+**Kepler.gl** uses its own **dependency injection** system :
+https://docs.kepler.gl/docs/api-reference/advanced-usages/replace-ui-component#inject-components
+
+For advanced usages, meaning not only replacing an existing component, for example :
+
+- adding a dependency to an existing component
+- adding a custom factory which depends on others **Kepler.gl** factories
+- calling the `injector` manually
+
+You need to use the `provideRecipesToInjector` to decorate **Kepler.gl** `injector` and used the one returned by this method.
+Only then you may then call this `injector` and expecting a predictable behavior.
+
 ### Schema
 
 You may add or remove properties from KeplerGl schema.

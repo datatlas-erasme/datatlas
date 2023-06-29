@@ -20,14 +20,28 @@ export const Option = styled(({ backgroundRgb, selected, ...props }) => <li {...
 `;
 
 export function MultiSelectFilterFactory() {
-  return ({ idx, filter, setFilter, layer }) => {
-    const onSetFilter = useCallback((value) => setFilter(idx, 'value', value), [idx, setFilter]);
+  return ({ idx, filter, setFilter, layer, ...props }) => {
+    const handleSetFilter = useCallback(
+      (value) => {
+        if (filter.value.indexOf(value) !== -1) {
+          setFilter(
+            idx,
+            'value',
+            filter.value.filter((v) => v !== value)
+          );
+        } else {
+          setFilter(idx, 'value', filter.value.concat(value));
+        }
+      },
+      [idx, setFilter]
+    );
 
     return (
-      <ul>
+      <ul {...props}>
         {filter.domain.map((domain) => (
           <Option
-            onClick={onSetFilter}
+            key={domain}
+            onClick={() => handleSetFilter(domain)}
             selected={filter.value.indexOf(domain) !== -1}
             backgroundRgb={layer.config.color}
           >
@@ -37,4 +51,8 @@ export function MultiSelectFilterFactory() {
       </ul>
     );
   };
+}
+
+export function provideMultiSelectFilter() {
+  return [MultiSelectFilterFactory, MultiSelectFilterFactory];
 }
