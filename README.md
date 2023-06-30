@@ -35,6 +35,14 @@ nx run-many --target=serve
 
 ## Development
 
+### USe docker for development
+
+```
+cd docker
+cp .env.example .env
+docker compose up
+```
+
 ### Code quality
 
 Run `prettier` on whole repository:
