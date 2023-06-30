@@ -41,6 +41,7 @@ services:
       - ../node_modules:/datatlas/node_modules
     ports:
       - 3333:3333
+    user: '${UID}:${GID}'
 
   frontend:
     container_name: dev-datatlas-frontend
@@ -55,3 +56,4 @@ services:
       - ../node_modules:/datatlas/node_modules
     ports:
       - 3000:3000
+    user: '${UID}:${GID}'
