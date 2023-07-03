@@ -4,7 +4,7 @@ import ActionTypes from 'kepler.gl/dist/constants/action-types';
 import { setLocale as setMapLocale } from 'kepler.gl/dist/actions/ui-state-actions';
 import { setLocale } from './reducers/locale';
 import { UPDATE_MAP_INFO } from './reducers/keplerGl';
-import { selectProjectById } from './selectors';
+import { selectLoggedIn, selectProjectById } from './selectors';
 import { AnyAction, isAnyOf } from '@reduxjs/toolkit';
 import { deleteProject, updateProject } from './api';
 
@@ -43,12 +43,15 @@ startAppListening({
     ])
   ),
   effect: async (action, { dispatch, getState }) => {
+    const state = getState();
+    if (!selectLoggedIn(state)) {
+      return;
+    }
+
     if (isAKeplerWrappedAction(action)) {
-      const state = getState();
       const id = action.payload.meta._id_;
       const projectDto = selectProjectById(state, action.payload.meta._id_);
 
-      console.log('projectdto~', projectDto);
       if (!projectDto) {
         throw new Error(`Couldn't find a project with id ${id}`);
       }
@@ -64,6 +67,11 @@ startAppListening({
 startAppListening({
   type: '@@kepler.gl/DELETE_ENTRY',
   effect: async ({ payload }: ReturnType<deleteEntry>, { dispatch, getState }) => {
+    const state = getState();
+    if (!selectLoggedIn(state)) {
+      return;
+    }
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     dispatch(deleteProject.initiate(payload));
