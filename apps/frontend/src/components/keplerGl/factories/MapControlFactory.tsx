@@ -1,19 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Filter } from 'kepler.gl';
+import { Layer } from 'kepler.gl/src';
 import { MapControlFactory as KeplerMapControlFactory } from 'kepler.gl/components';
 import KeplerGlLogo from 'kepler.gl/dist/components/common/logo';
-import { KeplerGLProps } from './KeplerGlFactory';
-import { Menu } from '../../Menu';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/reducers';
-import { useParams } from 'react-router-dom';
-import { useForward } from '../../../hooks/useForward';
 import { setFilter, layerConfigChange } from 'kepler.gl/dist/actions/vis-state-actions';
+import { KeplerGLProps } from './KeplerGlFactory';
+import { MapMenu } from '../../map-menu';
+import { RootState } from '../../../store/reducers';
+import { useForward } from '../../../hooks/useForward';
 import { selectFilters, selectFiltersConfig } from '../../../store/selectors';
 import { FiltersConfigInterface } from '@datatlas/models';
-import { Layer } from 'kepler.gl/src';
 
 const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
   right: 0;
@@ -41,23 +41,8 @@ interface MapControlProps extends KeplerGLProps {
   logoComponent: typeof LegendLogo;
 }
 
-function MapControlFactory(
-  MapDrawPanel,
-  Toggle3dButton,
-  SplitMapButton,
-  MapLegendPanel,
-  LayerSelectorPanel,
-  LocalePanel
-) {
-  const DEFAULT_ACTIONS = [
-    // PublishButton,
-    // SplitMapButton,
-    // LayerSelectorPanel,
-    // Toggle3dButton,
-    // MapLegendPanel,
-    // MapDrawPanel,
-    // LocalePanel,
-  ];
+function MapControlFactory() {
+  const DEFAULT_ACTIONS = [];
 
   return ({
     actionComponents = DEFAULT_ACTIONS,
@@ -81,7 +66,7 @@ function MapControlFactory(
 
     return (
       <StyledMapControl className="map-control" top={top}>
-        <Menu
+        <MapMenu
           datasets={datasets}
           filtersConfig={filtersConfig}
           filters={filters}
