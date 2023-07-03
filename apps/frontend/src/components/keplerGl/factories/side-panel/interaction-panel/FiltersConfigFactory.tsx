@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ComponentType } from 'react';
 import TooltipConfigFactory from 'kepler.gl/dist/components/side-panel/interaction-panel/tooltip-config';
 import { BaseInteraction, TooltipField } from 'kepler.gl/src/reducers/vis-state-updaters';

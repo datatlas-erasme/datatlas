@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any */
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Filter } from 'kepler.gl';

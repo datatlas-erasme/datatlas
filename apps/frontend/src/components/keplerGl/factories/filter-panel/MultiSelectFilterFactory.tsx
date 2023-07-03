@@ -33,7 +33,7 @@ export function MultiSelectFilterFactory() {
           setFilter(idx, 'value', filter.value.concat(value));
         }
       },
-      [idx, setFilter]
+      [idx, setFilter, filter.value]
     );
 
     return (
