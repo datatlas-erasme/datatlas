@@ -1,9 +1,9 @@
 import { Filter } from 'kepler.gl';
 import { KeplerGlState } from 'kepler.gl/reducers';
+import { createSelector } from 'reselect';
 import { FiltersConfigInterface, MapInfoInterface, Project, ProjectInterface } from '@datatlas/models';
 import { RootState } from './reducers';
 import { getUser } from './api';
-import { createSelector } from 'reselect';
 
 export const toKeplerId = (id: number) => String(id).toLocaleUpperCase();
 
