@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
 import { KeplerTable, Layer } from 'kepler.gl/src';
@@ -53,7 +54,9 @@ export const MapMenu = styled(
       <ul {...props}>
         <li className="first-element">
           <MenuSectionHeading>
-            <span>Recherche & filtres</span>
+            <span>
+              <FormattedMessage id={'map_menu.title'} defaultMessage={'Datasets'} />
+            </span>
             <ToggleMenuButton open={open} onClick={() => setOpen(!open)} />
           </MenuSectionHeading>
           {open && (

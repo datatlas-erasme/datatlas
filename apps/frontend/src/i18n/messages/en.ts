@@ -29,6 +29,9 @@ export default {
   'layerManager.dataWeight': 'Too many datasets can corrupt the project',
   'filterManager.filter.make_public.label': 'Make this filter public',
   'filterManager.filter.make_public.tooltip': 'Show filter to visitors',
+  'map_menu.title': 'Datasets',
+  'map_menu.dataset.infos': 'Dataset infos',
+  'map_menu.dataset.show_dataset': 'Show dataset',
 
   // Kepler
   'sidebar.panels.layer': 'Data',

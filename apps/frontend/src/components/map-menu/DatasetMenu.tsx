@@ -1,4 +1,5 @@
 import React, { LiHTMLAttributes } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
 import { FilterField } from '../keplerGl/factories';
 import { Filter, SetFilter } from '@datatlas/models';
@@ -42,7 +43,9 @@ export const DatasetMenu = ({
         <MenuIcon style={{ backgroundColor: `rgb(${layer.config.color})`, height: 13, width: 13 }} />
       </MenuSectionHeading>
       <MenuSectionHeading>
-        <span>Afficher le jeu de données</span>
+        <span>
+          <FormattedMessage id={'map_menu.dataset.show_dataset'} defaultMessage={'Show dataset'} />
+        </span>
         <MenuIconButton onClick={toggleVisibility}>{layer.config.isVisible ? '👁' : '🕶'}</MenuIconButton>
       </MenuSectionHeading>
       {reversedIndex.length > 0 && (
@@ -58,7 +61,9 @@ export const DatasetMenu = ({
         </ul>
       )}
       <MenuSectionHeading>
-        <h3>Infos jeu de données & glosssaire</h3>
+        <h3>
+          <FormattedMessage id={'map_menu.dataset.infos'} defaultMessage={'Dataset infos'} />
+        </h3>
         <MenuIcon>🛈</MenuIcon>
       </MenuSectionHeading>
     </li>

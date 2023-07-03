@@ -32,6 +32,9 @@ export default {
   'layerManager.dataWeight': 'Un trop grand nombre de jeux de données peut altérer le projet',
   'filterManager.filter.make_public.label': 'Rendre ce filtre public',
   'filterManager.filter.make_public.tooltip': 'Affiche ce filtre aux visiteurs',
+  'map_menu.title': 'Recherche & filtres',
+  'map_menu.dataset.infos': 'Infos jeu de données & glosssaire',
+  'map_menu.dataset.show_dataset': 'Afficher le jeu de données',
 
   // Kepler
   sidebar: {
