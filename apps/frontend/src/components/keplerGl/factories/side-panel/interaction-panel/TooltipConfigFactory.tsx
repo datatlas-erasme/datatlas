@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ComponentType } from 'react';
 import styled from 'styled-components';
 import { TooltipConfigFactory as KeplerTooltipConfigFactory } from 'kepler.gl/components';

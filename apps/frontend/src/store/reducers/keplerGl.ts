@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-computed-key */
 import { AnyAction, createAction, Reducer } from '@reduxjs/toolkit';
 import { registerEntry } from 'kepler.gl';
 import keplerGlReducer, { KeplerGlState } from 'kepler.gl/reducers';
