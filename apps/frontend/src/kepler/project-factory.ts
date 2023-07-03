@@ -1,4 +1,10 @@
-import { DatatlasSavedMapInterface, Project, ProjectInterface, UserInterface } from '@datatlas/models';
+import {
+  DatatlasSavedMapInterface,
+  LoadingProjectInterface,
+  Project,
+  ProjectInterface,
+  UserInterface,
+} from '@datatlas/models';
 import { KeplerGlSchema } from 'kepler.gl/schemas';
 import { KeplerGlState } from 'kepler.gl/reducers';
 import { schemaManager } from './schema-manager';
@@ -13,8 +19,8 @@ export class ProjectFactory {
   public createProjectFromKeplerInstance(
     id: string,
     keplerGlState: KeplerGlState,
-    owner: UserInterface
-  ): ProjectInterface {
+    owner?: UserInterface
+  ): LoadingProjectInterface {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const savedMap = this.schemaManager.save(keplerGlState) as DatatlasSavedMapInterface;
