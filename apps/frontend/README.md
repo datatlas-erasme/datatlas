@@ -129,3 +129,15 @@ Side effects should be handled _via_ `@reduxjs/toolkit` but first, you should as
    - https://redux-toolkit.js.org/rtk-query/usage/queries
 3. Your side effects require a complex workflow, then use a custom `createListenerMiddleware`:
    - https://redux-toolkit.js.org/api/createListenerMiddleware
+
+### Compiling **Kepler.gl** from source
+
+Downgrade to Node.js v16.
+
+> You mays use [**n**](https://github.com/tj/n) or \__nvm_ in order to do so.
+
+You might need to manually set your `c` compiler version to something older :
+
+```
+CXX=g++-9 yarn
+```
