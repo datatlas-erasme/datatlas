@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.9'
 
 services:
   postgres:
@@ -28,32 +28,33 @@ services:
 
   backend:
     container_name: dev-datatlas-backend
+    image: dev-datatlas
     build:
       dockerfile: docker/dev.Dockerfile
-      context: ../
+      context: .
     command: npx nx serve backend
     depends_on:
       - postgres
     env_file:
       - .env
     volumes:
-      - ../apps/backend:/datatlas/apps/backend
-      - ../node_modules:/datatlas/node_modules
+      - ./apps/backend:/datatlas/apps/backend
+      - ./node_modules:/datatlas/node_modules
     ports:
       - 3333:3333
-    user: '${UID}:${GID}'
-
   frontend:
     container_name: dev-datatlas-frontend
+    image: dev-datatlas
     build:
       dockerfile: docker/dev.Dockerfile
-      context: ../
+      context: .
     command: npx nx serve frontend
     env_file:
       - .env
     volumes:
-      - ../apps/frontend:/datatlas/apps/frontend
-      - ../node_modules:/datatlas/node_modules
+      - ./apps/frontend:/datatlas/apps/frontend 
+      - ./node_modules:/datatlas/node_modules
     ports:
       - 3000:3000
-    user: '${UID}:${GID}'
+  
+
