@@ -15,7 +15,7 @@ services:
   backend:
     container_name: datatlas-backend
     build:
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile
       context: .
       target: backend
       args:
@@ -29,7 +29,7 @@ services:
   frontend:
     container_name: datatlas-frontend
     build:
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile
       context: .
       target: frontend
       args:

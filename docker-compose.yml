@@ -1,8 +1,8 @@
-version: '3.1'
+version: '3.9'
 
 services:
   postgres:
-    container_name: datatlas-db
+    container_name: dev-datatlas-db
     image: kartoza/postgis:15-3.3
     restart: unless-stopped
     environment:
@@ -14,7 +14,7 @@ services:
       - '5432:${POSTGRES_PORT}'
 
   pgadmin:
-    container_name: pgadmin4_container
+    container_name: dev-datatlas-pgadmin
     image: dpage/pgadmin4
     restart: unless-stopped
     environment:
@@ -22,3 +22,39 @@ services:
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - '5431:80'
+    volumes:
+      - ./pgadmin/servers.json:/pgadmin4/servers.json
+      - ./pgadmin/pgpass:/pgpass
+
+  backend:
+    container_name: dev-datatlas-backend
+    image: dev-datatlas
+    build:
+      dockerfile: docker/dev.Dockerfile
+      context: .
+    command: npx nx serve backend
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    volumes:
+      - ./apps/backend:/datatlas/apps/backend
+      - ./node_modules:/datatlas/node_modules
+    ports:
+      - 3333:3333
+  frontend:
+    container_name: dev-datatlas-frontend
+    image: dev-datatlas
+    build:
+      dockerfile: docker/dev.Dockerfile
+      context: .
+    command: npx nx serve frontend
+    env_file:
+      - .env
+    volumes:
+      - ./apps/frontend:/datatlas/apps/frontend 
+      - ./node_modules:/datatlas/node_modules
+    ports:
+      - 3000:3000
+  
+

@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "datatlas",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "docker",
+      "PassFile": "/pgpass",
+      "SSLMode": "prefer"
+    }
+  }
+}
