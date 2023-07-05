@@ -124,11 +124,16 @@ Imported data are imported with `processFileData` :
 Side effects should be handled _via_ `@reduxjs/toolkit` but first, you should ask yourself :
 
 1. If The action you want to dispatch is just here forward some data to your state, you might not need a side effect, see if it can be handled directly in one of your reducer instead:
-   - https://github.com/reduxjs/redux-toolkit/issues/1509#issuecomment-919255436
+
+- https://github.com/reduxjs/redux-toolkit/issues/1509#issuecomment-919255436
+
 2. If you need to wait for an API call to complete, you may just need to `dispatch` your side-effect in the `onQueryStarted` hook function.
-   - https://redux-toolkit.js.org/rtk-query/usage/queries
+
+- https://redux-toolkit.js.org/rtk-query/usage/queries
+
 3. Your side effects require a complex workflow, then use a custom `createListenerMiddleware`:
-   - https://redux-toolkit.js.org/api/createListenerMiddleware
+
+- https://redux-toolkit.js.org/api/createListenerMiddleware
 
 ### Compiling **Kepler.gl** from source
 
@@ -141,3 +146,11 @@ You might need to manually set your `c` compiler version to something older :
 ```
 CXX=g++-9 yarn
 ```
+
+### Advanced reducer customization
+
+Reducer `plugins` aren't made to replace an existing action.
+If a **Kepler.gl** action is faulty, you must recreate the reducer slice from scratch.
+Unfortunately, most of **Kepler.gl** objects aren't exported so you must duplicate it in your own source code.
+
+> See [./apps/frontend/src/store/reducers/keplerGl/vis-state.ts](./apps/frontend/src/store/reducers/keplerGl/vis-state.ts) for example.
