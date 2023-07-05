@@ -1,14 +1,15 @@
 /* eslint-disable no-useless-computed-key */
 import { AnyAction, createAction, Reducer } from '@reduxjs/toolkit';
 import { registerEntry } from 'kepler.gl';
-import keplerGlReducer, { KeplerGlState } from 'kepler.gl/reducers';
+import { KeplerGlState } from 'kepler.gl/reducers';
+import { keplerGlReducer } from './root';
 import { addDataToMap, setMapInfo, wrapTo, setLocale as setKeplerMapLocale } from 'kepler.gl/actions';
 import { DatatlasSavedMapInterface, Filter, KeplerMapState, KeplerMapStyle, MapInfoInterface } from '@datatlas/models';
 import { ProjectDto } from '@datatlas/dtos';
-import { getDefaultLocale } from '../../i18n/utils';
-import { getProject, getProjects } from '../api';
-import { keplerMapFactory, KeplerMapFactory } from '../../kepler';
-import { toKeplerId } from '../selectors';
+import { getDefaultLocale } from '../../../i18n/utils';
+import { getProject, getProjects } from '../../api';
+import { keplerMapFactory, KeplerMapFactory } from '../../../kepler';
+import { toKeplerId } from '../../selectors';
 import { INITIAL_VIS_STATE } from 'kepler.gl/dist/reducers/vis-state-updaters';
 import { DatatlasGlVisStateInterface, getDefaultInteractionConfig } from '@datatlas/models';
 
@@ -40,11 +41,11 @@ export const keplerReducer: Reducer<DatatlasGlState> = keplerGlReducer
       ...INITIAL_VIS_STATE,
       interactionConfig: getDefaultInteractionConfig(),
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     mapStyle: new KeplerMapStyle({ mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN }),
   })
   .plugin({
+    // If you want to use an existing "updater" function, make sur to pass the right state slice as argument.
+    // Kepler lenses might be helpful for this.
     [UPDATE_MAP_INFO]: (state, action) => ({
       ...state,
       visState: {

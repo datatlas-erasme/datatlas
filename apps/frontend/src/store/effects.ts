@@ -14,7 +14,7 @@ interface KeplerWrappedAction extends AnyAction {
   };
 }
 
-const isAKeplerWrappedAction = (action: AnyAction): action is KeplerWrappedAction => action.payload.meta._id_;
+const isAKeplerWrappedAction = (action: AnyAction): action is KeplerWrappedAction => action.payload?.meta?._id_;
 
 const isOneOfTheseKeplerTypes =
   (types: string[]) =>
@@ -27,6 +27,7 @@ startAppListening({
       UPDATE_MAP_INFO,
       // '@@kepler.gl/UPDATE_MAP',
       '@@kepler.gl/ADD_DATA_TO_MAP',
+      '@@kepler.gl/LOAD_FILES_SUCCESS', // Loading data via a file upload
       '@@kepler.gl/REMOVE_DATASET',
       '@@kepler.gl/MAP_CONFIG_CHANGE',
       // Layers

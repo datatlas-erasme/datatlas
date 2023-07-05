@@ -1,5 +1,5 @@
 import { generateFakeProjectDto } from '@datatlas/dtos';
-import { addProjectToKeplerState } from './keplerGl';
+import { addProjectToKeplerState } from './index';
 
 describe('addProjectToState', () => {
   it('add a project as new KeplerState slice in the state', () => {
