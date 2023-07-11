@@ -110,9 +110,9 @@ export class Project implements ProjectInterface {
   ): Omit<ProjectInterface, 'owner' | 'id' | 'draft' | 'contributors' | 'copyEnabled'> {
     return {
       title: '',
-      description: '',
       ...savedMap.config,
       ...savedMap.info,
+      description: savedMap.info.description || '',
       datasets: savedMap.datasets.map(Project.mapVersionedKeplerDatasetToDataset),
     };
   }

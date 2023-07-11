@@ -63,68 +63,12 @@ export const keplerReducer: Reducer<DatatlasGlState> = keplerGlReducer
         readOnly: action.payload,
       },
     }),
-    ['@@kepler.gl/ADD_DATA_TO_MAP']: (state, action) => {
-      const emptyFieldsToShow = Array.isArray(action.payload.datasets)
-        ? action.payload.datasets.reduce((fieldsToShow, { info: { id } }) => ({ ...fieldsToShow, [id]: [] }), {})
-        : { [action.payload.datasets.info.id]: [] };
-
-      const fieldsToShow =
-        action.payload?.config?.visState?.interactionConfig?.filters?.fieldsToShow || emptyFieldsToShow;
-
-      return {
-        ...state,
-        visState: {
-          ...state.visState,
-          interactionConfig: {
-            ...state.visState.interactionConfig,
-            filters: {
-              ...state.visState.interactionConfig.filters,
-              config: {
-                ...state.visState.interactionConfig.filters.config,
-                fieldsToShow: {
-                  ...state.visState.interactionConfig.filters.config.fieldsToShow,
-                  ...fieldsToShow,
-                },
-              },
-            },
-          },
-        },
-      };
-    },
-    ['@@kepler.gl/REMOVE_DATASET']: (state, action) => {
-      const fieldsToShow = Object.keys(state.visState.interactionConfig.filters.config.fieldsToShow).reduce(
-        (leftFieldsToShow, datasetId) => {
-          if (datasetId !== action.dataId) {
-            leftFieldsToShow[datasetId] = state.visState.interactionConfig.filters.config.fieldsToShow[datasetId];
-          }
-          return leftFieldsToShow;
-        },
-        {}
-      );
-
-      return {
-        ...state,
-        visState: {
-          ...state.visState,
-          interactionConfig: {
-            ...state.visState.interactionConfig,
-            filters: {
-              ...state.visState.interactionConfig.filters,
-              config: {
-                ...state.visState.interactionConfig.filters.config,
-                fieldsToShow,
-              },
-            },
-          },
-        },
-      };
-    },
   });
 
-export const addProjectToKeplerState = (state: Record<string, KeplerGlState> = {}, project: ProjectDto) =>
+export const addProjectToKeplerState = (state: Record<string, KeplerGlState> = {}, projectDto: ProjectDto) =>
   addSavedMapToState(state, {
-    id: toKeplerId(project.id),
-    savedMap: KeplerMapFactory.createFromProjectDto(project),
+    id: toKeplerId(projectDto.id),
+    savedMap: KeplerMapFactory.createFromProjectDto(projectDto),
   });
 
 // This deserves a better name.
@@ -158,10 +102,14 @@ export const addSavedMapToState = (
   return actions.reduce(keplerReducer, state);
 };
 
+/**
+ * @todo We shouldn't re-add a project each time but only if the instance isn't registered yet.
+ * Registering a project even with the `mint` flag to `false` trigger a UI re-render.
+ */
 export const customReducer = (state: KeplerGlState, action: AnyAction) => {
   if (getProjects.matchFulfilled(action)) {
-    return action.payload.reduce((previousState, project) => {
-      return { ...previousState, ...addProjectToKeplerState(state, project) };
+    return action.payload.reduce((previousState, projectDto) => {
+      return { ...previousState, ...addProjectToKeplerState(state, projectDto) };
     }, {});
   }
 

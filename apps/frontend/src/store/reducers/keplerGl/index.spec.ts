@@ -16,8 +16,8 @@ describe('addProjectToState', () => {
   });
 
   it('may be used with an array of projects', () => {
-    const state = [generateFakeProjectDto(), generateFakeProjectDto()].reduce((previousState, project) => {
-      return addProjectToKeplerState(previousState, project);
+    const state = [generateFakeProjectDto(), generateFakeProjectDto()].reduce((previousState, projectDto) => {
+      return addProjectToKeplerState(previousState, projectDto);
     }, {});
     expect(Object.keys(state).length).toBe(2);
   });
