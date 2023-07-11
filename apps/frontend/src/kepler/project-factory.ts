@@ -5,6 +5,7 @@ import {
   ProjectInterface,
   UserInterface,
 } from '@datatlas/models';
+import { UpdateProjectDto } from '@datatlas/dtos';
 import { KeplerGlSchema } from 'kepler.gl/schemas';
 import { KeplerGlState } from 'kepler.gl/reducers';
 import { schemaManager } from './schema-manager';
@@ -30,6 +31,17 @@ export class ProjectFactory {
       ...this.createPartialProjectFromKeplerSavedMap(savedMap),
       id: parseInt(id),
       owner,
+    };
+  }
+
+  public createUpdateProjectDtoFromKeplerInstance(id: string, keplerGlState: KeplerGlState): UpdateProjectDto {
+    const savedMap = this.schemaManager.save(keplerGlState) as DatatlasSavedMapInterface;
+
+    return {
+      draft: true,
+      contributors: [],
+      id: parseInt(id),
+      ...this.createPartialProjectFromKeplerSavedMap(savedMap),
     };
   }
 

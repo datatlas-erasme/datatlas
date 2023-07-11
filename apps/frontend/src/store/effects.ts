@@ -1,12 +1,13 @@
-import { startAppListening } from './listenerMiddleware';
+import { AnyAction, isAnyOf } from '@reduxjs/toolkit';
 import { deleteEntry } from 'kepler.gl/actions';
 import ActionTypes from 'kepler.gl/dist/constants/action-types';
 import { setLocale as setMapLocale } from 'kepler.gl/dist/actions/ui-state-actions';
+import { startAppListening } from './listenerMiddleware';
 import { setLocale } from './reducers/locale';
 import { UPDATE_MAP_INFO } from './reducers/keplerGl';
-import { selectLoggedIn, selectProjectById } from './selectors';
-import { AnyAction, isAnyOf } from '@reduxjs/toolkit';
+import { selectKeplerInstanceById, selectLoggedIn } from './selectors';
 import { deleteProject, updateProject } from './api';
+import { projectFactory } from '../kepler';
 
 interface KeplerWrappedAction extends AnyAction {
   payload: {
@@ -27,6 +28,7 @@ startAppListening({
       UPDATE_MAP_INFO,
       // '@@kepler.gl/UPDATE_MAP',
       '@@kepler.gl/ADD_DATA_TO_MAP',
+      '@@kepler.gl/SET_MAP_INFO',
       '@@kepler.gl/LOAD_FILES_SUCCESS', // Loading data via a file upload
       '@@kepler.gl/REMOVE_DATASET',
       '@@kepler.gl/MAP_CONFIG_CHANGE',
@@ -51,14 +53,21 @@ startAppListening({
 
     if (isAKeplerWrappedAction(action)) {
       const id = action.payload.meta._id_;
-      const projectDto = selectProjectById(state, action.payload.meta._id_);
+      const keplerInstance = selectKeplerInstanceById(state, action.payload.meta._id_);
 
-      if (!projectDto) {
+      if (!keplerInstance) {
         throw new Error(`Couldn't find a project with id ${id}`);
       }
+      console.log(
+        'isAKeplerWrappedAction selectKeplerInstanceById',
+        selectKeplerInstanceById(state, action.payload.meta._id_)
+      );
+      console.log('isAKeplerWrappedAction keplerInstance', keplerInstance);
+
+      const updateProjectDto = projectFactory.createUpdateProjectDtoFromKeplerInstance(id, keplerInstance);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      dispatch(updateProject.initiate(projectDto));
+      dispatch(updateProject.initiate(updateProjectDto));
     } else {
       console.warn(`Action with type ${action.type} wasn't a Kepler wrapped action.`);
     }

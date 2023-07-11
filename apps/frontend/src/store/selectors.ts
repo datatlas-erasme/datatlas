@@ -1,9 +1,10 @@
 import { Filter } from 'kepler.gl';
 import { KeplerGlState } from 'kepler.gl/reducers';
 import { createSelector } from 'reselect';
-import { FiltersConfigInterface, MapInfoInterface, Project, ProjectInterface } from '@datatlas/models';
+import { FiltersConfigInterface, MapInfoInterface, ProjectInterface } from '@datatlas/models';
 import { RootState } from './reducers';
 import { getUser } from './api';
+import { projectFactory } from '../kepler';
 
 export const toKeplerId = (id: number) => String(id).toLocaleUpperCase();
 
@@ -39,7 +40,7 @@ export const selectProjectById = (state: RootState, projectId) => {
     console.warn(`User ${ownerId} isn't loaded yet.`);
   }
 
-  return Project.createProjectFromKeplerInstance(projectId, keplerState, user);
+  return projectFactory.createProjectFromKeplerInstance(projectId, keplerState, user);
 };
 
 export const selectUserById = (state, id) => getUser.select(id)(state)?.data;

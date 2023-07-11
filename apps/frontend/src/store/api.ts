@@ -1,12 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { REHYDRATE } from 'redux-persist';
 import { LoginResponse, ProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 import { CreateProjectFormData, LoginFormData } from '../models';
 import { loggedIn } from './reducers/user';
 import { KeplerMapStyle, UserInterface } from '@datatlas/models';
-import { selectAccessToken, selectLocale, toKeplerId } from './selectors';
-import { getConversionActions } from './reducers/keplerGl';
-import { KeplerMapFactory } from '../kepler';
+import { selectAccessToken } from './selectors';
 
 // Define cache "tags" :
 // https://redux-toolkit.js.org/rtk-query/usage/automated-refetching#tags
@@ -23,7 +22,6 @@ export const api = createApi({
     prepareHeaders: (headers, { getState }) => {
       headers.set('Content-Type', 'application/json');
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const accessToken = selectAccessToken(getState());
       if (accessToken) {
@@ -116,28 +114,21 @@ export const api = createApi({
         }),
         invalidatesTags: ['Projects', projectListTag],
         async onQueryStarted({ mapStyleId }, { dispatch, queryFulfilled, getState }) {
-          const { data: projectDto } = await queryFulfilled;
+          const { data } = await queryFulfilled;
+          // @todo Creating a project dto should not return an owner object.
+
+          const projectDto = {
+            ...data,
+            // @ts-ignore
+            owner: data?.owner?.id,
+          };
+
           // Force update of the `getProjects` cache entry.
           dispatch(
             api.util.updateQueryData('getProjects', undefined, (projects) => {
               projects.push(projectDto);
             })
           );
-
-          // Create project in the Kepler.gl state.
-          // *This is one of the few exceptions where we update the Kepler.gl state __after__
-          // updating the API state because we need a unique identifier.*
-          // *We should prefer calling the API each time the Kepler.gl state is updated.*
-          // (see `effects.ts`)
-          const state = getState();
-          const savedMap = KeplerMapFactory.createFromProjectDto(projectDto);
-
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          const locale = selectLocale(state);
-          getConversionActions(toKeplerId(projectDto.id), savedMap, locale).forEach((action) => {
-            dispatch(action);
-          });
         },
       }),
       updateProject: builder.mutation<ProjectDto, UpdateProjectDto>({
@@ -146,7 +137,11 @@ export const api = createApi({
           method: 'PUT',
           body,
         }),
-        invalidatesTags: [projectListTag],
+        invalidatesTags: (result, error, updateProjectDto) => [
+          projectListTag,
+          // Logic would want we invalidate the cache here but it causes another GET /prpject/{id} request which reload the project.
+          // createProjectTag(updateProjectDto)
+        ],
       }),
       publishProject: builder.mutation<ProjectDto, UpdateProjectDto>({
         query: (body) => ({
