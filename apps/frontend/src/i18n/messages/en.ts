@@ -32,6 +32,8 @@ export default {
   'map_menu.title': 'Datasets',
   'map_menu.dataset.infos': 'Dataset infos',
   'map_menu.dataset.show_dataset': 'Show dataset',
+  'map_control.publish': 'Publish',
+  'map_control.unpublish': 'Unpublish',
 
   // Kepler
   'sidebar.panels.layer': 'Data',

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any */
-import React, { Component } from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -14,6 +14,7 @@ import { RootState } from '../../../store/reducers';
 import { useForward } from '../../../hooks/useForward';
 import { selectFilters, selectFiltersConfig } from '../../../store/selectors';
 import { FiltersConfigInterface } from '@datatlas/models';
+import { PublishButton } from '../../buttons/PublishButton';
 
 const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
   right: 0;
@@ -34,7 +35,7 @@ const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
 const LegendLogo = <KeplerGlLogo version={false} appName={process.env.REACT_APP_NAME || 'Datatlas'} />;
 
 interface MapControlProps extends KeplerGLProps {
-  actionComponents: Component[];
+  actionComponents: FunctionComponent<any>[];
   isSplit: boolean;
   top: number;
   mapIndex: number;
@@ -42,7 +43,7 @@ interface MapControlProps extends KeplerGLProps {
 }
 
 function MapControlFactory() {
-  const DEFAULT_ACTIONS = [];
+  const DEFAULT_ACTIONS = [PublishButton];
 
   return ({
     actionComponents = DEFAULT_ACTIONS,
