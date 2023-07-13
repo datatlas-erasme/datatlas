@@ -17,6 +17,14 @@ export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
 
 export const selectFilters = (state: RootState, instanceId: string): Filter[] =>
   selectKeplerInstanceById(state, instanceId).visState.filters;
+
+export const selectIsDraft = (state: RootState, instanceId: string): Filter[] => {
+  const keplerState = selectKeplerInstanceById(state, instanceId);
+  const mapInfo = selectMapInfoFromKeplerGlState(keplerState);
+
+  return mapInfo?.draft;
+};
+
 export const selectFiltersConfig = (state: RootState, instanceId: string): FiltersConfigInterface =>
   selectKeplerInstanceById(state, instanceId).visState.interactionConfig.filters;
 

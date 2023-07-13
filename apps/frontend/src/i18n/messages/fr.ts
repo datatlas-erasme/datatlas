@@ -35,6 +35,8 @@ export default {
   'map_menu.title': 'Recherche & filtres',
   'map_menu.dataset.infos': 'Infos jeu de données & glosssaire',
   'map_menu.dataset.show_dataset': 'Afficher le jeu de données',
+  'map_control.publish': 'Publier',
+  'map_control.unpublish': 'Dépublier',
 
   // Kepler
   sidebar: {
