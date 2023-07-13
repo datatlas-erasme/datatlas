@@ -84,7 +84,7 @@ export const MapMenu = styled(
   display: flex;
   color: white;
   font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
-  min-width: 50vw;
+  min-width: 333px;
   justify-content: end;
 
   ul,
