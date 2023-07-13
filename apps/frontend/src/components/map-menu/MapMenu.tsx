@@ -30,8 +30,8 @@ export const MenuSectionHeading = styled.div`
 
 export const MapMenu = styled(
   ({ datasets, filters = [], layers, layerConfigChange, filtersConfig, setFilter, ...props }: MenuProps) => {
-    const [open, setOpen] = useState<boolean>(true);
-    const [unfoldedDataset, setUnfoldedDataset] = useState<KeplerTable['id']>();
+    const [open, setOpen] = useState<boolean>(false);
+    const [unfoldedDataset, setUnfoldedDataset] = useState<KeplerTable['id'] | null>(null);
 
     const reversedIndexGroupedByLayerIdx = useMemo(() => {
       return layers.reduce(
@@ -53,11 +53,11 @@ export const MapMenu = styled(
     return (
       <ul {...props}>
         <li className="first-element">
-          <MenuSectionHeading>
+          <MenuSectionHeading as="a" className="map-menu__header" onClick={() => setOpen(!open)}>
             <span>
               <FormattedMessage id={'map_menu.title'} defaultMessage={'Datasets'} />
             </span>
-            <ToggleMenuButton open={open} onClick={() => setOpen(!open)} />
+            <ToggleMenuButton open={open} />
           </MenuSectionHeading>
           {open && (
             <ul>
@@ -71,7 +71,7 @@ export const MapMenu = styled(
                   layerConfigChange={layerConfigChange}
                   key={`datasetMenu-${layerIdx}`}
                   unfolded={layerIdx === unfoldedDataset}
-                  onClick={() => setUnfoldedDataset(layerIdx)}
+                  setUnfolded={() => setUnfoldedDataset(unfoldedDataset === layerIdx ? null : layerIdx)}
                 />
               ))}
             </ul>
@@ -83,6 +83,9 @@ export const MapMenu = styled(
 )`
   display: flex;
   color: white;
+  font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
+  min-width: 50vw;
+  justify-content: end;
 
   ul,
   ul > ul {
@@ -91,18 +94,48 @@ export const MapMenu = styled(
 
   li {
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     line-height: initial;
   }
 
-  li.first-element > ${MenuSectionHeading} {
+  .map-menu__header {
     margin-bottom: 13px;
     border-bottom: 0;
-    text-transform: uppercase;
   }
 
-  li.first-element > ${MenuSectionHeading} :first-child {
-    font-size: 16px;
+  .map-menu__header,
+  ${MultiSelectFilterOption}, .dataset-menu__show-dataset {
+    padding: 13px 15px 13px 17px;
+  }
+
+  .map-menu__header span,
+  ${MultiSelectFilterOption}, .dataset-menu__show-dataset span,
+  .dataset-menu__dataset-infos span {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .dataset-menu__dataset-infos > * {
+    display: none;
+  }
+
+  ${MenuSectionHeading} h2, ${MenuSectionHeading} h3 {
+    font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    text-transform: capitalize;
+    line-height: 130%;
+  }
+
+  ${MenuSectionHeading} {
+    padding: 17px 15px 15px 17px;
+  }
+
+  a${MenuSectionHeading} {
+    user-select: none;
   }
 
   li.first-element > ${MenuSectionHeading}, li.first-element > ul > li {
@@ -114,28 +147,14 @@ export const MapMenu = styled(
   ${MenuSectionHeading}, ${MultiSelectFilterOption} {
     display: flex;
     column-gap: 13px;
-    padding: 13px 15px 13px 17px;
+  }
+
+  ul .unfolded ${MenuSectionHeading}, ${MultiSelectFilterOption} {
     border-bottom: 1px solid white;
   }
-  ${MenuSectionHeading} :first-child {
-    text-transform: capitalize;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 130%;
-  }
 
-  li.first-element > ${MenuSectionHeading} :first-child,
-  ${MenuSectionHeading}:last-child h3,
-  ${MultiSelectFilterOption} {
-    text-transform: uppercase;
-  }
-
-  ul li ${MenuSectionHeading}:last-child :first-child {
-    font-size: 12px;
-  }
-
-  ul li ${MenuSectionHeading}:last-child > * {
-    display: none;
+  ul li ${MenuSectionHeading}:last-child {
+    border-bottom: 0;
   }
 
   ul li ${MenuSectionHeading} + .range-slider__container {

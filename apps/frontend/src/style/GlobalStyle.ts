@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import { ChickletButton } from 'kepler.gl/dist/components/common/item-selector/chickleted-input';
 import { DatatlasTheme } from './theme';
+
 export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
   * {
     box-sizing: ${({ theme }) => theme.boxSizing};
@@ -15,6 +16,23 @@ export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
 
   body {
     overflow-x: hidden;
+  }
+
+  /* roboto-regular - latin */
+  @font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/fonts/roboto/roboto-v30-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+  }
+  /* roboto-500 - latin */
+  @font-face {
+    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    src: url('/fonts/roboto/roboto-v30-latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
   }
 
   html, body, #root {
