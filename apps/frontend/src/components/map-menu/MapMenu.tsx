@@ -112,9 +112,10 @@ export const MapMenu = styled(
   .map-menu__header span,
   ${MultiSelectFilterOption}, .dataset-menu__show-dataset span,
   .dataset-menu__dataset-infos span {
+    font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
   }
 

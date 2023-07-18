@@ -3,18 +3,18 @@ import styled from 'styled-components';
 
 export const MultiSelectFilterOption = styled(({ backgroundRgb, selected, ...props }) => <li {...props} />)`
   cursor: pointer;
-  color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.55})`};
-  background-color: ${({ backgroundRgb }) => `rgba(${backgroundRgb}, 0.75)`};
+  color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.5})`};
+  background-color: ${({ backgroundRgb }) => `rgba(${backgroundRgb}, 0.60)`};
   transition: background, color 0.3s ease;
 
   :hover {
     color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.9})`};
-    background-color: ${({ backgroundRgb }) => `rgba(${backgroundRgb}, 0.85)`};
+    background-color: ${({ backgroundRgb }) => `rgba(${backgroundRgb}, 0.80)`};
   }
 
   :active {
     color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.8})`};
-    background-color: ${({ backgroundRgb }) => `rgba(${backgroundRgb}, 0.70)`};
+    background-color: ${({ backgroundRgb }) => `rgba(${backgroundRgb}, 0.90)`};
   }
 `;
 

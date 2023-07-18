@@ -11,11 +11,7 @@ const LoadDataModalFactory = (...deps) => {
 
   LoadDataModal.defaultProps = {
     ...LoadDataModal.defaultProps,
-    loadingMethods: [
-      remoteLoadingMethod,
-      LoadDataModal.defaultProps.loadingMethods.find((lm) => lm.id === 'upload'),
-      LoadDataModal.defaultProps.loadingMethods.find((lm) => lm.id === 'storage'),
-    ],
+    loadingMethods: [remoteLoadingMethod, LoadDataModal.defaultProps.loadingMethods.find((lm) => lm.id === 'upload')],
   };
 
   return LoadDataModal;

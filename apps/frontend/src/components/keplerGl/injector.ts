@@ -1,6 +1,7 @@
 import { appInjector as keplerAppInjector } from 'kepler.gl';
 import { provideRecipesToInjector } from 'kepler.gl/dist/components';
 import {
+  replaceFileUpload,
   replaceLoadDataModal,
   replaceLayerManager,
   replaceLayerPanelHeader,
@@ -32,6 +33,7 @@ export const appInjector = provideRecipesToInjector(
     replacePanelTab(),
     replaceLayerManager(),
     replaceLoadDataModal(),
+    replaceFileUpload(),
     replaceLayerPanel(),
     replaceLayerPanelHeader(),
     replaceMapControl(),

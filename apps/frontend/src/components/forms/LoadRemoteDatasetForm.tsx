@@ -1,14 +1,19 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import { useSelector } from 'react-redux';
 import styled, { ThemeProps } from 'styled-components';
 import { addDataToMap } from 'kepler.gl/actions';
 import { DatasetFactory, DatasetInterface } from '@datatlas/models';
 import { DatatlasTheme } from '../../style/theme';
 import { isValidHttpURL } from '../../utils/url';
 import { useForward } from '../../hooks/useForward';
-
-export const CORS_LINK = 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS';
+import { markdownComponents } from '../markdown';
+import { GUIDES_FILE_FORMAT_DOC } from 'kepler.gl/dist/constants/user-guides';
+import { RootState } from '../../store/reducers';
+import { selectFileFormatNamesByInstanceId } from '../../store/selectors';
 
 const InputForm = styled.form`
   flex-grow: 1;
@@ -84,6 +89,10 @@ export function LoadRemoteDatasetForm() {
   const forward = useForward();
   const intl = useIntl();
 
+  // @todo We should overwrite the ModalFactory and inject `fileFormatNames` there instead.
+  const { id } = useParams();
+  const fileFormatNames = useSelector((state: RootState) => selectFileFormatNamesByInstanceId(state, id));
+
   const onSubmit = async () => {
     try {
       forward(
@@ -106,22 +115,21 @@ export function LoadRemoteDatasetForm() {
   return (
     <InputForm onSubmit={handleSubmit(onSubmit)}>
       <StyledDescription>
-        <FormattedMessage id={'loadRemoteData.description'} />
+        <ReactMarkdown
+          components={markdownComponents}
+          children={intl.formatMessage(
+            {
+              id: 'loadRemoteData.description',
+            },
+            {
+              fileFormatNames: fileFormatNames.map((format) => `**${format}**`).join(', '),
+              fileFormatDocLink: GUIDES_FILE_FORMAT_DOC,
+              contactEmail: process.env.REACT_APP_CONTACT_EMAIL,
+            }
+          )}
+          linkTarget="_blank"
+        />
       </StyledDescription>
-      <StyledInputLabel>
-        <FormattedMessage id={'loadRemoteData.message'} />
-      </StyledInputLabel>
-      <StyledInputLabel>
-        <FormattedMessage id={'loadRemoteData.examples'} />
-        <ul>
-          <li>https://your.map.url/map.json</li>
-          <li>http://your.map.url/data.csv</li>
-        </ul>
-      </StyledInputLabel>
-      <StyledInputLabel>
-        <FormattedMessage id={'loadRemoteData.cors'} />{' '}
-        <FormattedMessage id={'loadRemoteData.clickHere'} values={{ corsLink: CORS_LINK }} />
-      </StyledInputLabel>
       <StyledFromGroup>
         <StyledInput
           id="url"

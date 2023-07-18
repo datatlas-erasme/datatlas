@@ -9,8 +9,6 @@ export default {
   'createProjectForm.projectName': 'Entrez le nom du projet',
   'createProjectForm.submit': 'Créer',
   'createProjectForm.titleRequired': 'Ce champs est requis',
-  'loadRemoteData.incorrectURL': "L'URL n'est pas valide",
-  'loadRemoteData.submit': 'Charger',
   'loginForm.errors.loginRequired': 'Ce champs est requis',
   'loginForm.errors.passwordRequired': 'Ce champs est requis',
   'loginForm.forgotPassword': 'J’ai oublié mon mot de passe',
@@ -25,10 +23,6 @@ export default {
   'project.contributors': 'Contributeurs',
   'project.projectUpdated': 'Projet modifié',
   'sideBar.createProject': 'Démarrer un nouveau projet',
-  'layerManager.fileFormat':
-    "Vous pouvez utiliser les formats suivants : CSV / JSON / ... Assurez-vous que l'url contient l'extension du\n fichier.",
-  'layerManager.contactUs': 'Le format souhaité n’est pas disponible {link}',
-  'layerManager.contactUs.link': 'Contactez-nous',
   'layerManager.dataWeight': 'Un trop grand nombre de jeux de données peut altérer le projet',
   'filterManager.filter.make_public.label': 'Rendre ce filtre public',
   'filterManager.filter.make_public.tooltip': 'Affiche ce filtre aux visiteurs',
@@ -37,6 +31,14 @@ export default {
   'map_menu.dataset.show_dataset': 'Afficher le jeu de données',
   'map_control.publish': 'Publier',
   'map_control.unpublish': 'Dépublier',
+  loadRemoteData: {
+    incorrectURL: "L'URL n'est pas valide",
+    submit: 'Charger',
+    description:
+      'Vous pouvez importer des jeux de données par lien depuis **[data.grandlyon.com](https://data.grandlyon.com/)**.\n\n' +
+      "Vous pouvez utiliser les formats suivants : {fileFormatNames}... Assurez-vous que l'URL contient l'extension du fichier.\n\n" +
+      "Si le format souhaité n'est pas disponible, [contactez nous](mailto:{contactEmail}).\n\n",
+  },
 
   // Kepler
   sidebar: {
@@ -257,110 +259,113 @@ export default {
     deleteData: {
       warning: 'vous allez supprimer ce jeu de données. Cela affectera {length} couches',
     },
-    publishTitle:
-      "2. Si vous avez entré une URL de style Mapbox à l'étape 1, publiez votre style sur Mapbox ou fournissez un jeton d'accès. (Optionnel)",
-    publishSubtitle1: 'Vous pouvez créer votre propre style de carte sur',
-    publishSubtitle2: 'et le',
-    publishSubtitle3: 'publier',
-    publishSubtitle4: '.',
-    publishSubtitle5: 'Pour utiliser un style privé, collez votre',
-    publishSubtitle6: "jeton d'accès",
-    publishSubtitle7: 'ici. *kepler.gl est une application côté client, les données restent dans votre navigateur.',
-    exampleToken: 'e.g. pk.abcdefg.xxxxxx',
-    pasteTitle: "1. Collez l'URL du style",
-    pasteSubtitle0: "L'URL du style peut être une carte",
-    pasteSubtitle1: "Qu'est-ce qu'une",
-    pasteSubtitle2: 'URL de style',
-    pasteSubtitle3: 'ou un style.json utilisant le',
-    pasteSubtitle4: 'Mapbox GL Style Spec',
-    namingTitle: '3. Nommez votre style',
-  },
-  shareMap: {
-    shareUriTitle: "Partager l'URL de la carte",
-    shareUriSubtitle: "Générer une URL de la carte à partager avec d'autres personnes",
-    cloudTitle: 'Stockage Cloud',
-    cloudSubtitle: 'Connectez-vous et téléchargez les données de la carte dans votre stockage cloud personnel',
-    shareDisclaimer:
-      "kepler.gl enregistrera vos données de carte dans votre stockage cloud personnel. Seules les personnes disposant de l'URL peuvent accéder à votre carte et à vos données. " +
-      'Vous pouvez modifier/supprimer le fichier de données dans votre compte cloud à tout moment.',
-    gotoPage: 'Accédez à votre page Kepler.gl {currentProvider}',
-  },
-  statusPanel: {
-    mapUploading: 'Téléchargement de la carte',
-    error: 'Erreur',
-  },
-  saveMap: {
-    title: 'Stockage Cloud',
-    subtitle: 'Connectez-vous pour enregistrer la carte dans votre stockage cloud personnel',
-  },
-  exportMap: {
-    formatTitle: 'Format de la carte',
-    formatSubtitle: 'Choisissez le format vers lequel vous souhaitez exporter votre carte',
-    html: {
-      selection: 'Exportez votre carte dans un fichier HTML interactif.',
-      tokenTitle: "Jeton d'accès Mapbox",
-      tokenSubtitle: "Utilisez votre propre jeton d'accès Mapbox dans l'HTML (facultatif)",
-      tokenPlaceholder: "Collez votre jeton d'accès Mapbox",
-      tokenMisuseWarning:
-        "* Si vous ne fournissez pas votre propre jeton, la carte peut cesser de s'afficher à tout moment lorsque nous remplaçons le nôtre afin d'éviter une utilisation abusive.",
-      tokenDisclaimer: 'Vous pouvez modifier le jeton Mapbox plus tard en suivant les instructions suivantes :',
-      tokenUpdate: 'Comment mettre à jour un jeton de carte existant.',
-      modeTitle: 'Mode de la carte',
-      modeSubtitle1: "Sélectionnez le mode d'application. Plus ",
-      modeSubtitle2: 'informations',
-      modeDescription: 'Permettre aux utilisateurs de {mode} la carte',
-      read: 'lire',
-      edit: 'éditer',
+    addStyle: {
+      publishTitle:
+        "2. Si vous avez entré une URL de style Mapbox à l'étape 1, publiez votre style sur Mapbox ou fournissez un jeton d'accès. (Optionnel)",
+      publishSubtitle1: 'Vous pouvez créer votre propre style de carte sur',
+      publishSubtitle2: 'et le',
+      publishSubtitle3: 'publier',
+      publishSubtitle4: '.',
+      publishSubtitle5: 'Pour utiliser un style privé, collez votre',
+      publishSubtitle6: "jeton d'accès",
+      publishSubtitle7: 'ici. *kepler.gl est une application côté client, les données restent dans votre navigateur.',
+      exampleToken: 'e.g. pk.abcdefg.xxxxxx',
+      pasteTitle: "1. Collez l'URL du style",
+      pasteSubtitle0: "L'URL du style peut être une carte",
+      pasteSubtitle1: "Qu'est-ce qu'une",
+      pasteSubtitle2: 'URL de style',
+      pasteSubtitle3: 'ou un style.json utilisant le',
+      pasteSubtitle4: 'Mapbox GL Style Spec',
+      namingTitle: '3. Nommez votre style',
     },
-    json: {
-      configTitle: 'Configuration de la carte',
-      configDisclaimer:
-        'La configuration de la carte sera incluse dans le fichier Json. Si vous utilisez kepler.gl dans votre propre application, vous pouvez copier cette configuration et la passer à ',
-      selection:
-        'Exportez les données et la configuration de la carte actuelle dans un seul fichier Json. Vous pouvez ensuite ouvrir la même carte en téléchargeant ce fichier sur kepler.gl.',
-      disclaimer:
-        "* La configuration de la carte est couplée aux jeux de données chargés. L'identifiant de données est utilisé pour lier les couches, les filtres et les info-bulles à un jeu de données spécifique. " +
-        "Lorsque vous passez cette configuration à addDataToMap, assurez-vous que l'identifiant de données correspond aux identifiants de données dans cette configuration.",
+    shareMap: {
+      shareUriTitle: "Partager l'URL de la carte",
+      shareUriSubtitle: "Générer une URL de la carte à partager avec d'autres personnes",
+      cloudTitle: 'Stockage Cloud',
+      cloudSubtitle: 'Connectez-vous et téléchargez les données de la carte dans votre stockage cloud personnel',
+      shareDisclaimer:
+        "kepler.gl enregistrera vos données de carte dans votre stockage cloud personnel. Seules les personnes disposant de l'URL peuvent accéder à votre carte et à vos données. " +
+        'Vous pouvez modifier/supprimer le fichier de données dans votre compte cloud à tout moment.',
+      gotoPage: 'Accédez à votre page Kepler.gl {currentProvider}',
     },
-  },
-  loadingDialog: {
-    loading: 'Chargement en cours...',
-  },
-  loadData: {
-    upload: 'Charger des fichiers',
-    storage: 'Charger à partir du stockage',
-  },
-  tripInfo: {
-    title: "Comment activer l'animation de trajet",
-    description1:
-      'Pour animer le trajet, les données geoJSON doivent contenir `LineString` dans leur géométrie de fonctionnalité, et les coordonnées dans le LineString doivent avoir 4 éléments dans les formats de',
-    code: ' [longitude, latitude, altitude, horodatage] ',
-    description2:
-      "avec le dernier élément étant un horodatage. Les formats d'horodatage valides incluent unix en secondes tels que `1564184363` ou en millisecondes tels que `1564184363000`.",
-    example: 'Exemple:',
-  },
-  iconInfo: {
-    title: 'Comment dessiner des icônes',
-    description1:
-      "Dans votre csv, créez une colonne, mettez le nom de l'icône que vous voulez dessiner dedans. Vous pouvez laisser la cellule vide si vous ne voulez pas que l'icône apparaisse pour certains points. Lorsque la colonne est nommée",
-    code: 'icône',
-    description2: "kepler.gl créera automatiquement une couche d'icônes pour vous.",
-    example: 'Exemple:',
-    icons: 'Icônes',
-  },
-  storageMapViewer: {
-    lastModified: 'Dernière modification il y a {lastUpdated}',
-    back: 'Retour',
-  },
-  overwriteMap: {
-    title: 'Enregistrement de la carte en cours...',
-    alreadyExists: "existe déjà dans votre {mapSaved}. Voulez-vous l'écraser?",
-  },
-  loadStorageMap: {
-    back: 'Retour',
-    goToPage: 'Allez sur votre page Kepler.gl {displayName}',
-    storageMaps: 'Stockage / Cartes',
-    noSavedMaps: "Aucune carte enregistrée pour l'instant",
+    statusPanel: {
+      mapUploading: 'Téléchargement de la carte',
+      error: 'Erreur',
+    },
+    saveMap: {
+      title: 'Stockage Cloud',
+      subtitle: 'Connectez-vous pour enregistrer la carte dans votre stockage cloud personnel',
+    },
+    exportMap: {
+      formatTitle: 'Format de la carte',
+      formatSubtitle: 'Choisissez le format vers lequel vous souhaitez exporter votre carte',
+      html: {
+        selection: 'Exportez votre carte dans un fichier HTML interactif.',
+        tokenTitle: "Jeton d'accès Mapbox",
+        tokenSubtitle: "Utilisez votre propre jeton d'accès Mapbox dans l'HTML (facultatif)",
+        tokenPlaceholder: "Collez votre jeton d'accès Mapbox",
+        tokenMisuseWarning:
+          "* Si vous ne fournissez pas votre propre jeton, la carte peut cesser de s'afficher à tout moment lorsque nous remplaçons le nôtre afin d'éviter une utilisation abusive.",
+        tokenDisclaimer: 'Vous pouvez modifier le jeton Mapbox plus tard en suivant les instructions suivantes :',
+        tokenUpdate: 'Comment mettre à jour un jeton de carte existant.',
+        modeTitle: 'Mode de la carte',
+        modeSubtitle1: "Sélectionnez le mode d'application. Plus ",
+        modeSubtitle2: 'informations',
+        modeDescription: 'Permettre aux utilisateurs de {mode} la carte',
+        read: 'lire',
+        edit: 'éditer',
+      },
+      json: {
+        configTitle: 'Configuration de la carte',
+        configDisclaimer:
+          'La configuration de la carte sera incluse dans le fichier Json. Si vous utilisez kepler.gl dans votre propre application, vous pouvez copier cette configuration et la passer à ',
+        selection:
+          'Exportez les données et la configuration de la carte actuelle dans un seul fichier Json. Vous pouvez ensuite ouvrir la même carte en téléchargeant ce fichier sur kepler.gl.',
+        disclaimer:
+          "* La configuration de la carte est couplée aux jeux de données chargés. L'identifiant de données est utilisé pour lier les couches, les filtres et les info-bulles à un jeu de données spécifique. " +
+          "Lorsque vous passez cette configuration à addDataToMap, assurez-vous que l'identifiant de données correspond aux identifiants de données dans cette configuration.",
+      },
+      loadingDialog: {
+        loading: 'Chargement en cours...',
+      },
+    },
+    loadData: {
+      remote: 'Avec une URL',
+      upload: 'Avec un fichier',
+      storage: "A partir d'un stockage distant",
+    },
+    tripInfo: {
+      title: "Comment activer l'animation de trajet",
+      description1:
+        'Pour animer le trajet, les données geoJSON doivent contenir `LineString` dans leur géométrie de fonctionnalité, et les coordonnées dans le LineString doivent avoir 4 éléments dans les formats de',
+      code: ' [longitude, latitude, altitude, horodatage] ',
+      description2:
+        "avec le dernier élément étant un horodatage. Les formats d'horodatage valides incluent unix en secondes tels que `1564184363` ou en millisecondes tels que `1564184363000`.",
+      example: 'Exemple:',
+    },
+    iconInfo: {
+      title: 'Comment dessiner des icônes',
+      description1:
+        "Dans votre csv, créez une colonne, mettez le nom de l'icône que vous voulez dessiner dedans. Vous pouvez laisser la cellule vide si vous ne voulez pas que l'icône apparaisse pour certains points. Lorsque la colonne est nommée",
+      code: 'icône',
+      description2: "kepler.gl créera automatiquement une couche d'icônes pour vous.",
+      example: 'Exemple:',
+      icons: 'Icônes',
+    },
+    storageMapViewer: {
+      lastModified: 'Dernière modification il y a {lastUpdated}',
+      back: 'Retour',
+    },
+    overwriteMap: {
+      title: 'Enregistrement de la carte en cours...',
+      alreadyExists: "existe déjà dans votre {mapSaved}. Voulez-vous l'écraser?",
+    },
+    loadStorageMap: {
+      back: 'Retour',
+      goToPage: 'Allez sur votre page Kepler.gl {displayName}',
+      storageMaps: 'Stockage / Cartes',
+      noSavedMaps: "Aucune carte enregistrée pour l'instant",
+    },
   },
   header: {
     visibleLayers: 'Couches visibles',
@@ -420,11 +425,11 @@ export default {
     message: 'Glissez et déposez votre (vos) fichier(s) ici',
     chromeMessage:
       '* Utilisateur de Chrome : Limitez la taille du fichier à 250 Mo. Si vous devez télécharger un fichier plus volumineux, essayez Safari.',
-    disclaimer:
-      '*kepler.gl est une application côté client sans backend de serveur. Les données ne sont stockées que sur votre machine/navigateur. ' +
-      "Aucune information ou donnée de carte n'est envoyée à un serveur quelconque.",
+    disclaimer: ' ',
     configUploadMessage:
-      'Télécharger {fileFormatNames} ou sauvegardez la carte **Json**. En savoir plus sur [**formats de fichiers pris en charge**]',
+      'Télécharger un fichier au format {fileFormatNames}. \n\n' +
+      "Si le format souhaité n'est pas disponible, [**contactez nous**](mailto:{contactEmail}). \n\n" +
+      '*Vous pouvez également consulter la documentation **Kepler.gl** sur les [**formats de fichiers pris en charge**]({fileFormatDocLink}).*',
     browseFiles: 'parcourir vos fichiers',
     uploading: 'Téléchargement en cours',
     fileNotSupported: "Le fichier {errorFiles} n'est pas pris en charge.",
