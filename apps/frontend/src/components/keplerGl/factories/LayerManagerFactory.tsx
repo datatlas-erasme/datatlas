@@ -114,16 +114,6 @@ const LayerManagerFactory = (
             <Warning stroke={themeColors.greyMedium} />
             <FormattedMessage id={'layerManager.dataWeight'} />
           </HintText>
-
-          <p>
-            <FormattedMessage id={'layerManager.fileFormat'} />
-          </p>
-          <p>
-            <FormattedMessage
-              id={'layerManager.contactUs'}
-              values={{ link: <a href={'https://data.grandlyon.com/'}>Contactez-nous</a> }}
-            />
-          </p>
         </StyledSidePanelSection>
         <SortableLayerList
           layers={layers}

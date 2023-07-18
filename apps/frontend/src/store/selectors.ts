@@ -6,14 +6,30 @@ import { RootState } from './reducers';
 import { getUser } from './api';
 import { projectFactory } from '../kepler';
 
-export const toKeplerId = (id: number) => String(id).toLocaleUpperCase();
+export const toKeplerId = (id: string | number) => String(id).toLocaleUpperCase();
 
-export const selectKeplerInstanceById = (state: RootState, instanceId: string) => state.keplerGl[instanceId];
+export const selectKeplerInstanceById = (state: RootState, instanceId?: string | number) =>
+  instanceId ? state.keplerGl[instanceId] : {};
 export const isFileLoading = (state: RootState, instanceId: string) =>
   selectKeplerInstanceById(state, instanceId).visState.fileLoading;
 export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
   return state.visState?.mapInfo as MapInfoInterface;
 };
+
+const DEFAULT_FILE_EXTENSIONS = ['csv', 'geojson'];
+const DEFAULT_FILE_FORMATS = ['CSV', 'GeoJSON'];
+
+export const selectFileFormatNames = createSelector(
+  (state: KeplerGlState) => state.loaders || [],
+  (loaders) => [...DEFAULT_FILE_FORMATS, ...loaders.map((loader) => loader.name)]
+);
+
+export const selectFileExtensions = createSelector(
+  (state: KeplerGlState) => state.loaders,
+  (loaders) => [...DEFAULT_FILE_EXTENSIONS, ...loaders.flatMap((loader) => loader.extensions)]
+);
+
+export const selectFileFormatNamesByInstanceId = createSelector(selectKeplerInstanceById, selectFileFormatNames);
 
 export const selectFilters = (state: RootState, instanceId: string): Filter[] =>
   selectKeplerInstanceById(state, instanceId).visState.filters;
