@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import { grayscale, rgbToHsl, toCss } from '../../utils/color';
 
-export const MultiSelectFilterOption = styled(({ backgroundRgb, selected, ...props }) => <li {...props} />)`
-  cursor: pointer;
+export const MultiSelectFilterOption = styled(({ hslCssColor, selected, ...props }) => <button {...props} />)`
   color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.5})`};
-  background-color: ${({ backgroundRgb }) => `rgba(${backgroundRgb}, 0.60)`};
+  background-color: ${({ hslCssColor }) => `hsl(${hslCssColor}, 0.60)`};
   transition: background, color 0.3s ease;
 
   :hover {
     color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.9})`};
-    background-color: ${({ backgroundRgb }) => `rgba(${backgroundRgb}, 0.80)`};
+    background-color: ${({ hslCssColor }) => `hsl(${hslCssColor}, 0.35)`};
   }
 
   :active {
     color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.8})`};
-    background-color: ${({ backgroundRgb }) => `rgba(${backgroundRgb}, 0.90)`};
+    background-color: ${({ hslCssColor }) => `hsl(${hslCssColor}, 0.20)`};
   }
 `;
 
@@ -34,6 +34,10 @@ export const MultiSelectFilter = styled(({ idx, filter, setFilter, layer, ...pro
     [idx, setFilter, filter.value]
   );
 
+  const hslLayerColor = rgbToHsl(layer.config.color);
+  const hslColor = !layer.config.isVisible ? grayscale(hslLayerColor) : hslLayerColor;
+  const hslCssColor = toCss(hslColor);
+
   return (
     <ul {...props}>
       {filter.domain.map((domain) => (
@@ -41,11 +45,14 @@ export const MultiSelectFilter = styled(({ idx, filter, setFilter, layer, ...pro
           key={domain}
           onClick={() => handleSetFilter(domain)}
           selected={filter.value.indexOf(domain) !== -1}
-          backgroundRgb={layer.config.color}
+          hslCssColor={hslCssColor}
         >
           {domain}
         </MultiSelectFilterOption>
       ))}
     </ul>
   );
-})``;
+})`
+  display: flex;
+  flex-direction: column;
+`;

@@ -66,8 +66,9 @@ function MapControlFactory() {
     const filtersConfig = useSelector<RootState, FiltersConfigInterface>((state) => selectFiltersConfig(state, id));
 
     return (
-      <StyledMapControl className="map-control" top={top}>
+      <StyledMapControl className="map-control" top={top} role="menubar">
         <MapMenu
+          role="toolbar"
           datasets={datasets}
           filtersConfig={filtersConfig}
           filters={filters}
@@ -81,6 +82,7 @@ function MapControlFactory() {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           <ActionComponent
+            role="toolbar"
             key={index}
             className="map-control-action"
             isSplit={isSplit}
