@@ -10,8 +10,7 @@ export const MenuIconButton = styled(({ ...props }: ButtonHTMLAttributes<HTMLBut
 
 export const MenuIcon = styled((props) => <div {...props} />)`
   font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-size: 10px;
   font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 `;

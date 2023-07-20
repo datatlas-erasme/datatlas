@@ -14,11 +14,13 @@ import { grayscale, rgbToHsl, toCss } from '../../utils/color';
 const ToggleVisibilityMenuIcon = styled(({ visible, ...props }) => (
   <MenuIcon {...props}>{visible ? 'OUI' : 'NON'}</MenuIcon>
 ))`
-  border-radius: 17px;
-  border: 1px solid white;
+  width: 52px;
   padding: 3px 7px 3px 7px;
-  color: ${({ visible }) => (visible ? 'black' : 'white')};
+  border: 1px solid white;
+  border-radius: 17px;
   background-color: ${({ visible }) => (visible ? 'white' : 'black')};
+  color: ${({ visible }) => (visible ? 'black' : 'white')};
+  font-size: 10px;
 `;
 
 const FoldableItem = styled.div<Pick<DatasetMenuProps, 'unfolded'>>`
