@@ -9,7 +9,8 @@ export const MenuIconButton = styled(({ ...props }: ButtonHTMLAttributes<HTMLBut
 `;
 
 export const MenuIcon = styled((props) => <div {...props} />)`
-  align-self: center;
-  justify-self: flex-end;
-  padding: 3px;
+  font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
 `;

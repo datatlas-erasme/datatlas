@@ -4,15 +4,15 @@ import styled from 'styled-components';
 import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
 import { KeplerTable, Layer } from 'kepler.gl/src';
 import { Filter, FiltersConfigInterface, SetFilter } from '@datatlas/models';
-import { MenuIconButton } from './MenuIcon';
+import { MenuIcon } from './MenuIcon';
 import { DatasetMenu } from './DatasetMenu';
 import { MultiSelectFilterOption } from './MultiSelectFillter';
 
-export const ToggleMenuButton = ({ open, ...props }) => <MenuIconButton {...props}>{open ? '⨯' : '☰'}</MenuIconButton>;
+export const ToggleMenuIcon = ({ open, ...props }) => <MenuIcon {...props}>{open ? '⨯' : '☰'}</MenuIcon>;
 
 export type LayerConfigChange = (oldLayer: Layer, newConfig: Partial<Layer>) => void;
 
-interface MenuProps {
+interface MenuProps extends React.HTMLAttributes<HTMLUListElement> {
   datasets: Datasets;
   filtersConfig?: FiltersConfigInterface;
   filters: Filter[];
@@ -52,12 +52,12 @@ export const MapMenu = styled(
 
     return (
       <ul {...props}>
-        <li className="first-element">
-          <MenuSectionHeading as="a" className="map-menu__header" onClick={() => setOpen(!open)}>
+        <li className="map-menu__list-item-container">
+          <MenuSectionHeading as="button" className="map-menu__header" onClick={() => setOpen(!open)}>
             <span>
               <FormattedMessage id={'map_menu.title'} defaultMessage={'Datasets'} />
             </span>
-            <ToggleMenuButton open={open} />
+            <ToggleMenuIcon open={open} />
           </MenuSectionHeading>
           {open && (
             <ul>
@@ -84,12 +84,15 @@ export const MapMenu = styled(
   display: flex;
   color: white;
   font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
-  min-width: 333px;
   justify-content: end;
 
   ul,
   ul > ul {
     padding: 0;
+  }
+
+  li.map-menu__list-item-container {
+    width: 350px;
   }
 
   li {
@@ -106,7 +109,7 @@ export const MapMenu = styled(
 
   .map-menu__header,
   ${MultiSelectFilterOption}, .dataset-menu__show-dataset {
-    padding: 13px 15px 13px 17px;
+    padding: 19px 21px 19px 23px;
   }
 
   .map-menu__header span,
@@ -123,30 +126,38 @@ export const MapMenu = styled(
     display: none;
   }
 
-  ${MenuSectionHeading} h2, ${MenuSectionHeading} h3 {
-    font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
-    font-size: 24px;
-    font-weight: 400;
-    text-transform: capitalize;
-    line-height: 130%;
-  }
-
   ${MenuSectionHeading} {
-    padding: 17px 15px 15px 17px;
+    display: flex;
+    padding: 23px 21px 21px 23px;
+    h2,
+    h3 {
+      font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: 24px;
+      font-weight: 400;
+      text-transform: capitalize;
+      line-height: 130%;
+    }
   }
 
-  a${MenuSectionHeading} {
-    user-select: none;
+  button${MenuSectionHeading} {
+    :hover {
+      color: rgba(255, 255, 255, 0.9);
+      background-color: #202020;
+    }
+
+    :active {
+      color: rgba(255, 255, 255, 0.8);
+      background-color: #383838;
+    }
   }
 
-  li.first-element > ${MenuSectionHeading}, li.first-element > ul > li {
-    background-color: black;
+  li.map-menu__list-item-container > ${MenuSectionHeading}, li.map-menu__list-item-container > ul > li {
+    background-color: #0c0c0c;
     border-radius: 7px;
     margin-bottom: 7px;
   }
 
   ${MenuSectionHeading}, ${MultiSelectFilterOption} {
-    display: flex;
     column-gap: 13px;
   }
 
