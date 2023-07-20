@@ -3,9 +3,14 @@ import styled from 'styled-components';
 import { grayscale, rgbToHsl, toCss } from '../../utils/color';
 
 export const MultiSelectFilterOption = styled(({ hslCssColor, selected, ...props }) => <button {...props} />)`
+  display: inline;
   color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.5})`};
   background-color: ${({ hslCssColor }) => `hsl(${hslCssColor}, 0.60)`};
   transition: background, color 0.3s ease;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  text-align: left;
+  overflow: hidden;
 
   :hover {
     color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.9})`};

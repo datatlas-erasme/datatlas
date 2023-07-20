@@ -52,7 +52,7 @@ export const MapMenu = styled(
 
     return (
       <ul {...props}>
-        <li className="first-element">
+        <li className="map-menu__list-item-container">
           <MenuSectionHeading as="button" className="map-menu__header" onClick={() => setOpen(!open)}>
             <span>
               <FormattedMessage id={'map_menu.title'} defaultMessage={'Datasets'} />
@@ -84,12 +84,15 @@ export const MapMenu = styled(
   display: flex;
   color: white;
   font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
-  min-width: 338px;
   justify-content: end;
 
   ul,
   ul > ul {
     padding: 0;
+  }
+
+  li.map-menu__list-item-container {
+    width: 350px;
   }
 
   li {
@@ -124,6 +127,7 @@ export const MapMenu = styled(
   }
 
   ${MenuSectionHeading} {
+    display: flex;
     padding: 23px 21px 21px 23px;
     h2,
     h3 {
@@ -147,14 +151,13 @@ export const MapMenu = styled(
     }
   }
 
-  li.first-element > ${MenuSectionHeading}, li.first-element > ul > li {
+  li.map-menu__list-item-container > ${MenuSectionHeading}, li.map-menu__list-item-container > ul > li {
     background-color: #0c0c0c;
     border-radius: 7px;
     margin-bottom: 7px;
   }
 
   ${MenuSectionHeading}, ${MultiSelectFilterOption} {
-    display: flex;
     column-gap: 13px;
   }
 
