@@ -14,6 +14,7 @@ export default {
   'loginForm.password': 'Password',
   'loginForm.rememberMe': 'Remember me',
   'loginForm.submit': 'Login',
+  'loginForm.unauthorized': 'Invalid credentials',
   'navigationBar.help': 'Help',
   'navigationBar.logout': 'Logout',
   'navigationBar.settings': 'Settings',
