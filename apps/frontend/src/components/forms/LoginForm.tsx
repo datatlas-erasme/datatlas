@@ -10,6 +10,7 @@ import { StyledFormBtn } from '../buttons';
 import { isApiError } from '../../utils/rtk';
 import { LoginFormData } from '../../models';
 import { FormError } from './FormError';
+import { ErrorMessage } from '../ErrorMessage';
 
 const StyledLoginForm = styled.form`
   display: flex;
@@ -99,9 +100,13 @@ export function LoginForm({ forgotPasswordEnabled = false, rememberMeEnabled = f
       )}
 
       {isError && isApiError(error) && (
-        <p>
-          {error.data.statusCode} {error.data.message}
-        </p>
+        <ErrorMessage>
+          {error.data.statusCode === 401 ? (
+            <FormattedMessage id="loginForm.unauthorized" />
+          ) : (
+            `${error.data.statusCode} ${error.data.message}`
+          )}
+        </ErrorMessage>
       )}
 
       <StyledFormBtn loading={isLoading}>
