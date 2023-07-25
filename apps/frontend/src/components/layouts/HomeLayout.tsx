@@ -4,7 +4,7 @@ import Footer from '../../components/footer/Footer';
 
 export type LayoutProps = PropsWithChildren<object>;
 
-const PublicLayoutWrapper = styled.div`
+const HomeLayoutWrapper = styled.div`
   display: flex;
   min-height: 100vh;
   flex-direction: column;
@@ -17,11 +17,11 @@ const Content = styled.div`
   justify-content: flex-start;
 `;
 
-export const PublicLayout = ({ children }: LayoutProps) => {
+export const HomeLayout = ({ children }: LayoutProps) => {
   return (
-    <PublicLayoutWrapper>
+    <HomeLayoutWrapper>
       <Content>{children}</Content>
       <Footer />
-    </PublicLayoutWrapper>
+    </HomeLayoutWrapper>
   );
 };
