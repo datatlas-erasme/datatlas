@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { PublicLayout } from '../components/layouts';
+import { HomeLayout } from '../components/layouts';
 import { LoginForm } from '../components/forms';
 import { DatatlasLogoSquare } from '../components/logos';
 import FirstShapeBg from '../assets/shapes/first-shape.svg';
@@ -96,7 +96,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <PublicLayout>
+    <HomeLayout>
       <LogoWrapper>
         <div className={'brand-area'}>
           <DatatlasLogoSquare />
@@ -136,6 +136,6 @@ export const LoginPage = () => {
       <LoginFormWrapper>
         <LoginForm />
       </LoginFormWrapper>
-    </PublicLayout>
+    </HomeLayout>
   );
 };
