@@ -1,6 +1,7 @@
 export * from './common';
 export * from './filter-panel';
 export * from './map-control-panel';
+export * from './modals';
 export * from './side-panel';
 export * from './FilterManagerFactory';
 export * from './InteractionManagerFactory';

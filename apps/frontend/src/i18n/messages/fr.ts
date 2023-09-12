@@ -3,6 +3,9 @@ import { LOCALES } from '../locales';
 export default {
   // Datatlas
   'dashboard.my_projects': 'Mes projets',
+  'modal.title.deleteProject': 'Supprimer le projet',
+  'modal.button.defaultCancel': 'Annuler',
+  'modal.button.delete': 'Supprimer',
   'dashboard.community_projects': 'Communauté Datatlas',
   'about.title': 'A propos',
   'createProjectForm.mapStyle': 'Sélectionnez un fond de carte',
