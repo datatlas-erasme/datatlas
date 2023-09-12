@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ProjectListItem } from './ProjectListItem';
 import { Loader } from './Loader';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
-import { LoadingProjectInterface } from '@datatlas/models';
+import { deleteEntry } from 'kepler.gl/actions';
+import { LoadingProjectInterface, ProjectInterface } from '@datatlas/models';
+import { DeleteProjectModal } from './DeleteProjectModal';
+import { useAppDispatch } from '../store';
+import { toKeplerId } from '../store/selectors';
 
 export interface ProjectListProps {
   data?: LoadingProjectInterface[];
@@ -22,14 +26,30 @@ const ContainerProjectList = styled.div`
 `;
 
 export const ProjectList = ({ data, isLoading, isFetching, isSuccess, isError, error }: ProjectListProps) => {
+  const [deletingProject, setDeletingProject] = useState<LoadingProjectInterface | null>(null);
+  const dispatch = useAppDispatch();
+
+  const handleDelete = (id: ProjectInterface['id']) => {
+    dispatch(deleteEntry(toKeplerId(id)));
+  };
+
   let content;
   if (isLoading || isFetching) {
     content = <Loader dark />;
   } else if (isSuccess) {
-    content = data ? data.map((project) => <ProjectListItem key={project.id} {...project} />) : [];
+    content = data
+      ? data.map((project) => (
+          <ProjectListItem key={project.id} project={project} onRemoveButtonClicked={setDeletingProject} />
+        ))
+      : [];
   } else if (isError && error) {
     content = <div>{error.toString()}</div>;
   }
 
-  return <ContainerProjectList>{content}</ContainerProjectList>;
+  return (
+    <>
+      <ContainerProjectList>{content}</ContainerProjectList>
+      <DeleteProjectModal project={deletingProject} onDelete={handleDelete} setDeletingProject={setDeletingProject} />
+    </>
+  );
 };

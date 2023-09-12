@@ -28,6 +28,7 @@ export default {
   'map_menu.dataset.show_dataset': 'Show dataset',
   'map_control.publish': 'Publish',
   'map_control.unpublish': 'Unpublish',
+  'modal.title.deleteProject': 'Delete project',
   loadRemoteData: {
     incorrectURL: 'Incorrect URL',
     submit: 'Load',

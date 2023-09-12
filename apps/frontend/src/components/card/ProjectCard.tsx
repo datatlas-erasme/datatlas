@@ -1,14 +1,14 @@
 import React from 'react';
-import { deleteEntry } from 'kepler.gl/actions';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { LoadingProjectInterface } from '@datatlas/models';
 import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
-import { useAppDispatch } from '../../store';
-import { toKeplerId } from '../../store/selectors';
 
-export type ProjectCardProps = LoadingProjectInterface;
+export interface ProjectCardProps {
+  project: LoadingProjectInterface;
+  onRemoveButtonClicked: (project: LoadingProjectInterface) => void;
+}
 
 const CardContainer = styled(Link)`
   display: flex;
@@ -18,26 +18,25 @@ const CardContainer = styled(Link)`
   text-decoration: none;
 `;
 
-const ProjectCard = (props: ProjectCardProps) => {
-  const dispatch = useAppDispatch();
-  const handleRemove = (e) => {
+const ProjectCard = ({ project, onRemoveButtonClicked }: ProjectCardProps) => {
+  const handleRemoveButtonClicked = (e) => {
+    onRemoveButtonClicked(project);
     e.preventDefault();
-    dispatch(deleteEntry(toKeplerId(props.id)));
   };
   const handleCopy = (e) => {
     e.preventDefault();
   };
 
   return (
-    <CardContainer to={`/projects/${props.id}`} key={props.id}>
+    <CardContainer to={`/projects/${project.id}`} key={project.id}>
       <CardDetails
-        title={props.title}
-        owner={props.owner}
-        createdAt={props.createdAt}
-        description={props.description}
-        contributors={props.contributors}
+        title={project.title}
+        owner={project.owner}
+        createdAt={project.createdAt}
+        description={project.description}
+        contributors={project.contributors}
       />
-      <MapPreview draft={props.draft} handleRemove={handleRemove} handleCopy={handleCopy} />
+      <MapPreview draft={project.draft} handleRemove={handleRemoveButtonClicked} handleCopy={handleCopy} />
     </CardContainer>
   );
 };

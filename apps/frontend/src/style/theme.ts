@@ -73,6 +73,7 @@ import {
   breakPoints,
   exportIntraSectionMargin,
 } from './constants';
+import { ThemeProps } from 'styled-components';
 
 export const theme = {
   ...DIMENSIONS,
@@ -246,3 +247,4 @@ export const theme = {
 };
 
 export type DatatlasTheme = typeof theme;
+export type DatatlasThemeProps = ThemeProps<DatatlasTheme>;

@@ -22,12 +22,14 @@ import {
   replaceFilterPanel,
   provideRangerFilter,
   provideMultiSelectFilter,
+  replaceModalDialog,
 } from './factories';
 
 // ⚠ Order matters ⚠
 export const appInjector = provideRecipesToInjector(
   [
     replaceKeplerGL(),
+    replaceModalDialog(),
     replacePanelHeader(),
     replacePanelToggleFactory(),
     replacePanelTab(),

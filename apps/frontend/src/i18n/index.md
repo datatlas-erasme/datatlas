@@ -12,6 +12,23 @@ There are 2 instances of `react-intl` used here :
 >
 > Now there is only one combining both but in `ts` format.
 
+> **Warning**
+> If you're translation doesn't appears, try to use the string notation as the the dictionnary key instead of the nested object form.
+>
+> For example, use :
+>
+> `modal.title.deleteProject: 'Delete project',`
+>
+> Instead of :
+>
+> ```
+> modal: {
+>     title: {
+>       deleteProject: 'Delete project',
+>     },
+> },
+> ```
+
 ## `formatjs/cli`
 
 The CLI may still be used to generate a `json` dictionary, but the content must be manually added to the `ts` dictionaries :
