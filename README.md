@@ -73,6 +73,12 @@ npx nx run backend-e2e:e2e --spec apps/backend-e2e/src/e2e/user.cy.ts
 
 https://github.com/cypress-io/cypress/issues/2610#issuecomment-1319738814
 
+Output test results to a log file:
+
+```
+npx nx run backend-e2e:e2e --spec apps/backend-e2e/src/e2e/user.cy.ts &> cypress.log
+```
+
 #### Cypress
 
 https://github.com/nrwl/nx/tree/master/packages/cypress/docs

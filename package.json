@@ -60,6 +60,7 @@
     "cross-env": "^7.0.3",
     "customize-cra": "^1.0.0",
     "cypress": "^12.2.0",
+    "cypress-terminal-report": "^5.3.6",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-config-react-app": "^7.0.1",
