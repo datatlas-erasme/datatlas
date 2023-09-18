@@ -2,9 +2,6 @@ import type { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 
 describe('PROJECT ACTIONS', () => {
   // DATA
-  let jwtAdmin;
-  let jwtEditor;
-  let idAdmin;
   const fakeProject = {
     title: 'string',
     draft: true,
@@ -470,37 +467,6 @@ describe('PROJECT ACTIONS', () => {
 
   let fakeProjectId;
 
-  // AUTHENTICATION
-  it('Connecting correctly with admin user.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/auth/login',
-      body: {
-        email: 'admin@example.org',
-        password: 'admin',
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(201);
-      jwtAdmin = response.body.access_token;
-      idAdmin = response.body.id;
-    });
-  });
-  it('Connecting correctly with editor user.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/auth/login',
-      body: {
-        email: 'editor@example.org',
-        password: 'editor',
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(201);
-      jwtEditor = response.body.access_token;
-    });
-  });
-
   // CREATE
   it('Should fail when creating new project without authentication.', () => {
     cy.request({
@@ -526,28 +492,22 @@ describe('PROJECT ACTIONS', () => {
     });
   });
   it('Should not fail when creating a project as an admin.', () => {
-    cy.request({
+    cy.login(Cypress.env('admin_credentials'));
+    cy.authenticatedRequest({
       method: 'POST',
       url: '/api/projects',
       body: fakeProject,
-      auth: {
-        bearer: jwtAdmin,
-      },
-      failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(201);
       fakeProjectId = response.body.id;
     });
   });
   it('Should not fail when creating a project as an editor.', () => {
-    cy.request({
+    cy.login(Cypress.env('editor_credentials'));
+    cy.authenticatedRequest({
       method: 'POST',
       url: '/api/projects',
       body: fakeProject,
-      auth: {
-        bearer: jwtEditor,
-      },
-      failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(201);
     });
@@ -555,43 +515,34 @@ describe('PROJECT ACTIONS', () => {
 
   // READ TODO waiting for answers about granularity af reading rights.
   it('Should not fail when requesting projects.', () => {
-    cy.request({
+    cy.login(Cypress.env('editor_credentials'));
+    cy.authenticatedRequest({
       method: 'GET',
       url: '/api/projects',
-      auth: {
-        bearer: jwtEditor,
-      },
-      failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.an('array');
     });
   });
   it('Should not fail when requesting a project.', () => {
-    cy.request({
+    cy.login(Cypress.env('editor_credentials'));
+    cy.authenticatedRequest({
       method: 'GET',
       url: `/api/projects/${fakeProjectId}`,
-      auth: {
-        bearer: jwtEditor,
-      },
-      failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body.id).to.eq(fakeProjectId);
     });
   });
 
-  // UODATE
+  // UPDATE
   it('Should not fail when updating owned project as admin.', () => {
     fakeProject2.id = fakeProjectId;
-    cy.request({
+    cy.login(Cypress.env('admin_credentials'));
+    cy.authenticatedRequest({
       method: 'PUT',
       url: `/api/projects/${String(fakeProjectId)}`,
       body: fakeProject2,
-      auth: {
-        bearer: jwtAdmin,
-      },
-      failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body.id).to.eq(fakeProjectId);
@@ -600,10 +551,10 @@ describe('PROJECT ACTIONS', () => {
 
   // DELETE
   it('Should ot fail when trying to delete project as admin', () => {
-    cy.request({
+    cy.login(Cypress.env('admin_credentials'));
+    cy.authenticatedRequest({
       method: 'DELETE',
       url: `/api/projects/${fakeProjectId}`,
-      failOnStatusCode: false,
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.a('string');

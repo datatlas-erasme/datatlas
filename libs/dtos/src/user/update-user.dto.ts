@@ -3,6 +3,7 @@ import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto implements Partial<UserInterface> {
   @IsString()
+  @IsOptional()
   readonly email?: string;
 
   @IsString()
@@ -10,11 +11,12 @@ export class UpdateUserDto implements Partial<UserInterface> {
   readonly name?: string;
 
   @IsString()
+  @IsOptional()
   password?: string;
 
   @IsString()
   @IsOptional()
-  readonly role?: Roles = Roles.EDITOR;
+  readonly role?: Roles;
 
   @IsBoolean()
   @IsOptional()
