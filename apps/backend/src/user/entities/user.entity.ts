@@ -23,7 +23,7 @@ export class UserEntity implements Partial<UserInterface> {
   @Property()
   role: Roles = Roles.EDITOR;
 
-  @Property()
+  @Property({ type: 'boolean' })
   active = true;
 
   constructor(user: UserInterface) {
