@@ -1,17 +1,6 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-  Get,
-  Param,
-  Put,
-  Delete,
-  Req,
-  NotFoundException,
-  Logger,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Param, Put, Delete, Req, NotFoundException } from '@nestjs/common';
 import { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
+import { UserCredentials } from '@datatlas/models';
 import { ProjectService } from './project.service';
 import { UserService } from '../user/user.service';
 import { ValidJwtGuard } from '../auth/validJwt.guard';
@@ -20,7 +9,7 @@ import { ProjectEntity } from './entities/project.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { CanEditProjectGuard } from '../auth/can-edit-project.guard';
 import { AuthService } from '../auth/auth.service';
-import { UserCredentials } from '@datatlas/models';
+import { CanSeeProjectGuard } from './guards/can-see-project.guard';
 
 @ApiBearerAuth()
 @Controller('projects')
@@ -51,6 +40,7 @@ export class ProjectController {
   }
 
   @Get(':id')
+  @UseGuards(CanSeeProjectGuard)
   async fetchOne(@Param('id') id: number): Promise<ProjectEntity> {
     const project = await this.projectService.findOneById(id);
     if (project === null) {

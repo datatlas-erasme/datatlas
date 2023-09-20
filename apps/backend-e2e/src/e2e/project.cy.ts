@@ -1,10 +1,8 @@
-import type { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
-
 describe('PROJECT ACTIONS', () => {
   // DATA
   const fakeProject = {
     title: 'string',
-    draft: true,
+    draft: false,
     datasets: [],
     description: 'string',
     contributors: [],
@@ -558,6 +556,27 @@ describe('PROJECT ACTIONS', () => {
     }).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.be.a('string');
+    });
+  });
+
+  describe('Requesting a draft project', () => {
+    it('should return an unauthorized code when not authenticated', () => {
+      cy.login(Cypress.env('admin_credentials')).then(() => {
+        cy.authenticatedRequest({
+          method: 'POST',
+          url: '/api/projects',
+          body: { ...fakeProject, draft: true },
+        }).then((response) => {
+          expect(response.status).to.eq(201);
+          expect(response.body.id).not.to.be.null;
+
+          cy.request({
+            method: 'GET',
+            url: `/api/projects/${response.body.id}`,
+            failOnStatusCode: false,
+          }).then((response) => expect(response.status).to.eq(403));
+        });
+      });
     });
   });
 });
