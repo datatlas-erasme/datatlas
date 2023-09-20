@@ -10,9 +10,8 @@ export default defineConfig({
       require('cypress-terminal-report/src/installLogsPrinter')(on);
     },
     video: false,
+    screenshotOnRunFailure: false,
   },
-  video: false,
-  screenshotOnRunFailure: false,
 
   env: {
     admin_credentials: {
