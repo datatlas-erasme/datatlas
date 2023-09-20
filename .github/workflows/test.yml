@@ -26,4 +26,5 @@ jobs:
       - run: npx nx format:check --base=$BASE_BRANCH
       - run: npx nx affected --target=lint --parallel=3 --base=origin/$BASE_BRANCH
       - run: npx nx affected --target=test --parallel=3 --ci --code-coverage --base=origin/$BASE_BRANCH
+      - run: npx nx affected --target=e2e --parallel=2 --ci --code-coverage --base=origin/$BASE_BRANCH
       - run: npx nx affected --target=build --parallel=3 --base=origin/$BASE_BRANCH
