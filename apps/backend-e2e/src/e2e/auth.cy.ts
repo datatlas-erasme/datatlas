@@ -79,20 +79,7 @@ describe('Authentication', () => {
       expect(response.status).to.eq(401);
     });
   });
-  it('Connecting correctly with admin user.', () => {
-    cy.request({
-      method: 'POST',
-      url: '/api/auth/login',
-      body: {
-        username: 'admin@example.org',
-        password: 'admin',
-      },
-      failOnStatusCode: false,
-    }).then((response) => {
-      expect(response.status).to.eq(201);
-    });
-  });
-  it('Login as admin.', () => {
+  it('Login as admin', () => {
     cy.login(Cypress.env('admin_credentials'));
   });
   it('Connecting with proper editor user but wrong password.', () => {
