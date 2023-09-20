@@ -59,9 +59,9 @@ export class UserService {
   }
 
   async updateUser(updateUserDto: UpdateUserDto & { id: number }): Promise<GetUserDto> {
-    const alreadyExists = await this.isEmailAlreadyInDatabase(updateUserDto.email);
-    if (alreadyExists) {
-      throw new HttpException(`User already exists.`, 400);
+    const userWithSameEmail = await this.userRepository.findOne({ email: updateUserDto.email });
+    if (userWithSameEmail && userWithSameEmail.id !== updateUserDto.id) {
+      throw new HttpException(`Email already in use.`, 400);
     }
 
     if (updateUserDto.password) {
