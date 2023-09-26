@@ -53,7 +53,7 @@ describe('Authentication', () => {
       expect(response.status).to.eq(404);
     });
   });
-  it('Connecting with incorrect user.', () => {
+  it('Should fail to connect with incorrect user.', () => {
     cy.request({
       method: 'POST',
       url: '/api/auth/login',
@@ -66,7 +66,7 @@ describe('Authentication', () => {
       expect(response.status).to.eq(401);
     });
   });
-  it('Connecting with proper user admin but wrong admin password.', () => {
+  it('Should fail to connect as an admin with incorrect password.', () => {
     cy.request({
       method: 'POST',
       url: '/api/auth/login',
@@ -82,7 +82,7 @@ describe('Authentication', () => {
   it('Login as admin', () => {
     cy.login(Cypress.env('admin_credentials'));
   });
-  it('Connecting with proper editor user but wrong password.', () => {
+  it('Should fail to connect as an editor with incorrect password.', () => {
     cy.request({
       method: 'POST',
       url: '/api/auth/login',
