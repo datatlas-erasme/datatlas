@@ -35,14 +35,14 @@ export class AuthService {
     };
   }
 
-  async getLoggedUserCredentials(request): Promise<UserCredentials> {
+  async getLoggedUserCredentials(request): Promise<UserCredentials | null> {
     const { headers } = request;
     if (!headers['authorization']) {
       return null;
     }
     const headerString = headers['authorization'].split(' ');
     if (headerString.length !== 2) {
-      // No bearer token fount.
+      // No bearer token found.
       return null;
     }
     const decode = this.jwtService.decode(headerString[1]);

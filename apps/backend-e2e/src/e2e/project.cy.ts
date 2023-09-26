@@ -522,6 +522,18 @@ describe('PROJECT ACTIONS', () => {
       expect(response.body).to.be.an('array');
     });
   });
+
+  it("A visitor mustn't see any draft projects", () => {
+    cy.request({
+      method: 'GET',
+      url: '/api/projects',
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body).to.be.an('array');
+      response.body.forEach(({ draft }) => expect(draft).to.be.false);
+    });
+  });
+
   it('Should not fail when requesting a project.', () => {
     cy.login(Cypress.env('editor_credentials'));
     cy.authenticatedRequest({
