@@ -1,11 +1,9 @@
 import React, { CSSProperties, UIEventHandler } from 'react';
-import { Layer } from 'kepler.gl';
+import { Datasets, Layer } from 'kepler.gl';
 import { LayerPanelFactory as KeplerLayerPanelFactory } from 'kepler.gl/components';
-import { PanelWrapper } from '../side-panel/layer/LayerPanel';
-import { Datasets } from 'kepler.gl';
 import { visStateActions } from 'kepler.gl/actions';
-import { LayerTypeOptionInterface } from '../types/LayerTypeOptionInterface';
-import { PanelComponentPropsInterface } from '../types/PanelComponentPropsInterface';
+import { PanelWrapper } from '../side-panel/layer/LayerPanel';
+import { LayerTypeOptionInterface, PanelComponentPropsInterface } from '../types';
 
 export interface KeplerLayerPanelPropsInterface {
   layer: Layer;
@@ -128,7 +126,7 @@ export const LayerPanelFactory = (KeplerLayerConfigurator, KeplerLayerPanelHeade
           layerId={layer.id}
           isVisible={config.isVisible}
           label={config.label}
-          labelRCGColorValues={config.dataId ? datasets[config.dataId].color : null}
+          labelRCGColorValues={config.color}
           layerType={layer.type}
           onToggleEnableConfig={_toggleEnableConfig}
           onToggleVisibility={_toggleVisibility}

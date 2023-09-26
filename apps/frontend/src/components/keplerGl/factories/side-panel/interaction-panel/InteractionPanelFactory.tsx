@@ -22,6 +22,7 @@ interface InteractionPanelFactoryProps {
   config: InteractionConfig[keyof InteractionConfig];
   onConfigChange: (config: Partial<InteractionConfig[keyof InteractionConfig]>) => void;
 }
+
 const InteractionPanelFactory =
   (TooltipConfig: ComponentType<any>, BrushConfig: ComponentType<any>, FiltersConfig: ComponentType<any>) =>
   ({ datasets, config, onConfigChange }: InteractionPanelFactoryProps) => {

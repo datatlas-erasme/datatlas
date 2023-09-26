@@ -82,7 +82,7 @@ function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
                   <LayerPanelHeader
                     isActive={layer.config.isConfigActive}
                     isDragNDropEnabled={true}
-                    labelRCGColorValues={layer.config.dataId ? datasets[layer.config.dataId].color : null}
+                    labelRCGColorValues={layer.config.color}
                     onToggleEnableConfig={handleToggleLayerPanel(layer)}
                     layerTitleSection={
                       <LayerTitleSection
