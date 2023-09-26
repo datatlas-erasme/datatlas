@@ -121,6 +121,16 @@ export const LoginPage = () => {
           l’accès aux données géographiques pour le grand public. Le projet est open source, nous serions heureux
           d’échanger avec vous sur vos besoins.
         </p>
+        <p>
+          <iframe
+            src="https://player.vimeo.com/video/819397705?h=589c63b27a"
+            width="640"
+            height="360"
+            frameBorder="0"
+            allow="fullscreen; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        </p>
         <h3>Contributeurs :</h3>
         <ul>
           <li>Anthony Angelot (Erasme - Métropole de Lyon)</li>
