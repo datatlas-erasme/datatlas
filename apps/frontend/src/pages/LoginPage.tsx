@@ -129,6 +129,7 @@ export const LoginPage = () => {
             frameBorder="0"
             allow="fullscreen; picture-in-picture"
             allowFullScreen
+            title="Vidéo de présentation du projet Datatlas"
           ></iframe>
         </p>
         <h3>Contributeurs :</h3>
