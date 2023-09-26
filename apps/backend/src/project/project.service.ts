@@ -26,7 +26,11 @@ export class ProjectService {
     return project;
   }
 
-  async findAll(userCredentials: UserCredentials): Promise<ProjectEntity[]> {
+  async findAll(userCredentials: UserCredentials | null): Promise<ProjectEntity[]> {
+    if (!userCredentials) {
+      return await this.projectRepository.find({ draft: false });
+    }
+
     // As admin, we want all projects (including drafts).
     if (userCredentials.role === Roles.ADMIN) {
       return this.projectRepository.findAll();
