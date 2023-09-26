@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-computed-key */
 import { AnyAction, createAction, Reducer } from '@reduxjs/toolkit';
-import { registerEntry } from 'kepler.gl';
+import { Layer, registerEntry } from 'kepler.gl';
 import { KeplerGlState } from 'kepler.gl/reducers';
 import { keplerGlReducer } from './root';
 import { addDataToMap, setMapInfo, wrapTo, setLocale as setKeplerMapLocale } from 'kepler.gl/actions';
@@ -63,6 +63,28 @@ export const keplerReducer: Reducer<DatatlasGlState> = keplerGlReducer
         readOnly: action.payload,
       },
     }),
+    // When the color of layer change, propagate the color change to the dataset.
+    ['@@kepler.gl/LAYER_CONFIG_CHANGE']: (state, action: { oldLayer: Layer; newConfig: Partial<Layer> }) => {
+      if (!action?.newConfig?.color) {
+        return state;
+      }
+
+      const { color } = action.newConfig;
+      const { dataId } = action.oldLayer.config;
+      return {
+        ...state,
+        visState: {
+          ...state.visState,
+          datasets: {
+            ...state.visState.datasets,
+            [dataId]: {
+              ...state.visState.datasets[dataId],
+              color,
+            },
+          },
+        },
+      };
+    },
   });
 
 export const addProjectToKeplerState = (state: Record<string, KeplerGlState> = {}, projectDto: ProjectDto) =>
