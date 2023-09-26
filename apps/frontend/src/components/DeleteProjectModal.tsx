@@ -43,6 +43,7 @@ export const DeleteProjectModal = ({ project, onDelete, setDeletingProject }: De
     onConfirm: () => {
       if (project) {
         onDelete(project.id);
+        handleCloseModal();
       }
     },
     onCancel: handleCloseModal,
