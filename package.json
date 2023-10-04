@@ -90,6 +90,7 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "^4.0.2",
     "vitest": "^0.25.8",
+    "wait-on": "^7.0.1",
     "web-vitals": "^3.1.0",
     "whatwg-fetch": "^3.6.2"
   },
