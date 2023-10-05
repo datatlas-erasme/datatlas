@@ -19,7 +19,7 @@ export default defineConfig({
       password: process.env.ADMIN_PASSWORD,
     },
     editor_credentials: {
-      email: process.env.DUMMY_EDITOR_USERNAME,
+      email: process.env.DUMMY_EDITOR_EMAIL,
       password: process.env.DUMMY_EDITOR_PASSWORD,
     },
   },
