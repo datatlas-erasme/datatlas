@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import { Roles } from '../user';
-import { ProjectInterface } from '../ProjectInterface';
+import { UserInterface } from '../UserInterface';
 import { UserCredentialsInterface } from './UserCredentialsInterface';
 
 export class UserCredentials implements UserCredentialsInterface {
@@ -16,11 +16,11 @@ export class UserCredentials implements UserCredentialsInterface {
     this.role = userCredentials.role;
   }
 
-  static canEditProject(user: UserCredentials, project: ProjectInterface) {
-    return (user.id === project.owner.id || user.role === Roles.ADMIN) && user.active;
+  static isActive(partialUser?: Pick<UserInterface, 'active'>) {
+    return partialUser && partialUser?.active;
   }
 
-  canEditProject(project: ProjectInterface) {
-    return UserCredentials.canEditProject(this, project);
+  static isAdmin(userCredentials?: UserCredentialsInterface) {
+    return userCredentials && userCredentials?.role === Roles.ADMIN;
   }
 }

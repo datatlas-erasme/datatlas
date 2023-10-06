@@ -535,13 +535,24 @@ describe('PROJECT ACTIONS', () => {
   });
 
   it('Should not fail when requesting a project.', () => {
-    cy.login(Cypress.env('editor_credentials'));
-    cy.authenticatedRequest({
-      method: 'GET',
-      url: `/api/projects/${fakeProjectId}`,
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      expect(response.body.id).to.eq(fakeProjectId);
+    cy.login(Cypress.env('admin_credentials')).then(() => {
+      cy.authenticatedRequest({
+        method: 'POST',
+        url: '/api/projects',
+        body: { ...fakeProject, draft: false },
+      }).then((response) => {
+        expect(response.status).to.eq(201);
+        expect(response.body.id).not.to.be.null;
+        cy.login(Cypress.env('editor_credentials')).then(() => {
+          cy.authenticatedRequest({
+            method: 'GET',
+            url: `/api/projects/${response.body.id}`,
+            failOnStatusCode: false,
+          }).then((response) => {
+            expect(response.status).to.eq(200);
+          });
+        });
+      });
     });
   });
 
@@ -560,14 +571,48 @@ describe('PROJECT ACTIONS', () => {
   });
 
   // DELETE
-  it('Should ot fail when trying to delete project as admin', () => {
-    cy.login(Cypress.env('admin_credentials'));
-    cy.authenticatedRequest({
-      method: 'DELETE',
-      url: `/api/projects/${fakeProjectId}`,
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      expect(response.body).to.be.a('string');
+  describe('Deleting a project', () => {
+    it('Should not fail when trying to delete a project as admin', () => {
+      cy.login(Cypress.env('admin_credentials')).then(() => {
+        cy.authenticatedRequest({
+          method: 'POST',
+          url: '/api/projects',
+          body: { ...fakeProject, draft: true },
+        }).then((response) => {
+          expect(response.status).to.eq(201);
+          expect(response.body.id).not.to.be.null;
+
+          cy.authenticatedRequest({
+            method: 'DELETE',
+            url: `/api/projects/${response.body.id}`,
+            failOnStatusCode: false,
+          }).then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.be.a('string');
+          });
+        });
+      });
+    });
+
+    it("Should fail when trying to delete another user's project", () => {
+      cy.login(Cypress.env('admin_credentials')).then(() => {
+        cy.authenticatedRequest({
+          method: 'POST',
+          url: '/api/projects',
+          body: { ...fakeProject, draft: true },
+        }).then((response) => {
+          expect(response.status).to.eq(201);
+          cy.login(Cypress.env('editor_credentials')).then(() => {
+            cy.authenticatedRequest({
+              method: 'DELETE',
+              url: `/api/projects/${response.body.id}`,
+              failOnStatusCode: false,
+            }).then((response) => {
+              expect(response.status).to.eq(403);
+            });
+          });
+        });
+      });
     });
   });
 

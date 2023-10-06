@@ -1,9 +1,9 @@
 import { AuthGuard } from '@nestjs/passport';
 import { BadRequestException, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserCredentials } from '@datatlas/models';
-import { AuthService } from './auth.service';
-import { ProjectService } from '../project/project.service';
+import { Project } from '@datatlas/models';
+import { AuthService } from '../../auth/auth.service';
+import { ProjectService } from '../project.service';
 
 @Injectable()
 export class CanEditProjectGuard extends AuthGuard('local') {
@@ -23,6 +23,7 @@ export class CanEditProjectGuard extends AuthGuard('local') {
     if (userCredentials === null) {
       return false;
     }
+
     // Id received in GET params must be the same as the id received in body
     if (parseInt(request.params.id) !== parseInt(request.body.id)) {
       throw new BadRequestException('Id project sent in parameter is different to id project sent in body.', {
@@ -33,7 +34,7 @@ export class CanEditProjectGuard extends AuthGuard('local') {
 
     const projectToUpdate = await this.projectService.findOneById(parseInt(request.params.id));
 
-    if (!UserCredentials.canEditProject(userCredentials, projectToUpdate)) {
+    if (!Project.canBeEditedBy(projectToUpdate, userCredentials)) {
       throw new UnauthorizedException('Insufficient rights to edit this project.');
     }
 

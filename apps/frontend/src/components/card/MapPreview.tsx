@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Trash, Copy, MapIcon } from 'kepler.gl/dist/components/common/icons';
+import { LoadingProjectInterface, Project, UserInterface } from '@datatlas/models';
 import { IconButton } from '../buttons';
-import { StatusProjectBadges } from '../badges/StatusProjectBadges';
+import { StatusProjectBadges } from '../badges';
 import backgroundMapImage from '../../assets/background-card.png';
+
 interface MapPreviewInterface {
-  draft: boolean;
+  project: LoadingProjectInterface;
+  user?: UserInterface;
   handleRemove: (e) => void;
   handleCopy: (e) => void;
   copyEnabled?: boolean;
@@ -21,14 +24,14 @@ const MapPreviewContainer = styled.div`
   background-image: url(${backgroundMapImage});
 `;
 
-const MapPreview = ({ draft, handleRemove, handleCopy, copyEnabled = false }: MapPreviewInterface) => {
+const MapPreview = ({ project, user, handleRemove, handleCopy, copyEnabled = false }: MapPreviewInterface) => {
   return (
     <MapPreviewContainer>
       <StatusProjectBadges Icon={<MapIcon />}>
-        <p>{draft ? 'Brouillon' : 'Publié'}</p>
+        <p>{project.draft ? 'Brouillon' : 'Publié'}</p>
       </StatusProjectBadges>
       <div>
-        <IconButton Icon={<Trash />} onClick={handleRemove} />
+        {Project.canBeDeletedBy(project, user) && <IconButton Icon={<Trash />} onClick={handleRemove} />}
         {copyEnabled && <IconButton Icon={<Copy />} onClick={handleCopy} />}
       </div>
     </MapPreviewContainer>
