@@ -7,7 +7,7 @@ import { UserInterface } from './UserInterface';
 import { NormalizedProjectInterface } from './NormalizedProjectInterface';
 import { DatatlasSavedMapInterface } from './DatatlasSavedMapInterface';
 import { LoadingProjectInterface } from './LoadingProjectInterface';
-import { Roles } from './user';
+import { UserCredentials, UserCredentialsInterface } from './auth';
 
 export class Project implements ProjectInterface {
   id: number;
@@ -51,34 +51,39 @@ export class Project implements ProjectInterface {
     return draft;
   }
 
-  static isOwner({ ownerId }: Pick<NormalizedProjectInterface, 'ownerId'>, partialUser?: Pick<UserInterface, 'id'>) {
-    return !!partialUser && ownerId === partialUser.id;
+  static isOwner(project?: { owner?: Pick<UserInterface, 'id'> }, userCredentials?: UserCredentialsInterface) {
+    return !!userCredentials && project && project?.owner?.id && project.owner.id === userCredentials.id;
+  }
+
+  static isOwnerOrAdmin(project?: { owner?: Pick<UserInterface, 'id'> }, userCredentials?: UserCredentialsInterface) {
+    return Project.isOwner(project, userCredentials) || UserCredentials.isAdmin(userCredentials);
   }
 
   static isPublished({ draft }: Pick<ProjectInterface, 'draft'>) {
     return !draft;
   }
 
-  static canView(
-    { ownerId, draft }: Pick<NormalizedProjectInterface, 'ownerId' | 'draft'>,
-    partialUser?: Pick<UserInterface, 'id'>
-  ) {
-    return Project.isPublished({ draft }) || Project.isOwner({ ownerId }, partialUser);
+  static canBeViewedBy(project: Pick<Project, 'owner' | 'draft'>, userCredentials?: UserCredentials) {
+    if (Project.isDraft(project)) {
+      if (!Project.canBeEditedBy(project, userCredentials)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
-  static canEdit(
-    { ownerId }: Pick<NormalizedProjectInterface, 'ownerId'>,
-    partialUser?: Pick<UserInterface, 'id'>
-  ): boolean {
-    return !!partialUser && Project.isOwner({ ownerId }, partialUser);
+  static canBeEditedBy(project?: { owner?: Pick<UserInterface, 'id'> }, userCredentials?: UserCredentialsInterface) {
+    return UserCredentials.isActive(userCredentials) && Project.isOwnerOrAdmin(project, userCredentials);
   }
 
-  static canUserEdit(partialProject?: { owner: number }, partialUser?: Pick<UserInterface, 'role' | 'id'>): boolean {
-    return (
-      !!partialUser &&
-      !!partialProject &&
-      (partialProject.owner === partialUser.id || partialUser?.role === Roles.ADMIN)
-    );
+  // This is hack since DTO classes can't be used in the frontend... -_-
+  static canProjectDtoBeEditedBy(projectDto?: { owner: number }, userCredentials?: UserCredentialsInterface) {
+    return projectDto && Project.canBeEditedBy({ owner: { id: projectDto.owner } }, userCredentials);
+  }
+
+  static canBeDeletedBy(project?: { owner?: Pick<UserInterface, 'id'> }, userCredentials?: UserCredentialsInterface) {
+    return Project.canBeEditedBy(project, userCredentials);
   }
 
   isDraft() {

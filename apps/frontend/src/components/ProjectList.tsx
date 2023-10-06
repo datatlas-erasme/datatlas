@@ -9,6 +9,7 @@ import { LoadingProjectInterface, ProjectInterface } from '@datatlas/models';
 import { DeleteProjectModal } from './DeleteProjectModal';
 import { useAppDispatch } from '../store';
 import { toKeplerId } from '../store/selectors';
+import { useFetchUser } from '../hooks/useFetchUser';
 
 export interface ProjectListProps {
   data?: LoadingProjectInterface[];
@@ -28,6 +29,7 @@ const ContainerProjectList = styled.div`
 export const ProjectList = ({ data, isLoading, isFetching, isSuccess, isError, error }: ProjectListProps) => {
   const [deletingProject, setDeletingProject] = useState<LoadingProjectInterface | null>(null);
   const dispatch = useAppDispatch();
+  const { data: user } = useFetchUser();
 
   const handleDelete = (id: ProjectInterface['id']) => {
     dispatch(deleteEntry(toKeplerId(id)));
@@ -39,7 +41,7 @@ export const ProjectList = ({ data, isLoading, isFetching, isSuccess, isError, e
   } else if (isSuccess) {
     content = data
       ? data.map((project) => (
-          <ProjectListItem key={project.id} project={project} onRemoveButtonClicked={setDeletingProject} />
+          <ProjectListItem key={project.id} project={project} user={user} onRemoveButtonClicked={setDeletingProject} />
         ))
       : [];
   } else if (isError && error) {

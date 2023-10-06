@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { LoadingProjectInterface } from '@datatlas/models';
+import { LoadingProjectInterface, UserInterface } from '@datatlas/models';
 import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
 
 export interface ProjectCardProps {
   project: LoadingProjectInterface;
+  user?: UserInterface;
   onRemoveButtonClicked: (project: LoadingProjectInterface) => void;
 }
 
@@ -18,7 +19,7 @@ const CardContainer = styled(Link)`
   text-decoration: none;
 `;
 
-const ProjectCard = ({ project, onRemoveButtonClicked }: ProjectCardProps) => {
+const ProjectCard = ({ project, user, onRemoveButtonClicked }: ProjectCardProps) => {
   const handleRemoveButtonClicked = (e) => {
     onRemoveButtonClicked(project);
     e.preventDefault();
@@ -36,7 +37,7 @@ const ProjectCard = ({ project, onRemoveButtonClicked }: ProjectCardProps) => {
         description={project.description}
         contributors={project.contributors}
       />
-      <MapPreview draft={project.draft} handleRemove={handleRemoveButtonClicked} handleCopy={handleCopy} />
+      <MapPreview project={project} user={user} handleRemove={handleRemoveButtonClicked} handleCopy={handleCopy} />
     </CardContainer>
   );
 };

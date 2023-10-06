@@ -30,7 +30,7 @@ export const ProjectPage = () => {
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-      <KeplerMap id={id} readOnly={!Project.canUserEdit(project, user)} />
+      <KeplerMap id={id} readOnly={!Project.canProjectDtoBeEditedBy(project, user)} />
     </div>
   );
 };

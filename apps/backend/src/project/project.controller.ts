@@ -7,9 +7,8 @@ import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { UserEntity } from '../user/entities/user.entity';
 import { ProjectEntity } from './entities/project.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { CanEditProjectGuard } from '../auth/can-edit-project.guard';
 import { AuthService } from '../auth/auth.service';
-import { CanSeeProjectGuard } from './guards/can-see-project.guard';
+import { CanDeleteProjectGuard, CanEditProjectGuard, CanViewProjectGuard } from './guards';
 
 @ApiBearerAuth()
 @Controller('projects')
@@ -40,7 +39,7 @@ export class ProjectController {
   }
 
   @Get(':id')
-  @UseGuards(CanSeeProjectGuard)
+  @UseGuards(CanViewProjectGuard)
   async fetchOne(@Param('id') id: number): Promise<ProjectEntity> {
     const project = await this.projectService.findOneById(id);
     if (project === null) {
@@ -66,6 +65,7 @@ export class ProjectController {
   }
 
   @Delete(':id')
+  @UseGuards(CanDeleteProjectGuard)
   async delete(@Param('id') id: number): Promise<number> {
     return await this.projectService.delete(id);
   }
