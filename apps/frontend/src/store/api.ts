@@ -4,7 +4,7 @@ import { REHYDRATE } from 'redux-persist';
 import { LoginResponse, ProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 import { CreateProjectFormData, LoginFormData } from '../models';
 import { loggedIn } from './reducers/user';
-import { KeplerMapStyle, UserInterface } from '@datatlas/models';
+import { KeplerMapStyle, Project, UserInterface } from '@datatlas/models';
 import { selectAccessToken } from './selectors';
 
 // Define cache "tags" :
@@ -127,6 +127,7 @@ export const api = createApi({
           dispatch(
             api.util.updateQueryData('getProjects', undefined, (projects) => {
               projects.push(projectDto);
+              projects.sort(Project.getSortingFunction());
             })
           );
         },

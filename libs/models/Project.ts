@@ -132,4 +132,9 @@ export class Project implements ProjectInterface {
       warning: '',
     };
   }
+
+  static getSortingFunction() {
+    return (a: Pick<ProjectInterface, 'createdAt'>, b: Pick<ProjectInterface, 'createdAt'>) =>
+      a.createdAt.getTime() - b.createdAt.getTime();
+  }
 }

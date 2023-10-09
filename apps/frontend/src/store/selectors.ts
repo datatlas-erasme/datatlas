@@ -3,7 +3,7 @@ import { KeplerGlState } from 'kepler.gl/reducers';
 import { createSelector } from 'reselect';
 import { FiltersConfigInterface, MapInfoInterface, ProjectInterface } from '@datatlas/models';
 import { RootState } from './reducers';
-import { getUser } from './api';
+import { getUser, getProjects } from './api';
 import { projectFactory } from '../kepler';
 
 export const toKeplerId = (id: string | number) => String(id).toLocaleUpperCase();
@@ -47,12 +47,17 @@ export const selectFiltersConfig = (state: RootState, instanceId: string): Filte
 export const selectLocale = (state: RootState) => state.locale;
 
 export const selectProjects = (state: RootState) => {
-  return Object.keys(state.keplerGl)
-    .map((id) => selectProjectById(state, id))
-    .filter((project) => project) as ProjectInterface[];
+  const projects = getProjects.select()(state)?.data;
+  if (projects) {
+    return projects
+      .map(({ id }) => selectProjectById(state, toKeplerId(id)))
+      .filter((project) => project) as ProjectInterface[];
+  }
+
+  return [];
 };
 
-export const selectProjectById = (state: RootState, projectId) => {
+export const selectProjectById = (state: RootState, projectId: string) => {
   const keplerState = selectKeplerInstanceById(state, projectId);
   if (!keplerState) {
     return null;
@@ -75,10 +80,12 @@ export const selectLoggedIn = (state: RootState) => !!selectCurrentUserId(state)
 
 export const selectAccessToken = (state: RootState) => state.user.accessToken;
 
+// @todo there should be a dedicated endpoint instead
 export const selectMyProjects = createSelector(selectProjects, selectCurrentUserId, (projects, currentUserId) =>
   projects.filter(({ owner }) => owner?.id === currentUserId)
 );
 
+// @todo there should be a dedicated endpoint instead
 export const selectCommunityProjects = createSelector(selectProjects, selectCurrentUserId, (projects, currentUserId) =>
   projects.filter(({ owner }) => owner?.id !== currentUserId)
 );
