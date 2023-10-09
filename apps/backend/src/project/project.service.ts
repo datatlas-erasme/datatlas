@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { EntityRepository } from '@mikro-orm/core';
+import { EntityRepository, FindOptions } from '@mikro-orm/core';
 import { ProjectEntity } from './entities/project.entity';
 import { UserEntity } from '../user/entities/user.entity';
 import { CreateProjectDto, UpdateProjectDto } from '@datatlas/dtos';
@@ -27,13 +27,15 @@ export class ProjectService {
   }
 
   async findAll(userCredentials: UserCredentials | null): Promise<ProjectEntity[]> {
+    const findOptions: FindOptions<ProjectEntity> = { orderBy: { createdAt: 'DESC' } };
+
     if (!userCredentials) {
-      return await this.projectRepository.find({ draft: false });
+      return await this.projectRepository.find({ draft: false }, findOptions);
     }
 
     // As admin, we want all projects (including drafts).
     if (userCredentials.role === Roles.ADMIN) {
-      return this.projectRepository.findAll();
+      return this.projectRepository.findAll(findOptions);
     }
 
     /* As non-admin user, we want all projects that are either :
@@ -41,9 +43,12 @@ export class ProjectService {
         - owned by requesting user
         - tagged to current user as contributor
      */
-    const res = await this.projectRepository.find({
-      $or: [{ draft: false }, { owner: userCredentials.id }, { contributors: userCredentials.id }],
-    });
+    const res = await this.projectRepository.find(
+      {
+        $or: [{ draft: false }, { owner: userCredentials.id }, { contributors: userCredentials.id }],
+      },
+      findOptions
+    );
     return res;
   }
 
