@@ -94,7 +94,7 @@ const LayerPanelHeaderFactory = (LayerTitleSection, PanelHeaderAction) => {
         <PanelHeaderAction
           className="layer__show-data-table"
           id={layerId}
-          tooltip={'tooltip.showDataTable'}
+          tooltip={'datasetTitle.showDataTable'}
           onClick={showDatasetTable}
           IconComponent={Table}
         />
