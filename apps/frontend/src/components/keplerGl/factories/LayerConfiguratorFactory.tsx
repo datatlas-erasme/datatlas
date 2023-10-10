@@ -746,7 +746,6 @@ const LayerConfiguratorFactory = (
       _renderTripLayerConfig,
     };
     const { fields = [], fieldPairs = undefined } = layer.config.dataId ? datasets[layer.config.dataId] : {};
-    const { config } = layer;
 
     const visConfiguratorProps = getVisConfiguratorProps({ updateLayerColorUI, updateLayerVisConfig, layer, datasets });
     const layerConfiguratorProps = getLayerConfiguratorProps({
@@ -769,14 +768,6 @@ const LayerConfiguratorFactory = (
             layerTypeOptions={layerTypeOptions}
             onSelect={updateLayerType}
           />
-          {Object.keys(datasets).length > 1 && (
-            <SourceDataSelector
-              datasets={datasets}
-              id={layer.id}
-              dataId={config.dataId}
-              onSelect={(value) => updateLayerConfig({ dataId: value })}
-            />
-          )}
           <LayerColumnConfig
             columnPairs={layer.columnPairs}
             columns={layer.config.columns}
