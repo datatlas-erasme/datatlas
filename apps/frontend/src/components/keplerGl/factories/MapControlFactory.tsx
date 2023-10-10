@@ -42,8 +42,8 @@ interface MapControlProps extends KeplerGLProps {
   logoComponent: typeof LegendLogo;
 }
 
-function MapControlFactory() {
-  const DEFAULT_ACTIONS = [PublishButton];
+function MapControlFactory(MapDrawPanel, Toggle3dButton) {
+  const DEFAULT_ACTIONS = [PublishButton, Toggle3dButton];
 
   return ({
     actionComponents = DEFAULT_ACTIONS,
