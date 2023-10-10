@@ -6,12 +6,13 @@ import { Clock } from 'kepler.gl/dist/components/common/icons';
 import { useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/dist/query/react';
 import { StyledBadgeOutline } from '../badges';
-import { HelpIcon, WheelIcon } from '../icon';
+import { AccountIcon, HelpIcon, WheelIcon } from '../icon';
 import { DatatlasLogo, HomeIcon } from '../logos';
 import { useAppDispatch } from '../../store';
 import { logout } from '../../store/reducers/user';
 import { useGetProjectQuery } from '../../store/api';
 import { selectLoggedIn } from '../../store/selectors';
+import { useFetchUser } from '../../hooks/useFetchUser';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -96,6 +97,7 @@ const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false }: Na
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const { data } = useGetProjectQuery(id ?? skipToken);
+  const { data: user } = useFetchUser();
   const loggedIn = useSelector(selectLoggedIn);
 
   const handleLogout = () => {
@@ -135,24 +137,35 @@ const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false }: Na
             </NavItem>
           </li>
         )}
-
-        <li>
-          {loggedIn ? (
-            <button onClick={handleLogout}>
-              <BadgesItem>
-                <Clock />
-              </BadgesItem>
-              <FormattedMessage id={'navigationBar.logout'} defaultMessage={'Logout'} />
-            </button>
-          ) : (
+        {loggedIn ? (
+          <>
+            <li>
+              <button onClick={handleLogout}>
+                <BadgesItem>
+                  <Clock />
+                </BadgesItem>
+                <FormattedMessage id={'navigationBar.logout'} defaultMessage={'Logout'} />
+              </button>
+            </li>
+            <li>
+              <a>
+                <BadgesItem>
+                  <AccountIcon username={user?.email} />
+                </BadgesItem>
+                {user?.email}
+              </a>
+            </li>
+          </>
+        ) : (
+          <li>
             <button onClick={() => navigate('/login')}>
               <BadgesItem>
                 <Clock />
               </BadgesItem>
               <FormattedMessage id={'navigationBar.login'} defaultMessage={'Login'} />
             </button>
-          )}
-        </li>
+          </li>
+        )}
       </NavItemsList>
     </NavContainer>
   );
