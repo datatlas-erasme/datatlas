@@ -107,7 +107,7 @@ function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
                     <PanelHeaderAction
                       className="layer__add-filter"
                       id={layer.id}
-                      tooltip={'datasetTitle.addFilter'}
+                      tooltip={'filterManager.addFilter'}
                       inactive={hadEmptyFilter(reversedIndexGroupedByLayerIdx[layerIdx])}
                       onClick={(e) => {
                         e.preventDefault();
