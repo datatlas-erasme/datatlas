@@ -40,38 +40,38 @@ export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
     margin: 0;
   }
 
-  h2{
+  h2 {
     font-size: ${({ theme }) => theme.smText};
     font-weight: 600;
   }
-  h3{
+  h3 {
     font-size: ${({ theme }) => theme.smText};
     font-weight: 400;
     line-height: 17px;
   }
-  p{
+  p {
     font-size: ${({ theme }) => theme.sText};
   }
-  li{
+  li {
     list-style: none;
     font-size: ${({ theme }) => theme.smText};
     line-height: 25px;
   }
-  a, button{
+  a, button {
     cursor: pointer;
     color: inherit;
     border: none;
     background-color: transparent;
   }
-  .side-panel--container{
+  .side-panel--container {
     padding: 0;
   }
 
   ${ChickletButton} {
-    border: solid 1px ${({ theme }) => theme.primaryColor}
-}
+    border: solid 1px ${({ theme }) => theme.primaryColor};
+  }
 
-  .side-side-panel__header__bottom{
+  .side-side-panel__header__bottom {
     padding: 0;
     border-bottom: ${({ theme }) => theme.panelBorderLT};
   }
@@ -79,5 +79,4 @@ export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
   .attrition-logo a.mapboxgl-ctrl-logo {
     display: none;
   }
-
 `;
