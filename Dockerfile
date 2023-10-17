@@ -30,6 +30,7 @@ COPY nx.json /build/nx.json
 # REACT_APP_MAPBOX_ACCESS_TOKEN  REACT_APP_DEFAULT_LOCALE REACT_APP_API_BASE_URL
 RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_MAPBOX_ACCESS_TOKEN="defaultMapboxToken"' > .env; fi
 RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_DEFAULT_LOCALE="defaultLocale"' >> .env; fi
+RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_API_BASE_URL="defaultApiBaseUrl"' >> .env; fi
 RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_MATOMO_TRACKER_URL="REACT_APP_MATOMO_TRACKER_URL_DEFAULT_VALUE"' >> .env; fi
 RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'DEFAULT_REACT_APP_MATOMO_SITE_ID="DEFAULT_REACT_APP_MATOMO_SITE_ID_DEFAULT_VALUE"' >> .env; fi
 
