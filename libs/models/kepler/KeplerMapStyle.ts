@@ -8,6 +8,20 @@ import { getInitialInputStyle } from 'kepler.gl/dist/reducers/map-style-updaters
 export class KeplerMapStyle implements SavedMapStyle {
   public static readonly DEFAULT_MAP_STYLES: BaseMapStyle[] = [
     {
+      id: 'klokantech-basic',
+      label: 'Grand Lyon Basique',
+      url: 'https://openmaptiles.data.grandlyon.com/styles/klokantech-basic/style.json',
+      icon: 'https://openmaptiles.data.grandlyon.com/styles/klokantech-basic/11/1052/730.png',
+      layerGroups: [],
+    },
+    {
+      id: 'vector',
+      label: 'Grand Lyon Claire',
+      url: 'https://openmaptiles.data.grandlyon.com/styles/vector/style.json',
+      icon: 'https://openmaptiles.data.grandlyon.com/styles/vector/11/1050/729.png',
+      layerGroups: [],
+    },
+    {
       id: 'dark',
       label: 'Sombre',
       url: 'mapbox://styles/uberdata/cjoqbbf6l9k302sl96tyvka09',
