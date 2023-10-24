@@ -7,3 +7,5 @@ export const isValidHttpURL = (string: string) => {
   }
   return url.protocol === 'http:' || url.protocol === 'https:';
 };
+
+export const isImageURL = (url: string) => /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);

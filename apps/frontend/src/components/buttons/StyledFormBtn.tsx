@@ -10,6 +10,7 @@ export const StyledFormBtn = styled(({ loading, children, ...props }) => {
     </Button>
   );
 })`
+  background-color: black;
   margin: 20px auto;
   padding: 15px 42px;
   padding-left: ${({ loading }) => (loading ? '18px' : '42px')};

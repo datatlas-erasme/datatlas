@@ -7,11 +7,11 @@ interface ButtonPropsInterface extends ButtonHTMLAttributes<HTMLButtonElement> {
   Icon?: ReactElement;
   isInactive?: boolean;
   width?: string;
+  large?: boolean;
+  small?: boolean;
 }
 
-const StyledKeplerButton = styled(KeplerButton)`
-  margin: 10px;
-`;
+const StyledKeplerButton = styled(KeplerButton)``;
 export const Button = ({ children, Icon, ...props }: ButtonPropsInterface) => {
   return (
     <StyledKeplerButton {...props}>

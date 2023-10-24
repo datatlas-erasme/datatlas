@@ -1,3 +1,4 @@
+export * from './CompareType';
 export * from './DatasetFactory';
 export * from './DatatlasGlVisState';
 export * from './KeplerMapConfig';
