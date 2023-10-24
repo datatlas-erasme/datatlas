@@ -1,4 +1,5 @@
 import { DIMENSIONS } from 'kepler.gl/dist/constants/default-settings';
+import { theme as keplerTheme } from 'kepler.gl/dist/styles/base';
 import {
   Input,
   InputLT,
@@ -248,3 +249,8 @@ export const theme = {
 
 export type DatatlasTheme = typeof theme;
 export type DatatlasThemeProps = ThemeProps<DatatlasTheme>;
+
+export const darkTheme = {
+  ...keplerTheme,
+  panelBackground: 'black',
+};

@@ -24,11 +24,15 @@ import {
   provideMultiSelectFilter,
   replaceModalDialog,
 } from './factories';
+import { replaceLayerHoverInfoFactory } from './factories/map/LayerHoverInfo';
+import { replaceMapPopoverFactory } from './factories/map/MapPopoverFactory';
 
 // ⚠ Order matters ⚠
 export const appInjector = provideRecipesToInjector(
   [
     replaceKeplerGL(),
+    replaceMapPopoverFactory(),
+    replaceLayerHoverInfoFactory(),
     replaceModalDialog(),
     replacePanelHeader(),
     replacePanelToggleFactory(),
