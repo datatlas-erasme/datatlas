@@ -46,6 +46,7 @@ startAppListening({
     ])
   ),
   effect: async (action, { dispatch, getState }) => {
+    console.log('action', action);
     const state = getState();
     if (!selectLoggedIn(state)) {
       return;
