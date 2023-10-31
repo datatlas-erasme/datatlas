@@ -170,7 +170,7 @@ export interface LayerHoverInfoProps extends ExpandedProps {
   fieldsToShow: TooltipField[];
   layer: MapboxLayerGL;
   data: DataRow & {
-    points: any[];
+    points: [number, number][];
     elevationValue: string;
     colorValue: string;
   };
