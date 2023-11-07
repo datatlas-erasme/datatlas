@@ -27,15 +27,14 @@ COPY tsconfig.base.json /build/tsconfig.base.json
 COPY .babelrc /build/.babelrc
 COPY nx.json /build/nx.json
 
-# REACT_APP_MAPBOX_ACCESS_TOKEN  REACT_APP_DEFAULT_LOCALE REACT_APP_API_BASE_URL
-RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_MAPBOX_ACCESS_TOKEN="defaultMapboxToken"' > .env; fi
-RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_DEFAULT_LOCALE="defaultLocale"' >> .env; fi
-RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_API_BASE_URL="defaultApiBaseUrl"' >> .env; fi
-RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_MATOMO_TRACKER_URL="REACT_APP_MATOMO_TRACKER_URL_DEFAULT_VALUE"' >> .env; fi
-RUN if [ "$COPY_PATH" = "frontend" ]; then echo 'REACT_APP_MATOMO_SITE_ID="REACT_APP_MATOMO_SITE_ID_DEFAULT_VALUE"' >> .env; fi
+# Create a .env file with the default values which may be replaced from the entrypoint.
+# See `apps/frontend/.env.default` and `docker/nginx/entrypoint.sh`.
+COPY apps/$COPY_PATH/.env.default /build/apps/$COPY_PATH/.env
 
 # Creates a "dist" folder with the production build
 RUN npx nx build $COPY_PATH
+
+COPY apps/$COPY_PATH/.env.default /build/dist/apps/$COPY_PATH/
 
 FROM node:18-alpine as backend
 
