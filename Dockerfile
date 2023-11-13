@@ -29,12 +29,12 @@ COPY nx.json /build/nx.json
 
 # Create a .env file with the default values which may be replaced from the entrypoint.
 # See `apps/frontend/.env.default` and `docker/nginx/entrypoint.sh`.
-COPY apps/$COPY_PATH/.env.default /build/apps/$COPY_PATH/.env
+COPY apps/$COPY_PATH/.env.defaul[t] /build/apps/$COPY_PATH/.env
 
 # Creates a "dist" folder with the production build
 RUN npx nx build $COPY_PATH
 
-COPY apps/$COPY_PATH/.env.default /build/dist/apps/$COPY_PATH/
+COPY apps/$COPY_PATH/.env.defaul[t] /build/dist/apps/$COPY_PATH/
 
 FROM node:18-alpine as backend
 
