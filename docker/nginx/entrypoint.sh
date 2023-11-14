@@ -1,7 +1,7 @@
 #!/bin/sh
 # Replace env default values with actual env values.
 # See `apps/frontend/.env.default` and `Dockerfile`
-SED_GLOB="/usr/share/nginx/html/*.(js|html)"
+SED_GLOB="/usr/share/nginx/html/*.{js,html}"
 grep -v '^#' .env.default | while IFS= read -r line; do
   default_value=${line#*=}
   name=${line%%=*}
