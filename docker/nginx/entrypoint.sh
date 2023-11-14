@@ -8,7 +8,7 @@ grep -v '^#' .env.default | while IFS= read -r line; do
   eval "value=\$$name"
   if [ -z "$value" ]
   then
-    echo "Environment variable $name is empty. Skipping default value substition..."
+    echo "Environment variable $name is empty. Skipping default value substitution..."
   else
     echo "sed -i \"s/$default_value/$value/g\" $SED_GLOB"
     sed -i "s/$default_value/$value/g" $SED_GLOB
