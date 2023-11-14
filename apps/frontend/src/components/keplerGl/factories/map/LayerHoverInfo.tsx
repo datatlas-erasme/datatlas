@@ -29,20 +29,21 @@ export const MapPopoverContent = styled.div`
   }
 `;
 
-interface RowProps extends Omit<ExpandedProps, 'setExpanded'> {
+interface RowProps extends Omit<ExpandableProps, 'setExpanded'> {
   name: string;
   value: number | string;
   deltaValue?: number | string | null;
   url?: string;
+  aggregated?: boolean;
 }
 
-export const Row = ({ name, value, deltaValue, url, expanded }: RowProps) => {
+export const Row = ({ name, value, deltaValue, url, aggregated, setExpandable }: RowProps) => {
   // Set 'url' to 'value' if it looks like a url
   if (!url && value && typeof value === 'string' && value.match(/^http/)) {
     url = value;
   }
 
-  const className = classNames(['row', !value && 'empty']);
+  const className = classNames(['row', !value && 'empty', aggregated && 'aggregated']);
   const containerProps = {
     className,
     key: name,
@@ -51,6 +52,7 @@ export const Row = ({ name, value, deltaValue, url, expanded }: RowProps) => {
   // @todo We could also attempt to load the URL and see what's the content type.
   const asImg = /<img>/.test(name) || isImageURL(value as string);
   if (asImg) {
+    setExpandable(true);
     return (
       <div {...containerProps} className={classNames([className, 'image-container'])}>
         <ExternalLink href={url}>
@@ -91,6 +93,7 @@ const EntryInfo = ({
   primaryData,
   compareType,
   expanded,
+  setExpandable,
 }: Omit<LayerHoverInfoProps, 'onClose'>) => (
   <div className="entry-info">
     {fieldsToShow.map((item) => (
@@ -102,6 +105,7 @@ const EntryInfo = ({
         primaryData={primaryData}
         compareType={compareType}
         expanded={expanded}
+        setExpandable={setExpandable}
       />
     ))}
   </div>
@@ -111,7 +115,7 @@ interface EntryInfoRowProps extends Omit<LayerHoverInfoProps, 'fieldsToShow' | '
   item: TooltipField;
 }
 
-const EntryInfoRow = ({ item, fields, data, primaryData, compareType, expanded }: EntryInfoRowProps) => {
+const EntryInfoRow = ({ item, fields, data, primaryData, compareType, expanded, setExpandable }: EntryInfoRowProps) => {
   const fieldIdx = fields.findIndex((f) => f.name === item.name);
   if (fieldIdx < 0) {
     return null;
@@ -134,23 +138,30 @@ const EntryInfoRow = ({ item, fields, data, primaryData, compareType, expanded }
       value={displayValue}
       deltaValue={displayDeltaValue}
       expanded={expanded}
+      setExpandable={setExpandable}
     />
   );
 };
 
 // TODO: supporting comparative value for aggregated cells as well
-const CellInfo = ({ data, layer, expanded }: Omit<LayerHoverInfoProps, 'setExpanded'>) => {
+const CellInfo = ({ data, layer, expanded, setExpandable }: Omit<LayerHoverInfoProps, 'setExpanded'>) => {
   const { colorField, sizeField } = layer.config;
 
   return (
     <>
-      <Row name={'total points'} key="count" value={data.points && data.points.length} expanded={expanded} />
+      <Row
+        name={'total points'}
+        key="count"
+        value={data.points && data.points.length}
+        setExpandable={setExpandable}
+        aggregated
+      />
       {colorField && layer.visualChannels.color ? (
         <Row
           name={layer.getVisualChannelDescription('color').measure}
           key="color"
           value={data.colorValue || 'N/A'}
-          expanded={expanded}
+          setExpandable={setExpandable}
         />
       ) : null}
       {sizeField && layer.visualChannels.size ? (
@@ -158,14 +169,14 @@ const CellInfo = ({ data, layer, expanded }: Omit<LayerHoverInfoProps, 'setExpan
           name={layer.getVisualChannelDescription('size').measure}
           key="size"
           value={data.elevationValue || 'N/A'}
-          expanded={expanded}
+          setExpandable={setExpandable}
         />
       ) : null}
     </>
   );
 };
 
-export interface LayerHoverInfoProps extends ExpandedProps {
+export interface LayerHoverInfoProps extends ExpandableProps {
   fields: Field[];
   fieldsToShow: TooltipField[];
   layer: MapboxLayerGL;
@@ -183,14 +194,15 @@ const MapPopoverActions = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
 `;
 
 const Toolbar = styled.div``;
 
-interface ExpandedProps {
-  expanded: boolean;
+interface ExpandableProps {
+  expanded?: boolean;
   setExpanded: (expanded: boolean) => void;
+  setExpandable: (expanded: boolean) => void;
 }
 
 const LayerHoverInfoContainer = styled.div<Pick<LayerHoverInfoProps, 'layer'>>`
@@ -203,7 +215,7 @@ const LayerHoverInfoContainer = styled.div<Pick<LayerHoverInfoProps, 'layer'>>`
 
 const LayerHoverInfoFactory = () => {
   return (props: LayerHoverInfoProps) => {
-    const { data, layer, expanded, setExpanded, onClose } = props;
+    const { data, layer, expanded, setExpanded } = props;
     if (!data || !layer) {
       return null;
     }
@@ -228,10 +240,11 @@ const LayerHoverInfoFactory = () => {
             <EntryInfo {...props} expanded={expanded} />
           )}
         </MapPopoverContent>
-        <MapPopoverActions className="map-popover__actions">
-          <OutlineButton onClick={onClose}>Fermer</OutlineButton>
-          <OutlineButton onClick={() => setExpanded(true)}>Voir la fiche détaillée</OutlineButton>
-        </MapPopoverActions>
+        {!props.layer.isAggregated && (
+          <MapPopoverActions className="map-popover__actions">
+            <OutlineButton onClick={() => setExpanded(true)}>Voir la fiche détaillée</OutlineButton>
+          </MapPopoverActions>
+        )}
       </LayerHoverInfoContainer>
     );
   };

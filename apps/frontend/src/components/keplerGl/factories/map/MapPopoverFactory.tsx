@@ -24,10 +24,10 @@ import { LayerHoverInfoProps } from './LayerHoverInfo';
 const MAX_WIDTH = 500;
 const MAX_HEIGHT = 600;
 
-const StyledMapPopover = styled.div`
+const StyledMapPopover = styled.div<{ expandable: boolean; maxTooltipFields: number }>`
   display: flex;
   flex-direction: column;
-  max-width: ${MAX_WIDTH}px;
+  width: ${MAX_WIDTH}px;
   max-height: ${MAX_HEIGHT}px;
   padding: 22px;
   & > * + * {
@@ -52,6 +52,10 @@ const StyledMapPopover = styled.div`
     & > * + * {
       margin-top: 7px;
     }
+  }
+
+  .map-popover__actions {
+    display: ${({ expandable }) => (expandable ? 'flex' : 'none')};
   }
 
   .map-popover__layer-info {
@@ -94,7 +98,7 @@ const StyledMapPopover = styled.div`
       gap: 10px;
     }
 
-    .row:nth-child(1) .row__value,
+    .row:not(.aggregated):nth-child(1) .row__value,
     .row .row__value h3 {
       font-size: 32px;
       text-transform: uppercase;
@@ -108,13 +112,13 @@ const StyledMapPopover = styled.div`
 
     // This doesn't work as you would expect.
     // It targets the 5 first elements no matters what's in the not selector content.
-    .row:not(.empty, .image-container):nth-of-type(-n + 5) {
+    .row:nth-of-type(-n + ${({ maxTooltipFields }) => maxTooltipFields + 1}) {
     }
 
-    .row:nth-child(1) .row__name,
+    .row:not(.aggregated):nth-child(1) .row__name,
     .row.image-container,
     .row.empty,
-    .row:not(.empty, .image-container):nth-child(n + 5) {
+    .row:nth-child(n + ${({ maxTooltipFields }) => maxTooltipFields + 1}) {
       display: none;
     }
 
@@ -161,7 +165,7 @@ const StyledMapPopover = styled.div`
 
       .row.image-container,
       .row.empty,
-      .map-popover__content .row:nth-child(n + 5) {
+      .map-popover__content .row:nth-child(n + ${({ maxTooltipFields }) => maxTooltipFields + 1}) {
         display: flex;
       }
 
@@ -212,15 +216,24 @@ interface MapPopoverProps {
   isBase: boolean;
   zoom: number;
   container: Element;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
+const useCounter = (initialState = 0) => {
+  const [visibleElements, setVisibleElements] = useState<number>(initialState);
+  const incVisibleElements = () => setVisibleElements(visibleElements + 1);
+
+  return [visibleElements, incVisibleElements];
+};
+
 function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
-  const MapPopover = ({ x, y, frozen, coordinate, layerHoverProp, zoom, container, onClose }: MapPopoverProps) => {
+  const MapPopover = ({ x, y, frozen, coordinate, layerHoverProp, zoom, container }: MapPopoverProps) => {
+    const maxTooltipFields = (process.env.REACT_APP_MAX_TOOLIP_FIELDS || 3) as number;
     const [expanded, setExpanded] = useState<boolean>(false);
+    const [expandable, setExpandable] = useState<boolean>(false);
     const { refs, floatingStyles, context } = useFloating({
       open: true,
-      placement: expanded ? 'top-start' : 'bottom',
+      placement: expanded ? 'top-start' : 'left-end',
       whileElementsMounted: autoUpdate,
       middleware: [
         expanded
@@ -244,6 +257,12 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
       context.update();
     }, [context, expanded, frozen]);
 
+    useEffect(() => {
+      if (layerHoverProp.fieldsToShow.length > maxTooltipFields) {
+        setExpandable(true);
+      }
+    }, [layerHoverProp.fieldsToShow, maxTooltipFields]);
+
     return (
       <ThemeProvider theme={darkTheme}>
         <FloatingFocusManager context={context} modal={frozen}>
@@ -251,12 +270,19 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
             className={classNames(['map-popover', expanded && 'expanded'])}
             ref={refs.setFloating}
             style={floatingStyles}
+            maxTooltipFields={maxTooltipFields}
+            expandable={expandable}
             {...getFloatingProps()}
           >
             <PopoverContent>
               {Array.isArray(coordinate) && <CoordinateInfo coordinate={coordinate} zoom={zoom} />}
               {layerHoverProp && (
-                <LayerHoverInfo {...layerHoverProp} expanded={expanded} setExpanded={setExpanded} onClose={onClose} />
+                <LayerHoverInfo
+                  {...layerHoverProp}
+                  expanded={expanded}
+                  setExpanded={setExpanded}
+                  setExpandable={setExpandable}
+                />
               )}
             </PopoverContent>
           </StyledMapPopover>
