@@ -107,7 +107,9 @@ const StyledMapPopover = styled.div<{ expandable: boolean; maxTooltipFields: num
     }
 
     .row.image-container {
+      padding: 13px 0;
       justify-content: center;
+      overflow: hidden;
     }
 
     // This doesn't work as you would expect.
@@ -218,13 +220,6 @@ interface MapPopoverProps {
   container: Element;
   onClose?: () => void;
 }
-
-const useCounter = (initialState = 0) => {
-  const [visibleElements, setVisibleElements] = useState<number>(initialState);
-  const incVisibleElements = () => setVisibleElements(visibleElements + 1);
-
-  return [visibleElements, incVisibleElements];
-};
 
 function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
   const MapPopover = ({ x, y, frozen, coordinate, layerHoverProp, zoom, container }: MapPopoverProps) => {
