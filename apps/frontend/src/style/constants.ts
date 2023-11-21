@@ -77,7 +77,7 @@ export const themeBtn = {
   primaryBtnColor: themeColors.secondaryColor,
   primaryBtnActColor: themeColors.secondaryColor,
   primaryBtnBgdHover: themeColors.blueDark,
-  primaryBtnRadius: '90px',
+  primaryBtnRadius: '7px',
   primaryBtnFontSizeDefault: themeFontSize.sText,
   primaryBtnFontSizeSmall: themeFontSize.xsText,
   primaryBtnFontSizeLarge: themeFontSize.mText,

@@ -20,31 +20,47 @@ import {
 } from '@floating-ui/react';
 import { darkTheme } from '../../../../style/theme';
 import { LayerHoverInfoProps } from './LayerHoverInfo';
+import { useIsMobile } from '../../../../hooks';
 
 const MAX_WIDTH = 500;
 const MAX_HEIGHT = 600;
 
-const StyledMapPopover = styled.div<{ expandable: boolean; maxTooltipFields: number }>`
+const StyledMapPopover = styled.div`
   display: flex;
   flex-direction: column;
   width: ${MAX_WIDTH}px;
   max-height: ${MAX_HEIGHT}px;
+  margin: 13px;
+  z-index: 1000;
+
+  &.full-width {
+    width: calc(100% - 26px);
+  }
+
+  &.expanded {
+    height: 100%;
+  }
+`;
+
+const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: number }>`
+  display: flex;
+  flex-direction: column;
   padding: 22px;
   & > * + * {
     margin-top: 6px;
   }
   ${(props) => props.theme.scrollBar};
+  border-radius: ${(props) => props.theme.primaryBtnRadius};
   font-family: ${(props) => props.theme.fontFamily};
   font-size: 11px;
   font-weight: 500;
   background-color: ${(props) => props.theme.panelBackground};
   color: ${(props) => props.theme.textColor};
-  z-index: 1000;
   overflow-x: auto;
   box-shadow: ${(props) => props.theme.panelBoxShadow};
 
   :hover {
-    background-color: ${(props) => `${props.theme.panelBackground}dd`};
+    background-color: ${(props) => `${props.theme.panelBackground}`};
   }
 
   .map-popover__layer-info,
@@ -96,6 +112,7 @@ const StyledMapPopover = styled.div<{ expandable: boolean; maxTooltipFields: num
       display: flex;
       flex-direction: row;
       gap: 10px;
+      padding-bottom: 3px;
     }
 
     .row:not(.aggregated):nth-child(1) .row__value,
@@ -156,6 +173,11 @@ const StyledMapPopover = styled.div<{ expandable: boolean; maxTooltipFields: num
     padding: 32px;
     transition: transform 0.3s;
 
+    .row {
+      flex-direction: column;
+      gap: 0;
+    }
+
     .row__value {
       transition: all 0.3s;
     }
@@ -180,14 +202,6 @@ const StyledMapPopover = styled.div<{ expandable: boolean; maxTooltipFields: num
         display: none;
       }
     }
-  }
-`;
-
-const PopoverContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  & > * + * {
-    margin-top: 12px;
   }
 `;
 
@@ -226,26 +240,25 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
     const maxTooltipFields = (process.env.REACT_APP_MAX_TOOLIP_FIELDS || 3) as number;
     const [expanded, setExpanded] = useState<boolean>(false);
     const [expandable, setExpandable] = useState<boolean>(false);
+    const [isMobile] = useIsMobile();
     const { refs, floatingStyles, context } = useFloating({
       open: true,
-      placement: expanded ? 'top-start' : 'left-end',
+      placement: expanded || isMobile ? 'top-start' : 'left-end',
       whileElementsMounted: autoUpdate,
       middleware: [
         expanded
-          ? offset(({ rects }) => {
-              return {
-                alignmentAxis: 0,
-                mainAxis: -rects.floating.height,
-              };
-            })
-          : offset(32),
+          ? offset(({ rects }) => ({
+              alignmentAxis: 0,
+              mainAxis: -rects.floating.height,
+            }))
+          : offset(isMobile ? 13 : 30),
       ],
     });
     const hover = useHover(context, { move: false });
     const focus = useFocus(context);
     const dismiss = useDismiss(context);
     const role = useRole(context, { role: 'tooltip' });
-    const clientPoint = useMapPoint(context, { container, x, y, enabled: !expanded });
+    const clientPoint = useMapPoint(context, { container, x: isMobile ? 0 : x, y, enabled: !expanded });
     const { getFloatingProps } = useInteractions([hover, focus, dismiss, role, clientPoint]);
 
     useEffect(() => {
@@ -262,14 +275,20 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
       <ThemeProvider theme={darkTheme}>
         <FloatingFocusManager context={context} modal={frozen}>
           <StyledMapPopover
-            className={classNames(['map-popover', expanded && 'expanded'])}
+            className={classNames([
+              'map-popover-container',
+              expanded && 'expanded',
+              (expanded || isMobile) && 'full-width',
+            ])}
             ref={refs.setFloating}
             style={floatingStyles}
-            maxTooltipFields={maxTooltipFields}
-            expandable={expandable}
             {...getFloatingProps()}
           >
-            <PopoverContent>
+            <PopoverContent
+              className={classNames(['map-popover', expanded && 'expanded'])}
+              expandable={expandable}
+              maxTooltipFields={maxTooltipFields}
+            >
               {Array.isArray(coordinate) && <CoordinateInfo coordinate={coordinate} zoom={zoom} />}
               {layerHoverProp && (
                 <LayerHoverInfo
