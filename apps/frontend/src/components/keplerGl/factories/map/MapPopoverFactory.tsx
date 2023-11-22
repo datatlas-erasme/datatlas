@@ -237,7 +237,7 @@ interface MapPopoverProps {
 
 function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
   const MapPopover = ({ x, y, frozen, coordinate, layerHoverProp, zoom, container }: MapPopoverProps) => {
-    const maxTooltipFields = (process.env.REACT_APP_MAX_TOOLIP_FIELDS || 3) as number;
+    const maxTooltipFields = parseInt(process.env.REACT_APP_MAX_TOOLIP_FIELDS || '3', 10);
     const [expanded, setExpanded] = useState<boolean>(false);
     const [expandable, setExpandable] = useState<boolean>(false);
     const [isMobile] = useIsMobile();
