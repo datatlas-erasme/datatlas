@@ -62,18 +62,9 @@ export const Row = ({ name, value, deltaValue, url, aggregated, setExpandable }:
     );
   }
 
-  const asTitle = name.indexOf('adresse') !== -1;
-  if (asTitle) {
-    return (
-      <div {...containerProps}>
-        <ExternalLink href={url}>{asTitle ? <h3>{value}</h3> : value}</ExternalLink>
-      </div>
-    );
-  }
-
   return (
     <dl {...containerProps}>
-      {!asTitle && <dt className="row__name">{humanize(name)}</dt>}
+      <dt className="row__name">{humanize(name)}</dt>
       <dd className="row__value">
         <ExternalLink href={url}>{value}</ExternalLink>
       </dd>
