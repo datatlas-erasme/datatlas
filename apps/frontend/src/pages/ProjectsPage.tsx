@@ -51,44 +51,38 @@ export const ProjectsPage = () => {
       <AuthenticatedGuard>
         <LayoutProjects>
           <ProjectsContainer>
-            {myProjects.length > 0 && (
-              <>
-                <HeaderProjects>
-                  <h2>
-                    <FormattedMessage id={'dashboard.my_projects'} defaultMessage={'Mes Projets'} />
-                  </h2>
-                </HeaderProjects>
-                <ProjectList
-                  data={myProjects}
-                  isLoading={isLoading}
-                  isFetching={isFetching}
-                  isSuccess={isSuccess}
-                  isError={isError}
-                  error={error}
-                />
-              </>
-            )}
-            {communityProjects.length > 0 && (
-              <>
-                <HeaderProjects>
-                  <h2>
-                    <FormattedMessage id={'dashboard.community_projects'} defaultMessage={'Communauté Datatlas'} />
-                  </h2>
-                  <p>
-                    Vous trouverez ici les projets partagés par l’ensemble de la communauté Datatlas, n’hésitez pas à
-                    les découvrir et à vous en inspirer !
-                  </p>
-                </HeaderProjects>
-                <ProjectList
-                  data={communityProjects}
-                  isLoading={isLoading}
-                  isFetching={isFetching}
-                  isSuccess={isSuccess}
-                  isError={isError}
-                  error={error}
-                />
-              </>
-            )}
+            <HeaderProjects>
+              <h2>
+                <FormattedMessage id={'dashboard.my_projects'} defaultMessage={'Mes Projets'} />
+              </h2>
+            </HeaderProjects>
+            <ProjectList
+              data={myProjects}
+              isLoading={isLoading}
+              isFetching={isFetching}
+              isSuccess={isSuccess}
+              isError={isError}
+              error={error}
+            />
+            <HeaderProjects>
+              <h2>
+                <FormattedMessage id={'dashboard.community_projects'} defaultMessage={'Communauté Datatlas'} />
+              </h2>
+            </HeaderProjects>
+            <>
+              <p>
+                Vous trouverez ici les projets partagés par l’ensemble de la communauté Datatlas, n’hésitez pas à les
+                découvrir et à vous en inspirer !
+              </p>
+              <ProjectList
+                data={communityProjects}
+                isLoading={isLoading}
+                isFetching={isFetching}
+                isSuccess={isSuccess}
+                isError={isError}
+                error={error}
+              />
+            </>
           </ProjectsContainer>
           <Sidebar />
         </LayoutProjects>
