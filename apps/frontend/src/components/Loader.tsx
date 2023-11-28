@@ -1,7 +1,8 @@
 import React, { SVGProps } from 'react';
 import styled from 'styled-components';
 
-export const Loader = styled((props: SVGProps<SVGSVGElement> & { dark?: boolean }) => (
+export type LoaderProps = { dark?: boolean; fullscreen?: boolean };
+export const SVGLoader = styled(({ dark, fullscreen, ...props }: SVGProps<SVGSVGElement> & LoaderProps) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-label="Loading..." {...props}>
     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
     <path
@@ -17,8 +18,8 @@ export const Loader = styled((props: SVGProps<SVGSVGElement> & { dark?: boolean 
   }
 
   color: rgb(${({ dark }) => (dark ? '0 0 0' : '255 255 255')} / 1);
-  width: 1.25rem;
-  height: 1.25rem;
+  width: ${({ fullscreen }) => (fullscreen ? '2.5rem' : ' 1.25rem')};
+  height: ${({ fullscreen }) => (fullscreen ? '2.5rem' : ' 1.25rem')};
   margin-right: 0.75rem;
   margin-left: -0.25rem;
 
@@ -32,3 +33,23 @@ export const Loader = styled((props: SVGProps<SVGSVGElement> & { dark?: boolean 
     opacity: 0.75;
   }
 `;
+
+const FullscreenContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+`;
+
+export const Loader = (props: LoaderProps) => {
+  if (props.fullscreen) {
+    return (
+      <FullscreenContainer>
+        <SVGLoader {...props} />
+      </FullscreenContainer>
+    );
+  }
+
+  return <SVGLoader {...props} />;
+};

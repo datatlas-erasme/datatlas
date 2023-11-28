@@ -1,5 +1,6 @@
 import React from 'react';
 import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
+import { ErrorComponent } from '../components/ErrorComponent';
 
 export const ErrorPage = () => {
   const error = useRouteError();
@@ -7,13 +8,7 @@ export const ErrorPage = () => {
   if (isRouteErrorResponse(error)) {
     return (
       <div id="error-page">
-        <h1>Oops! {error.status}</h1>
-        <p>{error.statusText}</p>
-        {error.data?.message && (
-          <p>
-            <i>{error.data.message}</i>
-          </p>
-        )}
+        <ErrorComponent error={error} />
       </div>
     );
   } else if (error instanceof Error) {
@@ -27,6 +22,13 @@ export const ErrorPage = () => {
       </div>
     );
   } else {
-    return <>?</>;
+    return (
+      <div id="error-page">
+        <p>
+          <h1>Oops! </h1>
+          <i>This definitely shouldn't happend</i>
+        </p>
+      </div>
+    );
   }
 };
