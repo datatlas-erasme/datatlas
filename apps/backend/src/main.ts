@@ -26,8 +26,8 @@ async function bootstrap() {
       transform: true,
     })
   );
-  app.use(bodyParser.json({ limit: '10mb' }));
-  app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+  app.use(bodyParser.json({ limit: process.env.PAYLOAD_SIZE_LIMIT || '15mb' }));
+  app.use(bodyParser.urlencoded({ limit: process.env.PAYLOAD_SIZE_LIMIT || '15mb', extended: true }));
 
   await app.get(MikroORM).getSchemaGenerator().ensureDatabase();
   await app.get(MikroORM).getSchemaGenerator().updateSchema();
