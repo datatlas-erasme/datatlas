@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any */
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -11,10 +11,11 @@ import { setFilter, layerConfigChange } from 'kepler.gl/dist/actions/vis-state-a
 import { KeplerGLProps } from './KeplerGlFactory';
 import { MapMenu } from '../../map-menu';
 import { RootState } from '../../../store/reducers';
-import { useForward } from '../../../hooks/useForward';
+import { useForward } from '../../../hooks';
 import { selectFilters, selectFiltersConfig } from '../../../store/selectors';
 import { FiltersConfigInterface } from '@datatlas/models';
 import { PublishButton } from '../../buttons/PublishButton';
+import { MapControlRefContext } from '../../context/MapControlRefContext';
 
 const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
   right: 0;
@@ -61,12 +62,13 @@ function MapControlFactory(MapDrawPanel, Toggle3dButton) {
       return null;
     }
 
+    const mapControlRef = useContext(MapControlRefContext);
     const forward = useForward();
     const filters = useSelector<RootState, Filter[]>((state) => selectFilters(state, id));
     const filtersConfig = useSelector<RootState, FiltersConfigInterface>((state) => selectFiltersConfig(state, id));
 
     return (
-      <StyledMapControl className="map-control" top={top} role="menubar">
+      <StyledMapControl className="map-control" top={top} role="menubar" ref={mapControlRef}>
         <MapMenu
           role="toolbar"
           datasets={datasets}

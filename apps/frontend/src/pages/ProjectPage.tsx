@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import { getUser, useGetProjectQuery } from '../store/api';
 import { Loader } from '../components/Loader';
 import { selectCurrentUserId } from '../store/selectors';
 import { ErrorComponent } from '../components/ErrorComponent';
+import { MapControlRefContext } from '../components/context/MapControlRefContext';
 
 const MapContainer = styled.div`
   position: relative;
@@ -42,6 +43,8 @@ export const ProjectPage = () => {
     data: project,
   } = useGetProjectQuery(+id ?? skipToken);
   const isLoading = isUserLoading || isUserFetching || isProjectLoading || isProjectFetching;
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapControlRef = createRef<HTMLDivElement>();
 
   if (isLoading) {
     return (
@@ -54,8 +57,14 @@ export const ProjectPage = () => {
   }
 
   return (
-    <MapContainer>
-      <KeplerMap id={id} readOnly={!Project.canProjectDtoBeEditedBy(project, user)} />
+    <MapContainer className="map-container" ref={mapContainerRef}>
+      <MapControlRefContext.Provider value={mapControlRef}>
+        <KeplerMap
+          id={id}
+          readOnly={!Project.canProjectDtoBeEditedBy(project, user)}
+          mapContainerRef={mapContainerRef}
+        />
+      </MapControlRefContext.Provider>
     </MapContainer>
   );
 };
