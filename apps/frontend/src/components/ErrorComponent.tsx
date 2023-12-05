@@ -14,7 +14,7 @@ export const ErrorComponent = ({ error }: { error: FetchBaseQueryError | Seriali
       <p>
         {/*
 // @ts-ignore */}
-        <i>{error.data.message}</i>
+        <i>{error?.data?.message}</i>
       </p>
     </>
   );

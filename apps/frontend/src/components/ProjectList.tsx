@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import { ProjectListItem } from './ProjectListItem';
-import { Loader } from './Loader';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
 import { deleteEntry } from 'kepler.gl/actions';
+import { ProjectListItem } from './ProjectListItem';
+import { Loader } from './Loader';
 import { LoadingProjectInterface, ProjectInterface } from '@datatlas/models';
 import { DeleteProjectModal } from './DeleteProjectModal';
+import { ErrorMessage } from './ErrorMessage';
 import { useAppDispatch } from '../store';
 import { toKeplerId } from '../store/selectors';
-import { useFetchUser } from '../hooks/useFetchUser';
+import { useFetchUser } from '../hooks';
 
 export interface ProjectListProps {
   data?: LoadingProjectInterface[];
@@ -45,7 +47,11 @@ export const ProjectList = ({ data, isLoading, isFetching, isSuccess, isError, e
         ))
       : [];
   } else if (isError && error) {
-    content = <div>{error.toString()}</div>;
+    content = (
+      <ErrorMessage>
+        <FormattedMessage id={'project_list.loading_error'} defaultMessage={"Couldn't fetch projects."} />
+      </ErrorMessage>
+    );
   }
 
   return (

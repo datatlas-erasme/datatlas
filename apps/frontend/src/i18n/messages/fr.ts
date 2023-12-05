@@ -3,6 +3,7 @@ import { LOCALES } from '../locales';
 export default {
   // Datatlas
   'dashboard.my_projects': 'Mes projets',
+  'project_list.loading_error': 'Impossible de charger les projets.',
   'modal.title.deleteProject': 'Supprimer le projet',
   'modal.button.defaultCancel': 'Annuler',
   'modal.button.delete': 'Supprimer',

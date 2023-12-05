@@ -2,6 +2,7 @@ export default {
   // Datatlas
   'dashboard.my_projects': 'My projects',
   'dashboard.community_projects': 'Community',
+  'project_list.loading_error': "Couldn't fetch projects.",
   'about.title': 'About',
   'createProjectForm.mapStyle': 'Select a map style',
   'createProjectForm.projectName': 'Name of the project',
