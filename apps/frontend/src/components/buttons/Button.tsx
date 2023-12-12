@@ -9,6 +9,7 @@ interface ButtonPropsInterface extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: string;
   large?: boolean;
   small?: boolean;
+  primary?: boolean;
 }
 
 const StyledKeplerButton = styled(KeplerButton)``;
