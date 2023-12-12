@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks, @typescript-eslint/no-explicit-any */
 import React, { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Filter } from 'kepler.gl';
@@ -11,10 +11,11 @@ import { setFilter, layerConfigChange } from 'kepler.gl/dist/actions/vis-state-a
 import { KeplerGLProps } from './KeplerGlFactory';
 import { MapMenu } from '../../map-menu';
 import { RootState } from '../../../store/reducers';
-import { useForward } from '../../../hooks/useForward';
+import { useForward } from '../../../hooks';
 import { selectFilters, selectFiltersConfig } from '../../../store/selectors';
 import { FiltersConfigInterface } from '@datatlas/models';
 import { PublishButton } from '../../buttons/PublishButton';
+import { darkTheme } from '../../../style/theme';
 
 const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
   right: 0;
@@ -30,6 +31,10 @@ const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
     /* all children should allow input */
     pointer-events: all;
   }
+  overflow-y: scroll;
+  scrollbar-gutter: auto;
+  ${({ theme }) => theme.mapMenuScrollBar}
+  max-height: 100%;
 `;
 
 const LegendLogo = <KeplerGlLogo version={false} appName={process.env.REACT_APP_NAME || 'Datatlas'} />;
@@ -66,36 +71,38 @@ function MapControlFactory(MapDrawPanel, Toggle3dButton) {
     const filtersConfig = useSelector<RootState, FiltersConfigInterface>((state) => selectFiltersConfig(state, id));
 
     return (
-      <StyledMapControl className="map-control" top={top} role="menubar">
-        <MapMenu
-          role="toolbar"
-          datasets={datasets}
-          filtersConfig={filtersConfig}
-          filters={filters}
-          layers={layers}
-          setFilter={(idx: number, prop: string, value: any) => forward(setFilter(idx, prop, value))}
-          layerConfigChange={(oldLayer: Layer, newConfig: Partial<Layer>) =>
-            forward(layerConfigChange(oldLayer, newConfig))
-          }
-        />
-        {actionComponents.map((ActionComponent, index) => (
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          <ActionComponent
+      <ThemeProvider theme={darkTheme}>
+        <StyledMapControl className="map-control" top={top} role="menubar">
+          <MapMenu
             role="toolbar"
-            key={index}
-            className="map-control-action"
-            isSplit={isSplit}
-            top={top}
-            mapIndex={mapIndex}
-            logoComponent={LegendLogo}
             datasets={datasets}
+            filtersConfig={filtersConfig}
             filters={filters}
             layers={layers}
-            {...props}
+            setFilter={(idx: number, prop: string, value: any) => forward(setFilter(idx, prop, value))}
+            layerConfigChange={(oldLayer: Layer, newConfig: Partial<Layer>) =>
+              forward(layerConfigChange(oldLayer, newConfig))
+            }
           />
-        ))}
-      </StyledMapControl>
+          {actionComponents.map((ActionComponent, index) => (
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            <ActionComponent
+              role="toolbar"
+              key={index}
+              className="map-control-action"
+              isSplit={isSplit}
+              top={top}
+              mapIndex={mapIndex}
+              logoComponent={LegendLogo}
+              datasets={datasets}
+              filters={filters}
+              layers={layers}
+              {...props}
+            />
+          ))}
+        </StyledMapControl>
+      </ThemeProvider>
     );
   };
 }

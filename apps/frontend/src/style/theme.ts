@@ -74,6 +74,7 @@ import {
   breakPoints,
   exportIntraSectionMargin,
 } from './constants';
+import { MapMenuScrollBar } from '../components/map-menu/MapMenuScrollbar';
 import { ThemeProps } from 'styled-components';
 
 export const theme = {
@@ -145,6 +146,8 @@ export const theme = {
 
   scrollbarThumbColorLT,
   scrollbarThumbColorHoverLT,
+
+  mapMenuScrollBar: MapMenuScrollBar,
 
   // Modal
   ...themeModal,
@@ -253,4 +256,10 @@ export type DatatlasThemeProps = ThemeProps<DatatlasTheme>;
 export const darkTheme = {
   ...keplerTheme,
   panelBackground: 'black',
+  primaryBtnRadius: '7px',
+  primaryBtnBgd: '#07509f',
+  primaryBtnColor: 'white',
+  primaryBtnBorder: '#005a9f',
+  primaryBtnBgdHover: '#5AB6EB',
+  primaryBtnActColor: 'white',
 };

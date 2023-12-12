@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { Filter } from 'kepler.gl';
 import { KeplerGlProps } from 'kepler.gl/src/components/kepler-gl';
 import { updateMapInfo } from '../../store/reducers/keplerGl';
-import { useForward } from '../../hooks/useForward';
+import { useForward } from '../../hooks';
 import { RootState } from '../../store/reducers';
 import { selectIsDraft } from '../../store/selectors';
 
@@ -30,7 +30,7 @@ export const PublishButton = ({ readOnly }: KeplerGlProps) => {
   }
 
   return (
-    <Button onClick={handlePublish}>
+    <Button onClick={handlePublish} primary>
       {draft ? (
         <FormattedMessage id="map_control.publish" defaultMessage="Publish" />
       ) : (
