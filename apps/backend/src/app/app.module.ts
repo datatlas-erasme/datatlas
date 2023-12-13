@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import config from '../../mikro-orm.config';
 import { PassportModule } from '@nestjs/passport';
-import config from '../config/mikro-orm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProjectModule } from '../project/project.module';
