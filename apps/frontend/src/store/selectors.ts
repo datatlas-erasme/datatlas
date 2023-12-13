@@ -60,19 +60,27 @@ export const selectProjects = (state: RootState) => {
 export const selectProjectById = (state: RootState, projectId: string) => {
   const keplerState = selectKeplerInstanceById(state, projectId);
   if (!keplerState) {
-    return null;
+    return;
   }
 
-  const { ownerId } = selectMapInfoFromKeplerGlState(keplerState);
-  const user = ownerId ? selectUserById(state, ownerId) : undefined;
-  if (!user) {
-    console.warn(`User ${ownerId} isn't loaded yet.`);
-  }
+  const { ownerId, contributorsIds } = selectMapInfoFromKeplerGlState(keplerState);
 
-  return projectFactory.createProjectFromKeplerInstance(projectId, keplerState, user);
+  const user = selectUserById(state, ownerId);
+  const contributors = selectUsersByIds(state, contributorsIds);
+
+  return projectFactory.createProjectFromKeplerInstance(projectId, keplerState, contributors, user);
 };
 
-export const selectUserById = (state, id) => getUser.select(id)(state)?.data;
+export const selectUserById = (state, id) => {
+  const user = getUser.select(id)(state)?.data;
+  if (!user) {
+    console.warn(`User ${id} isn't loaded yet.`);
+  }
+  return user;
+};
+
+export const selectUsersByIds = (state, ids) =>
+  ids.map((id) => getUser.select(id)(state)?.data).filter((user) => !!user);
 
 export const selectCurrentUserId = (state: RootState) => state.user.id;
 

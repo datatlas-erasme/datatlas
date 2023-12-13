@@ -4,7 +4,7 @@ import { KeplerMapConfig, KeplerVersionedDataset, KeplerVersionedMapConfig } fro
 import { ProjectInterface } from './ProjectInterface';
 import { DatasetInterface } from './DatasetInterface';
 import { UserInterface } from './UserInterface';
-import { NormalizedProjectInterface } from './NormalizedProjectInterface';
+import { NormalizedProjectInterface, NormalizedProjectProperties } from './NormalizedProjectInterface';
 import { DatatlasSavedMapInterface } from './DatatlasSavedMapInterface';
 import { LoadingProjectInterface } from './LoadingProjectInterface';
 import { UserCredentials, UserCredentialsInterface } from './auth';
@@ -38,8 +38,17 @@ export class Project implements ProjectInterface {
   static normalize({ owner, contributors, ...props }: ProjectInterface): NormalizedProjectInterface {
     return {
       ...props,
+      ...Project.normalizeProperties({ owner, contributors }),
+    };
+  }
+
+  static normalizeProperties({
+    owner,
+    contributors,
+  }: Pick<ProjectInterface, 'owner' | 'contributors'>): NormalizedProjectProperties {
+    return {
       ownerId: owner.id,
-      contributorIds: contributors.map(({ id }) => id),
+      contributorsIds: contributors.map(({ id }) => id),
     };
   }
 
@@ -78,8 +87,8 @@ export class Project implements ProjectInterface {
   }
 
   // This is hack since DTO classes can't be used in the frontend... -_-
-  static canProjectDtoBeEditedBy(projectDto?: { owner: number }, userCredentials?: UserCredentialsInterface) {
-    return projectDto && Project.canBeEditedBy({ owner: { id: projectDto.owner } }, userCredentials);
+  static canProjectDtoBeEditedBy(projectDto?: { ownerId: number }, userCredentials?: UserCredentialsInterface) {
+    return projectDto && Project.canBeEditedBy({ owner: { id: projectDto.ownerId } }, userCredentials);
   }
 
   static canBeDeletedBy(project?: { owner?: Pick<UserInterface, 'id'> }, userCredentials?: UserCredentialsInterface) {

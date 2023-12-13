@@ -1,14 +1,13 @@
-import { Roles, UserInterface } from '@datatlas/models';
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { Roles, PublicUserInterface } from '@datatlas/models';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
-export class GetUserDto implements Omit<Partial<UserInterface>, 'password'> {
+export class GetUserDto implements PublicUserInterface {
   @IsNumber()
   readonly id: number;
 
   @IsString()
   readonly email: string;
 
-  @IsOptional()
   @IsString()
   readonly name?: string;
 

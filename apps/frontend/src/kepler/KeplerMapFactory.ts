@@ -1,10 +1,11 @@
 import {
-  UserInterface,
   KeplerVersionedDataset,
   KeplerVersionedMapConfig,
   ProjectInterface,
   DatatlasSavedMapInterface,
   KeplerMapStyle,
+  NormalizedProjectInterface,
+  Project,
 } from '@datatlas/models';
 import { ProjectDto } from '@datatlas/dtos';
 import { SavedMap, LoadedMap } from 'kepler.gl/src';
@@ -22,7 +23,6 @@ export class KeplerMapFactory {
     datasets,
     config,
     version,
-    owner,
     ...projectDto
   }: ProjectDto): DatatlasSavedMapInterface {
     return {
@@ -31,38 +31,32 @@ export class KeplerMapFactory {
       info: {
         app: process.env.REACT_APP_NAME || 'Datatlas',
         ...projectDto,
-        // There should be a ownerId in the projectId instead of an owner object.
-        ownerId: owner,
       },
     };
   }
 
-  public static createFromProject({
-    config,
-    createdAt,
+  public static createFromProject(project: ProjectInterface): DatatlasSavedMapInterface {
+    return KeplerMapFactory.createFromNormalizedProject(Project.normalize(project));
+  }
+
+  public static createFromNormalizedProject({
     datasets,
-    description,
-    title,
+    config,
     version,
-    ownerId,
-  }: Pick<ProjectInterface, 'config' | 'createdAt' | 'datasets' | 'description' | 'title' | 'version'> & {
-    ownerId: UserInterface['id'];
-  }): DatatlasSavedMapInterface {
+    ...props
+  }: NormalizedProjectInterface): DatatlasSavedMapInterface {
     return {
       datasets: KeplerMapFactory.getKeplerVersionedDatasetsFromProject({ datasets }),
       config: KeplerMapFactory.getKeplerVersionedMapConfigFromProject({ config, version }),
       info: {
         app: process.env.REACT_APP_NAME || 'Datatlas',
-        createdAt: createdAt,
-        title,
-        description,
-        ownerId,
+        ...props,
       },
     };
   }
 
   public static createSavedFromProject(project: ProjectInterface): DatatlasSavedMapInterface {
-    return KeplerMapFactory.createFromProject({ ...project, ownerId: project.owner.id });
+    return KeplerMapFactory.createFromProject(project);
   }
 
   private static getKeplerVersionedMapConfigFromProject({

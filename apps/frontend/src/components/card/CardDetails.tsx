@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import { UserInterface } from '@datatlas/models';
+import { PublicUserInterface } from '@datatlas/models';
 import useTimeElapsed from '../../hooks/useTimeElapsed';
 import InfoProjectBadges from '../badges/InfoProjectBadges';
 
 interface CardProjectDetailsInterface {
-  owner?: UserInterface;
+  owner?: PublicUserInterface;
   description?: string;
   createdAt: Date;
   title: string;
-  contributors: UserInterface[];
+  contributors: PublicUserInterface[];
 }
 const ContentCardContainer = styled.div`
   display: flex;

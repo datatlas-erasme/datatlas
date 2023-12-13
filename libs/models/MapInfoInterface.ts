@@ -1,8 +1,8 @@
 import { SavedMap } from 'kepler.gl/schemas/schema-manager';
-import { UserInterface } from './UserInterface';
+import { NormalizedProjectProperties } from './NormalizedProjectInterface';
 
-export type MapInfoInterface = Omit<Partial<SavedMap['info']>, 'created_at'> & {
-  createdAt: Date;
-  ownerId: UserInterface['id'];
-  description?: string;
-};
+export type MapInfoInterface = Omit<Partial<SavedMap['info']>, 'created_at'> &
+  NormalizedProjectProperties & {
+    createdAt: Date;
+    description?: string;
+  };

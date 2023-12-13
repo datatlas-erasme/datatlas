@@ -46,7 +46,6 @@ startAppListening({
     ])
   ),
   effect: async (action, { dispatch, getState }) => {
-    console.log('action', action);
     const state = getState();
     if (!selectLoggedIn(state)) {
       return;
@@ -59,11 +58,6 @@ startAppListening({
       if (!keplerInstance) {
         throw new Error(`Couldn't find a project with id ${id}`);
       }
-      console.log(
-        'isAKeplerWrappedAction selectKeplerInstanceById',
-        selectKeplerInstanceById(state, action.payload.meta._id_)
-      );
-      console.log('isAKeplerWrappedAction keplerInstance', keplerInstance);
 
       const updateProjectDto = projectFactory.createUpdateProjectDtoFromKeplerInstance(id, keplerInstance);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

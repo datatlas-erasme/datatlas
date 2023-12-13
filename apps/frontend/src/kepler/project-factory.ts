@@ -3,7 +3,7 @@ import {
   LoadingProjectInterface,
   Project,
   ProjectInterface,
-  UserInterface,
+  PublicUserInterface,
 } from '@datatlas/models';
 import { UpdateProjectDto } from '@datatlas/dtos';
 import { KeplerGlSchema } from 'kepler.gl/schemas';
@@ -20,17 +20,18 @@ export class ProjectFactory {
   public createProjectFromKeplerInstance(
     id: string,
     keplerGlState: KeplerGlState,
-    owner?: UserInterface
+    contributors: PublicUserInterface[],
+    owner?: PublicUserInterface
   ): LoadingProjectInterface {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const savedMap = this.schemaManager.save(keplerGlState) as DatatlasSavedMapInterface;
     return {
       draft: true,
-      contributors: [],
       ...this.createPartialProjectFromKeplerSavedMap(savedMap),
-      id: parseInt(id),
       owner,
+      contributors,
+      id: parseInt(id),
     };
   }
 
@@ -39,7 +40,7 @@ export class ProjectFactory {
 
     return {
       draft: true,
-      contributors: [],
+      contributorsIds: [],
       id: parseInt(id),
       ...this.createPartialProjectFromKeplerSavedMap(savedMap),
     };

@@ -1,4 +1,4 @@
-import { Entity, ManyToMany, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, LoadStrategy, ManyToMany, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { UserEntity } from '../../user/entities/user.entity';
 import { DatasetInterface, ProjectInterface, SavedMapConfig, UserInterface } from '@datatlas/models';
 
@@ -25,7 +25,7 @@ export class ProjectEntity implements ProjectInterface {
   @ManyToOne(() => UserEntity)
   owner!: UserInterface;
 
-  @ManyToMany(() => UserEntity)
+  @ManyToMany({ entity: () => UserEntity, strategy: LoadStrategy.JOINED })
   contributors: UserInterface[];
 
   @Property({ type: 'json' })

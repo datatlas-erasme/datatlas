@@ -2,9 +2,10 @@ import { LOCALES } from '../locales';
 
 export default {
   // Datatlas
+  'project.update.contributors': 'Contributeurs',
+  'input.contributors.noResults': 'Aucuns résultats',
   'dashboard.my_projects': 'Mes projets',
   'project_list.loading_error': 'Impossible de charger les projets.',
-  'modal.title.deleteProject': 'Supprimer le projet',
   'modal.button.defaultCancel': 'Annuler',
   'modal.button.delete': 'Supprimer',
   'dashboard.community_projects': 'Communauté Datatlas',
@@ -21,6 +22,7 @@ export default {
   'loginForm.rememberMe': 'Se souvenir de moi',
   'loginForm.submit': 'Connexion',
   'loginForm.unauthorized': 'Identifiants incorrects',
+  'navigationBar.contributors': 'Contributeurs',
   'navigationBar.help': 'Aide',
   'navigationBar.logout': 'Déconnexion',
   'navigationBar.login': 'Connexion',
@@ -36,6 +38,8 @@ export default {
   'map_menu.dataset.show_dataset': 'Afficher le calques',
   'map_control.publish': 'Publier',
   'map_control.unpublish': 'Dépublier',
+  'modal.title.updateProject': 'Gérer les contributeurs',
+  'modal.title.deleteProject': 'Supprimer le projet',
   loadRemoteData: {
     incorrectURL: "L'URL n'est pas valide",
     submit: 'Charger',

@@ -1,10 +1,10 @@
 import React from 'react';
-import { LoadingProjectInterface, UserInterface } from '@datatlas/models';
+import { LoadingProjectInterface, PublicUserInterface } from '@datatlas/models';
 import ProjectCard from './card/ProjectCard';
 
 export interface ProjectListItemProps {
   project: LoadingProjectInterface;
-  user?: UserInterface;
+  user?: PublicUserInterface;
   onRemoveButtonClicked: (project: LoadingProjectInterface) => void;
 }
 
