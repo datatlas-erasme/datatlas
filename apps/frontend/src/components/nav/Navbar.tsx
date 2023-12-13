@@ -6,13 +6,14 @@ import { Clock } from 'kepler.gl/dist/components/common/icons';
 import { useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/dist/query/react';
 import { StyledBadgeOutline } from '../badges';
-import { AccountIcon, HelpIcon, WheelIcon } from '../icon';
+import { AccountIcon, EditorsIcon, HelpIcon, WheelIcon } from '../icon';
 import { DatatlasLogo, HomeIcon } from '../logos';
 import { useAppDispatch } from '../../store';
 import { logout } from '../../store/reducers/user';
 import { useGetProjectQuery } from '../../store/api';
 import { selectLoggedIn } from '../../store/selectors';
 import { useFetchUser } from '../../hooks/useFetchUser';
+import { Project } from '@datatlas/models';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -90,9 +91,10 @@ const HomeLink = styled(Link)`
 interface NavbarProps {
   helpButtonEnabled?: boolean;
   settingsButtonEnabled?: boolean;
+  handleClickContributors: () => void;
 }
 
-const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false }: NavbarProps) => {
+const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false, handleClickContributors }: NavbarProps) => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -120,6 +122,16 @@ const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false }: Na
       {data && <ProjectButton>{data.title}</ProjectButton>}
 
       <NavItemsList>
+        {Project.canProjectDtoBeEditedBy(data, user) && (
+          <li>
+            <button onClick={handleClickContributors}>
+              <BadgesItem>
+                <EditorsIcon />
+              </BadgesItem>
+              <FormattedMessage id={'navigationBar.contributors'} defaultMessage={'Contributors'} />
+            </button>
+          </li>
+        )}
         {helpButtonEnabled && (
           <li>
             <NavItem to={'/'}>

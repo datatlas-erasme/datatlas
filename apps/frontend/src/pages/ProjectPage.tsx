@@ -3,12 +3,15 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-import { Project } from '@datatlas/models';
+import { LoadingProjectInterface, Project } from '@datatlas/models';
 import KeplerMap from '../components/KeplerMap';
 import { getUser, useGetProjectQuery } from '../store/api';
 import { Loader } from '../components/Loader';
-import { selectCurrentUserId } from '../store/selectors';
+import { selectCurrentUserId, selectProjectById } from '../store/selectors';
 import { ErrorComponent } from '../components/ErrorComponent';
+import { useProjectModalState } from '../components/layouts';
+import { UpdateProjectModal } from '../components/modals/UpdateProjectModal';
+import { RootState } from '../store/reducers';
 
 const MapContainer = styled.div`
   position: relative;
@@ -22,6 +25,8 @@ export const ProjectPage = () => {
   if (!id) {
     throw new Error('Project not found.');
   }
+
+  const { projectModalOpen, setProjectModalOpen } = useProjectModalState();
 
   const currentUserId = useSelector(selectCurrentUserId);
   const {
@@ -40,9 +45,10 @@ export const ProjectPage = () => {
     isFetching: isProjectFetching,
     isError,
     error,
-    data: project,
   } = useGetProjectQuery(+id ?? skipToken);
   const isLoading = isUserLoading || isUserFetching || isProjectLoading || isProjectFetching;
+  // selectProjectsWithContributors
+  const project = useSelector<RootState, LoadingProjectInterface | undefined>((state) => selectProjectById(state, id));
 
   if (isLoading) {
     return (
@@ -56,7 +62,8 @@ export const ProjectPage = () => {
 
   return (
     <MapContainer>
-      <KeplerMap id={id} readOnly={!Project.canProjectDtoBeEditedBy(project, user)} />
+      <KeplerMap id={id} readOnly={!Project.canBeEditedBy(project, user)} />
+      {project && <UpdateProjectModal project={project} setOpen={setProjectModalOpen} open={projectModalOpen} />}
     </MapContainer>
   );
 };

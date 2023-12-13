@@ -1,16 +1,19 @@
 import { DatasetInterface, ProjectInterface, UserInterface } from '@datatlas/models';
 import { ConfigDto } from './config.dto';
 
-export class ProjectDto implements Partial<Omit<ProjectInterface, 'owner'>> {
+export class ProjectDto implements Partial<Omit<ProjectInterface, 'owner' | 'contributors'>> {
   id: number;
   readonly title: string;
   createdAt: Date;
   draft: boolean;
   datasets: DatasetInterface[];
   description: string;
-  // Let's talk about what's the type of this because something is feeling wrong here.
-  owner: number;
-  contributors: UserInterface[];
+  /**
+   * @deprecated use `ownerId` instead
+   */
+  owner?: UserInterface['id'];
+  ownerId: UserInterface['id'];
+  contributorsIds: UserInterface['id'][];
   config: ConfigDto;
   version = 'v1' as const;
 

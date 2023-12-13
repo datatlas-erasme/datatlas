@@ -1,11 +1,24 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { REHYDRATE } from 'redux-persist';
-import { LoginResponse, ProjectDto, UpdateProjectDto } from '@datatlas/dtos';
+import { GetUserDto, LoginResponse, ProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 import { CreateProjectFormData, LoginFormData } from '../models';
 import { loggedIn } from './reducers/user';
-import { KeplerMapStyle, Project, UserInterface } from '@datatlas/models';
+import { KeplerMapStyle, Project } from '@datatlas/models';
 import { selectAccessToken } from './selectors';
+
+const prepareHeaders = (headers, { getState }) => {
+  headers.set('Content-Type', 'application/json');
+
+  // @ts-ignore
+  const accessToken = selectAccessToken(getState());
+  if (accessToken) {
+    headers.set('authorization', `Bearer ${accessToken}`);
+    headers.set('Content-Type', 'application/json');
+  }
+
+  return headers;
+};
 
 // Define cache "tags" :
 // https://redux-toolkit.js.org/rtk-query/usage/automated-refetching#tags
@@ -14,23 +27,11 @@ type TagType = (typeof tagTypes)[number];
 const projectListTag = { type: tagTypes['Projects'], id: 0 };
 const createTag = ({ id, type }: { id: number; type: TagType }) => ({ type, id });
 const createProjectTag = ({ id }: { id: number }) => createTag({ id, type: tagTypes['Projects'] });
-
 export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_API_BASE_URL || '/api/',
     mode: 'cors',
-    prepareHeaders: (headers, { getState }) => {
-      headers.set('Content-Type', 'application/json');
-
-      // @ts-ignore
-      const accessToken = selectAccessToken(getState());
-      if (accessToken) {
-        headers.set('authorization', `Bearer ${accessToken}`);
-        headers.set('Content-Type', 'application/json');
-      }
-
-      return headers;
-    },
+    prepareHeaders,
   }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === REHYDRATE) {
@@ -74,7 +75,7 @@ export const api = createApi({
         async onQueryStarted(args, { dispatch, queryFulfilled }) {
           try {
             const { data } = await queryFulfilled;
-            data.map(({ owner }) => dispatch(getUser.initiate(owner)));
+            data.map(({ ownerId }) => dispatch(getUser.initiate(ownerId)));
           } catch (error) {
             console.error(error);
             // dispatch an error notification
@@ -88,9 +89,9 @@ export const api = createApi({
         async onQueryStarted(args, { dispatch, queryFulfilled }) {
           try {
             const {
-              data: { owner },
+              data: { ownerId },
             } = await queryFulfilled;
-            await dispatch(getUser.initiate(owner));
+            await dispatch(getUser.initiate(ownerId));
           } catch (error) {
             console.error(error);
             // dispatch an error notification
@@ -163,14 +164,24 @@ export const api = createApi({
   })
   .injectEndpoints({
     endpoints: (builder) => ({
-      getUser: builder.query<UserInterface, number>({
+      getUser: builder.query<GetUserDto, number>({
         query: (id: number) => ({
           url: `/users/${id}`,
           credentials: 'include',
         }),
       }),
+      getUsers: builder.query<GetUserDto[], void>({
+        query: () => '/users',
+      }),
     }),
   });
 
-export const { useLoginMutation, useGetProjectsQuery, useGetProjectQuery, useCreateProjectMutation } = api;
+export const {
+  useLoginMutation,
+  useGetProjectsQuery,
+  useGetProjectQuery,
+  useCreateProjectMutation,
+  useGetUsersQuery,
+  useUpdateProjectMutation,
+} = api;
 export const { getUser, getProjects, getProject, updateProject, deleteProject } = api.endpoints;

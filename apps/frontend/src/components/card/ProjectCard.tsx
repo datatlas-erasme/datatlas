@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { LoadingProjectInterface, UserInterface } from '@datatlas/models';
+import { LoadingProjectInterface, PublicUserInterface } from '@datatlas/models';
 import MapPreview from './MapPreview';
 import CardDetails from './CardDetails';
 
 export interface ProjectCardProps {
   project: LoadingProjectInterface;
-  user?: UserInterface;
+  user?: PublicUserInterface;
   onRemoveButtonClicked: (project: LoadingProjectInterface) => void;
 }
 

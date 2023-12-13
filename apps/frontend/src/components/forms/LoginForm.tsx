@@ -7,7 +7,7 @@ import { Input } from 'kepler.gl/dist/components/common/styled-components';
 import { useLoginMutation } from '../../store/api';
 import { StyledLabel } from './StyledLabel';
 import { StyledFormBtn } from '../buttons';
-import { isApiError } from '../../utils/rtk';
+import { isApiError } from '../../utils';
 import { LoginFormData } from '../../models';
 import { FormError } from './FormError';
 import { ErrorMessage } from '../ErrorMessage';

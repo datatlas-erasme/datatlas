@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Trash, Copy, MapIcon } from 'kepler.gl/dist/components/common/icons';
-import { LoadingProjectInterface, Project, UserInterface } from '@datatlas/models';
+import { LoadingProjectInterface, Project, PublicUserInterface } from '@datatlas/models';
 import { IconButton } from '../buttons';
 import { StatusProjectBadges } from '../badges';
 import backgroundMapImage from '../../assets/background-card.png';
 
 interface MapPreviewInterface {
   project: LoadingProjectInterface;
-  user?: UserInterface;
+  user?: PublicUserInterface;
   handleRemove: (e) => void;
   handleCopy: (e) => void;
   copyEnabled?: boolean;

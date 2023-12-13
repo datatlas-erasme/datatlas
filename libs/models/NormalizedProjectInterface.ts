@@ -1,7 +1,9 @@
 import { UserInterface } from './UserInterface';
 import { ProjectInterface } from './ProjectInterface';
 
-export type NormalizedProjectInterface = Omit<ProjectInterface, 'owner' | 'contributors'> & {
+export type NormalizedProjectProperties = {
   ownerId: UserInterface['id'];
-  contributorIds: UserInterface['id'][];
+  contributorsIds: UserInterface['id'][];
 };
+
+export type NormalizedProjectInterface = Omit<ProjectInterface, 'owner' | 'contributors'> & NormalizedProjectProperties;

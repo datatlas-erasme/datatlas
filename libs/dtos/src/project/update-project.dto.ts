@@ -8,7 +8,7 @@ export class UpdateProjectDto implements Omit<Partial<ProjectInterface>, 'owner'
   datasets: DatasetInterface[];
   description?: string;
   ownerId?: number;
-  contributors: number[];
+  contributorsIds: number[];
   config: ConfigDto;
   version? = 'v1' as const;
 

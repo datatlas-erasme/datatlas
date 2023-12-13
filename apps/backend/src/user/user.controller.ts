@@ -45,8 +45,8 @@ export class UserController {
     return user;
   }
 
-  @UseGuards(CanGetUsersGuard)
   @Get()
+  @UseGuards(CanGetUsersGuard)
   async findAll(): Promise<GetUserDto[]> {
     return await this.userService.findAll();
   }

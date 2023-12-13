@@ -1,5 +1,7 @@
 export default {
   // Datatlas
+  'project.update.contributors': 'Contributors',
+  'input.contributors.noResults': 'No results',
   'dashboard.my_projects': 'My projects',
   'dashboard.community_projects': 'Community',
   'project_list.loading_error': "Couldn't fetch projects.",
@@ -16,6 +18,7 @@ export default {
   'loginForm.rememberMe': 'Remember me',
   'loginForm.submit': 'Login',
   'loginForm.unauthorized': 'Invalid credentials',
+  'navigationBar.contributors': 'Contributors',
   'navigationBar.help': 'Help',
   'navigationBar.logout': 'Logout',
   'navigationBar.settings': 'Settings',
@@ -30,6 +33,7 @@ export default {
   'map_menu.dataset.show_dataset': 'Show dataset',
   'map_control.publish': 'Publish',
   'map_control.unpublish': 'Unpublish',
+  'modal.title.updateProject': 'Manage contributors',
   'modal.title.deleteProject': 'Delete project',
   loadRemoteData: {
     incorrectURL: 'Incorrect URL',

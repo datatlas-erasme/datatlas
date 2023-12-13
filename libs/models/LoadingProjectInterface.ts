@@ -1,6 +1,7 @@
-import { UserInterface } from './UserInterface';
+import { PublicUserInterface } from './PublicUserInterface';
 import { ProjectInterface } from './ProjectInterface';
 
-export interface LoadingProjectInterface extends Omit<ProjectInterface, 'owner'> {
-  owner?: UserInterface;
+export interface LoadingProjectInterface extends Omit<ProjectInterface, 'owner' | 'contributors'> {
+  owner?: PublicUserInterface;
+  contributors: PublicUserInterface[];
 }
