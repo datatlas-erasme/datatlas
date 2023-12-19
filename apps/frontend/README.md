@@ -18,6 +18,11 @@ nx serve frontend
 > `nx` commands should be run from the `nx` project root directory.
 > If you don't want to install the `nx` CLI globally you may use `npx` instead.
 
+## Design decisions
+
+The **frontend** is the one responsible of **Kepler.gl** data reconciliation.
+**Redux** actions update the local state and thereafter a whole **Kepler.gl** state is send to the **backend**.
+
 ## Test
 
 ```shell
