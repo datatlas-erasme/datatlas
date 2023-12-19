@@ -39,6 +39,7 @@ const StyledMapPopover = styled.div`
 
   &.expanded {
     height: 100%;
+    max-height: 100%;
   }
 `;
 
@@ -111,7 +112,7 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
     .row {
       display: flex;
       flex-direction: row;
-      gap: 10px;
+      gap: 13px;
       padding-bottom: 3px;
     }
 
@@ -127,6 +128,10 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
       padding: 13px 0;
       justify-content: center;
       overflow: hidden;
+
+      img {
+        max-width: 100%;
+      }
     }
 
     // This doesn't work as you would expect.
@@ -176,6 +181,7 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
     .row {
       flex-direction: column;
       gap: 0;
+      padding-bottom: 13px;
     }
 
     .row__value {
@@ -185,11 +191,15 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
     .map-popover__layer-info {
       .map-popover__topbar {
         display: flex;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .map-popover__content .row.empty {
+        display: none;
       }
 
       .row.image-container,
-      .row.empty,
-      .map-popover__content .row:nth-child(n + ${({ maxTooltipFields }) => maxTooltipFields + 1}) {
+      .map-popover__content .row:not(.empty):nth-child(n + ${({ maxTooltipFields }) => maxTooltipFields + 1}) {
         display: flex;
       }
 
