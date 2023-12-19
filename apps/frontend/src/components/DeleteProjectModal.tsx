@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { css } from 'styled-components';
 import { LoadingProjectInterface, ProjectInterface } from '@datatlas/models';
-import document from 'global/document';
 import KeyEvent from 'kepler.gl/dist/constants/keyevent';
 import { StyledModal } from './Modal';
+import { useOnKeyEffect } from '../hooks/useOnKeyEffect';
 
 const smallModalCss = css`
   width: 40%;
@@ -17,20 +17,7 @@ interface DeleteProjectModalProps {
 }
 
 export const DeleteProjectModal = ({ project, onDelete, setDeletingProject }: DeleteProjectModalProps) => {
-  useEffect(() => {
-    const onKeyUp = (e: KeyEvent) => {
-      const keyCode = e.keyCode;
-      if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
-        setDeletingProject(null);
-      }
-    };
-
-    document.addEventListener('keyup', onKeyUp);
-
-    return () => {
-      document.removeEventListener('keyup', onKeyUp);
-    };
-  }, [setDeletingProject]);
+  useOnKeyEffect<typeof project>(KeyEvent.DOM_VK_ESCAPE, setDeletingProject, null);
 
   const handleCloseModal = () => {
     setDeletingProject(null);

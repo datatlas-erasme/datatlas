@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
 import { Layers } from 'kepler.gl/dist/components/common/icons';
@@ -14,6 +14,8 @@ import { CompareType } from '@datatlas/models';
 import { Button, OutlineButton } from '../../../buttons';
 import { ExternalLink } from '../../../ExternalLink';
 import { isImageURL, humanize } from '../../../../utils';
+import { useOnKeyEffect } from '../../../../hooks/useOnKeyEffect';
+import KeyEvent from 'kepler.gl/dist/constants/keyevent';
 
 export const MapPopoverContent = styled.div`
   & .row__delta-value {
@@ -51,8 +53,14 @@ export const Row = ({ name, value, deltaValue, url, aggregated, setExpandable }:
 
   // @todo We could also attempt to load the URL and see what's the content type.
   const asImg = /<img>/.test(name) || isImageURL(value as string);
+
+  useEffect(() => {
+    if (asImg) {
+      setExpandable(true);
+    }
+  }, [asImg, setExpandable]);
+
   if (asImg) {
-    setExpandable(true);
     return (
       <div {...containerProps} className={classNames([className, 'image-container'])}>
         <ExternalLink href={url}>
@@ -211,6 +219,8 @@ const LayerHoverInfoFactory = () => {
       return null;
     }
 
+    useOnKeyEffect<boolean>(KeyEvent.DOM_VK_ESCAPE, setExpanded, false);
+
     return (
       <LayerHoverInfoContainer
         className={classNames(['map-popover__layer-info', expanded && 'expanded'])}
@@ -223,7 +233,6 @@ const LayerHoverInfoFactory = () => {
           </StyledLayerName>
           <Button onClick={() => setExpanded(false)}>×</Button>
         </Toolbar>
-
         <MapPopoverContent className="map-popover__content">
           {props.layer.isAggregated ? (
             <CellInfo {...props} expanded={expanded} />
