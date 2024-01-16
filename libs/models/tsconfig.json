@@ -13,7 +13,7 @@
     "noFallthroughCasesInSwitch": true,
     "typeRoots": ["./types"],
     "paths": {
-      "@datatlas/models": ["libs/models/src/index.ts"]
+      "@datatlas/models": ["libs/models/index.ts"]
     }
   },
   "exclude": ["**/*.spec.ts"]

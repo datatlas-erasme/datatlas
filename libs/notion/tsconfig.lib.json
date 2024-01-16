@@ -8,7 +8,7 @@
     "declaration": true,
     "types": ["node"],
     "paths": {
-      "@datatlas/models": ["libs/models/src/index.ts"]
+      "@datatlas/models": ["libs/models/index.ts"]
     }
   },
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],

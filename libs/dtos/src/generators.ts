@@ -1,6 +1,7 @@
 import { ProjectDto } from './project';
 import { faker } from '@faker-js/faker';
-import { generateArray, generateFakeDataset, KeplerMapConfig } from '@datatlas/models';
+import { KeplerMapConfig } from '@datatlas/models';
+import { generateArray, generateFakeDataset } from '@datatlas/models/generators';
 
 export const generateFakeProjectDto = (partialProject: Partial<ProjectDto> = {}): ProjectDto => ({
   id: faker.datatype.number(100),

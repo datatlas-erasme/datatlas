@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "paths": {
-      "@datatlas/models": ["libs/models/index.ts"]
+      "@datatlas/models": ["libs/models/index.ts"],
+      "@datatlas/models/generators": ["libs/models/mocks/generators.ts"]
     }
   },
   "files": [],

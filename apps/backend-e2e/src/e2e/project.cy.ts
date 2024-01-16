@@ -237,7 +237,7 @@ describe('PROJECT ACTIONS', () => {
     datasets: [{}],
     description: 'string',
     ownerId: 3,
-    contributors: [1],
+    contributorsIds: [1],
     config: {
       mapState: {
         bearing: 0,
