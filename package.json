@@ -123,6 +123,7 @@
     "axios": "^1.0.0",
     "babel-plugin-formatjs": "^10.3.35",
     "bcrypt": "^5.1.0",
+    "caniuse-lite": "^1.0.30001577",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "classnames": "^2.3.2",
