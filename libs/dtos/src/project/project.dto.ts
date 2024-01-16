@@ -1,4 +1,5 @@
 import { DatasetInterface, ProjectInterface, UserInterface } from '@datatlas/models';
+import { IsBoolean, IsDefined, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ConfigDto } from './config.dto';
 
 export class ProjectDto implements Partial<Omit<ProjectInterface, 'owner' | 'contributors'>> {

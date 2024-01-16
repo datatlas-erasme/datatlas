@@ -5,7 +5,7 @@
     "module": "commonjs",
     "types": ["jest", "node"],
     "paths": {
-      "@datatlas/models": ["libs/models/src/index.ts"]
+      "@datatlas/models": ["libs/models/index.ts"]
     }
   },
   "include": ["jest.config.ts", "src/**/*.test.ts", "src/**/*.spec.ts", "src/**/*.d.ts"]

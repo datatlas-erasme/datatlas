@@ -1,6 +1,8 @@
 import { rest } from 'msw';
-import { UserInterface, generateFakeUser, generateArray } from '@datatlas/models';
-import { generateFakeProjectDto, ProjectDto } from '@datatlas/dtos';
+import { ProjectDto } from '@datatlas/dtos';
+import { generateFakeProjectDto } from '@datatlas/dtos/generators';
+import { UserInterface } from '@datatlas/models';
+import { generateArray, generateFakeUser } from '@datatlas/models/generators';
 
 const currentUserId = 1;
 const currentUser = generateFakeUser({ id: currentUserId });

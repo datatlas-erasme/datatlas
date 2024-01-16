@@ -1,4 +1,4 @@
-import { generateFakeProjectDto } from '@datatlas/dtos';
+import { generateFakeProjectDto } from '@datatlas/dtos/generators';
 import { addProjectToKeplerState } from './index';
 
 describe('addProjectToState', () => {

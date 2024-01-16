@@ -17,7 +17,7 @@
     "paths": {
       "@datatlas/dtos": ["libs/dtos/src/index.ts"],
       "@datatlas/entities": ["libs/entities/src/index.ts"],
-      "@datatlas/models": ["libs/models/src/index.ts"],
+      "@datatlas/models": ["libs/models/index.ts"],
       "@datatlas/notion": ["libs/notion/src/index.ts"]
     }
   },

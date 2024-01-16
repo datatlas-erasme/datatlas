@@ -1,7 +1,6 @@
 export * from './auth';
 export * from './kepler';
 export * from './user';
-export * from './mocks/generators';
 export * from './ColorFactory';
 export * from './Dataset';
 export * from './DatasetInterface';
