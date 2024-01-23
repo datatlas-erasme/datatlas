@@ -7,7 +7,7 @@ export default defineConfig({
     // setupNodeEvents can be defined in either
     // the e2e or component configuration
     setupNodeEvents(on, config) {
-      require('cypress-terminal-report/src/installLogsPrinter')(on);
+      require('cypress-terminal-report/src/installLogsPrinter')(on, { printLogsToConsole: 'always' });
     },
     video: false,
     screenshotOnRunFailure: false,

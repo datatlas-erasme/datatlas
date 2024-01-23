@@ -1,16 +1,15 @@
-import { DatasetInterface, ProjectInterface } from '@datatlas/models';
+import { DatasetInterface } from '@datatlas/models';
 import { ConfigDto } from './config.dto';
-import { IsDefined } from 'class-validator';
+import { UpdateProjectRequestInterface } from './update-project-request.interface';
 
-export class UpdateProjectDto implements Omit<Partial<ProjectInterface>, 'owner' | 'contributors' | 'createdAt'> {
+export class UpdateProjectDto implements UpdateProjectRequestInterface {
   id: number;
   readonly title: string;
   draft: boolean;
   datasets: DatasetInterface[];
   description?: string;
   ownerId?: number;
-  @IsDefined()
-  contributorsIds: number[];
+  contributorsIds?: number[];
   config: ConfigDto;
   version? = 'v1' as const;
 

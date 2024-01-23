@@ -5,15 +5,16 @@ import { FormattedMessage } from 'react-intl';
 import { Clock } from 'kepler.gl/dist/components/common/icons';
 import { useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/dist/query/react';
+import { LoadingProjectInterface, Project } from '@datatlas/models';
 import { StyledBadgeOutline } from '../badges';
 import { AccountIcon, EditorsIcon, HelpIcon, WheelIcon } from '../icon';
 import { DatatlasLogo, HomeIcon } from '../logos';
 import { useAppDispatch } from '../../store';
-import { logout } from '../../store/reducers/user';
 import { useGetProjectQuery } from '../../store/api';
-import { selectLoggedIn } from '../../store/selectors';
-import { useFetchUser } from '../../hooks/useFetchUser';
-import { Project } from '@datatlas/models';
+import { logout } from '../../store/reducers/user';
+import { selectCurrentUser, selectLoggedIn, selectProjectById } from '../../store/selectors';
+import { useFetchUser } from '../../hooks';
+import { RootState } from '../../store/reducers';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -99,11 +100,11 @@ const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false, hand
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const { data } = useGetProjectQuery(id ?? skipToken);
-  const { data: user } = useFetchUser();
+  useGetProjectQuery(id ? +id : skipToken);
+  const project = useSelector<RootState, LoadingProjectInterface | undefined>((state) => selectProjectById(state, id));
+  useFetchUser();
   const loggedIn = useSelector(selectLoggedIn);
+  const user = useSelector(selectCurrentUser);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -119,10 +120,10 @@ const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false, hand
         <DatatlasLogo />
       </NavContainerLogo>
 
-      {data && <ProjectButton>{data.title}</ProjectButton>}
+      {project && <ProjectButton>{project.title}</ProjectButton>}
 
       <NavItemsList>
-        {Project.canProjectDtoBeEditedBy(data, user) && (
+        {Project.canBeEditedBy(project, user) && (
           <li>
             <button onClick={handleClickContributors}>
               <BadgesItem>

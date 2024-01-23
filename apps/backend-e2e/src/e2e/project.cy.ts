@@ -570,6 +570,20 @@ describe('PROJECT ACTIONS', () => {
     });
   });
 
+  // UPDATE
+  it('Should not fail when updating owned project as a contributor.', () => {
+    fakeProject2.id = fakeProjectId;
+    cy.login(Cypress.env('admin_credentials'));
+    cy.authenticatedRequest({
+      method: 'PUT',
+      url: `/api/projects/${String(fakeProjectId)}`,
+      body: fakeProject2,
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.id).to.eq(fakeProjectId);
+    });
+  });
+
   // DELETE
   describe('Deleting a project', () => {
     it('Should not fail when trying to delete a project as admin', () => {

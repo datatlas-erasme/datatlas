@@ -11,5 +11,6 @@ export * from './LoadingProjectInterface';
 export * from './MapInfoInterface';
 export * from './NormalizedProjectInterface';
 export * from './Project';
+export * from './ProjectCredentials';
 export * from './ProjectInterface';
 export * from './PublicUserInterface';

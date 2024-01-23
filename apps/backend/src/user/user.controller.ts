@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -19,11 +20,13 @@ import { CanGetUserGuard } from '../auth/can-get-user.guard';
 import { CanGetUsersGuard } from '../auth/can-get-users.guard';
 import { CanEditUserGuard } from '../auth/can-edit-user.guard';
 import { CanDeleteUserGuard } from '../auth/can-delete_user.guard';
+import { ValidJwtGuard } from '../auth/validJwt.guard';
+import { AuthService } from '../auth/auth.service';
 
 @ApiBearerAuth()
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService, private readonly authService: AuthService) {}
 
   // todo check if @headers should be placed on each route and if so, place them with proper options
 
@@ -33,6 +36,18 @@ export class UserController {
   @Header('Cache-Control', 'none')
   async createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.createUser(createUserDto);
+  }
+
+  @Get('me')
+  @UseGuards(ValidJwtGuard)
+  async create(@Req() req) {
+    const userCredentials = await this.authService.getLoggedUserCredentials(req);
+    const user = this.userService.getUserDto(userCredentials.id);
+    if (user === null) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   @Get(':id')

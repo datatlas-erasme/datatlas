@@ -5,7 +5,7 @@ import { ProjectEntity } from './entities/project.entity';
 import { UserEntity } from '../user/entities/user.entity';
 import { CreateProjectDto, ProjectDto, UpdateProjectDto } from '@datatlas/dtos';
 import { Roles, UserCredentials } from '@datatlas/models';
-import { ProjectDtoFactory } from './project-dto.factory';
+import { ProjectMapper } from './project.mapper';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -61,7 +61,7 @@ export class ProjectService {
 
   async getDtos(userCredentials: UserCredentials | null): Promise<ProjectDto[]> {
     const projects = await this.findAll(userCredentials);
-    return ProjectDtoFactory.fromProjects(projects);
+    return ProjectMapper.toProjectDtos(projects);
   }
 
   async findOneById(id: number): Promise<ProjectEntity> {
@@ -70,7 +70,7 @@ export class ProjectService {
 
   async getDto(id: number): Promise<ProjectDto> {
     const project = await this.findOneById(id);
-    return ProjectDtoFactory.fromProject(project);
+    return ProjectMapper.toProjectDto(project);
   }
 
   async update(projectDto: UpdateProjectDto, contributors: UserEntity[], owner?: UserEntity): Promise<ProjectEntity> {
@@ -83,17 +83,19 @@ export class ProjectService {
     return project;
   }
 
-  async updateFromProjectDto(projectUpdated: UpdateProjectDto) {
-    const owner: UserEntity = await this.userService.getUser(projectUpdated.ownerId);
+  async updateFromProjectDto(updateProjectDto: UpdateProjectDto) {
+    const owner: UserEntity = await this.userService.getUser(updateProjectDto.ownerId);
     const contributors: UserEntity[] = await Promise.all(
-      projectUpdated.contributorsIds.map(this.userService.getUser.bind(this.userService))
+      (updateProjectDto.contributorsIds || []).map(this.userService.getUser.bind(this.userService))
     );
 
-    return await this.update(
-      projectUpdated,
+    const projectEntity = await this.update(
+      updateProjectDto,
       contributors.filter((u) => !!u),
       owner
     );
+
+    return ProjectMapper.toProjectDto(projectEntity);
   }
 
   async delete(id: number): Promise<number> {

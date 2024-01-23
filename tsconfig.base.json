@@ -16,8 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@datatlas/dtos": ["libs/dtos/src/index.ts"],
+      "@datatlas/dtos/generators": ["libs/dtos/src/generators.ts"],
       "@datatlas/entities": ["libs/entities/src/index.ts"],
       "@datatlas/models": ["libs/models/index.ts"],
+      "@datatlas/models/generators": ["libs/models/mocks/generators.ts"],
       "@datatlas/notion": ["libs/notion/src/index.ts"]
     }
   },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { LoadingProjectInterface, PublicUserInterface } from '@datatlas/models';
 import { StyledLabel } from './StyledLabel';
@@ -16,7 +16,7 @@ interface InviteContributorsFormProps {
 
 export function InviteContributorsForm({ owner, contributors, users }: InviteContributorsFormProps) {
   const forward = useForward();
-  const { register } = useForm<InviteContributorFormData>();
+  const { control } = useForm<InviteContributorFormData>();
 
   const updateProjectContributors = (publicUsers: readonly PublicUserInterface[]) => {
     forward(updateMapInfo({ contributorsIds: publicUsers.map(({ id }) => id) }));
@@ -27,11 +27,18 @@ export function InviteContributorsForm({ owner, contributors, users }: InviteCon
       <StyledLabel htmlFor="contributors">
         <FormattedMessage id={'project.update.contributors'} defaultMessage="Contributors" />
       </StyledLabel>
-      <ContributorsSelector
-        contributors={contributors}
-        users={users}
-        handleChange={updateProjectContributors}
-        {...register('contributors')}
+      <Controller
+        name="contributors"
+        control={control}
+        rules={{ required: true }}
+        render={({ field: { ref, ...rest } }) => (
+          <ContributorsSelector
+            contributors={contributors}
+            users={users}
+            handleChange={updateProjectContributors}
+            {...rest}
+          />
+        )}
       />
     </form>
   );

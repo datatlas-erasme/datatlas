@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { REHYDRATE } from 'redux-persist';
-import { GetUserDto, LoginResponse, ProjectDto, UpdateProjectDto } from '@datatlas/dtos';
+import { GetUserDto, LoginResponse, ProjectDto, UpdateProjectRequestInterface } from '@datatlas/dtos';
 import { CreateProjectFormData, LoginFormData } from '../models';
 import { loggedIn } from './reducers/user';
 import { KeplerMapStyle, Project } from '@datatlas/models';
@@ -89,9 +89,10 @@ export const api = createApi({
         async onQueryStarted(args, { dispatch, queryFulfilled }) {
           try {
             const {
-              data: { ownerId },
+              data: { ownerId, contributorsIds },
             } = await queryFulfilled;
-            await dispatch(getUser.initiate(ownerId));
+            dispatch(getUser.initiate(ownerId));
+            contributorsIds.forEach((contributorId) => dispatch(getUser.initiate(contributorId)));
           } catch (error) {
             console.error(error);
             // dispatch an error notification
@@ -133,19 +134,19 @@ export const api = createApi({
           );
         },
       }),
-      updateProject: builder.mutation<ProjectDto, UpdateProjectDto>({
+      updateProject: builder.mutation<ProjectDto, UpdateProjectRequestInterface>({
         query: (body) => ({
           url: `/projects/${body.id}`,
           method: 'PUT',
           body,
         }),
-        invalidatesTags: (result, error, updateProjectDto) => [
+        invalidatesTags: (result, error, updateProjectRequest) => [
           projectListTag,
-          // Logic would want we invalidate the cache here but it causes another GET /prpject/{id} request which reload the project.
-          // createProjectTag(updateProjectDto)
+          // Logic would want we invalidate the cache here, but it causes another GET /project/{id} request which reload the project.
+          // createProjectTag(updateProjectRequest)
         ],
       }),
-      publishProject: builder.mutation<ProjectDto, UpdateProjectDto>({
+      publishProject: builder.mutation<ProjectDto, UpdateProjectRequestInterface>({
         query: (body) => ({
           url: `/projects/${body.id}`,
           method: 'PUT',

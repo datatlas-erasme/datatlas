@@ -1,4 +1,4 @@
-import { ProjectDto } from './project';
+import { CreateProjectDto, ProjectDto } from './project';
 import { faker } from '@faker-js/faker';
 import { KeplerMapConfig } from '@datatlas/models';
 import { generateArray, generateFakeDataset } from '@datatlas/models/generators';
@@ -19,3 +19,15 @@ export const generateFakeProjectDto = (partialProject: Partial<ProjectDto> = {})
 });
 
 export const generateFakeProjectDtos = () => generateArray().map((id) => generateFakeProjectDto({ id }));
+
+export const generateFakeCreateProjectDto = (
+  partialCreateProjectDto: Partial<CreateProjectDto> = {}
+): CreateProjectDto => ({
+  title: faker.animal.insect(),
+  description: faker.lorem.lines(1),
+  datasets: generateArray(2).map(() => generateFakeDataset()),
+  draft: faker.datatype.boolean(),
+  version: 'v1' as const,
+  config: new KeplerMapConfig(),
+  ...partialCreateProjectDto,
+});
