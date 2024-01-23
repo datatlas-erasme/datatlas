@@ -59,10 +59,10 @@ startAppListening({
         throw new Error(`Couldn't find a project with id ${id}`);
       }
 
-      const updateProjectDto = projectFactory.createUpdateProjectDtoFromKeplerInstance(id, keplerInstance);
+      const updateProjectRequest = projectFactory.createUpdateProjectRequestFromKeplerInstance(id, keplerInstance);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      dispatch(updateProject.initiate(updateProjectDto));
+      dispatch(updateProject.initiate(updateProjectRequest));
     } else {
       console.warn(`Action with type ${action.type} wasn't a Kepler wrapped action.`);
     }

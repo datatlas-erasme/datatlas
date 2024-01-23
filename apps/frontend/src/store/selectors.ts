@@ -57,7 +57,11 @@ export const selectProjects = (state: RootState) => {
   return [];
 };
 
-export const selectProjectById = (state: RootState, projectId: string) => {
+export const selectProjectById = (state: RootState, projectId?: string) => {
+  if (!projectId) {
+    return;
+  }
+
   const keplerState = selectKeplerInstanceById(state, projectId);
   if (!keplerState) {
     return;
@@ -83,6 +87,10 @@ export const selectUsersByIds = (state, ids) =>
   ids.map((id) => getUser.select(id)(state)?.data).filter((user) => !!user);
 
 export const selectCurrentUserId = (state: RootState) => state.user.id;
+
+export const selectCurrentUser = (state: RootState) => {
+  return selectUserById(state, state.user.id);
+};
 
 export const selectLoggedIn = (state: RootState) => !!selectCurrentUserId(state);
 

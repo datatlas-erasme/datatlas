@@ -38,7 +38,7 @@ export class ProjectController {
 
   @Put(':id')
   @UseGuards(CanEditProjectGuard)
-  async update(@Param('id') id: number, @Body() projectUpdated: UpdateProjectDto): Promise<ProjectEntity> {
+  async update(@Param('id') id: number, @Body() projectUpdated: UpdateProjectDto): Promise<ProjectDto> {
     return this.projectService.updateFromProjectDto(projectUpdated);
   }
 

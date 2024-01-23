@@ -4,11 +4,7 @@
     "sourceMap": false,
     "outDir": "../../dist/out-tsc",
     "allowJs": true,
-    "types": ["cypress", "node"],
-    "paths": {
-      "@datatlas/models": ["libs/models/index.ts"],
-      "@datatlas/dtos": ["libs/dtos/src/index.ts"]
-    }
+    "types": ["cypress", "node"]
   },
   "include": ["src/**/*.ts", "src/**/*.js", "cypress.config.ts"]
 }

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-import { LoadingProjectInterface, Project } from '@datatlas/models';
+import { LoadingProjectInterface } from '@datatlas/models';
 import KeplerMap from '../components/KeplerMap';
 import { getUser, useGetProjectQuery } from '../store/api';
 import { Loader } from '../components/Loader';
@@ -62,7 +62,7 @@ export const ProjectPage = () => {
 
   return (
     <MapContainer>
-      <KeplerMap id={id} readOnly={!Project.canBeEditedBy(project, user)} />
+      <KeplerMap id={id} project={project} user={user} />
       {project && <UpdateProjectModal project={project} setOpen={setProjectModalOpen} open={projectModalOpen} />}
     </MapContainer>
   );

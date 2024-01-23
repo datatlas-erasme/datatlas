@@ -64,6 +64,13 @@ export class Project implements ProjectInterface {
     return !!userCredentials && project && project?.owner?.id && project.owner.id === userCredentials.id;
   }
 
+  static isEditor(
+    project?: { contributors?: Pick<UserInterface, 'id'>[] },
+    userCredentials?: UserCredentialsInterface
+  ) {
+    return !!userCredentials && project?.contributors?.map(({ id }) => id).includes(userCredentials.id);
+  }
+
   static isOwnerOrAdmin(project?: { owner?: Pick<UserInterface, 'id'> }, userCredentials?: UserCredentialsInterface) {
     return Project.isOwner(project, userCredentials) || UserCredentials.isAdmin(userCredentials);
   }
@@ -72,7 +79,7 @@ export class Project implements ProjectInterface {
     return !draft;
   }
 
-  static canBeViewedBy(project: Pick<Project, 'owner' | 'draft'>, userCredentials?: UserCredentials) {
+  static canBeViewedBy(project: Pick<Project, 'owner' | 'draft' | 'contributors'>, userCredentials?: UserCredentials) {
     if (Project.isDraft(project)) {
       if (!Project.canBeEditedBy(project, userCredentials)) {
         return false;
@@ -82,17 +89,18 @@ export class Project implements ProjectInterface {
     return true;
   }
 
-  static canBeEditedBy(project?: { owner?: Pick<UserInterface, 'id'> }, userCredentials?: UserCredentialsInterface) {
-    return UserCredentials.isActive(userCredentials) && Project.isOwnerOrAdmin(project, userCredentials);
-  }
-
-  // This is hack since DTO classes can't be used in the frontend... -_-
-  static canProjectDtoBeEditedBy(projectDto?: { ownerId: number }, userCredentials?: UserCredentialsInterface) {
-    return projectDto && Project.canBeEditedBy({ owner: { id: projectDto.ownerId } }, userCredentials);
+  static canBeEditedBy(
+    project?: { owner?: Pick<UserInterface, 'id'>; contributors: Pick<UserInterface, 'id'>[] },
+    userCredentials?: UserCredentialsInterface
+  ) {
+    return (
+      UserCredentials.isActive(userCredentials) &&
+      (Project.isOwnerOrAdmin(project, userCredentials) || Project.isEditor(project, userCredentials))
+    );
   }
 
   static canBeDeletedBy(project?: { owner?: Pick<UserInterface, 'id'> }, userCredentials?: UserCredentialsInterface) {
-    return Project.canBeEditedBy(project, userCredentials);
+    return Project.canBeEditedBy({ ...project, contributors: [] }, userCredentials);
   }
 
   isDraft() {

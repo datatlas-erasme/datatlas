@@ -8,9 +8,9 @@ import { InviteContributorsForm } from '../forms/InviteContributorsForm';
 import { useGetUsersQuery } from '../../store/api';
 
 const updateProjectModalCss = css`
-  width: 40%;
+  width: 33vw;
   padding: 40px 40px 32px 40px;
-  height: 45vh;
+  height: 66vh;
 `;
 
 interface UpdateProjectModalProps {
