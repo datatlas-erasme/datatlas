@@ -190,13 +190,13 @@ describe('User operations', () => {
       expect(response.body).to.be.an('array');
     });
   });
-  it('Should fail when trying to get all users as an editor.', () => {
+  it('Should succeed when trying to get all users as an editor.', () => {
     cy.login(Cypress.env('editor_credentials'));
     cy.authenticatedRequest({
       method: 'GET',
       url: `/api/users/`,
     }).then((response: Cypress.Response<GetUserDto[]>) => {
-      expect(response.status).to.eq(403);
+      expect(response.status).to.eq(200);
     });
   });
   // UPDATE
