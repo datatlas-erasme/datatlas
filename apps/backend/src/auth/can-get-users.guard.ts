@@ -21,6 +21,7 @@ export class CanGetUsersGuard extends AuthGuard('local') {
     if (userCredentials === null) {
       return false;
     }
-    return userCredentials.role === Roles.ADMIN;
+
+    return [Roles.ADMIN, Roles.EDITOR].includes(userCredentials.role);
   }
 }
