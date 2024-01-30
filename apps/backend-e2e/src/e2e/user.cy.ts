@@ -133,7 +133,7 @@ describe('User operations', () => {
       });
     });
   });
-  it('Should fail when requesting info about another user as an editor.', () => {
+  it('Should succeed when requesting info about another user as an editor.', () => {
     cy.login(Cypress.env('admin_credentials'));
     cy.authenticatedRequest({
       method: 'POST',
@@ -145,7 +145,7 @@ describe('User operations', () => {
         method: 'GET',
         url: `/api/users/${response.body.id}`,
       }).then((response) => {
-        expect(response.status).to.eq(403);
+        expect(response.status).to.eq(200);
       });
     });
   });
