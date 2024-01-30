@@ -55,7 +55,7 @@ export default {
       layer: 'Données',
       filter: 'Filtres',
       interaction: 'Interactions',
-      basemap: 'Carte de base',
+      basemap: 'Interface',
     },
   },
   layer: {

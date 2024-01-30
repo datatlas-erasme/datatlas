@@ -56,7 +56,7 @@ import { getDefaultLocale } from '../../../i18n/utils';
 import { AppDispatch } from '../../../store';
 import { KeplerGlExtraProps } from '../types';
 
-type KeplerGlActions = {
+export type KeplerGlActions = {
   visStateActions: typeof VisStateActions;
   mapStateActions: typeof MapStateActions;
   mapStyleActions: typeof MapStyleActions;

@@ -46,8 +46,9 @@ export default {
 
   // Kepler
   'sidebar.panels.layer': 'Data',
-  'sidebar.panels.filter': 'Filter',
-  'sidebar.panels.interaction': 'Interface',
+  'sidebar.panels.filter': 'Filters',
+  'sidebar.panels.interaction': 'Interactions',
+  'sidebar.panels.basemap': 'Interface',
   fileUploader: {
     disclaimer: ' ',
     configUploadMessage:
