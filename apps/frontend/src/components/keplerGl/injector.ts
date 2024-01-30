@@ -23,6 +23,7 @@ import {
   provideRangerFilter,
   provideMultiSelectFilter,
   replaceModalDialog,
+  replaceMapManager,
 } from './factories';
 import { replaceLayerHoverInfoFactory } from './factories/map/LayerHoverInfo';
 import { replaceMapPopoverFactory } from './factories/map/MapPopoverFactory';
@@ -38,6 +39,7 @@ export const appInjector = provideRecipesToInjector(
     replacePanelToggleFactory(),
     replacePanelTab(),
     replaceLayerManager(),
+    replaceMapManager(),
     replaceLoadDataModal(),
     replaceFileUpload(),
     replaceLayerPanel(),
