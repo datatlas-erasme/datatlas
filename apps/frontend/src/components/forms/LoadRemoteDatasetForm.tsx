@@ -8,8 +8,8 @@ import styled, { ThemeProps } from 'styled-components';
 import { addDataToMap } from 'kepler.gl/actions';
 import { DatasetFactory, DatasetInterface } from '@datatlas/models';
 import { DatatlasTheme } from '../../style/theme';
-import { isValidHttpURL } from '../../utils/url';
-import { useForward } from '../../hooks/useForward';
+import { isValidHttpURL, handleServerError } from '../../utils';
+import { useForward } from '../../hooks';
 import { markdownComponents } from '../markdown';
 import { GUIDES_FILE_FORMAT_DOC } from 'kepler.gl/dist/constants/user-guides';
 import { RootState } from '../../store/reducers';
@@ -102,13 +102,7 @@ export function LoadRemoteDatasetForm() {
         })
       );
     } catch (e) {
-      if (typeof e === 'string') {
-        setError('root.serverError', { message: e.toUpperCase() });
-      } else if (e instanceof Error) {
-        setError('root.serverError', e);
-      } else {
-        console.error('Something went wrong :', e);
-      }
+      handleServerError<LoadRemoteDatasetFormData>(setError)(e);
     }
   };
 
@@ -127,7 +121,6 @@ export function LoadRemoteDatasetForm() {
               contactEmail: process.env.REACT_APP_CONTACT_EMAIL,
             }
           )}
-          linkTarget="_blank"
         />
       </StyledDescription>
       <StyledFromGroup>

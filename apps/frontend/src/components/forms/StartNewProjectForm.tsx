@@ -1,13 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { FormHTMLAttributes, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { Input } from 'kepler.gl/dist/components/common/styled-components';
 import { KeplerMapStyle } from '@datatlas/models';
-import { StyledFormBtn } from '../buttons';
+import { StyledFormBtn, StyledFormBtnProps } from '../buttons';
 import { FormError, StyledLabel } from '../forms';
 import { useCreateProjectMutation } from '../../store/api';
 import { CreateProjectFormData } from '../../models';
+import styled from 'styled-components';
+
+const StartNewProjectFormContainer = styled.form<FormHTMLAttributes<HTMLFormElement> & StyledFormBtnProps>`
+  ${StyledFormBtn} {
+    margin: 20px auto;
+    padding: 15px 42px;
+    padding-left: ${({ loading }) => (loading ? '18px' : '42px')};
+  }
+`;
 
 export function StartNewProjectForm() {
   const [createProject, { isLoading, isSuccess, error, isError, data }] = useCreateProjectMutation();
@@ -37,7 +46,7 @@ export function StartNewProjectForm() {
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <form onSubmit={handleSubmit(createProject)}>
+    <StartNewProjectFormContainer onSubmit={handleSubmit(createProject)} loading={isLoading}>
       <StyledLabel htmlFor={'title'}>
         1.
         <FormattedMessage id={'createProjectForm.projectName'} defaultMessage={'Entrez le nom du projet'} />
@@ -60,9 +69,9 @@ export function StartNewProjectForm() {
           </option>
         ))}
       </select>
-      <StyledFormBtn loading={isLoading}>
+      <StyledFormBtn loading={isLoading} large>
         <FormattedMessage id={'createProjectForm.submit'} defaultMessage="Créer" />
       </StyledFormBtn>
-    </form>
+    </StartNewProjectFormContainer>
   );
 }

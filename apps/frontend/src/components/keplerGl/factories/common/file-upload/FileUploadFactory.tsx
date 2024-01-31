@@ -233,7 +233,6 @@ function FileUploadFactory() {
                     contactEmail: process.env.REACT_APP_CONTACT_EMAIL,
                   }
                 )}
-                linkTarget="_blank"
               />
             </StyledUploadMessage>
             <StyledFileDrop dragOver={dragOver}>
