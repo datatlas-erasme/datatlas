@@ -10,6 +10,7 @@ import KeplerGlLogo from 'kepler.gl/dist/components/common/logo';
 import { setFilter, layerConfigChange } from 'kepler.gl/dist/actions/vis-state-actions';
 import { KeplerGLProps } from './KeplerGlFactory';
 import { MapMenu } from '../../map-menu';
+import { SampleMapPanel } from './map-control-panel/SampleMapPanel';
 import { RootState } from '../../../store/reducers';
 import { useForward } from '../../../hooks';
 import { selectFilters, selectFiltersConfig } from '../../../store/selectors';
@@ -47,8 +48,8 @@ interface MapControlProps extends KeplerGLProps {
   logoComponent: typeof LegendLogo;
 }
 
-function MapControlFactory(MapDrawPanel, Toggle3dButton) {
-  const DEFAULT_ACTIONS = [PublishButton, Toggle3dButton];
+function MapControlFactory(_, Toggle3dButton) {
+  const DEFAULT_ACTIONS = [Toggle3dButton, PublishButton];
 
   return ({
     actionComponents = DEFAULT_ACTIONS,
@@ -84,6 +85,7 @@ function MapControlFactory(MapDrawPanel, Toggle3dButton) {
               forward(layerConfigChange(oldLayer, newConfig))
             }
           />
+          <SampleMapPanel {...props} />
           {actionComponents.map((ActionComponent, index) => (
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore

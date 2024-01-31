@@ -13,6 +13,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 
 import { KeplerMapStyle } from '@datatlas/models';
 import { KeplerGlActions } from '../KeplerGlFactory';
+import { EditDescriptionForm, EditTitleForm } from '../../../forms';
+import { useProject } from '../../../../hooks';
 
 interface MapManagerProps {
   mapStyle: KeplerMapStyle;
@@ -28,6 +30,7 @@ function MapManagerFactory(
 ) {
   return (props: MapManagerProps) => {
     const [isSelecting, setSelecting] = useState(false);
+    const project = useProject();
 
     const buildingColorSelector = (props: MapManagerProps) => props.mapStyle.threeDBuildingColor;
     const setColorSelector = (props: MapManagerProps) => props.mapStyleActions.set3dBuildingColor;
@@ -62,6 +65,12 @@ function MapManagerFactory(
     return (
       <div className="map-style-panel">
         <div>
+          <SidePanelSection>
+            <EditTitleForm title={project?.title} />
+          </SidePanelSection>
+          <SidePanelSection>
+            <EditDescriptionForm description={project?.description} />
+          </SidePanelSection>
           <MapStyleSelector
             mapStyle={mapStyle}
             isSelecting={isSelecting}
