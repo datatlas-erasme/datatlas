@@ -11,6 +11,7 @@ import ColorSelector from 'kepler.gl/dist/components/side-panel/layer-panel/colo
 import { createSelector } from 'reselect';
 import { FormattedMessage, useIntl } from 'react-intl';
 
+import styled from 'styled-components';
 import { KeplerMapStyle } from '@datatlas/models';
 import { KeplerGlActions } from '../KeplerGlFactory';
 import { EditDescriptionForm, EditTitleForm } from '../../../forms';
@@ -23,6 +24,10 @@ interface MapManagerProps {
 }
 
 MapManagerFactory.deps = KeplerMapManagerFactory.deps;
+
+const MapStylePanel = styled.div`
+  padding: 12px;
+`;
 
 function MapManagerFactory(
   MapStyleSelector: ReturnType<typeof MapStyleSelectorFactory>,
@@ -63,7 +68,7 @@ function MapManagerFactory(
     const colorSets = colorSetSelector(props);
 
     return (
-      <div className="map-style-panel">
+      <MapStylePanel className="map-style-panel">
         <div>
           <SidePanelSection>
             <EditTitleForm title={project?.title} />
@@ -93,7 +98,7 @@ function MapManagerFactory(
             <FormattedMessage id={'mapManager.addMapStyle'} />
           </Button>
         </div>
-      </div>
+      </MapStylePanel>
     );
   };
 }

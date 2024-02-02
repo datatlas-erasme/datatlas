@@ -255,11 +255,17 @@ export type DatatlasThemeProps = ThemeProps<DatatlasTheme>;
 
 export const darkTheme = {
   ...keplerTheme,
-  panelBackground: 'black',
+  panelBackground: '#0c0c0c',
   primaryBtnRadius: '7px',
   primaryBtnBgd: '#07509f',
   primaryBtnColor: 'white',
   primaryBtnBorder: '#005a9f',
   primaryBtnBgdHover: '#5AB6EB',
   primaryBtnActColor: 'white',
+  floatingBtnBgdHover: '#202020',
+  floatingBtnBgd: '#0c0c0c',
+  floatingBtnActColor: 'rgba(255, 255, 255, 0.9)',
+  floatingBtnColor: 'rgba(255,255,255,0.9)',
+  // floatingBtnBorderHover: '',
+  // floatingBtnBorder: '',
 };

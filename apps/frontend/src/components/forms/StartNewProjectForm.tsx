@@ -15,6 +15,8 @@ const StartNewProjectFormContainer = styled.form<FormHTMLAttributes<HTMLFormElem
     margin: 20px auto;
     padding: 15px 42px;
     padding-left: ${({ loading }) => (loading ? '18px' : '42px')};
+    font-weight: bold;
+    line-height: 20px;
   }
 `;
 
