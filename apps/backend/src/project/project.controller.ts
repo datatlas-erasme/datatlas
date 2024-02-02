@@ -5,7 +5,6 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { ValidJwtGuard } from '../auth/validJwt.guard';
 import { AuthService } from '../auth/auth.service';
 import { CanDeleteProjectGuard, CanEditProjectGuard, CanViewProjectGuard } from './guards';
-import { ProjectEntity } from './entities/project.entity';
 import { ProjectService } from './project.service';
 
 @ApiBearerAuth()

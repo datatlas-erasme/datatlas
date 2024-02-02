@@ -63,6 +63,13 @@ Or to update `mikro-orm` :
 npx npm-check-updates --filter "@mikro-orm/*" -u
 ```
 
+### Database migrations
+
+```sh
+npm run mikro-orm migration:create
+npm run mikro-orm migration:up
+```
+
 ### Test
 
 Run a single test file:

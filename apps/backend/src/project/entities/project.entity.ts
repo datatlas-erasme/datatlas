@@ -19,7 +19,7 @@ export class ProjectEntity implements ProjectInterface {
   @Property({ type: 'json' })
   datasets: DatasetInterface[];
 
-  @Property({ nullable: true })
+  @Property({ columnType: 'text', nullable: true })
   description?: string;
 
   @ManyToOne(() => UserEntity)
