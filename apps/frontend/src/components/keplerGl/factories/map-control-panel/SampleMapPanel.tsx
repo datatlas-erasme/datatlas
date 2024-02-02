@@ -13,9 +13,9 @@ const StyledFloatingPanel = styled.div``;
 
 const StyledProjectPanel = styled.div`
   background: ${(props) => props.theme.panelBackground};
+  border-radius: 7px;
   padding: 16px 20px;
   width: 280px;
-  box-shadow: ${(props) => props.theme.panelBoxShadow};
 
   .project-title {
     color: ${(props) => props.theme.titleTextColor};
