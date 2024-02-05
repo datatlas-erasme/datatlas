@@ -94,7 +94,7 @@ const CloseButton = ({ onClick }) => (
 );
 
 export function SampleMapPanel() {
-  const [isActive, setActive] = useState(true);
+  const [isActive, setActive] = useState(false);
   const project = useProject();
 
   return (
