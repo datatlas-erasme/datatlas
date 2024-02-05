@@ -112,10 +112,6 @@ export function SampleMapPanel() {
               </ReactMarkdown>
             )}
           </div>
-          <div className="project-links">
-            <LinkButton label="Data" href="" iconComponent={Icons.Files} height="15px" />
-            <LinkButton label="Config" href="" iconComponent={Icons.CodeAlt} height="17px" />
-          </div>
         </StyledProjectPanel>
       ) : (
         <MapControlButton
