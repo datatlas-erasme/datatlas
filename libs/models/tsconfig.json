@@ -11,7 +11,6 @@
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "typeRoots": ["./types"],
     "paths": {
       "@datatlas/models": ["libs/models/index.ts"]
     }
