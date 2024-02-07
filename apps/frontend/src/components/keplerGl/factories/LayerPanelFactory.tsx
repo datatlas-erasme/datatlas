@@ -1,148 +1,141 @@
-import React, { CSSProperties, UIEventHandler } from 'react';
-import { Datasets, Layer } from 'kepler.gl';
-import { LayerPanelFactory as KeplerLayerPanelFactory } from 'kepler.gl/components';
-import { visStateActions } from 'kepler.gl/actions';
-import { PanelWrapper } from '../side-panel/layer/LayerPanel';
-import { LayerTypeOptionInterface, PanelComponentPropsInterface } from '../types';
+import React, {ChangeEventHandler, MouseEventHandler} from 'react';
+import styled from 'styled-components';
 
-export interface KeplerLayerPanelPropsInterface {
-  layer: Layer;
-  datasets: Datasets;
-  idx: number;
-  layerConfigChange: visStateActions.layerConfigChange;
-  layerTypeChange: visStateActions.layerTypeChange;
-  openModal: UIEventHandler;
-  removeLayer: visStateActions.removeLayer;
-  duplicateLayer: visStateActions.duplicateLayer;
-  onCloseConfig: UIEventHandler;
-  layerTextLabelChange: visStateActions.layerTextLabelChange;
-  layerTypeOptions: LayerTypeOptionInterface[];
-  layerVisConfigChange: visStateActions.layerVisConfigChange;
-  layerVisualChannelConfigChange: visStateActions.layerVisualChannelConfigChange;
-  layerColorUIChange: visStateActions.layerColorUIChange;
-  setLayerAnimationTime: UIEventHandler;
-  updateLayerAnimationSpeed: UIEventHandler;
-  style: CSSProperties;
-  className: string;
-  onMouseDown: UIEventHandler;
-  onTouchStart: UIEventHandler;
-  showDatasetTable: PanelComponentPropsInterface['showDatasetTable'];
-  removeDataset: PanelComponentPropsInterface['removeDataset'];
-}
+import {
+  LayerConfiguratorFactory,
+  LayerPanelFactory as KeplerLayerPanelFactory
+} from '@kepler.gl/components';
+import {dataTestIds} from '@kepler.gl/constants';
+import {ColorUI, LayerVisConfig, NestedPartial} from '@kepler.gl/types';
+import {LayerBaseConfig} from '@kepler.gl/layers';
+import {layerSetIsValid} from '@kepler.gl/actions';
+import {LayerPanelProps} from '../types';
+import {LayerPanelHeaderFactory} from './LayerPanelHeaderFactory';
 
-export const LayerPanelFactory = (KeplerLayerConfigurator, KeplerLayerPanelHeader) => {
-  return ({
-    layer,
-    datasets,
-    idx,
-    layerConfigChange,
-    layerTypeChange,
-    openModal,
-    duplicateLayer,
-    layerTextLabelChange,
-    layerTypeOptions,
-    layerVisConfigChange,
-    layerVisualChannelConfigChange,
-    layerColorUIChange,
-    style,
-    className,
-    onMouseDown,
-    onTouchStart,
-    showDatasetTable,
-    removeDataset,
-  }: KeplerLayerPanelPropsInterface) => {
-    const updateLayerConfig = (newProp) => {
-      layerConfigChange(layer, newProp);
+const PanelWrapper = styled.div<{active: boolean}>`
+  font-size: 12px;
+  border-radius: 1px;
+  z-index: 1000;
+  &.dragging {
+    cursor: move;
+  }
+`;
+
+LayerPanelFactory.deps = KeplerLayerPanelFactory.deps;
+
+function LayerPanelFactory(
+  LayerConfigurator: ReturnType<typeof LayerConfiguratorFactory>,
+  LayerPanelHeader: ReturnType<typeof LayerPanelHeaderFactory>
+): React.ComponentType<LayerPanelProps> {
+  return (props: LayerPanelProps) => {
+    const updateLayerConfig = newProp => {
+      props.layerConfigChange(props.layer, newProp);
     };
 
-    const updateLayerType = (newType) => {
-      layerTypeChange(layer, newType);
+    const updateLayerType = (newType: string) => {
+      props.layerTypeChange(props.layer, newType);
     };
 
-    const updateLayerVisConfig = (newVisConfig) => {
-      layerVisConfigChange(layer, newVisConfig);
+    const updateLayerVisConfig = (newVisConfig: Partial<LayerVisConfig>) => {
+      props.layerVisConfigChange(props.layer, newVisConfig);
     };
 
-    const updateLayerColorUI = (...args) => {
-      layerColorUIChange(layer, ...args);
+    const updateLayerColorUI = (...args: [string, NestedPartial<ColorUI>]) => {
+      props.layerColorUIChange(props.layer, ...args);
     };
 
-    const updateLayerTextLabel = (...args) => {
-      layerTextLabelChange(layer, ...args);
+    const updateLayerTextLabel = (...args: [number | 'all', string, any]) => {
+      props.layerTextLabelChange(props.layer, ...args);
     };
 
-    const updateLayerVisualChannelConfig = (newConfig, channel, scaleKey) => {
-      layerVisualChannelConfigChange(layer, newConfig, channel, scaleKey);
+    const updateLayerVisualChannelConfig = (
+      newConfig: Partial<LayerBaseConfig>,
+      channel: string
+    ) => {
+      props.layerVisualChannelConfigChange(props.layer, newConfig, channel);
     };
 
-    const _updateLayerLabel = ({ target: { value } }) => {
-      updateLayerConfig({ label: value });
+    const _updateLayerLabel: ChangeEventHandler<HTMLInputElement> = ({target: {value}}) => {
+      updateLayerConfig({label: value});
     };
 
-    const _toggleVisibility = (e) => {
-      e.stopPropagation();
+    const _toggleVisibility: MouseEventHandler = e => {
+      e?.stopPropagation();
       const isVisible = !layer.config.isVisible;
-      updateLayerConfig({ isVisible });
+      updateLayerConfig({isVisible});
     };
 
-    const _toggleEnableConfig = (e) => {
-      e.stopPropagation();
+    const _resetIsValid: MouseEventHandler = e => {
+      e?.stopPropagation();
+      // Make the layer valid and visible again after an error
+      layerSetIsValid(layer, true);
+    };
+
+    const _toggleEnableConfig = e => {
+      e?.stopPropagation();
       const {
-        config: { isConfigActive },
+        config: {isConfigActive}
       } = layer;
-      updateLayerConfig({ isConfigActive: !isConfigActive });
+      updateLayerConfig({isConfigActive: !isConfigActive});
     };
 
-    const _removeLayer = (e) => {
-      e.stopPropagation();
+    const _removeLayer = e => {
+      e?.stopPropagation();
       // We might want to remove layer as well.
-      // removeLayer(idx);
-      removeDataset(layer.config.dataId);
+      props.removeLayer(props.idx.toString());
+      props.removeDataset(layer.id);
     };
 
-    const _duplicateLayer = (e) => {
-      e.stopPropagation();
-      duplicateLayer(idx);
+    const _duplicateLayer = e => {
+      e?.stopPropagation();
+      props.duplicateLayer(layer.id);
     };
 
-    const _showDatasetTable = (e) => {
-      e.stopPropagation();
-      showDatasetTable(layer.config.dataId);
+    const _showDatasetTable = e => {
+      e?.stopPropagation();
+      props.showDatasetTable(layer.id);
     };
 
-    const { config } = layer;
-    const { isConfigActive } = config;
+    const {layer, datasets, isDraggable, layerTypeOptions, listeners} = props;
+    const {config, isValid} = layer;
+    const {isConfigActive} = config;
+    const allowDuplicate = typeof layer.isValidToSave === 'function' && layer.isValidToSave();
 
     return (
       <PanelWrapper
         active={isConfigActive}
-        className={`layer-panel ${className}`}
-        style={style}
-        onMouseDown={onMouseDown}
-        onTouchStart={onTouchStart}
+        className={`layer-panel ${props.className}`}
+        data-testid={dataTestIds.layerPanel}
+        style={props.style}
+        onMouseDown={props.onMouseDown}
+        onTouchStart={props.onTouchStart}
       >
-        <KeplerLayerPanelHeader
+        <LayerPanelHeader
           isConfigActive={isConfigActive}
           layerId={layer.id}
           isVisible={config.isVisible}
+          isValid={isValid}
           label={config.label}
-          labelRCGColorValues={config.color}
+          labelRCGColorValues={config.dataId ? datasets[config.dataId].color : null}
           layerType={layer.type}
+          allowDuplicate={allowDuplicate}
           onToggleEnableConfig={_toggleEnableConfig}
           onToggleVisibility={_toggleVisibility}
+          onResetIsValid={_resetIsValid}
           onUpdateLayerLabel={_updateLayerLabel}
           onRemoveLayer={_removeLayer}
           onDuplicateLayer={_duplicateLayer}
           showDatasetTable={_showDatasetTable}
           showRemoveLayer={true}
-          isDragNDropEnabled={true}
+          isDragNDropEnabled={isDraggable}
+          listeners={listeners}
         />
         {isConfigActive && (
-          <KeplerLayerConfigurator
+          <LayerConfigurator
             layer={layer}
             datasets={datasets}
             layerTypeOptions={layerTypeOptions}
-            openModal={openModal}
+            openModal={props.openModal}
             updateLayerColorUI={updateLayerColorUI}
             updateLayerConfig={updateLayerConfig}
             updateLayerVisualChannelConfig={updateLayerVisualChannelConfig}
@@ -154,9 +147,7 @@ export const LayerPanelFactory = (KeplerLayerConfigurator, KeplerLayerPanelHeade
       </PanelWrapper>
     );
   };
-};
-
-LayerPanelFactory.deps = KeplerLayerPanelFactory.deps;
+}
 
 export function replaceLayerPanel() {
   return [KeplerLayerPanelFactory, LayerPanelFactory];

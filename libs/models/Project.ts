@@ -1,11 +1,11 @@
-import { KeplerGlSchema } from 'kepler.gl/schemas';
-import { KeplerGlState } from 'kepler.gl/reducers';
-import { KeplerMapConfig, KeplerVersionedDataset, KeplerVersionedMapConfig } from './kepler';
+import { KeplerGlSchema } from '@kepler.gl/schemas';
+import { KeplerGlState } from '@kepler.gl/reducers';
+import { SavedMapConfig, KeplerVersionedDataset, VersionedSavedMapConfig } from './kepler';
 import { ProjectInterface } from './ProjectInterface';
 import { DatasetInterface } from './DatasetInterface';
 import { UserInterface } from './UserInterface';
 import { NormalizedProjectInterface, NormalizedProjectProperties } from './NormalizedProjectInterface';
-import { DatatlasSavedMapInterface } from './DatatlasSavedMapInterface';
+import { SavedMap } from './DatatlasSavedMapInterface';
 import { LoadingProjectInterface } from './LoadingProjectInterface';
 import { UserCredentials, UserCredentialsInterface } from './auth';
 
@@ -18,8 +18,8 @@ export class Project implements ProjectInterface {
   description?: string;
   owner: UserInterface;
   contributors: UserInterface[];
-  config: KeplerMapConfig;
-  version: KeplerVersionedMapConfig['version'];
+  config: SavedMapConfig;
+  version: VersionedSavedMapConfig['version'];
 
   constructor(project: ProjectInterface) {
     this.id = project.id;
@@ -32,7 +32,7 @@ export class Project implements ProjectInterface {
     this.owner = project.owner;
     this.contributors = project.contributors;
     this.version = 'v1';
-    this.config = new KeplerMapConfig();
+    this.config = new SavedMapConfig();
   }
 
   static normalize({ owner, contributors, ...props }: ProjectInterface): NormalizedProjectInterface {
@@ -128,7 +128,7 @@ export class Project implements ProjectInterface {
   }
 
   static createPartialProjectFromKeplerSavedMap(
-    savedMap: DatatlasSavedMapInterface
+    savedMap: SavedMap
   ): Omit<ProjectInterface, 'owner' | 'id' | 'draft' | 'contributors' | 'copyEnabled'> {
     return {
       title: '',

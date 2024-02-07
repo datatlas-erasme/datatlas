@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ComponentType } from 'react';
+import React, {ComponentType} from 'react';
 import styled from 'styled-components';
-import { TooltipConfigFactory as KeplerTooltipConfigFactory } from 'kepler.gl/components';
-import { DatasetConfigFactory } from './DatasetConfigFactory';
+import {TooltipConfigFactory as KeplerTooltipConfigFactory} from '@kepler.gl/components';
+import {DatasetConfigFactory} from './DatasetConfigFactory';
 
 export const TooltipConfigWrapper = styled.div`
   .item-selector > div > div {
@@ -13,11 +13,17 @@ export const TooltipConfigWrapper = styled.div`
 function TooltipConfigFactory(DatasetTag: ComponentType<any>, FieldSelector: ComponentType<any>) {
   const DatasetTooltipConfig = DatasetConfigFactory(DatasetTag, FieldSelector);
 
-  return ({ config, datasets, onChange }) => {
+  return ({config, datasets, onChange, onDisplayFormatChange}) => {
     return (
       <TooltipConfigWrapper>
-        {Object.keys(config.fieldsToShow).map((dataId) => (
-          <DatasetTooltipConfig key={dataId} config={config} onChange={onChange} dataset={datasets[dataId]} />
+        {Object.keys(config.fieldsToShow).map(dataId => (
+          <DatasetTooltipConfig
+            key={dataId}
+            config={config}
+            onChange={onChange}
+            dataset={datasets[dataId]}
+            onDisplayFormatChange={onDisplayFormatChange}
+          />
         ))}
       </TooltipConfigWrapper>
     );

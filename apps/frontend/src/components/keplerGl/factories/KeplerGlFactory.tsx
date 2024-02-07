@@ -1,24 +1,32 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment, @typescript-eslint/no-explicit-any */
-// see node_modules/kepler.gl/src/components/kepler-gl.js
-import React, { Component, createRef } from 'react';
+import React, {Component, createRef, Dispatch} from 'react';
 import Console from 'global/console';
-import { bindActionCreators } from 'redux';
-import styled, { withTheme } from 'styled-components';
-import { createSelector } from 'reselect';
-import { connect as keplerGlConnect } from 'kepler.gl/dist/connect/keplergl-connect';
+import styled, {ThemeProvider, withTheme} from 'styled-components';
+import {createSelector} from 'reselect';
+import {connect as keplerGlConnect} from '@kepler.gl/components/dist/connect/keplergl-connect';
 import NestedIntlProvider from '../../i18n/NestedIntlProvider';
-import { messages } from 'kepler.gl/dist/localization';
-import { RootContext } from 'kepler.gl/dist/components/context';
+import {messages} from '@kepler.gl/localization';
+import {
+  CloudListProvider,
+  DEFAULT_KEPLER_GL_PROPS,
+  DndContextFactory,
+  GeocoderPanelFactory,
+  getVisibleDatasets,
+  KeplerGlFactory,
+  makeGetActionCreators,
+  NotificationPanelFactory,
+  RootContext
+} from '@kepler.gl/components';
 
-import * as VisStateActions from 'kepler.gl/dist/actions/vis-state-actions';
-import * as MapStateActions from 'kepler.gl/dist/actions/map-state-actions';
-import * as MapStyleActions from 'kepler.gl/dist/actions/map-style-actions';
-import * as UIStateActions from 'kepler.gl/dist/actions/ui-state-actions';
-import * as ProviderActions from 'kepler.gl/dist/actions/provider-actions';
+import {
+  VisStateActions,
+  MapStateActions,
+  MapStyleActions,
+  UIStateActions,
+  ProviderActions
+} from '@kepler.gl/actions';
+import {Map} from 'mapbox-gl';
 
-import { THEME } from 'kepler.gl/dist/constants/default-settings';
-import { MISSING_MAPBOX_TOKEN } from 'kepler.gl/dist/constants/user-feedbacks';
-import { Map } from 'mapbox-gl';
+import {THEME, MISSING_MAPBOX_TOKEN} from '@kepler.gl/constants';
 
 import {
   SidePanelFactory,
@@ -26,35 +34,37 @@ import {
   MapsLayoutFactory,
   BottomWidgetFactory,
   ModalContainerFactory,
-  PlotContainerFactory,
-} from 'kepler.gl/dist/components';
+  PlotContainerFactory
+} from '@kepler.gl/components';
 
-import { generateHashId } from 'kepler.gl/dist/utils/utils';
-import { validateToken } from 'kepler.gl/dist/utils/mapbox-utils';
-import { mergeMessages } from '../../../i18n/utils';
+import {
+  generateHashId,
+  validateToken,
+  observeDimensions,
+  unobserveDimensions,
+  hasPortableWidth
+} from '@kepler.gl/utils';
+import {mergeMessages} from '../../../i18n/utils';
 
-import { theme as basicTheme, themeLT, themeBS } from 'kepler.gl/dist/styles';
-import { observeDimensions, unobserveDimensions } from 'kepler.gl/dist/utils/observe-dimensions';
+import {theme as basicTheme, themeLT, themeBS, breakPointValues} from '@kepler.gl/styles';
+import {KeplerGlState} from '@kepler.gl/reducers';
+import {Provider} from '@kepler.gl/cloud-providers';
+import {OnErrorCallBack, OnSuccessCallBack, Viewport} from '@kepler.gl/types';
 
-import { KeplerGlState } from 'kepler.gl/dist/reducers';
-import { Provider } from 'kepler.gl/dist/cloud-providers';
-import { OnErrorCallBack, OnSuccessCallBack } from 'kepler.gl/src/actions';
-
-import KeplerGlFactory, {
+import {
   mapFieldsSelector,
-  sidePanelSelector,
   plotContainerSelector,
-  isSplitSelector,
   bottomWidgetSelector,
-  modalContainerSelector,
   geoCoderPanelSelector,
-  notificationPanelSelector,
-  DEFAULT_KEPLER_GL_PROPS,
+  isSplitSelector,
   mapStateToProps,
-} from 'kepler.gl/dist/components/kepler-gl';
-import { getDefaultLocale } from '../../../i18n/utils';
-import { AppDispatch } from '../../../store';
-import { KeplerGlExtraProps } from '../types';
+  modalContainerSelector,
+  notificationPanelSelector,
+  sidePanelSelector,
+  isViewportDisjointed
+} from '@kepler.gl/components/dist/kepler-gl';
+import {getDefaultLocale} from '../../../i18n/utils';
+import {FeatureFlags, FeatureFlagsContextProvider} from '@kepler.gl/components/dist/context';
 
 export type KeplerGlActions = {
   visStateActions: typeof VisStateActions;
@@ -69,7 +79,7 @@ interface BottomWidgetOuterProps {
 }
 
 const BottomWidgetOuter = styled.div<BottomWidgetOuterProps>(
-  ({ absolute }) => `
+  ({absolute}) => `
   ${absolute ? 'position: absolute; bottom: 0; right: 0;' : ''}
   pointer-events: none; /* prevent padding from blocking input */
   & > * {
@@ -87,11 +97,11 @@ export type KeplerGLBasicProps = {
 
   appWebsite?: string;
   onSaveMap?: () => void;
-  onViewStateChange?: () => void;
+  onViewStateChange?: (viewState: Viewport) => void;
   onDeckInitialized?: () => void;
   onKeplerGlInitialized?: () => void;
   getMapboxRef?: () => React.RefObject<Map>;
-  mapStyles?: { id: string; style?: object }[];
+  mapStyles?: {id: string; style?: object}[];
   mapStylesReplaceDefault?: boolean;
   appName?: string;
   version?: string;
@@ -101,36 +111,47 @@ export type KeplerGLBasicProps = {
   deckGlProps?: object;
   onLoadCloudMapSuccess?: OnSuccessCallBack;
   onLoadCloudMapError?: OnErrorCallBack;
+  onMouseMove?: (event: React.MouseEvent & {lngLat?: [number, number]}) => void;
   onExportToCloudSuccess?: OnSuccessCallBack;
   onExportToCloudError?: OnErrorCallBack;
   readOnly?: boolean;
-  localeMessages?: { [key: string]: { [key: string]: string } };
-  dispatch: AppDispatch;
+  featureFlags?: FeatureFlags;
+
+  localeMessages?: {[key: string]: {[key: string]: string}};
+  dispatch: Dispatch<any>;
 
   topMapContainerProps?: object;
   bottomMapContainerProps?: object;
 };
 
-export type KeplerGLProps = KeplerGlState & KeplerGlActions & KeplerGLBasicProps & KeplerGlExtraProps;
+type KeplerGLProps = KeplerGlState & KeplerGlActions & KeplerGLBasicProps;
+type KeplerGLCompState = {
+  dimensions: {width: number; height: number} | null;
+};
 
-// @ts-ignore
-type KeplerGlSelector = (...args: any[]) => KeplerGlState;
+DatatlasGLFactory.deps = KeplerGlFactory.deps;
 
 function DatatlasGLFactory(
   BottomWidget: ReturnType<typeof BottomWidgetFactory>,
-  GeoCoderPanel,
+  GeoCoderPanel: ReturnType<typeof GeocoderPanelFactory>,
   MapContainer: ReturnType<typeof MapContainerFactory>,
   MapsLayout: ReturnType<typeof MapsLayoutFactory>,
   ModalContainer: ReturnType<typeof ModalContainerFactory>,
   SidePanel: ReturnType<typeof SidePanelFactory>,
   PlotContainer: ReturnType<typeof PlotContainerFactory>,
-  NotificationPanel
-): React.ComponentType<KeplerGLBasicProps & { selector: KeplerGlSelector }> {
-  class DatatlasGL extends Component<KeplerGLProps & { selector: KeplerGlSelector }> {
+  NotificationPanel: ReturnType<typeof NotificationPanelFactory>,
+  DndContext: ReturnType<typeof DndContextFactory>
+): React.ComponentType<KeplerGLBasicProps & {selector: (...args: any[]) => KeplerGlState}> {
+  /** @typedef {import('./kepler-gl').UnconnectedKeplerGlProps} KeplerGlProps */
+  /** @augments React.Component<KeplerGlProps> */
+  class DatatlasGL extends Component<
+    KeplerGLProps & {selector: (...args: any[]) => KeplerGlState},
+    KeplerGLCompState
+  > {
     static defaultProps = DEFAULT_KEPLER_GL_PROPS;
 
-    state = {
-      dimensions: null,
+    state: KeplerGLCompState = {
+      dimensions: null
     };
 
     componentDidMount() {
@@ -150,8 +171,8 @@ function DatatlasGLFactory(
       }
     }
 
-    _handleResize = (dimensions) => {
-      this.setState({ dimensions });
+    _handleResize = dimensions => {
+      this.setState({dimensions});
     };
 
     static contextType = RootContext;
@@ -160,12 +181,12 @@ function DatatlasGLFactory(
     bottomWidgetRef = createRef<HTMLDivElement>();
 
     /* selectors */
-    themeSelector = (props) => props.theme;
-    availableThemeSelector = createSelector(this.themeSelector, (theme) =>
+    themeSelector = props => props.theme;
+    availableThemeSelector = createSelector(this.themeSelector, theme =>
       typeof theme === 'object'
         ? {
             ...basicTheme,
-            ...theme,
+            ...theme
           }
         : theme === THEME.light
         ? themeLT
@@ -174,25 +195,28 @@ function DatatlasGLFactory(
         : theme
     );
 
+    datasetsSelector = props => props.visState.datasets;
+    filteredDatasetsSelector = createSelector(this.datasetsSelector, getVisibleDatasets);
+
     availableProviders = createSelector(
       (props: KeplerGLProps) => props.cloudProviders,
-      (providers) =>
+      providers =>
         Array.isArray(providers) && providers.length
           ? {
-              hasStorage: providers.some((p) => p.hasPrivateStorage()),
-              hasShare: providers.some((p) => p.hasSharingUrl()),
+              hasStorage: providers.some(p => p.hasPrivateStorage()),
+              hasShare: providers.some(p => p.hasSharingUrl())
             }
           : {}
     );
 
     localeMessagesSelector = createSelector(
       (props: KeplerGLProps) => props.localeMessages,
-      (customMessages) => (customMessages ? mergeMessages(messages, customMessages) : messages)
+      customMessages => (customMessages ? mergeMessages(messages, customMessages) : messages)
     );
 
     /* private methods */
     _validateMapboxToken() {
-      const { mapboxApiAccessToken } = this.props;
+      const {mapboxApiAccessToken} = this.props;
       if (!validateToken(mapboxApiAccessToken)) {
         Console.warn(MISSING_MAPBOX_TOKEN);
       }
@@ -201,25 +225,24 @@ function DatatlasGLFactory(
     _loadMapStyle = () => {
       const defaultStyles = Object.values(this.props.mapStyle.mapStyles);
       // add id to custom map styles if not given
-      const customStyles = (this.props.mapStyles || []).map((ms) => ({
+      const customStyles = (this.props.mapStyles || []).map(ms => ({
         ...ms,
-        id: ms.id || generateHashId(),
+        id: ms.id || generateHashId()
       }));
 
-      const allStyles = [...customStyles, ...defaultStyles].reduce(
-        (accu, style) => {
-          const hasStyleObject = style.style && typeof style.style === 'object';
-          accu[hasStyleObject ? 'toLoad' : 'toRequest'][style.id] = style;
+      const allStyles = [...customStyles, ...defaultStyles].reduce((accu, style) => {
+        accu[style.id] = style;
+        return accu;
+      }, {});
 
-          return accu;
-        },
-        { toLoad: {}, toRequest: {} }
-      );
-
-      this.props.mapStyleActions.loadMapStyles(allStyles.toLoad);
-      this.props.mapStyleActions.requestMapStyles(allStyles.toRequest);
+      this.props.mapStyleActions.loadMapStyles(allStyles);
     };
 
+    _deleteMapLabels = (containerId, layerId) => {
+      this.props.visStateActions.toggleLayerForMap(containerId, layerId);
+    };
+
+    // eslint-disable-next-line complexity
     render() {
       const {
         id = 'map',
@@ -229,12 +252,18 @@ function DatatlasGLFactory(
         visState,
         // readOnly override
         readOnly,
+
+        // features
+        featureFlags,
+
+        // cloud providers
+        cloudProviders = []
       } = this.props;
 
-      const dimensions = this.state.dimensions || { width, height };
+      const dimensions = this.state.dimensions || {width, height};
       const {
         splitMaps, // this will store support for split map view is necessary
-        interactionConfig,
+        interactionConfig
       } = visState;
 
       const isSplit = isSplitSelector(this.props);
@@ -243,89 +272,98 @@ function DatatlasGLFactory(
       const isExportingImage = uiState.exportImage.exporting;
       const availableProviders = this.availableProviders(this.props);
 
-      const mapFields = mapFieldsSelector(this.props);
-      const sideFields = sidePanelSelector(this.props, availableProviders);
+      const filteredDatasets = this.filteredDatasetsSelector(this.props);
+      const sideFields = sidePanelSelector(this.props, availableProviders, filteredDatasets);
       const plotContainerFields = plotContainerSelector(this.props);
       const bottomWidgetFields = bottomWidgetSelector(this.props, theme);
       const modalContainerFields = modalContainerSelector(this.props, this.root.current);
-      const geoCoderPanelFields = geoCoderPanelSelector(this.props);
+      const geoCoderPanelFields = geoCoderPanelSelector(this.props, dimensions);
       const notificationPanelFields = notificationPanelSelector(this.props);
-
       const mapContainers = !isSplit
-        ? [<MapContainer primary={true} key={0} index={0} {...mapFields} mapLayers={null} />]
+        ? [<MapContainer primary={true} key={0} index={0} {...mapFieldsSelector(this.props)} />]
         : splitMaps.map((settings, index) => (
             <MapContainer
               key={index}
               index={index}
               primary={index === 1}
-              {...mapFields}
-              mapLayers={splitMaps[index].layers}
+              {...mapFieldsSelector(this.props, index)}
+              containerId={index}
+              deleteMapLabels={this._deleteMapLabels}
             />
           ));
 
       return (
         <RootContext.Provider value={this.root}>
-          <NestedIntlProvider
-            locale={uiState.locale}
-            defaultLocale={getDefaultLocale()}
-            messages={localeMessages[uiState.locale]}
-          >
-            <div
-              className="kepler-gl"
-              id={`kepler-gl__${id}`}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                position: 'relative',
-                width: `${width}px`,
-                height: `${height}px`,
-              }}
-              ref={this.root}
+          <FeatureFlagsContextProvider featureFlags={featureFlags}>
+            <NestedIntlProvider
+              locale={uiState.locale}
+              defaultLocale={getDefaultLocale()}
+              messages={localeMessages[uiState.locale]}
             >
-              <NotificationPanel {...notificationPanelFields} />
-              {!uiState.readOnly && !readOnly && <SidePanel {...sideFields} />}
-              <MapsLayout className="maps">{mapContainers}</MapsLayout>
-              {isExportingImage && <PlotContainer {...plotContainerFields} />}
-              {interactionConfig.geocoder.enabled && <GeoCoderPanel {...geoCoderPanelFields} />}
-              <BottomWidgetOuter absolute>
-                <BottomWidget ref={this.bottomWidgetRef} {...bottomWidgetFields} containerW={dimensions.width} />
-              </BottomWidgetOuter>
-              <ModalContainer {...modalContainerFields} containerW={dimensions.width} containerH={dimensions.height} />
-            </div>
-          </NestedIntlProvider>
+              <ThemeProvider theme={theme}>
+                <CloudListProvider providers={cloudProviders}>
+                  <div
+                    className="kepler-gl"
+                    id={`kepler-gl__${id}`}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      position: 'relative',
+                      width: `${width}px`,
+                      height: `${height}px`
+                    }}
+                    ref={this.root}
+                  >
+                    <NotificationPanel {...notificationPanelFields} />
+                    <DndContext>
+                      {!uiState.readOnly && !readOnly && <SidePanel {...sideFields} />}
+                      <MapsLayout className="maps" mapState={this.props.mapState}>
+                        {mapContainers}
+                      </MapsLayout>
+                    </DndContext>
+                    {isExportingImage && <PlotContainer {...plotContainerFields} />}
+                    {/* 1 geocoder: single mode OR split mode and synced viewports */}
+                    {!isViewportDisjointed(this.props) && interactionConfig.geocoder.enabled && (
+                      <GeoCoderPanel {...geoCoderPanelFields} index={0} unsyncedViewports={false} />
+                    )}
+                    {/* 2 geocoders: split mode and unsynced viewports */}
+                    {isViewportDisjointed(this.props) &&
+                      interactionConfig.geocoder.enabled &&
+                      mapContainers.map((_mapContainer, index) => (
+                        <GeoCoderPanel
+                          key={index}
+                          {...geoCoderPanelFields}
+                          index={index}
+                          unsyncedViewports={true}
+                        />
+                      ))}
+                    <BottomWidgetOuter absolute={!hasPortableWidth(breakPointValues)}>
+                      <BottomWidget
+                        rootRef={this.bottomWidgetRef}
+                        {...bottomWidgetFields}
+                        containerW={dimensions.width}
+                        theme={theme}
+                      />
+                    </BottomWidgetOuter>
+                    <ModalContainer
+                      {...modalContainerFields}
+                      containerW={dimensions.width}
+                      containerH={dimensions.height}
+                    />
+                  </div>
+                </CloudListProvider>
+              </ThemeProvider>
+            </NestedIntlProvider>
+          </FeatureFlagsContextProvider>
         </RootContext.Provider>
       );
     }
   }
 
-  return keplerGlConnect(mapStateToProps, makeMapDispatchToProps)(withTheme(DatatlasGL));
-}
-
-const defaultUserActions = {};
-
-const getDispatch = (dispatch, props) => dispatch;
-const getUserActions = (dispatch, props) => props.actions || defaultUserActions;
-
-/** @type {() => import('reselect').OutputParametricSelector<any, any, any, any>} */
-function makeGetActionCreators() {
-  return createSelector([getDispatch, getUserActions], (dispatch, userActions) => {
-    const [visStateActions, mapStateActions, mapStyleActions, uiStateActions, providerActions] = [
-      VisStateActions,
-      MapStateActions,
-      MapStyleActions,
-      UIStateActions,
-      ProviderActions,
-    ].map((actions) => bindActionCreators(mergeActions(actions, userActions), dispatch));
-
-    return {
-      visStateActions,
-      mapStateActions,
-      mapStyleActions,
-      uiStateActions,
-      providerActions,
-      dispatch,
-    };
-  });
+  return keplerGlConnect(
+    mapStateToProps,
+    makeMapDispatchToProps
+  )(withTheme(DatatlasGL)) as ReturnType<typeof KeplerGlFactory>;
 }
 
 function makeMapDispatchToProps() {
@@ -335,28 +373,12 @@ function makeMapDispatchToProps() {
 
     return {
       ...groupedActionCreators,
-      dispatch,
+      dispatch
     };
   };
 
   return mapDispatchToProps;
 }
-
-/**
- * Override default kepler.gl actions with user defined actions using the same key
- */
-function mergeActions(actions, userActions) {
-  const overrides = {};
-  for (const key in userActions) {
-    if (Object.prototype.hasOwnProperty.call(userActions, key) && Object.prototype.hasOwnProperty.call(actions, key)) {
-      overrides[key] = userActions[key];
-    }
-  }
-
-  return { ...actions, ...overrides };
-}
-
-DatatlasGLFactory.deps = KeplerGlFactory.deps;
 
 export function replaceKeplerGL() {
   return [KeplerGlFactory, DatatlasGLFactory];

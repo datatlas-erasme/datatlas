@@ -1,8 +1,6 @@
 import { handleActions } from 'redux-actions';
-import { _actionFor, _updateProperty } from 'kepler.gl/dist/actions/action-wrapper';
-import { keplerGlInit } from 'kepler.gl/dist/actions/actions';
+import { _actionFor, _updateProperty, ActionTypes, keplerGlInit } from '@kepler.gl/actions';
 import { coreReducerFactory } from './core';
-import ActionTypes from 'kepler.gl/dist/constants/action-types';
 
 // INITIAL_STATE
 const initialCoreState = {};

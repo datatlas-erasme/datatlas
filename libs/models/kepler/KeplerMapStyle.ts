@@ -1,11 +1,7 @@
-import { BaseMapStyle } from 'kepler.gl/reducers';
-import { SavedMapStyle } from 'kepler.gl/schemas/schema-manager';
-import { hexToRgb } from 'kepler.gl/dist/utils';
-import { DEFAULT_LAYER_GROUPS, ICON_PREFIX } from 'kepler.gl/dist/constants/default-settings';
-import { SavedCustomMapStyle } from 'kepler.gl/src/schemas/schema-manager';
-import { getInitialInputStyle } from 'kepler.gl/dist/reducers/map-style-updaters';
+import { BaseMapStyle, SavedCustomMapStyle, SavedMapStyle as KeplerSavedMapStyle } from '@kepler.gl/types';
+import { hexToRgb } from '@kepler.gl/utils';
 
-export class KeplerMapStyle implements SavedMapStyle {
+export class SavedMapStyle implements KeplerSavedMapStyle {
   public static readonly DEFAULT_MAP_STYLES: BaseMapStyle[] = [
     {
       id: 'klokantech-basic',
@@ -21,41 +17,6 @@ export class KeplerMapStyle implements SavedMapStyle {
       icon: 'https://openmaptiles.data.grandlyon.com/styles/vector/11/1050/729.png',
       layerGroups: [],
     },
-    {
-      id: 'dark',
-      label: 'Sombre',
-      url: 'mapbox://styles/uberdata/cjoqbbf6l9k302sl96tyvka09',
-      icon: `${ICON_PREFIX}/UBER_DARK_V2.png`,
-      layerGroups: DEFAULT_LAYER_GROUPS,
-    },
-    {
-      id: 'light',
-      label: 'Clair',
-      url: 'mapbox://styles/uberdata/cjoqb9j339k1f2sl9t5ic5bn4',
-      icon: `${ICON_PREFIX}/UBER_LIGHT_V2.png`,
-      layerGroups: DEFAULT_LAYER_GROUPS,
-    },
-    {
-      id: 'muted',
-      label: 'Clair tamisé',
-      url: 'mapbox://styles/uberdata/cjfyl03kp1tul2smf5v2tbdd4',
-      icon: `${ICON_PREFIX}/UBER_MUTED_LIGHT.png`,
-      layerGroups: DEFAULT_LAYER_GROUPS,
-    },
-    {
-      id: 'muted_night',
-      label: 'Nuit tamisé',
-      url: 'mapbox://styles/uberdata/cjfxhlikmaj1b2soyzevnywgs',
-      icon: `${ICON_PREFIX}/UBER_MUTED_NIGHT.png`,
-      layerGroups: DEFAULT_LAYER_GROUPS,
-    },
-    {
-      id: 'satellite',
-      label: 'Satellite',
-      url: `mapbox://styles/mapbox/satellite-v9`,
-      icon: `${ICON_PREFIX}/UBER_SATELLITE.png`,
-      layerGroups: [],
-    },
   ];
 
   mapStyles = {};
@@ -66,30 +27,30 @@ export class KeplerMapStyle implements SavedMapStyle {
 
   // save mapbox access token
   mapboxApiAccessToken?: string = '';
-  mapboxApiUrl = 'https://api.mapbox.com';
-  mapStylesReplaceDefault = false;
-  inputStyle = getInitialInputStyle();
-  custom3DBuildingColor = false;
 
-  constructor(mapStyle: Partial<KeplerMapStyle> = {}) {
+  constructor(mapStyle: Partial<SavedMapStyle> = {}) {
     Object.assign(this, mapStyle);
 
     if (!this.mapboxApiAccessToken) {
       console.warn('A mapbox API access token must be provided.');
     }
 
-    this.mapStyles = KeplerMapStyle.createMapStyles(this.mapStyles, this.mapboxApiAccessToken || '');
+    this.mapStyles = SavedMapStyle.createMapStyles(this.mapStyles, this.mapboxApiAccessToken || '');
   }
 
-  public static enhance(mapStyle: KeplerMapStyle, accessToken?: string): KeplerMapStyle {
+  public static enhance(mapStyle?: Partial<SavedMapStyle>, accessToken?: string): SavedMapStyle {
     return {
+      styleType: 'dark',
+      topLayerGroups: {},
+      threeDBuildingColor: hexToRgb('#D1CEC7'),
+      visibleLayerGroups: {},
       ...mapStyle,
-      mapStyles: KeplerMapStyle.enhanceMapStyles(mapStyle.mapStyles, accessToken),
+      mapStyles: SavedMapStyle.enhanceMapStyles(mapStyle?.mapStyles, accessToken),
     };
   }
 
   static enhanceMapStyles(mapStyles: SavedCustomMapStyle = {}, accessToken?: string): SavedCustomMapStyle {
-    const defaultMapStylesMap = KeplerMapStyle.getDefaultMapStylesMap();
+    const defaultMapStylesMap = SavedMapStyle.getDefaultMapStylesMap();
     return Object.values(mapStyles).reduce((mapStyles: SavedCustomMapStyle, mapStyle: SavedCustomMapStyle[string]) => {
       return {
         [mapStyle.id]: Object.assign({ accessToken, custom: false }, defaultMapStylesMap[mapStyle.id], mapStyle),
@@ -98,7 +59,7 @@ export class KeplerMapStyle implements SavedMapStyle {
   }
 
   static createMapStyles(previousMapStyles: SavedCustomMapStyle = {}, accessToken: string) {
-    return KeplerMapStyle.DEFAULT_MAP_STYLES.reduce(
+    return SavedMapStyle.DEFAULT_MAP_STYLES.reduce(
       (accu: SavedCustomMapStyle, curr: BaseMapStyle) => ({
         ...accu,
         [curr.id]: Object.assign(
@@ -112,7 +73,7 @@ export class KeplerMapStyle implements SavedMapStyle {
   }
 
   static getDefaultMapStylesMap() {
-    return KeplerMapStyle.DEFAULT_MAP_STYLES.reduce(
+    return SavedMapStyle.DEFAULT_MAP_STYLES.reduce(
       (accu: SavedCustomMapStyle, curr: BaseMapStyle) => ({
         ...accu,
         [curr.id]: Object.assign(curr),

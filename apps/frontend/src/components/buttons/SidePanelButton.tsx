@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { IconButton } from './';
-import { ArrowLeft } from 'kepler.gl/dist/components/common/icons';
+import { ArrowLeft } from '@kepler.gl/components/dist/common/icons';
 
 interface SidePanelButtonInterface {
   children: ReactNode;

@@ -1,11 +1,12 @@
 import { withTask } from 'react-palm/tasks';
-import { LOAD_FILE_TASK, UNWRAP_TASK, DELAY_TASK } from 'kepler.gl/dist/tasks/tasks';
+import { LOAD_FILE_TASK, UNWRAP_TASK, DELAY_TASK } from '@kepler.gl/tasks';
 import {
   initialFileLoadingProgress,
-  updateFileLoadingProgressUpdater,
+  merge_,
   parseProgress,
-} from 'kepler.gl/dist/reducers/vis-state-updaters';
-import { merge_, pick_ } from 'kepler.gl/dist/reducers/composer-helpers';
+  pick_,
+  updateFileLoadingProgressUpdater,
+} from '@kepler.gl/reducers';
 import {
   loadFilesSuccess,
   loadFilesErr,
@@ -13,7 +14,7 @@ import {
   processFileContent,
   loadNextFile,
   wrapTo,
-} from 'kepler.gl/actions';
+} from '@kepler.gl/actions';
 import { wrapCreatorTo } from '../../actions';
 
 export const loadFilesUpdater = (state, action) => {

@@ -1,23 +1,40 @@
-import { LoadDataModalFactory as KeplerLoadDataModalFactory, LoadingMethod } from 'kepler.gl/components';
-import { LoadRemoteDatasetForm } from '../../forms';
+import {
+  FileUploadFactory,
+  LoadDataModalFactory as KeplerLoadDataModalFactory,
+  LoadStorageMapFactory,
+  ModalTabsFactory
+} from '@kepler.gl/components';
+import {LoadingMethod} from '@kepler.gl/components/dist/modals/load-data-modal';
+import {LoadRemoteDatasetForm} from '../../forms';
 
-const LoadDataModalFactory = (...deps) => {
-  const LoadDataModal = KeplerLoadDataModalFactory(...deps);
+LoadDataModalFactory.deps = KeplerLoadDataModalFactory.deps;
+
+function LoadDataModalFactory(
+  ModalTabs: ReturnType<typeof ModalTabsFactory>,
+  FileUpload: ReturnType<typeof FileUploadFactory>,
+  LoadStorageMap: ReturnType<typeof LoadStorageMapFactory>
+) {
+  const LoadDataModal = KeplerLoadDataModalFactory(ModalTabs, FileUpload, LoadStorageMap);
   const remoteLoadingMethod: LoadingMethod = {
     id: 'remote',
     label: 'modal.loadData.remote',
-    elementType: LoadRemoteDatasetForm,
+    elementType: LoadRemoteDatasetForm
   };
 
+  const uploadLoadingMethod = LoadDataModal?.defaultProps?.loadingMethods?.find(
+    lm => lm.id === 'upload'
+  );
+  // @ts-ignore
+  const loadingMethods: LoadingMethod[] = [remoteLoadingMethod, uploadLoadingMethod].filter(
+    lm => !!lm
+  );
   LoadDataModal.defaultProps = {
     ...LoadDataModal.defaultProps,
-    loadingMethods: [remoteLoadingMethod, LoadDataModal.defaultProps.loadingMethods.find((lm) => lm.id === 'upload')],
+    loadingMethods
   };
 
   return LoadDataModal;
-};
-
-LoadDataModalFactory.deps = KeplerLoadDataModalFactory.deps;
+}
 
 export function replaceLoadDataModal() {
   return [KeplerLoadDataModalFactory, LoadDataModalFactory];

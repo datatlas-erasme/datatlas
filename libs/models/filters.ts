@@ -5,9 +5,10 @@ import {
   RangeFilter as KeplerGlRangeFilter,
   SelectFilter as KeplerGlSelectFilter,
   TimeRangeFilter as KeplerGlTimeRangeFilter,
-} from 'kepler.gl/src/reducers/vis-state-updaters';
+} from '@kepler.gl/types';
+import { LineChart } from '@kepler.gl/types/reducers';
 
-export interface FilterBase extends KeplerGlFilterBase {
+export interface FilterBase extends KeplerGlFilterBase<LineChart> {
   public: boolean;
 }
 

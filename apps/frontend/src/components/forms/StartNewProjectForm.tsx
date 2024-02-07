@@ -2,13 +2,13 @@ import React, { FormHTMLAttributes, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { Input } from 'kepler.gl/dist/components/common/styled-components';
-import { KeplerMapStyle } from '@datatlas/models';
+import { Input } from '@kepler.gl/components';
+import { SavedMapStyle } from '@datatlas/models';
+import styled from 'styled-components';
 import { StyledFormBtn, StyledFormBtnProps } from '../buttons';
 import { FormError, StyledLabel } from '../forms';
 import { useCreateProjectMutation } from '../../store/api';
 import { CreateProjectFormData } from '../../models';
-import styled from 'styled-components';
 
 const StartNewProjectFormContainer = styled.form<FormHTMLAttributes<HTMLFormElement> & StyledFormBtnProps>`
   ${StyledFormBtn} {
@@ -48,7 +48,7 @@ export function StartNewProjectForm() {
 
   return (
     /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <StartNewProjectFormContainer onSubmit={handleSubmit(createProject)} loading={isLoading}>
+    <StartNewProjectFormContainer onSubmit={handleSubmit(createProject)} loading={isLoading ? isLoading : undefined}>
       <StyledLabel htmlFor={'title'}>
         1.
         <FormattedMessage id={'createProjectForm.projectName'} defaultMessage={'Entrez le nom du projet'} />
@@ -65,13 +65,13 @@ export function StartNewProjectForm() {
         <FormattedMessage id={'createProjectForm.mapStyle'} defaultMessage={'Sélectionnez un fond de carte'} />
       </StyledLabel>
       <select {...register('mapStyleId')}>
-        {KeplerMapStyle.DEFAULT_MAP_STYLES.map(({ id, label }) => (
+        {SavedMapStyle.DEFAULT_MAP_STYLES.map(({ id, label }) => (
           <option key={id} value={id}>
             {label}
           </option>
         ))}
       </select>
-      <StyledFormBtn loading={isLoading} large>
+      <StyledFormBtn loading={isLoading ? isLoading : undefined} large>
         <FormattedMessage id={'createProjectForm.submit'} defaultMessage="Créer" />
       </StyledFormBtn>
     </StartNewProjectFormContainer>

@@ -4,7 +4,7 @@ import { REHYDRATE } from 'redux-persist';
 import { GetUserDto, LoginResponse, ProjectDto, UpdateProjectRequestInterface } from '@datatlas/dtos';
 import { CreateProjectFormData, LoginFormData } from '../models';
 import { loggedIn } from './reducers/user';
-import { KeplerMapStyle, Project } from '@datatlas/models';
+import { SavedMapStyle, Project } from '@datatlas/models';
 import { selectAccessToken } from './selectors';
 
 const prepareHeaders = (headers, { getState }) => {
@@ -107,7 +107,7 @@ export const api = createApi({
             ...data,
             config: {
               ...data.config,
-              mapStyle: new KeplerMapStyle({
+              mapStyle: new SavedMapStyle({
                 mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
                 styleType: data.mapStyleId,
               }),

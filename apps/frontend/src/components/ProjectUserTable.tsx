@@ -1,6 +1,6 @@
 import React from 'react';
 import { LoadingProjectInterface, UserInterface } from '@datatlas/models';
-import { Trash } from 'kepler.gl/dist/components/common/icons';
+import { Trash } from '@kepler.gl/components/dist/common/icons';
 import { IconButton } from './buttons';
 import { FormattedMessage } from 'react-intl';
 

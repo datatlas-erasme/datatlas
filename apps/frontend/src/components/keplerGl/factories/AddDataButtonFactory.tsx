@@ -1,23 +1,26 @@
-import React, { ButtonHTMLAttributes } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { AddDataButtonFactory as KeplerAddDataButtonFactory } from 'kepler.gl/components';
-import { Add } from 'kepler.gl/dist/components/common/icons';
-import { Button } from '../../buttons';
+import React from 'react';
+import {AddLayerButtonFactory} from '@kepler.gl/components';
+import {AddLayerButtonProps} from '@kepler.gl/components/dist/side-panel/layer-panel/add-layer-button';
+import AddByDatasetButton from '@kepler.gl/components/dist/side-panel/add-by-dataset-button';
 
-interface AddDataButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  isInactive?: boolean;
-}
+AddDataButtonFactory.deps = [];
+
 export function AddDataButtonFactory() {
-  return ({ onClick, isInactive }: AddDataButtonProps) => (
-    <Button className="add-data-button" onClick={onClick} isInactive={!isInactive}>
-      <Add height="12px" />
-      <FormattedMessage id={'layerManager.addData'} />
-    </Button>
-  );
-}
+  const AddDataButton: React.FC<AddLayerButtonProps> = ({datasets, onAdd}) => {
+    return (
+      <AddByDatasetButton
+        datasets={datasets}
+        className="add-data-button"
+        width="110px"
+        onAdd={onAdd}
+        buttonIntlId="layerManager.addData"
+      />
+    );
+  };
 
-AddDataButtonFactory.deps = KeplerAddDataButtonFactory.deps;
+  return AddDataButton;
+}
 
 export function replaceAddDataButtonFactory() {
-  return [KeplerAddDataButtonFactory, AddDataButtonFactory];
+  return [AddLayerButtonFactory, AddDataButtonFactory];
 }

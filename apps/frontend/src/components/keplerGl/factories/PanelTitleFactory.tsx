@@ -1,4 +1,4 @@
-import { PanelTitleFactory as KeplerPanelTitleFactory } from 'kepler.gl/components';
+import {PanelTitleFactory as KeplerPanelTitleFactory} from '@kepler.gl/components';
 
 const PanelTitleFactory = () => () => null;
 

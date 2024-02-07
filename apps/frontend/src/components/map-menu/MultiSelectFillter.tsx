@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { grayscale, rgbToHsl, toCss } from '../../utils/color';
+import { grayscale, rgbToHsl, toCss } from '../../utils';
 
 export const MultiSelectFilterOption = styled(({ hslCssColor, selected, ...props }) => <button {...props} />)`
   display: inline;

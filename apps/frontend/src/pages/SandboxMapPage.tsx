@@ -1,5 +1,5 @@
 import React from 'react';
-import { KeplerGl } from 'kepler.gl';
+import { KeplerGl } from '@kepler.gl/components';
 import { AutoSizer } from 'react-virtualized';
 
 export const SandboxMapPage = () => {

@@ -1,6 +1,5 @@
 import React, { ReactElement, ReactNode, ButtonHTMLAttributes } from 'react';
-import styled from 'styled-components';
-import { Button as KeplerButton } from 'kepler.gl/dist/components/common/styled-components';
+import { Button as KeplerButton } from '@kepler.gl/components';
 
 export interface ButtonPropsInterface extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -12,13 +11,12 @@ export interface ButtonPropsInterface extends ButtonHTMLAttributes<HTMLButtonEle
   primary?: boolean;
 }
 
-const StyledKeplerButton = styled(KeplerButton)``;
 export const Button = ({ children, Icon, ...props }: ButtonPropsInterface) => {
   return (
-    <StyledKeplerButton as="button" {...props}>
+    <KeplerButton as="button" {...props}>
       {Icon}
       {children}
-    </StyledKeplerButton>
+    </KeplerButton>
   );
 };
 

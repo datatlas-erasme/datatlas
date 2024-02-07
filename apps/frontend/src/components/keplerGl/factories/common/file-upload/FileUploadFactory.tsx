@@ -1,29 +1,28 @@
-/* eslint-disable react-hooks/rules-of-hooks, react-hooks/exhaustive-deps */
-// @see kepler.gl/src/components/common/file-uploader/file-upload
-import React, { createRef, useEffect, useState } from 'react';
+import React, {createRef, useEffect, useState} from 'react';
 import styled from 'styled-components';
-import { FormattedMessage, useIntl } from 'react-intl';
+import {FormattedMessage, useIntl, WrappedComponentProps} from 'react-intl';
 import ReactMarkdown from 'react-markdown';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import UploadButton from 'kepler.gl/dist/components/common/file-uploader/upload-button';
-import { DragNDrop, FileType } from 'kepler.gl/dist/components/common/icons';
-import FileUploadProgress from 'kepler.gl/dist/components/common/file-uploader/file-upload-progress';
-import FileDrop from 'kepler.gl/dist/components/common/file-uploader/file-drop';
-import { isChrome } from 'kepler.gl/dist/utils/utils';
-import { GUIDES_FILE_FORMAT_DOC } from 'kepler.gl/dist/constants/user-guides';
-import { media } from 'kepler.gl/dist/styles/media-breakpoints';
-import { visStateActions } from 'kepler.gl/actions';
-import { FileUploadFactory as KeplerFileUploadFactory } from 'kepler.gl/dist/components';
-import { DatatlasTheme } from '../../../../../style/theme';
-import { markdownComponents } from '../../../../markdown';
-import { selectFileFormatNamesByInstanceId } from '../../../../../store/selectors';
-import { RootState } from '../../../../../store/reducers';
+import {useParams} from 'react-router-dom';
+import {
+  UploadButton,
+  FileUploadProgress,
+  FileDrop,
+  FileUploadFactory as KeplerFileUploadFactory
+} from '@kepler.gl/components';
+import {FileType, DragNDrop} from '@kepler.gl/components/dist/common/icons';
+import {isChrome} from '@kepler.gl/utils';
+import {GUIDES_FILE_FORMAT_DOC} from '@kepler.gl/constants';
+import {media} from '@kepler.gl/styles';
+import {FileLoading, FileLoadingProgress} from '@kepler.gl/types';
+import {DatatlasTheme} from '../../../../../style/theme';
+import {markdownComponents} from '../../../../markdown';
+import {selectFileFormatNamesByInstanceId} from '../../../../../store/selectors';
+import {useAppSelector} from '../../../../../store/reducers';
 
 const fileIconColor = '#D3D8E0';
 
 const StyledUploadMessage = styled.div`
-  color: ${(props) => props.theme.textColorLT};
+  color: ${props => props.theme.textColorLT};
   font-size: 14px;
   margin-bottom: 12px;
 
@@ -34,23 +33,28 @@ const StyledUploadMessage = styled.div`
 
 export const WarningMsg = styled.span`
   margin-top: 10px;
-  color: ${(props) => props.theme.errorColor};
+  color: ${props => props.theme.errorColor};
   font-weight: 500;
 `;
 
-const StyledFileDrop = styled.div<Pick<FileUploadState, 'dragOver'>>`
+interface StyledFileDropProps {
+  dragOver?: boolean;
+  theme: DatatlasTheme;
+}
+
+const StyledFileDrop = styled.div<StyledFileDropProps>`
   background-color: white;
   border-radius: 4px;
-  border-style: ${(props) => (props.dragOver ? 'solid' : 'dashed')};
+  border-style: ${props => (props.dragOver ? 'solid' : 'dashed')};
   border-width: 1px;
-  border-color: ${(props) => (props.dragOver ? props.theme.textColorLT : props.theme.subtextColorLT)};
+  border-color: ${props => (props.dragOver ? props.theme.textColorLT : props.theme.subtextColorLT)};
   text-align: center;
   width: 100%;
   padding: 48px 8px 0;
   height: 360px;
 
   .file-upload-or {
-    color: ${(props) => props.theme.linkBtnColor};
+    color: ${props => props.theme.linkBtnColor};
     padding-right: 4px;
   }
 
@@ -63,7 +67,7 @@ const StyledFileDrop = styled.div<Pick<FileUploadState, 'dragOver'>>`
 `;
 
 const MsgWrapper = styled.div`
-  color: ${(props) => props.theme.modalTitleColor};
+  color: ${props => props.theme.modalTitleColor};
   font-size: 20px;
   height: 36px;
 `;
@@ -126,20 +130,23 @@ const StyledDisclaimer = styled(StyledMessage)`
 
 interface FileUploadState {
   dragOver: boolean;
-  fileLoading: boolean;
+  fileLoading: FileLoading | false;
   files: File[];
   errorFiles: string[];
 }
 
-interface FileUploadProps {
-  fileLoading: boolean;
-  fileLoadingProgress: number;
+type FileUploadProps = {
+  onFileUpload: (files: File[]) => void;
+  fileLoading: FileLoading | false;
+  fileLoadingProgress: FileLoadingProgress;
+  theme: object;
+  /** A list of names of supported formats suitable to present to user */
+  fileFormatNames?: string[];
+  /** A list of typically 3 letter extensions (without '.') for file matching */
   fileExtensions?: string[];
+  /** Set to true if app wants to do its own file filtering */
   disableExtensionFilter?: boolean;
-  fileFormatNames: string[];
-  onFileUpload: visStateActions['loadFiles'];
-  theme: DatatlasTheme;
-}
+} & WrappedComponentProps;
 
 function FileUploadFactory() {
   return ({
@@ -148,29 +155,34 @@ function FileUploadFactory() {
     fileExtensions = [],
     disableExtensionFilter = false,
     onFileUpload,
-    theme,
+    theme
   }: FileUploadProps) => {
+    const {id} = useParams();
+    if (!id) {
+      return;
+    }
+
     const intl = useIntl();
     const [state, setState] = useState<FileUploadState>({
       dragOver: false,
       fileLoading: false,
       files: [],
-      errorFiles: [],
+      errorFiles: []
     });
 
     // @todo We should overwrite the ModalFactory and inject `fileFormatNames` there instead.
-    const { id } = useParams();
-    const fileFormatNames = useSelector((state: RootState) => selectFileFormatNamesByInstanceId(state, id));
+    const fileFormatNames = useAppSelector(state => selectFileFormatNamesByInstanceId(state, id));
 
     const frame = createRef<HTMLDivElement>();
 
-    const _isValidFileType = (filename) => {
-      const fileExt = fileExtensions.find((ext) => filename.endsWith(ext));
+    const _isValidFileType = filename => {
+      const fileExt = fileExtensions.find(ext => filename.endsWith(ext));
 
       return Boolean(fileExt);
     };
 
-    const _handleFileInput = (fileList: FileList, event) => {
+    /** @param {FileList} fileList */
+    const _handleFileInput = (fileList: FileList, event: any) => {
       if (event) {
         event.stopPropagation();
       }
@@ -189,14 +201,14 @@ function FileUploadFactory() {
         }
       }
 
-      setState({ ...state, files: filesToLoad, errorFiles, dragOver: false });
+      setState({...state, files: filesToLoad, errorFiles, dragOver: false});
     };
 
     useEffect(() => {
       if (state.fileLoading && !fileLoading && state.files.length) {
-        setState({ ...state, files: [], fileLoading: fileLoading });
+        setState({...state, files: [], fileLoading: fileLoading});
       }
-      setState({ ...state, fileLoading: fileLoading });
+      setState({...state, fileLoading: fileLoading});
     }, [state.files.length, fileLoading]);
 
     useEffect(() => {
@@ -206,10 +218,10 @@ function FileUploadFactory() {
     }, [state.files.length]);
 
     const _toggleDragState = (dragOver: boolean) => {
-      setState({ ...state, dragOver });
+      setState({...state, dragOver});
     };
 
-    const { dragOver, files, errorFiles } = state;
+    const {dragOver, files, errorFiles} = state;
     return (
       <StyledFileUpload className="file-uploader" ref={frame}>
         {FileDrop ? (
@@ -225,19 +237,19 @@ function FileUploadFactory() {
                 components={markdownComponents}
                 children={intl.formatMessage(
                   {
-                    id: 'fileUploader.configUploadMessage',
+                    id: 'fileUploader.configUploadMessage'
                   },
                   {
-                    fileFormatNames: fileFormatNames.map((format) => `**${format}**`).join(', '),
+                    fileFormatNames: fileFormatNames.map(format => `**${format}**`).join(', '),
                     fileFormatDocLink: GUIDES_FILE_FORMAT_DOC,
-                    contactEmail: process.env.REACT_APP_CONTACT_EMAIL,
+                    contactEmail: process.env.REACT_APP_CONTACT_EMAIL
                   }
                 )}
               />
             </StyledUploadMessage>
             <StyledFileDrop dragOver={dragOver}>
               <StyledFileTypeFow className="file-type-row">
-                {fileExtensions.map((ext) => (
+                {fileExtensions.map(ext => (
                   <FileType key={ext} ext={ext} height="50px" fontSize="9px" />
                 ))}
               </StyledFileTypeFow>
@@ -245,7 +257,10 @@ function FileUploadFactory() {
                 <FileUploadProgress fileLoadingProgress={fileLoadingProgress} theme={theme} />
               ) : (
                 <>
-                  <div style={{ opacity: dragOver ? 0.5 : 1 }} className="file-upload-display-message">
+                  <div
+                    style={{opacity: dragOver ? 0.5 : 1}}
+                    className="file-upload-display-message"
+                  >
                     <StyledDragNDropIcon>
                       <DragNDrop height="44px" />
                     </StyledDragNDropIcon>
@@ -254,7 +269,7 @@ function FileUploadFactory() {
                       <WarningMsg>
                         <FormattedMessage
                           id={'fileUploader.fileNotSupported'}
-                          values={{ errorFiles: errorFiles.join(', ') }}
+                          values={{errorFiles: errorFiles.join(', ')}}
                         />
                       </WarningMsg>
                     ) : null}
@@ -282,7 +297,9 @@ function FileUploadFactory() {
           </FileDrop>
         ) : null}
 
-        <WarningMsg>{isChrome() ? <FormattedMessage id={'fileUploader.chromeMessage'} /> : ''}</WarningMsg>
+        <WarningMsg>
+          {isChrome() ? <FormattedMessage id={'fileUploader.chromeMessage'} /> : ''}
+        </WarningMsg>
       </StyledFileUpload>
     );
   };

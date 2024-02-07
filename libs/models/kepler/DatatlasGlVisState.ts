@@ -1,15 +1,12 @@
-import {
-  BaseInteraction,
-  InteractionConfig,
-  TooltipField,
-  VisState as KeplerGlVisState,
-} from 'kepler.gl/src/reducers/vis-state-updaters';
-import { getDefaultInteraction } from 'kepler.gl/dist/utils/interaction-utils';
-import { Messages } from 'kepler.gl/dist/components/common/icons';
+import { BaseInteraction, InteractionConfig as KeplerInteractionConfig, TooltipField } from '@kepler.gl/types';
+import { VisState as KeplerVisState } from '@kepler.gl/schemas';
+import { MapInfoInterface } from '../MapInfoInterface';
+import { Filter } from '../filters';
 
 export type FilterField = TooltipField;
 
 export interface FiltersConfigInterface extends BaseInteraction {
+  id: 'filters';
   config: {
     fieldsToShow: {
       [key: string]: FilterField[];
@@ -17,25 +14,46 @@ export interface FiltersConfigInterface extends BaseInteraction {
   };
 }
 
-export interface DatatlasGlInteractionConfigInterface extends InteractionConfig {
+export interface InteractionConfig extends KeplerInteractionConfig {
   filters: FiltersConfigInterface;
 }
 
-export interface DatatlasGlVisStateInterface extends KeplerGlVisState {
-  interactionConfig: DatatlasGlInteractionConfigInterface;
+export interface VisState extends Omit<KeplerVisState, 'mapInfo'> {
+  interactionConfig: InteractionConfig;
+  mapInfo: MapInfoInterface;
+  filters: Filter[];
 }
 
-export const getDefaultFiltersConfig = () => ({
+export const getDefaultMapInfo = (): MapInfoInterface => ({
+  createdAt: new Date(),
+  description: '',
+  draft: true,
+  contributorsIds: [],
+  title: '',
+  ownerId: 0,
+});
+
+export const getDefaultFiltersConfig = (): FiltersConfigInterface => ({
   id: 'filters',
   label: 'interactions.filters',
   enabled: true,
-  iconComponent: Messages,
   config: {
     fieldsToShow: {},
   },
 });
 
-export const getDefaultInteractionConfig = () => ({
-  ...getDefaultInteraction(),
-  filters: getDefaultFiltersConfig(),
+export const enhanceVisState = (keplerVisState: VisState | KeplerVisState): VisState => ({
+  ...keplerVisState,
+  mapInfo: {
+    ...getDefaultMapInfo(),
+    ...keplerVisState.mapInfo,
+  },
+  interactionConfig: {
+    ...keplerVisState.interactionConfig,
+    filters: getDefaultFiltersConfig(),
+  },
+  filters: keplerVisState.filters.map((filter) => ({
+    public: false,
+    ...filter,
+  })),
 });

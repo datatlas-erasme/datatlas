@@ -1,14 +1,13 @@
 import React from 'react';
-import { createSelector } from 'reselect';
+import {createSelector} from 'reselect';
 import styled from 'styled-components';
 import get from 'lodash.get';
-import { ALL_FIELD_TYPES, FILTER_TYPES } from 'kepler.gl/dist/constants/default-settings';
-import KeplerFilterPanelFactory from 'kepler.gl/dist/components/side-panel/filter-panel/filter-panel';
-import Switch from 'kepler.gl/dist/components/common/switch';
-import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
-import { Filter, SetFilter } from '@datatlas/models';
-import { FormattedMessage } from 'react-intl';
-import InfoHelperFactory from 'kepler.gl/dist/components/common/info-helper';
+import {ALL_FIELD_TYPES, FILTER_TYPES} from '@kepler.gl/constants';
+import {FilterPanelFactory as KeplerFilterPanelFactory, Switch} from '@kepler.gl/components';
+import {Datasets} from '@kepler.gl/table';
+import {Filter, SetFilter} from '@datatlas/models';
+import {FormattedMessage} from 'react-intl';
+import InfoHelperFactory from '@kepler.gl/components';
 
 const StyledFilterPanel = styled.div`
   margin-bottom: 12px;
@@ -21,43 +20,43 @@ const StyledConfigHeader = styled.div`
   justify-content: space-between;
   margin-bottom: 12px;
 
-  background-color: ${(props) => props.theme.panelContentBackground};
+  background-color: ${props => props.theme.panelContentBackground};
   padding: 12px;
 
   :hover {
     cursor: pointer;
     .config__label {
-      color: ${(props) => props.theme.textColorHl};
+      color: ${props => props.theme.textColorHl};
     }
 
     .config__action {
-      color: ${(props) => props.theme.textColorHl};
+      color: ${props => props.theme.textColorHl};
     }
   }
 `;
 
 const ConfigLabelContainer = styled.div`
   line-height: 12px;
-  margin-left: ${(props) => props.theme.layerConfigGroupLabelMargin};
-  padding-left: ${(props) => props.theme.layerConfigGroupLabelPadding};
+  margin-left: ${props => props.theme.layerConfigGroupLabelMargin};
+  padding-left: ${props => props.theme.layerConfigGroupLabelPadding};
 
   display: flex;
   align-items: center;
 
   span {
-    color: ${(props) => props.theme.textColor};
+    color: ${props => props.theme.textColor};
     font-weight: 500;
     letter-spacing: 0.2px;
     text-transform: capitalize;
-    margin-left: ${(props) => props.theme.layerConfigGroupLabelLabelMargin};
-    font-size: ${(props) => props.theme.layerConfigGroupLabelLabelFontSize};
+    margin-left: ${props => props.theme.layerConfigGroupLabelLabelMargin};
+    font-size: ${props => props.theme.layerConfigGroupLabelLabelFontSize};
   }
 `;
 
 export const StyledConfigAction = styled.div`
   display: flex;
   align-items: center;
-  color: ${(props) => props.theme.textColor};
+  color: ${props => props.theme.textColor};
 `;
 
 export interface FilterPanelProps {
@@ -89,12 +88,12 @@ function FilterPanelFactory(
     [FILTER_TYPES.select]: SingleSelectFilterPanel,
     [FILTER_TYPES.multiSelect]: MultiSelectFilterPanel,
     [FILTER_TYPES.range]: RangeFilterPanel,
-    [FILTER_TYPES.polygon]: PolygonFilterPanel,
+    [FILTER_TYPES.polygon]: PolygonFilterPanel
   };
 
   return (props: FilterPanelProps) => {
     /* selectors */
-    const fieldsSelector = (props) => {
+    const fieldsSelector = props => {
       const datasetId = props.filter.dataId[0];
       if (!datasetId) {
         return [];
@@ -102,9 +101,9 @@ function FilterPanelFactory(
       return get(props, ['datasets', datasetId, 'fields'], []);
     };
 
-    const filterSelector = (props) => props.filters;
-    const nameSelector = (props) => props.filter.name;
-    const dataIdSelector = (props) => props.filter.dataId[0];
+    const filterSelector = props => props.filters;
+    const nameSelector = props => props.filter.name;
+    const dataIdSelector = props => props.filter.dataId[0];
 
     // only show current field and field that's not already been used as a filter
     const availableFieldsSelector = createSelector(
@@ -114,15 +113,16 @@ function FilterPanelFactory(
       dataIdSelector,
       (fields, filters, name, dataId) =>
         fields.filter(
-          (f) =>
+          f =>
             f.type &&
             f.type !== ALL_FIELD_TYPES.geojson &&
-            (f.name === name || !filters.find((d) => d.name === f.name && d.dataId === dataId))
+            (f.name === name || !filters.find(d => d.name === f.name && d.dataId === dataId))
         )
     );
 
-    const { setFilter, filter, idx } = props;
-    const FilterFilterComponent = (filter.type && FilterPanelComponents[filter.type]) || FilterPanelComponents.default;
+    const {setFilter, filter, idx} = props;
+    const FilterFilterComponent =
+      (filter.type && FilterPanelComponents[filter.type]) || FilterPanelComponents.default;
     const allAvailableFields = availableFieldsSelector(props);
 
     return (

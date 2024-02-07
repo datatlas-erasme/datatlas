@@ -1,48 +1,37 @@
-import { Filter } from 'kepler.gl';
-import { KeplerGlState } from 'kepler.gl/reducers';
 import { createSelector } from 'reselect';
-import { FiltersConfigInterface, MapInfoInterface, ProjectInterface } from '@datatlas/models';
+import { VisState, ProjectInterface, DatatlasGlInstances } from '@datatlas/models';
 import { RootState } from './reducers';
 import { getUser, getProjects } from './api';
 import { projectFactory } from '../kepler';
 
 export const toKeplerId = (id: string | number) => String(id).toLocaleUpperCase();
 
-export const selectKeplerInstanceById = (state: RootState, instanceId?: string | number) =>
-  instanceId ? state.keplerGl[instanceId] : {};
-export const isFileLoading = (state: RootState, instanceId: string) =>
-  selectKeplerInstanceById(state, instanceId).visState.fileLoading;
-export const selectMapInfoFromKeplerGlState = (state: KeplerGlState) => {
-  return state.visState?.mapInfo as MapInfoInterface;
-};
+export const selectInstance = createSelector(
+  [(state: RootState) => state.keplerGl, (_state: RootState, instanceId?: string) => instanceId],
+  (state: DatatlasGlInstances, instanceId?: string) => (instanceId ? state[instanceId] : undefined)
+);
 
-const DEFAULT_FILE_EXTENSIONS = ['csv', 'geojson'];
-const DEFAULT_FILE_FORMATS = ['CSV', 'GeoJSON'];
+export const selectInstanceVisState = createSelector(selectInstance, (instance) => instance?.visState);
 
-export const selectFileFormatNames = createSelector(
-  (state: KeplerGlState) => state.loaders || [],
+export const selectInstanceMapInfo = createSelector(selectInstanceVisState, (visState) => visState?.mapInfo);
+
+const DEFAULT_FILE_FORMATS = ['CSV', 'Json', 'GeoJSON', 'Arrow'];
+
+const getFileFormatNames = createSelector(
+  (state?: VisState) => state?.loaders || [],
   (loaders) => [...DEFAULT_FILE_FORMATS, ...loaders.map((loader) => loader.name)]
 );
 
-export const selectFileExtensions = createSelector(
-  (state: KeplerGlState) => state.loaders,
-  (loaders) => [...DEFAULT_FILE_EXTENSIONS, ...loaders.flatMap((loader) => loader.extensions)]
+export const selectFileFormatNamesByInstanceId = createSelector(selectInstanceVisState, getFileFormatNames);
+
+export const selectFilters = createSelector(selectInstanceVisState, (visState) => visState?.filters || []);
+
+export const selectIsDraft = createSelector(selectInstanceMapInfo, (mapInfo) => mapInfo?.draft || true);
+
+export const selectFiltersConfig = createSelector(
+  selectInstanceVisState,
+  (visState) => visState?.interactionConfig?.filters
 );
-
-export const selectFileFormatNamesByInstanceId = createSelector(selectKeplerInstanceById, selectFileFormatNames);
-
-export const selectFilters = (state: RootState, instanceId: string): Filter[] =>
-  selectKeplerInstanceById(state, instanceId).visState.filters;
-
-export const selectIsDraft = (state: RootState, instanceId: string): Filter[] => {
-  const keplerState = selectKeplerInstanceById(state, instanceId);
-  const mapInfo = selectMapInfoFromKeplerGlState(keplerState);
-
-  return mapInfo?.draft;
-};
-
-export const selectFiltersConfig = (state: RootState, instanceId: string): FiltersConfigInterface =>
-  selectKeplerInstanceById(state, instanceId).visState.interactionConfig.filters;
 
 export const selectLocale = (state: RootState) => state.locale;
 
@@ -62,17 +51,16 @@ export const selectProjectById = (state: RootState, projectId?: string) => {
     return;
   }
 
-  const keplerState = selectKeplerInstanceById(state, projectId);
-  if (!keplerState) {
+  const instance = selectInstance(state, projectId);
+  if (!instance) {
     return;
   }
 
-  const { ownerId, contributorsIds } = selectMapInfoFromKeplerGlState(keplerState);
-
+  const { ownerId, contributorsIds } = instance.visState.mapInfo;
   const user = selectUserById(state, ownerId);
   const contributors = selectUsersByIds(state, contributorsIds);
 
-  return projectFactory.createProjectFromKeplerInstance(projectId, keplerState, contributors, user);
+  return projectFactory.createProjectFromKeplerInstance(projectId, instance, contributors, user);
 };
 
 export const selectUserById = (state, id) => {

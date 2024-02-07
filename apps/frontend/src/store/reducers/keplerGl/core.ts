@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux';
-import { mapStateReducerFactory } from 'kepler.gl/dist/reducers/map-state';
-import { mapStyleReducerFactory } from 'kepler.gl/dist/reducers/map-style';
-import { uiStateReducerFactory } from 'kepler.gl/dist/reducers/ui-state';
-import { providerStateReducerFactory } from 'kepler.gl/dist/reducers/provider-state';
-import composers from 'kepler.gl/dist/reducers/composers';
-import { KeplerGlState } from 'kepler.gl/reducers';
+import { mapStateReducerFactory, providerStateReducerFactory, uiStateReducerFactory } from '@kepler.gl/reducers';
+import composers from '@kepler.gl/reducers/dist/composers';
+import { mapStyleReducerFactory } from '@kepler.gl/reducers/dist/map-style';
+import { DatatlasGlState } from '@datatlas/models';
 import { visStateReducerFactory } from './vis-state';
 
-const combined = (initialState: KeplerGlState = {}) =>
+const combined = (initialState: Partial<DatatlasGlState> = {}) =>
   combineReducers({
     visState: visStateReducerFactory(initialState.visState),
     mapState: mapStateReducerFactory(initialState.mapState),

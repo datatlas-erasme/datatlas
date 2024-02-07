@@ -1,6 +1,6 @@
-import { ProtoDataset } from 'kepler.gl/actions';
-import { ParsedField } from 'kepler.gl/schemas/schema-manager';
-import { processGeojson } from 'kepler.gl/processors';
+import { ProtoDataset } from '@kepler.gl/types';
+import { ParsedField } from '@kepler.gl/schemas';
+import { processGeojson } from '@kepler.gl/processors';
 import { ColorFactory } from '../ColorFactory';
 
 export interface DatasetFactory {

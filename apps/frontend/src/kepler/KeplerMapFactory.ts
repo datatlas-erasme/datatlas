@@ -1,30 +1,26 @@
 import {
   KeplerVersionedDataset,
-  KeplerVersionedMapConfig,
   ProjectInterface,
-  DatatlasSavedMapInterface,
-  KeplerMapStyle,
   NormalizedProjectInterface,
   Project,
+  VersionedSavedMapConfig,
+  SavedMapStyle,
+  SavedMap,
+  DatatlasGlState,
 } from '@datatlas/models';
 import { ProjectDto } from '@datatlas/dtos';
-import { SavedMap, LoadedMap } from 'kepler.gl/src';
-import { KeplerGlSchema } from 'kepler.gl/schemas';
+import { LoadedMap } from '@kepler.gl/types';
+import { KeplerGLSchema } from '@kepler.gl/schemas/dist/schema-manager';
 import { schemaManager } from './schema-manager';
 
 export class KeplerMapFactory {
-  schemaManager: KeplerGlSchema;
+  schemaManager: KeplerGLSchema;
 
-  constructor(schemaManager: KeplerGlSchema) {
+  constructor(schemaManager: KeplerGLSchema) {
     this.schemaManager = schemaManager;
   }
 
-  public static createFromProjectDto({
-    datasets,
-    config,
-    version,
-    ...projectDto
-  }: ProjectDto): DatatlasSavedMapInterface {
+  public static createFromProjectDto({ datasets, config, version, ...projectDto }: ProjectDto): SavedMap {
     return {
       datasets: KeplerMapFactory.getKeplerVersionedDatasetsFromProject({ datasets }),
       config: KeplerMapFactory.getKeplerVersionedMapConfigFromProject({ config, version }),
@@ -35,7 +31,7 @@ export class KeplerMapFactory {
     };
   }
 
-  public static createFromProject(project: ProjectInterface): DatatlasSavedMapInterface {
+  public static createFromProject(project: ProjectInterface): SavedMap {
     return KeplerMapFactory.createFromNormalizedProject(Project.normalize(project));
   }
 
@@ -44,7 +40,7 @@ export class KeplerMapFactory {
     config,
     version,
     ...props
-  }: NormalizedProjectInterface): DatatlasSavedMapInterface {
+  }: NormalizedProjectInterface): SavedMap {
     return {
       datasets: KeplerMapFactory.getKeplerVersionedDatasetsFromProject({ datasets }),
       config: KeplerMapFactory.getKeplerVersionedMapConfigFromProject({ config, version }),
@@ -55,17 +51,15 @@ export class KeplerMapFactory {
     };
   }
 
-  public static createSavedFromProject(project: ProjectInterface): DatatlasSavedMapInterface {
+  public static createSavedFromProject(project: ProjectInterface): SavedMap {
     return KeplerMapFactory.createFromProject(project);
   }
 
   private static getKeplerVersionedMapConfigFromProject({
     config,
     version,
-  }: Pick<ProjectInterface, 'config' | 'version'>): KeplerVersionedMapConfig {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return new KeplerVersionedMapConfig(config, version);
+  }: Pick<ProjectInterface, 'config' | 'version'>): VersionedSavedMapConfig {
+    return new VersionedSavedMapConfig(config, version);
   }
 
   private static getKeplerVersionedDatasetsFromProject({
@@ -75,19 +69,20 @@ export class KeplerMapFactory {
   }
 
   public load(savedMap: SavedMap): LoadedMap {
-    const loadedMap = this.schemaManager.load(savedMap);
+    const loadedMap = this.schemaManager.load(savedMap.datasets, savedMap.config);
 
     return {
+      datasets: [],
       ...loadedMap,
       config: {
         ...loadedMap.config,
-        mapStyle: KeplerMapStyle.enhance(loadedMap.config.mapStyle),
+        mapStyle: SavedMapStyle.enhance(loadedMap.config?.mapStyle, process.env.REACT_APP_MAPBOX_ACCESS_TOKEN),
       },
     };
   }
 
-  public save(keplerGlState): DatatlasSavedMapInterface {
-    return this.schemaManager.save(keplerGlState);
+  public save(keplerGlState: DatatlasGlState): SavedMap {
+    return this.schemaManager.save(keplerGlState) as unknown as SavedMap;
   }
 }
 

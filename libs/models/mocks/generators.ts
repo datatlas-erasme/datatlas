@@ -1,5 +1,6 @@
+import { RGBColor } from '@kepler.gl/types';
 import { faker } from '@faker-js/faker';
-import { DatasetInterface, KeplerMapConfig, ProjectInterface, Roles, UserInterface } from '../';
+import { DatasetInterface, SavedMapConfig, ProjectInterface, Roles, UserInterface } from '../';
 
 export const generateArray = (l = faker.datatype.number(25)) => Array.from(Array(faker.datatype.number(l)).keys());
 
@@ -33,7 +34,7 @@ export const generateFakeDatasetData = (
   id: faker.datatype.string(5),
   allData: generateArray(2).map(() => [[generateFakeGeoJsonFeature(), faker.animal.bear()]]),
   label: 'Bears',
-  color: faker.color.rgb({ format: 'decimal' }),
+  color: faker.color.rgb({ format: 'decimal' }) as RGBColor,
   fields: [
     { name: '_geojson', type: 'geojson' },
     { name: 'bear', type: 'string' },
@@ -57,7 +58,7 @@ export const generateFakeProject = (partialProject: Partial<ProjectInterface> = 
   draft: faker.datatype.boolean(),
   contributors: faker.helpers.arrayElements([generateFakeUser()]),
   version: 'v1' as const,
-  config: new KeplerMapConfig(),
+  config: new SavedMapConfig(),
   ...partialProject,
 });
 

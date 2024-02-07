@@ -1,45 +1,43 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import { Layers } from 'kepler.gl/dist/components/common/icons';
-import { getTooltipDisplayValue, getTooltipDisplayDeltaValue } from 'kepler.gl/dist/utils/interaction-utils';
-import KeplerLayerHoverInfoFactory, { StyledLayerName } from 'kepler.gl/dist/components/map/layer-hover-info';
-import MapboxLayerGL from 'kepler.gl/src/layers/mapboxgl-layer';
-import { TooltipField } from 'kepler.gl/src/reducers/vis-state-updaters';
-import { DataRow } from 'kepler.gl/src/utils/table-utils/data-row';
-import { DataContainerInterface } from 'kepler.gl/src/utils/table-utils/data-container-interface';
-import { Field } from 'kepler.gl/src/utils/table-utils/kepler-table';
-import { CompareType } from '@datatlas/models';
-import { Button, OutlineButton } from '../../../buttons';
-import { ExternalLink } from '../../../ExternalLink';
-import { isImageURL, humanize } from '../../../../utils';
-import { useOnKeyEffect } from '../../../../hooks/useOnKeyEffect';
-import KeyEvent from 'kepler.gl/dist/constants/keyevent';
+import {Layers} from '@kepler.gl/components/dist/common/icons';
+import {getTooltipDisplayDeltaValue, getTooltipDisplayValue} from '@kepler.gl/reducers';
+import {StyledLayerName} from '@kepler.gl/components/dist/map/layer-hover-info';
+import {LayerHoverInfoFactory as KeplerLayerHoverInfoFactory} from '@kepler.gl/components';
+import {DataContainerInterface, DataRow} from '@kepler.gl/utils';
+import {CompareType, Field, TooltipField} from '@kepler.gl/types';
+import {Layer, LayerBaseConfig, LayerColorConfig, LayerSizeConfig} from '@kepler.gl/layers';
+import {Button, OutlineButton} from '../../../buttons';
+import {ExternalLink} from '../../../ExternalLink';
+import {isImageURL, humanize} from '../../../../utils';
+import {useOnKeyEffect} from '../../../../hooks/useOnKeyEffect';
+import {KeyEvent} from '@kepler.gl/constants';
 
 export const MapPopoverContent = styled.div`
   & .row__delta-value {
     text-align: right;
 
     &.positive {
-      color: ${(props) => props.theme.primaryBtnBgd};
+      color: ${props => props.theme.primaryBtnBgd};
     }
 
     &.negative {
-      color: ${(props) => props.theme.negativeBtnActBgd};
+      color: ${props => props.theme.negativeBtnActBgd};
     }
   }
 `;
 
 interface RowProps extends Omit<ExpandableProps, 'setExpanded'> {
-  name: string;
+  name?: string;
   value: number | string;
   deltaValue?: number | string | null;
   url?: string;
   aggregated?: boolean;
 }
 
-export const Row = ({ name, value, deltaValue, url, aggregated, setExpandable }: RowProps) => {
+export const Row = ({name = '', value, deltaValue, url, aggregated, setExpandable}: RowProps) => {
   // Set 'url' to 'value' if it looks like a url
   if (!url && value && typeof value === 'string' && value.match(/^http/)) {
     url = value;
@@ -48,7 +46,7 @@ export const Row = ({ name, value, deltaValue, url, aggregated, setExpandable }:
   const className = classNames(['row', !value && 'empty', aggregated && 'aggregated']);
   const containerProps = {
     className,
-    key: name,
+    key: name
   };
 
   // @todo We could also attempt to load the URL and see what's the content type.
@@ -77,7 +75,11 @@ export const Row = ({ name, value, deltaValue, url, aggregated, setExpandable }:
         <ExternalLink href={url}>{value}</ExternalLink>
       </dd>
       {deltaValue && (
-        <dd className={`row__delta-value ${deltaValue.toString().charAt(0) === '+' ? 'positive' : 'negative'}`}>
+        <dd
+          className={`row__delta-value ${
+            deltaValue.toString().charAt(0) === '+' ? 'positive' : 'negative'
+          }`}
+        >
           {deltaValue}
         </dd>
       )}
@@ -92,10 +94,10 @@ const EntryInfo = ({
   primaryData,
   compareType,
   expanded,
-  setExpandable,
+  setExpandable
 }: Omit<LayerHoverInfoProps, 'onClose'>) => (
   <div className="entry-info">
-    {fieldsToShow.map((item) => (
+    {fieldsToShow.map(item => (
       <EntryInfoRow
         key={item.name}
         item={item}
@@ -110,25 +112,36 @@ const EntryInfo = ({
   </div>
 );
 
-interface EntryInfoRowProps extends Omit<LayerHoverInfoProps, 'fieldsToShow' | 'layer' | 'setExpanded' | 'onClose'> {
+interface EntryInfoRowProps
+  extends Omit<LayerHoverInfoProps, 'fieldsToShow' | 'layer' | 'setExpanded' | 'onClose'> {
   item: TooltipField;
 }
 
-const EntryInfoRow = ({ item, fields, data, primaryData, compareType, expanded, setExpandable }: EntryInfoRowProps) => {
-  const fieldIdx = fields.findIndex((f) => f.name === item.name);
+const EntryInfoRow = ({
+  item,
+  fields,
+  data,
+  primaryData,
+  compareType,
+  expanded,
+  setExpandable
+}: EntryInfoRowProps) => {
+  const fieldIdx = fields.findIndex(f => f.name === item.name);
   if (fieldIdx < 0) {
     return null;
   }
   const field = fields[fieldIdx];
-  const displayValue = getTooltipDisplayValue({ item, field, data, fieldIdx });
+  // @ts-ignore
+  const displayValue = getTooltipDisplayValue({item, field, data, fieldIdx});
 
   const displayDeltaValue = getTooltipDisplayDeltaValue({
     item,
     field,
     data,
     fieldIdx,
+    // @ts-ignore
     primaryData,
-    compareType,
+    compareType
   });
 
   return (
@@ -143,8 +156,13 @@ const EntryInfoRow = ({ item, fields, data, primaryData, compareType, expanded, 
 };
 
 // TODO: supporting comparative value for aggregated cells as well
-const CellInfo = ({ data, layer, expanded, setExpandable }: Omit<LayerHoverInfoProps, 'setExpanded'>) => {
-  const { colorField, sizeField } = layer.config;
+const CellInfo = ({
+  data,
+  layer,
+  expanded,
+  setExpandable
+}: Omit<LayerHoverInfoProps, 'setExpanded'>) => {
+  const {colorField, sizeField} = layer.config;
 
   return (
     <>
@@ -178,7 +196,7 @@ const CellInfo = ({ data, layer, expanded, setExpandable }: Omit<LayerHoverInfoP
 export interface LayerHoverInfoProps extends ExpandableProps {
   fields: Field[];
   fieldsToShow: TooltipField[];
-  layer: MapboxLayerGL;
+  layer: Layer & {config: LayerBaseConfig & Partial<LayerColorConfig & LayerSizeConfig>};
   data: DataRow & {
     points: [number, number][];
     elevationValue: string;
@@ -207,14 +225,14 @@ interface ExpandableProps {
 const LayerHoverInfoContainer = styled.div<Pick<LayerHoverInfoProps, 'layer'>>`
   .map-popover__layer-name {
     svg {
-      fill: ${({ layer }) => `rgb(${layer.config.color.join(',')})`};
+      fill: ${({layer}) => `rgb(${layer.config.color.join(',')})`};
     }
   }
 `;
 
 const LayerHoverInfoFactory = () => {
   return (props: LayerHoverInfoProps) => {
-    const { data, layer, expanded, setExpanded } = props;
+    const {data, layer, expanded, setExpanded} = props;
     if (!data || !layer) {
       return null;
     }
@@ -228,7 +246,7 @@ const LayerHoverInfoFactory = () => {
       >
         <Toolbar className="map-popover__topbar">
           <StyledLayerName className="map-popover__layer-name">
-            <Layers height="16px" style={{ fill: layer.config.color }} />
+            <Layers height="16px" style={{fill: layer.config.color.toString()}} />
             {props.layer.config.label}
           </StyledLayerName>
           <Button onClick={() => setExpanded(false)}>×</Button>
@@ -250,7 +268,7 @@ const LayerHoverInfoFactory = () => {
   };
 };
 
-LayerHoverInfoFactory.deps = KeplerLayerHoverInfoFactory.deps;
+LayerHoverInfoFactory.deps = [];
 
 export function replaceLayerHoverInfoFactory() {
   return [KeplerLayerHoverInfoFactory, LayerHoverInfoFactory];

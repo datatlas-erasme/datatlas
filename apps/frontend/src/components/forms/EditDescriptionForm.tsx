@@ -51,7 +51,7 @@ export function EditDescriptionForm({ description }: EditDescriptionFormProps) {
       <MarkdownTextArea
         id="description"
         defaultValue={description || ''}
-        readonly={!description}
+        readOnly={!description}
         rows={8}
         {...register('description', { required: true })}
       />

@@ -1,8 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
-import { ChickletButton } from 'kepler.gl/dist/components/common/item-selector/chickleted-input';
-import { DatatlasTheme } from './theme';
+import { ChickletButton } from '@kepler.gl/components';
 
-export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
+export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: ${({ theme }) => theme.boxSizing};
     margin: 0;

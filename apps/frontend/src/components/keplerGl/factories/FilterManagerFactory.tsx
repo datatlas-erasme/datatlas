@@ -1,71 +1,109 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import React, {ChangeEventHandler, MouseEventHandler, useCallback, useMemo} from 'react';
 import {
   FilterManagerFactory as KeplerFilterManagerFactory,
+  FilterManagerProps as KeplerFilterManagerProps,
   PanelHeaderActionFactory,
+  SidePanelSection,
   LayerTitleSectionFactory,
-} from 'kepler.gl/dist/components';
-import { SidePanelSection } from 'kepler.gl/dist/components/common/styled-components';
-import { Add, Table } from 'kepler.gl/dist/components/common/icons';
-import { PanelComponentPropsInterface } from '../types/PanelComponentPropsInterface';
-import { SortableLayerList } from '../side-panel/layer/SortableLayerList';
-import { LayerPanel } from '../side-panel/layer/LayerPanel';
-import { LayerPanelHeader } from '../side-panel/layer/LayerPanelHeader';
-import { StyledLayerConfigurator } from './configurator';
+  FilterPanelFactory
+} from '@kepler.gl/components';
+import {Add, DataTable} from '@kepler.gl/components/dist/common/icons';
+import {LayerPanel} from '../side-panel/layer/LayerPanel';
+import {LayerPanelHeader} from '../side-panel/layer/LayerPanelHeader';
+import {StyledLayerConfigurator} from '../configurator/StyledLayerConfigurator';
+import {isSideFilter} from '@kepler.gl/utils';
+import {FILTER_VIEW_TYPES} from '@kepler.gl/constants';
+import {SortableLayerListFactory} from '../side-panel/layer/SortableLayerList';
+import {LayerClassesType} from '@kepler.gl/layers';
+import {ActionHandlers, UIStateActions, VisStateActions} from '@kepler.gl/actions';
 
-function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
-  const PanelHeaderAction = PanelHeaderActionFactory();
-  const LayerTitleSection = LayerTitleSectionFactory();
+FilterManagerFactory.deps = [
+  FilterPanelFactory,
+  LayerTitleSectionFactory,
+  PanelHeaderActionFactory,
+  SortableLayerListFactory
+];
 
-  const FilterManager = ({
+export type VisStateActionHandlers = ActionHandlers<typeof VisStateActions>;
+export type UiStateActionHandlers = ActionHandlers<typeof UIStateActions>;
+
+type FilterManagerProps = KeplerFilterManagerProps & {
+  layerOrder: string[];
+  layerClasses: LayerClassesType;
+  uiStateActions: UiStateActionHandlers;
+  visStateActions: VisStateActionHandlers;
+};
+
+function FilterManagerFactory(
+  FilterPanel: ReturnType<typeof FilterPanelFactory>,
+  LayerTitleSection: ReturnType<typeof LayerTitleSectionFactory>,
+  PanelHeaderAction: ReturnType<typeof PanelHeaderActionFactory>,
+  SortableLayerList: ReturnType<typeof SortableLayerListFactory>
+) {
+  const FilterManager: React.FC<FilterManagerProps> = ({
     filters = [],
     datasets,
     layers,
     layerOrder,
+    layerClasses,
     showDatasetTable,
-    visStateActions: {
-      reorderLayer,
+    visStateActions,
+    uiStateActions
+  }) => {
+    const {
       layerConfigChange,
       addFilter,
-      enlargeFilter,
       removeFilter,
       setFilter,
-      toggleAnimation,
       toggleFilterFeature,
-    },
-  }: PanelComponentPropsInterface) => {
-    const isAnyFilterAnimating = filters.some((f) => f.isAnimating);
-    const hadEmptyFilter = (reversedIndex) => reversedIndex.map((idx) => filters[idx]).some((f) => !f.name);
-    const reversedIndexGroupedByLayerIdx = useMemo(() => {
+      setFilterView,
+      toggleFilterAnimation
+    } = visStateActions;
+    const isAnyFilterAnimating = filters.some(f => f.isAnimating);
+    const hadEmptyFilter = reversedIndex =>
+      reversedIndex.map(idx => filters[idx]).some(f => !f.name);
+    const onClickAddFilter = useCallback(dataset => addFilter(dataset), [addFilter]);
+    const reversedIndexGroupedByLayerIdx: Record<number, number[]> = useMemo(() => {
       return layers.reduce(
         (filtersGroupedByLayerIdx, layer, layerIdx) => ({
           ...filtersGroupedByLayerIdx,
-          [layerIdx]: filters.reduce((reversedIndex, filter, filterIdx) => {
+          [layerIdx]: filters.reduce((reversedIndex: number[], filter, filterIdx) => {
             if (filter.dataId.includes(layer.config.dataId)) {
               reversedIndex.unshift(filterIdx);
             }
 
             return reversedIndex;
-          }, []),
+          }, [])
         }),
         {}
       );
       // eslint-disable-next-line
-    }, [layers.length, filters.length]);
+    }, [layers.length, filters]);
 
     const handleUpdateLayerLabel =
-      (layer) =>
-      ({ target: { value } }) => {
-        layerConfigChange(layer, { label: value });
+      (layer): ChangeEventHandler<HTMLInputElement> =>
+      ({target: {value}}) => {
+        layerConfigChange(layer, {label: value});
       };
 
-    const handleToggleLayerPanel = (layer) => (e) => {
-      e.stopPropagation();
-      const {
-        config: { isConfigActive },
-      } = layer;
-      layerConfigChange(layer, { isConfigActive: !isConfigActive });
-    };
+    const _toggleEnableConfig =
+      (layer): MouseEventHandler =>
+      e => {
+        e?.stopPropagation();
+        const {
+          config: {isConfigActive}
+        } = layer;
+        layerConfigChange(layer, {isConfigActive: !isConfigActive});
+      };
+
+    const _enlargeFilter = (idx, filter) => () =>
+      setFilterView(
+        idx,
+        isSideFilter(filter) ? FILTER_VIEW_TYPES.enlarged : FILTER_VIEW_TYPES.side
+      );
+
+    const _toggleAnimation = idx => () => toggleFilterAnimation(idx);
 
     return (
       <div className="filter-manager">
@@ -73,23 +111,27 @@ function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
           <SortableLayerList
             layers={layers}
             layerOrder={layerOrder}
-            reorderLayer={reorderLayer}
-            layerConfigChange={layerConfigChange}
+            layerClasses={layerClasses}
+            datasets={datasets}
+            visStateActions={visStateActions}
+            uiStateActions={uiStateActions}
             renderLayerListItem={(layer, layerIdx) => (
               <LayerPanel
                 isActive={layer.config.isConfigActive}
                 header={
                   <LayerPanelHeader
-                    isActive={layer.config.isConfigActive}
+                    isConfigActive={layer.config.isConfigActive}
                     isDragNDropEnabled={true}
                     labelRCGColorValues={layer.config.color}
-                    onToggleEnableConfig={handleToggleLayerPanel(layer)}
+                    onToggleEnableConfig={_toggleEnableConfig(layer)}
                     layerTitleSection={
                       <LayerTitleSection
                         layerId={layer.id}
                         label={layer.config.label}
                         onUpdateLayerLabel={handleUpdateLayerLabel(layer)}
                         layerType={layer.type}
+                        onFocus={() => {}}
+                        onBlur={() => {}}
                       />
                     }
                   >
@@ -97,29 +139,26 @@ function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
                       className="layer__show-data-table"
                       id={layer.id}
                       tooltip={'datasetTitle.showDataTable'}
-                      onClick={(e) => {
+                      onClick={e => {
                         e.preventDefault();
                         showDatasetTable(layer.config.dataId);
                       }}
-                      IconComponent={Table}
+                      IconComponent={DataTable}
                     />
 
                     <PanelHeaderAction
                       className="layer__add-filter"
                       id={layer.id}
                       tooltip={'filterManager.addFilter'}
-                      inactive={hadEmptyFilter(reversedIndexGroupedByLayerIdx[layerIdx])}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        addFilter(layer.config.dataId);
-                      }}
+                      active={!hadEmptyFilter(reversedIndexGroupedByLayerIdx[layerIdx])}
+                      onClick={onClickAddFilter}
                       IconComponent={Add}
                     />
                   </LayerPanelHeader>
                 }
               >
                 <StyledLayerConfigurator>
-                  {reversedIndexGroupedByLayerIdx[layerIdx].map((idx) => (
+                  {reversedIndexGroupedByLayerIdx[layerIdx].map(idx => (
                     <FilterPanel
                       key={`${filters[idx].id}-${idx}`}
                       idx={idx}
@@ -129,8 +168,8 @@ function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
                       layers={layers}
                       isAnyFilterAnimating={isAnyFilterAnimating}
                       removeFilter={() => removeFilter(idx)}
-                      enlargeFilter={() => enlargeFilter(idx)}
-                      toggleAnimation={() => toggleAnimation(idx)}
+                      enlargeFilter={_enlargeFilter(idx, filters[idx])}
+                      toggleAnimation={_toggleAnimation(idx)}
                       toggleFilterFeature={() => toggleFilterFeature(idx)}
                       setFilter={setFilter}
                     />
@@ -144,21 +183,8 @@ function FilterManagerFactory(SourceDataCatalog, FilterPanel) {
     );
   };
 
-  FilterManager.propTypes = {
-    datasets: PropTypes.object,
-    layers: PropTypes.arrayOf(PropTypes.any).isRequired,
-    filters: PropTypes.arrayOf(PropTypes.any).isRequired,
-    showDatasetTable: PropTypes.func.isRequired,
-    visStateActions: PropTypes.object.isRequired,
-
-    // fields can be undefined when dataset is not selected
-    fields: PropTypes.arrayOf(PropTypes.any),
-  };
-
   return FilterManager;
 }
-
-FilterManagerFactory.deps = KeplerFilterManagerFactory.deps;
 
 export function replaceFilterManager() {
   return [KeplerFilterManagerFactory, FilterManagerFactory];

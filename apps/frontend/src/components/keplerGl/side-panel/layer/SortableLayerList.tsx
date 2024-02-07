@@ -1,26 +1,50 @@
-import React, { PropsWithChildren, ReactNode, useState } from 'react';
-import { SortableContainer, SortableContainerProps, SortableElement, SortableElementProps } from 'react-sortable-hoc';
-import classnames from 'classnames';
+import React, {ReactNode, useMemo} from 'react';
 import styled from 'styled-components';
-import { Layer } from 'kepler.gl';
-import { arrayMove } from 'kepler.gl/dist/utils/data-utils';
-import { PanelComponentPropsInterface } from '../../types/PanelComponentPropsInterface';
+import classnames from 'classnames';
+
+import {Layer} from '@kepler.gl/layers';
+
+import {useSortable, SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable';
+import {CSS} from '@dnd-kit/utilities';
+import {findById} from '@kepler.gl/utils';
+import {dataTestIds, SORTABLE_LAYER_TYPE, SORTABLE_SIDE_PANEL_TYPE} from '@kepler.gl/constants';
+import {LayerListProps} from '@kepler.gl/components';
+import {UiStateActionHandlers, VisStateActionHandlers} from '../../factories';
+
+export type SortableLayerListProps = Omit<LayerListProps, 'uiStateActions' | 'visStateActions'> & {
+  renderLayerListItem: (layer: Layer, layerIdx: string) => ReactNode;
+  uiStateActions: UiStateActionHandlers;
+  visStateActions: VisStateActionHandlers;
+};
 
 // make sure the element is always visible while is being dragged
 // item being dragged is appended in body, here to reset its global style
-const SortableStyledItem = styled.div`
-  z-index: ${({ theme }) => theme.dropdownWrapperZ + 1};
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+interface SortableStyledItemProps {
+  transition?: string;
+  transform?: string;
+}
+
+const SortableStyledItem = styled.div<SortableStyledItemProps>`
+  z-index: ${props => props.theme.dropdownWrapperZ + 1};
+  transition: ${props => props.transition};
+  transform: ${props => props.transform};
   &.sorting {
+    opacity: 0.3;
     pointer-events: none;
   }
-
   &.sorting-layers .layer-panel__header {
-    background-color: ${({ theme }) => theme.panelBackground};
-    font-family: ${({ theme }) => theme.fontFamily};
-    font-weight: ${({ theme }) => theme.fontWeight};
-    font-size: ${({ theme }) => theme.fontSize};
-    line-height: ${({ theme }) => theme.lineHeight};
+    background-color: ${props => props.theme.panelBackgroundHover};
+    font-family: ${props => props.theme.fontFamily};
+    font-weight: ${props => props.theme.fontWeight};
+    font-size: ${props => props.theme.fontSize};
+    line-height: ${props => props.theme.lineHeight};
     *,
     *:before,
     *:after {
@@ -28,72 +52,139 @@ const SortableStyledItem = styled.div`
     }
     .layer__drag-handle {
       opacity: 1;
-      color: ${({ theme }) => theme.textColorHl};
-      border-bottom: none;
+      color: ${props => props.theme.textColorHl};
     }
   }
 `;
 
-const SortableItem: React.ComponentClass<SortableElementProps & PropsWithChildren<{ isSorting: boolean }>> =
-  SortableElement(({ children, isSorting }) => (
-    <SortableStyledItem className={classnames('sortable-layer-items', { sorting: isSorting })}>
-      {children}
-    </SortableStyledItem>
-  ));
+const INITIAL_LAYERS_TO_SHOW: Layer[] = [];
 
-const WrappedSortableContainer: React.ComponentClass<SortableContainerProps & PropsWithChildren> = SortableContainer(
-  ({ children }) => <div>{children}</div>
-);
+SortableLayerListFactory.deps = [];
 
-export interface SortableLayerPanelPropsInterface {
-  layers: PanelComponentPropsInterface['layers'];
-  layerOrder: PanelComponentPropsInterface['layerOrder'];
-  reorderLayer: PanelComponentPropsInterface['visStateActions']['reorderLayer'];
-  layerConfigChange: PanelComponentPropsInterface['visStateActions']['layerConfigChange'];
-  renderLayerListItem: (layer: Layer, layerIdx: number) => ReactNode;
-}
-export const SortableLayerList = ({
-  layers,
-  layerOrder,
-  reorderLayer,
-  layerConfigChange,
-  renderLayerListItem,
-}: SortableLayerPanelPropsInterface) => {
-  const [isSorting, setIsSorting] = useState<boolean>(false);
-  const _handleSort = ({ oldIndex, newIndex }) => {
-    reorderLayer(arrayMove(layerOrder, oldIndex, newIndex));
-    setIsSorting(false);
+export function SortableLayerListFactory() {
+  // By wrapping layer panel using a sortable element we don't have to implement the drag and drop logic into the panel itself;
+  // Developers can provide any layer panel implementation and it will still be sortable
+  const SortableItem = ({layer, idx, panelProps, layerActions, disabled, children}) => {
+    const {attributes, setNodeRef, isDragging, transform, transition} = useSortable({
+      id: layer.id,
+      data: {
+        type: SORTABLE_LAYER_TYPE,
+        parent: SORTABLE_SIDE_PANEL_TYPE
+      },
+      disabled
+    });
+
+    return (
+      <SortableStyledItem
+        ref={setNodeRef}
+        className={classnames(
+          {[dataTestIds.sortableLayerItem]: !disabled},
+          {[dataTestIds.staticLayerItem]: disabled},
+          {sorting: isDragging}
+        )}
+        data-testid={disabled ? dataTestIds.staticLayerItem : dataTestIds.sortableLayerItem}
+        transform={CSS.Transform.toString(transform)}
+        transition={transition}
+        {...attributes}
+      >
+        {children}
+      </SortableStyledItem>
+    );
   };
 
-  const _onSortStart = () => {
-    setIsSorting(true);
-  };
+  const SortableLayerList: React.FC<SortableLayerListProps> = props => {
+    const {
+      layers,
+      datasets,
+      layerOrder,
+      uiStateActions,
+      visStateActions,
+      layerClasses,
+      isSortable = true,
+      renderLayerListItem
+    } = props;
+    const {toggleModal: openModal} = uiStateActions;
 
-  const _updateBeforeSortStart = ({ index }) => {
-    // if layer config is active, close it
-    const layerIdx = layerOrder[index];
-    if (layers[layerIdx].config.isConfigActive) {
-      layerConfigChange(layers[layerIdx], { isConfigActive: false });
-    }
-  };
+    const layersToShow = useMemo(() => {
+      return layerOrder.reduce((acc, layerId) => {
+        const layer = findById(layerId)(layers.filter(Boolean));
+        if (!layer) {
+          return acc;
+        }
+        return !layer.config.hidden ? [...acc, layer] : acc;
+      }, INITIAL_LAYERS_TO_SHOW);
+    }, [layers, layerOrder]);
 
-  return (
-    <WrappedSortableContainer
-      onSortEnd={_handleSort}
-      onSortStart={_onSortStart}
-      updateBeforeSortStart={_updateBeforeSortStart}
-      lockAxis="y"
-      helperClass="sorting-layers"
-      useDragHandle
-    >
-      {layerOrder.map(
-        (layerIdx, index) =>
-          !layers[layerIdx].config.hidden && (
-            <SortableItem key={`layer-${layerIdx}`} index={index} isSorting={isSorting}>
-              {renderLayerListItem(layers[layerIdx], layerIdx)}
+    const sidePanelDndItems = useMemo(() => {
+      return layersToShow.map(({id}) => id);
+    }, [layersToShow]);
+
+    const layerTypeOptions = useMemo(
+      () =>
+        Object.keys(layerClasses).map(key => {
+          const layer = new layerClasses[key]({dataId: ''});
+          return {
+            id: key,
+            label: layer.name,
+            icon: layer.layerIcon,
+            requireData: layer.requireData
+          };
+        }),
+      [layerClasses]
+    );
+
+    const layerActions = useMemo(
+      () => ({
+        layerColorUIChange: visStateActions.layerColorUIChange,
+        layerConfigChange: visStateActions.layerConfigChange,
+        layerVisualChannelConfigChange: visStateActions.layerVisualChannelConfigChange,
+        layerTypeChange: visStateActions.layerTypeChange,
+        layerVisConfigChange: visStateActions.layerVisConfigChange,
+        layerTextLabelChange: visStateActions.layerTextLabelChange,
+        removeLayer: visStateActions.removeLayer,
+        duplicateLayer: visStateActions.duplicateLayer,
+        layerSetIsValid: visStateActions.layerSetIsValid
+      }),
+      [visStateActions]
+    );
+
+    const panelProps = useMemo(
+      () => ({
+        datasets,
+        openModal,
+        layerTypeOptions
+      }),
+      [datasets, openModal, layerTypeOptions]
+    );
+
+    return (
+      <Container>
+        <SortableContext
+          id={SORTABLE_SIDE_PANEL_TYPE}
+          items={sidePanelDndItems}
+          strategy={verticalListSortingStrategy}
+          disabled={!isSortable}
+        >
+          {/* warning: containerId should be similar to the first key in dndItems defined in kepler-gl.js*/}
+          {layersToShow.map(layer => (
+            <SortableItem
+              key={layer.id}
+              layer={layer}
+              idx={layers.findIndex(l => l?.id === layer.id)}
+              panelProps={panelProps}
+              layerActions={layerActions}
+              disabled={!isSortable}
+            >
+              {renderLayerListItem(layer, layer.id)}
             </SortableItem>
-          )
-      )}
-    </WrappedSortableContainer>
-  );
-};
+          ))}
+        </SortableContext>
+      </Container>
+    );
+  };
+  return SortableLayerList;
+}
+
+export function provideSortableLayerListFactory() {
+  return [SortableLayerListFactory, SortableLayerListFactory];
+}
