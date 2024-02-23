@@ -2,7 +2,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { REHYDRATE } from 'redux-persist';
 import { GetUserDto, LoginResponse, ProjectDto, UpdateProjectRequestInterface } from '@datatlas/dtos';
-import { CreateProjectFormData, LoginFormData } from '../models';
+import { CreateProjectFormData, LoginFormData, ProjectDtoFactory } from '../models';
 import { loggedIn } from './reducers/user';
 import { SavedMapStyle, Project } from '@datatlas/models';
 import { selectAccessToken } from './selectors';
@@ -122,14 +122,13 @@ export const api = createApi({
           const projectDto = {
             ...data,
             // @ts-ignore
-            owner: data?.owner?.id,
+            owner: data?.ownerId,
           };
-
           // Force update of the `getProjects` cache entry.
           dispatch(
             api.util.updateQueryData('getProjects', undefined, (projects) => {
               projects.push(projectDto);
-              projects.sort(Project.getSortingFunction());
+              projects.map(ProjectDtoFactory.fromJson).sort(Project.getSortingFunction());
             })
           );
         },
