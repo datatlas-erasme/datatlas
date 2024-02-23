@@ -9,6 +9,7 @@ import {
   FileDrop,
   FileUploadFactory as KeplerFileUploadFactory
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {FileType, DragNDrop} from '@kepler.gl/components/dist/common/icons';
 import {isChrome} from '@kepler.gl/utils';
 import {GUIDES_FILE_FORMAT_DOC} from '@kepler.gl/constants';
@@ -305,6 +306,7 @@ function FileUploadFactory() {
   };
 }
 
-export function replaceFileUpload() {
+export function replaceFileUpload(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerFileUploadFactory, FileUploadFactory];
 }

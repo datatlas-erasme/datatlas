@@ -28,4 +28,32 @@ import {replaceMapPopoverFactory} from './factories/map/MapPopoverFactory';
 import {provideSortableLayerListFactory} from './side-panel/layer/SortableLayerList';
 
 // ⚠ Order matters ⚠
-export const appInjector = keplerAppInjector;
+export const appInjector = provideRecipesToInjector(
+  [
+    // replaceKeplerGL(),
+    // replaceMapPopoverFactory()
+    // replaceLayerHoverInfoFactory(),
+    // replaceModalDialog(),
+    // replacePanelHeader(),
+    // replacePanelToggleFactory(),
+    // replacePanelTab(),
+    // replaceLayerManager(),
+    // replaceMapManager(),
+    // replaceLoadDataModal(),
+    // replaceFileUpload()
+    // replaceLayerPanel(),
+    // replaceLayerPanelHeader(),
+    // replaceMapControl(),
+    // replaceLocalePanel(),
+    // replaceFilterManager(),
+    // replaceInteractionManager(),
+    // replaceInteractionPanel(),
+    // replaceTooltipConfig(),
+    // replacePanelTitle(),
+    // replaceAddDataButtonFactory(),
+    // replaceFilterPanel(),
+    // provideRangerFilter(),
+    // provideMultiSelectFilter()
+  ],
+  keplerAppInjector
+);

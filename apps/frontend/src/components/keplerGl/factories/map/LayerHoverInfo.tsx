@@ -3,6 +3,7 @@ import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import classNames from 'classnames';
 import {Layers} from '@kepler.gl/components/dist/common/icons';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {getTooltipDisplayDeltaValue, getTooltipDisplayValue} from '@kepler.gl/reducers';
 import {StyledLayerName} from '@kepler.gl/components/dist/map/layer-hover-info';
 import {LayerHoverInfoFactory as KeplerLayerHoverInfoFactory} from '@kepler.gl/components';
@@ -270,6 +271,7 @@ const LayerHoverInfoFactory = () => {
 
 LayerHoverInfoFactory.deps = [];
 
-export function replaceLayerHoverInfoFactory() {
+export function replaceLayerHoverInfoFactory(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerLayerHoverInfoFactory, LayerHoverInfoFactory];
 }

@@ -135,6 +135,7 @@ export class Project implements ProjectInterface {
       ...savedMap.config,
       ...savedMap.info,
       description: savedMap.info.description || '',
+      createdAt: savedMap.info.createdAt ? new Date(savedMap.info.createdAt) : new Date(),
       datasets: savedMap.datasets.map(Project.mapVersionedKeplerDatasetToDataset),
     };
   }

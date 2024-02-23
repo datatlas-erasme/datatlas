@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import get from 'lodash.get';
 import {ALL_FIELD_TYPES, FILTER_TYPES} from '@kepler.gl/constants';
 import {FilterPanelFactory as KeplerFilterPanelFactory, Switch} from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {Datasets} from '@kepler.gl/table';
 import {Filter, SetFilter} from '@datatlas/models';
 import {FormattedMessage} from 'react-intl';
@@ -157,6 +158,7 @@ function FilterPanelFactory(
 
 FilterPanelFactory.deps = KeplerFilterPanelFactory.deps.concat(InfoHelperFactory);
 
-export function replaceFilterPanel() {
+export function replaceFilterPanel(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerFilterPanelFactory, FilterPanelFactory];
 }

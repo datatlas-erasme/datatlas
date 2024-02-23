@@ -38,7 +38,7 @@ export class ProjectFactory {
     id: string,
     keplerGlState: DatatlasGlState
   ): UpdateProjectRequestInterface {
-    const savedMap = this.schemaManager.save(keplerGlState) as unknown as SavedMap;
+    const savedMap = this.schemaManager.save(enhanceGlState(keplerGlState)) as unknown as SavedMap;
 
     return {
       draft: true,

@@ -5,6 +5,7 @@ import {
   ModalTabsFactory
 } from '@kepler.gl/components';
 import {LoadingMethod} from '@kepler.gl/components/dist/modals/load-data-modal';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {LoadRemoteDatasetForm} from '../../forms';
 
 LoadDataModalFactory.deps = KeplerLoadDataModalFactory.deps;
@@ -36,6 +37,7 @@ function LoadDataModalFactory(
   return LoadDataModal;
 }
 
-export function replaceLoadDataModal() {
+export function replaceLoadDataModal(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerLoadDataModalFactory, LoadDataModalFactory];
 }

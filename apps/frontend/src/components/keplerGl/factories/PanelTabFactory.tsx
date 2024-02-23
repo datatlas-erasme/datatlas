@@ -7,6 +7,7 @@ import {
 import {StyledPanelTab as KeplerStyledPanelTab} from '@kepler.gl/components/dist/side-panel/panel-tab';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 
 const StyledPanelTab = styled(KeplerStyledPanelTab)`
   display: flex;
@@ -34,6 +35,7 @@ export function PanelTabFactory() {
   return PanelTab;
 }
 
-export function replacePanelTab() {
+export function replacePanelTab(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerPanelTabFactory, PanelTabFactory];
 }

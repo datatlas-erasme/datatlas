@@ -16,6 +16,7 @@ import {
   NotificationPanelFactory,
   RootContext
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 
 import {
   VisStateActions,
@@ -65,6 +66,39 @@ import {
 } from '@kepler.gl/components/dist/kepler-gl';
 import {getDefaultLocale} from '../../../i18n/utils';
 import {FeatureFlags, FeatureFlagsContextProvider} from '@kepler.gl/components/dist/context';
+
+// Maybe we should think about exporting this or creating a variable
+// as part of the base.js theme
+const GlobalStyle = styled.div`
+  font-family: ${props => props.theme.fontFamily};
+  font-weight: ${props => props.theme.fontWeight};
+  font-size: ${props => props.theme.fontSize};
+  line-height: ${props => props.theme.lineHeight};
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: ${({theme}) => theme.boxSizing};
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: ${props => props.theme.labelColor};
+  }
+
+  .maplibregl-ctrl .maplibregl-ctrl-logo {
+    display: none;
+  }
+`;
 
 export type KeplerGlActions = {
   visStateActions: typeof VisStateActions;
@@ -280,7 +314,16 @@ function DatatlasGLFactory(
       const geoCoderPanelFields = geoCoderPanelSelector(this.props, dimensions);
       const notificationPanelFields = notificationPanelSelector(this.props);
       const mapContainers = !isSplit
-        ? [<MapContainer primary={true} key={0} index={0} {...mapFieldsSelector(this.props)} />]
+        ? [
+            <MapContainer
+              primary={true}
+              key={0}
+              index={0}
+              {...mapFieldsSelector(this.props)}
+              containerId={0}
+              deleteMapLabels={this._deleteMapLabels}
+            />
+          ]
         : splitMaps.map((settings, index) => (
             <MapContainer
               key={index}
@@ -302,7 +345,7 @@ function DatatlasGLFactory(
             >
               <ThemeProvider theme={theme}>
                 <CloudListProvider providers={cloudProviders}>
-                  <div
+                  <GlobalStyle
                     className="kepler-gl"
                     id={`kepler-gl__${id}`}
                     style={{
@@ -350,7 +393,7 @@ function DatatlasGLFactory(
                       containerW={dimensions.width}
                       containerH={dimensions.height}
                     />
-                  </div>
+                  </GlobalStyle>
                 </CloudListProvider>
               </ThemeProvider>
             </NestedIntlProvider>
@@ -380,6 +423,7 @@ function makeMapDispatchToProps() {
   return mapDispatchToProps;
 }
 
-export function replaceKeplerGL() {
+export function replaceKeplerGL(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerGlFactory, DatatlasGLFactory];
 }

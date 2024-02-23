@@ -9,6 +9,7 @@ import {
   TooltipConfigFactory as KeplerTooltipFactory,
   BrushConfigFactory as KeplerBrushConfigFactory
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import KeplerInteractionPanelFactory from '@kepler.gl/components/dist/side-panel/interaction-panel/interaction-panel';
 import {FiltersConfigFactory} from './FiltersConfigFactory';
 import {Datasets} from '@kepler.gl/table';
@@ -156,6 +157,7 @@ function InteractionPanelFactory(
   return InteractionPanel;
 }
 
-export function replaceInteractionPanel() {
+export function replaceInteractionPanel(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerInteractionPanelFactory, InteractionPanelFactory];
 }

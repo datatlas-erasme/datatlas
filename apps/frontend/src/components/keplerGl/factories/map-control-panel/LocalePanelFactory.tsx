@@ -8,6 +8,7 @@ import {
   ToolbarItem
 } from '@kepler.gl/components';
 import {LocalePanelProps} from '@kepler.gl/components/dist/map/locale-panel';
+import {Factory} from '@kepler.gl/components/dist/injector';
 
 LocalePanelFactory.deps = KeplerLocalePanelFactory.deps;
 
@@ -74,6 +75,7 @@ function LocalePanelFactory(
   return LocalePanel;
 }
 
-export function replaceLocalePanel() {
+export function replaceLocalePanel(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerLocalePanelFactory, LocalePanelFactory];
 }

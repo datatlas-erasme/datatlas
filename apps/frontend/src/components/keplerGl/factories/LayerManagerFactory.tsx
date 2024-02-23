@@ -7,6 +7,7 @@ import {
   SidePanelSection,
   LayerManagerFactory as KeplerLayerManagerFactory
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {Warning} from '@kepler.gl/components/dist/common/icons';
 import {HintText} from '../base';
 import {themeColors} from '../../../style/constants';
@@ -67,6 +68,7 @@ function LayerManagerFactory(
   };
 }
 
-export function replaceLayerManager() {
+export function replaceLayerManager(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerLayerManagerFactory, LayerManagerFactory];
 }

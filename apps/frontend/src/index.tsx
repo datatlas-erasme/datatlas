@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 import ReactDOM from 'react-dom/client';
 import { PersistGate } from 'redux-persist/integration/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
@@ -9,6 +10,8 @@ import { store, persistor } from './store';
 import { LoginPage, SandboxMapPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
 import { Loader } from './components/Loader';
 import { AppLayout } from './components/layouts';
+import { GlobalStyle } from './style/GlobalStyle';
+import { theme } from './style/theme';
 import LegalMentions from './pages/LegalMentionsPage';
 import { DatatlasIntlProvider } from './components/i18n/DatatlasIntlProvider';
 
@@ -57,9 +60,12 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <Provider store={store}>
     <DatatlasIntlProvider>
-      <PersistGate loading={<Loader />} persistor={persistor}>
-        <RouterProvider router={router} />
-      </PersistGate>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <PersistGate loading={<Loader />} persistor={persistor}>
+          <RouterProvider router={router} />
+        </PersistGate>
+      </ThemeProvider>
     </DatatlasIntlProvider>
   </Provider>
 );

@@ -2,6 +2,7 @@
 import React, {ComponentType} from 'react';
 import styled from 'styled-components';
 import {TooltipConfigFactory as KeplerTooltipConfigFactory} from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {DatasetConfigFactory} from './DatasetConfigFactory';
 
 export const TooltipConfigWrapper = styled.div`
@@ -32,6 +33,7 @@ function TooltipConfigFactory(DatasetTag: ComponentType<any>, FieldSelector: Com
 
 TooltipConfigFactory.deps = KeplerTooltipConfigFactory.deps;
 
-export function replaceTooltipConfig() {
+export function replaceTooltipConfig(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerTooltipConfigFactory, TooltipConfigFactory];
 }

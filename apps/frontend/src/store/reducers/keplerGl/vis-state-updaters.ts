@@ -1,5 +1,6 @@
 import { withTask } from 'react-palm/tasks';
-import { LOAD_FILE_TASK, UNWRAP_TASK, DELAY_TASK } from '@kepler.gl/tasks';
+import { UNWRAP_TASK, DELAY_TASK } from '@kepler.gl/tasks';
+import { LOAD_FILE_TASK } from '../../tasks';
 import {
   initialFileLoadingProgress,
   merge_,

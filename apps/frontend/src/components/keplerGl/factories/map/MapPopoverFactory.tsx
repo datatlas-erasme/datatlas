@@ -7,6 +7,7 @@ import {
   LayerHoverInfoFactory,
   CoordinateInfoFactory
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {
   useFloating,
   autoUpdate,
@@ -341,6 +342,7 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
 
 MapPopoverFactory.deps = [LayerHoverInfoFactory, CoordinateInfoFactory];
 
-export function replaceMapPopoverFactory() {
+export function replaceMapPopoverFactory(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerMapPopoverFactory, MapPopoverFactory];
 }

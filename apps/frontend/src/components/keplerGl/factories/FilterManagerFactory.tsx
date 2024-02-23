@@ -8,6 +8,7 @@ import {
   LayerTitleSectionFactory,
   FilterPanelFactory
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {Add, DataTable} from '@kepler.gl/components/dist/common/icons';
 import {LayerPanel} from '../side-panel/layer/LayerPanel';
 import {LayerPanelHeader} from '../side-panel/layer/LayerPanelHeader';
@@ -186,6 +187,7 @@ function FilterManagerFactory(
   return FilterManager;
 }
 
-export function replaceFilterManager() {
+export function replaceFilterManager(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerFilterManagerFactory, FilterManagerFactory];
 }

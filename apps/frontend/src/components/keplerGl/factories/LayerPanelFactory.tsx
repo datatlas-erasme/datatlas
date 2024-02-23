@@ -5,6 +5,7 @@ import {
   LayerConfiguratorFactory,
   LayerPanelFactory as KeplerLayerPanelFactory
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {dataTestIds} from '@kepler.gl/constants';
 import {ColorUI, LayerVisConfig, NestedPartial} from '@kepler.gl/types';
 import {LayerBaseConfig} from '@kepler.gl/layers';
@@ -149,6 +150,7 @@ function LayerPanelFactory(
   };
 }
 
-export function replaceLayerPanel() {
+export function replaceLayerPanel(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerLayerPanelFactory, LayerPanelFactory];
 }

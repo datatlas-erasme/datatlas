@@ -5,6 +5,7 @@ import { defaultInteractionConfig, visStateUpdaters } from '@kepler.gl/reducers'
 import { loadFilesUpdater, loadNextFileUpdater, nextFileBatchUpdater } from './vis-state-updaters';
 import { INITIAL_VIS_STATE as KEPLER_INITIAL_VIS_STATE } from '@kepler.gl/reducers/dist/vis-state-updaters';
 import { VisState, getDefaultFiltersConfig } from '@datatlas/models';
+import { schemaManager } from '../../../kepler';
 
 export const INITIAL_VIS_STATE: VisState = {
   ...KEPLER_INITIAL_VIS_STATE,
@@ -21,6 +22,7 @@ export const INITIAL_VIS_STATE: VisState = {
     filters: getDefaultFiltersConfig(),
   },
   filters: [],
+  schema: schemaManager,
 };
 
 /**
@@ -97,7 +99,6 @@ const actionHandler = {
   [ActionTypes.UPDATE_EFFECT]: visStateUpdaters.updateEffectUpdater,
 };
 
-// construct vis-state reducer
 export const visStateReducerFactory = (initialState = {}) =>
   // @ts-expect-error
   handleActions(actionHandler, {
@@ -105,5 +106,3 @@ export const visStateReducerFactory = (initialState = {}) =>
     ...initialState,
     initialState,
   });
-
-export default visStateReducerFactory();

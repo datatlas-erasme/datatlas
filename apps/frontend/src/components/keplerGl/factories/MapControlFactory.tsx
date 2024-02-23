@@ -10,6 +10,7 @@ import {
   SplitMapButtonFactory,
   Toggle3dButtonFactory
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 
 import {setFilter, layerConfigChange} from '@kepler.gl/actions';
 import {useParams} from 'react-router-dom';
@@ -110,6 +111,7 @@ function MapControlFactory(
   return MapControl;
 }
 
-export function replaceMapControl() {
+export function replaceMapControl(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerMapControlFactory, MapControlFactory];
 }

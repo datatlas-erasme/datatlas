@@ -4,6 +4,7 @@ import {
   PanelTabFactory,
   PanelToggleFactory as KeplerPanelToggleFactory
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {PanelItem} from '@kepler.gl/components/dist/side-panel/panel-tab';
 import {toggleSidePanel, ActionHandler} from '@kepler.gl/actions';
 
@@ -51,6 +52,7 @@ function PanelToggleFactory(PanelTab: ReturnType<typeof PanelTabFactory>) {
   return PanelToggle;
 }
 
-export function replacePanelToggleFactory() {
+export function replacePanelToggleFactory(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerPanelToggleFactory, PanelToggleFactory];
 }

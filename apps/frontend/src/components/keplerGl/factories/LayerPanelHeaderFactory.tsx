@@ -22,6 +22,7 @@ import {
   Trash
 } from '@kepler.gl/components/dist/common/icons';
 import {HeaderWarning} from '@kepler.gl/components/dist/side-panel/layer-panel/layer-panel-header';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {dataTestIds} from '@kepler.gl/constants';
 import {FormattedMessage} from 'react-intl';
 import {HelpIcon} from '../../icon';
@@ -357,6 +358,7 @@ export function LayerPanelHeaderFactory(
   return LayerPanelHeader;
 }
 
-export function replaceLayerPanelHeader() {
+export function replaceLayerPanelHeader(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerLayerPanelHeaderFactory, LayerPanelHeaderFactory];
 }
