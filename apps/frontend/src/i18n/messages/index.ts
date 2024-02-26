@@ -8,7 +8,6 @@ export const messages = {
     ...en,
   },
   fr: {
-    ...keplerMessages.en,
     ...fr,
   },
 };
