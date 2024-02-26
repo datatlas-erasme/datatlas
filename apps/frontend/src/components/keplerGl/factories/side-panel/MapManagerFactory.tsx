@@ -9,6 +9,7 @@ import {
   SidePanelSection,
   Icons
 } from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {createSelector} from 'reselect';
 import {FormattedMessage, useIntl} from 'react-intl';
 
@@ -79,7 +80,7 @@ function MapManagerFactory(
             <EditTitleForm title={project?.title} />
           </SidePanelSection>
           <SidePanelSection>
-            <EditDescriptionForm description={project?.description} />
+            <EditDescriptionForm project={project} />
           </SidePanelSection>
           <MapStyleSelector
             mapStyle={mapStyle}
@@ -112,6 +113,7 @@ function MapManagerFactory(
   };
 }
 
-export function replaceMapManager() {
+export function replaceMapManager(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerMapManagerFactory, MapManagerFactory];
 }
