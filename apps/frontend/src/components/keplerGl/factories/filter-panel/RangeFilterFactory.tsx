@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, {useCallback} from 'react';
 import {RangeFilterFactory as KeplerRangeFilterFactory} from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import styled from 'styled-components';
 
 export function RangeFilterFactory(RangeSlider) {
@@ -62,6 +63,7 @@ export function RangeFilterFactory(RangeSlider) {
 
 RangeFilterFactory.deps = KeplerRangeFilterFactory.deps;
 
-export function provideRangerFilter() {
+export function provideRangerFilter(): [Factory, Factory] {
+  // @ts-ignore
   return [RangeFilterFactory, RangeFilterFactory];
 }

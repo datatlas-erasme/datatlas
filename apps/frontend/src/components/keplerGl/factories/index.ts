@@ -1,5 +1,6 @@
 export * from './common';
 export * from './filter-panel';
+export * from './map';
 export * from './map-control-panel';
 export * from './modals';
 export * from './side-panel';

@@ -10,9 +10,10 @@ import {findById} from '@kepler.gl/utils';
 import {dataTestIds, SORTABLE_LAYER_TYPE, SORTABLE_SIDE_PANEL_TYPE} from '@kepler.gl/constants';
 import {LayerListProps} from '@kepler.gl/components';
 import {UiStateActionHandlers, VisStateActionHandlers} from '../../factories';
+import {Factory} from '@kepler.gl/components/dist/injector';
 
 export type SortableLayerListProps = Omit<LayerListProps, 'uiStateActions' | 'visStateActions'> & {
-  renderLayerListItem: (layer: Layer, layerIdx: string) => ReactNode;
+  renderLayerListItem: (layer: Layer, layerIdx: number) => ReactNode;
   uiStateActions: UiStateActionHandlers;
   visStateActions: VisStateActionHandlers;
 };
@@ -175,7 +176,10 @@ export function SortableLayerListFactory() {
               layerActions={layerActions}
               disabled={!isSortable}
             >
-              {renderLayerListItem(layer, layer.id)}
+              {renderLayerListItem(
+                layer,
+                layers.findIndex(l => l?.id === layer.id)
+              )}
             </SortableItem>
           ))}
         </SortableContext>
@@ -185,6 +189,7 @@ export function SortableLayerListFactory() {
   return SortableLayerList;
 }
 
-export function provideSortableLayerListFactory() {
+export function provideSortableLayerListFactory(): [Factory, Factory] {
+  // @ts-ignore
   return [SortableLayerListFactory, SortableLayerListFactory];
 }

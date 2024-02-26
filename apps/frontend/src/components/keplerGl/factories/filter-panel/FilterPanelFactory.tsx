@@ -3,12 +3,15 @@ import {createSelector} from 'reselect';
 import styled from 'styled-components';
 import get from 'lodash.get';
 import {ALL_FIELD_TYPES, FILTER_TYPES} from '@kepler.gl/constants';
-import {FilterPanelFactory as KeplerFilterPanelFactory, Switch} from '@kepler.gl/components';
+import {
+  FilterPanelFactory as KeplerFilterPanelFactory,
+  InfoHelperFactory,
+  Switch
+} from '@kepler.gl/components';
 import {Factory} from '@kepler.gl/components/dist/injector';
 import {Datasets} from '@kepler.gl/table';
 import {Filter, SetFilter} from '@datatlas/models';
 import {FormattedMessage} from 'react-intl';
-import InfoHelperFactory from '@kepler.gl/components';
 
 const StyledFilterPanel = styled.div`
   margin-bottom: 12px;
@@ -74,15 +77,17 @@ export interface FilterPanelProps {
   isAnyFilterAnimating?: boolean;
 }
 
+FilterPanelFactory.deps = KeplerFilterPanelFactory.deps;
+
 function FilterPanelFactory(
   NewFilterPanel,
   TimeRangeFilterPanel,
   SingleSelectFilterPanel,
   MultiSelectFilterPanel,
   RangeFilterPanel,
-  PolygonFilterPanel,
-  InfoHelper
+  PolygonFilterPanel
 ) {
+  const InfoHelper = InfoHelperFactory();
   const FilterPanelComponents = {
     default: NewFilterPanel,
     [FILTER_TYPES.timeRange]: TimeRangeFilterPanel,
@@ -155,8 +160,6 @@ function FilterPanelFactory(
     );
   };
 }
-
-FilterPanelFactory.deps = KeplerFilterPanelFactory.deps.concat(InfoHelperFactory);
 
 export function replaceFilterPanel(): [Factory, Factory] {
   // @ts-ignore

@@ -16,7 +16,7 @@ import {StyledLayerConfigurator} from '../configurator/StyledLayerConfigurator';
 import {isSideFilter} from '@kepler.gl/utils';
 import {FILTER_VIEW_TYPES} from '@kepler.gl/constants';
 import {SortableLayerListFactory} from '../side-panel/layer/SortableLayerList';
-import {LayerClassesType} from '@kepler.gl/layers';
+import {Layer, LayerClassesType} from '@kepler.gl/layers';
 import {ActionHandlers, UIStateActions, VisStateActions} from '@kepler.gl/actions';
 
 FilterManagerFactory.deps = [
@@ -62,9 +62,8 @@ function FilterManagerFactory(
       toggleFilterAnimation
     } = visStateActions;
     const isAnyFilterAnimating = filters.some(f => f.isAnimating);
-    const hadEmptyFilter = reversedIndex =>
+    const hadEmptyFilter = (reversedIndex: number[]) =>
       reversedIndex.map(idx => filters[idx]).some(f => !f.name);
-    const onClickAddFilter = useCallback(dataset => addFilter(dataset), [addFilter]);
     const reversedIndexGroupedByLayerIdx: Record<number, number[]> = useMemo(() => {
       return layers.reduce(
         (filtersGroupedByLayerIdx, layer, layerIdx) => ({
@@ -81,6 +80,12 @@ function FilterManagerFactory(
       );
       // eslint-disable-next-line
     }, [layers.length, filters]);
+
+    const handleAddFilter = (layer: Layer) => e => {
+      e?.stopPropagation();
+      addFilter(layer.config.dataId);
+      layerConfigChange(layer, {isConfigActive: true});
+    };
 
     const handleUpdateLayerLabel =
       (layer): ChangeEventHandler<HTMLInputElement> =>
@@ -141,7 +146,7 @@ function FilterManagerFactory(
                       id={layer.id}
                       tooltip={'datasetTitle.showDataTable'}
                       onClick={e => {
-                        e.preventDefault();
+                        e?.stopPropagation();
                         showDatasetTable(layer.config.dataId);
                       }}
                       IconComponent={DataTable}
@@ -152,7 +157,7 @@ function FilterManagerFactory(
                       id={layer.id}
                       tooltip={'filterManager.addFilter'}
                       active={!hadEmptyFilter(reversedIndexGroupedByLayerIdx[layerIdx])}
-                      onClick={onClickAddFilter}
+                      onClick={handleAddFilter(layer)}
                       IconComponent={Add}
                     />
                   </LayerPanelHeader>
