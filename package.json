@@ -28,7 +28,7 @@
     "@nrwl/cypress": "^18.0.2",
     "@nrwl/eslint-plugin-nx": "^15.9.7",
     "@nrwl/jest": "^15.9.7",
-    "@nrwl/js": "15.9.2",
+    "@nrwl/js": "15.9.7",
     "@nrwl/linter": "15.9.2",
     "@nrwl/nest": "^15.9.7",
     "@nrwl/node": "^15.9.7",
@@ -149,6 +149,7 @@
     "reflect-metadata": "^0.1.13",
     "regenerator-runtime": "0.13.7",
     "remark-gfm": "^4.0.0",
+    "rxjs": "^7.0.0",
     "styled-components": "^4.4.1",
     "tslib": "^2.3.0"
   },

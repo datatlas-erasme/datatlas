@@ -122,6 +122,7 @@ function FilterPanelFactory(
           f =>
             f.type &&
             f.type !== ALL_FIELD_TYPES.geojson &&
+            f.type !== ALL_FIELD_TYPES.array &&
             (f.name === name || !filters.find(d => d.name === f.name && d.dataId === dataId))
         )
     );

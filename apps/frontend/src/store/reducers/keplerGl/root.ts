@@ -1,6 +1,6 @@
-import { handleActions } from 'redux-actions';
-import { _actionFor, _updateProperty, ActionTypes, keplerGlInit } from '@kepler.gl/actions';
-import { coreReducerFactory } from './core';
+import {handleActions} from 'redux-actions';
+import {_actionFor, _updateProperty, ActionTypes, keplerGlInit} from '@kepler.gl/actions';
+import {coreReducerFactory} from './core';
 
 // INITIAL_STATE
 const initialCoreState = {};
@@ -10,7 +10,16 @@ export function provideInitialState(initialState = {}) {
 
   const handleRegisterEntry = (
     state,
-    { payload: { id, mint, mapboxApiAccessToken, mapboxApiUrl, mapStylesReplaceDefault, initialUiState } }
+    {
+      payload: {
+        id,
+        mint,
+        mapboxApiAccessToken,
+        mapboxApiUrl,
+        mapStylesReplaceDefault,
+        initialUiState
+      }
+    }
   ) => {
     // by default, always create a mint state even if the same id already exist
     // if state.id exist and mint=false, keep the existing state
@@ -21,32 +30,32 @@ export function provideInitialState(initialState = {}) {
       ...state,
       [id]: coreReducer(
         previousState,
-        keplerGlInit({ mapboxApiAccessToken, mapboxApiUrl, mapStylesReplaceDefault, initialUiState })
-      ),
+        keplerGlInit({mapboxApiAccessToken, mapboxApiUrl, mapStylesReplaceDefault, initialUiState})
+      )
     };
   };
 
-  const handleDeleteEntry = (state, { payload: id }) =>
+  const handleDeleteEntry = (state, {payload: id}) =>
     Object.keys(state).reduce(
       (accu, curr) => ({
         ...accu,
-        ...(curr === id ? {} : { [curr]: state[curr] }),
+        ...(curr === id ? {} : {[curr]: state[curr]})
       }),
       {}
     );
 
-  const handleRenameEntry = (state, { payload: { oldId, newId } }) =>
+  const handleRenameEntry = (state, {payload: {oldId, newId}}) =>
     Object.keys(state).reduce(
       (accu, curr) => ({
         ...accu,
-        ...{ [curr === oldId ? newId : curr]: state[curr] },
+        ...{[curr === oldId ? newId : curr]: state[curr]}
       }),
       {}
     );
 
   return (state = initialCoreState, action) => {
     // update child states
-    Object.keys(state).forEach((id) => {
+    Object.keys(state).forEach(id => {
       const updateItemState = coreReducer(state[id], _actionFor(id, action));
       state = _updateProperty(state, id, updateItemState);
     });
@@ -55,7 +64,7 @@ export function provideInitialState(initialState = {}) {
     const handlers = {
       [ActionTypes.REGISTER_ENTRY]: handleRegisterEntry,
       [ActionTypes.DELETE_ENTRY]: handleDeleteEntry,
-      [ActionTypes.RENAME_ENTRY]: handleRenameEntry,
+      [ActionTypes.RENAME_ENTRY]: handleRenameEntry
     };
 
     return handleActions(handlers, initialCoreState)(state, action);
@@ -72,8 +81,8 @@ function mergeInitialState(saved = {}, provided = {}) {
     (accu, key) => ({
       ...accu,
       ...(saved[key] && provided[key]
-        ? { [key]: { ...saved[key], ...provided[key] } }
-        : { [key]: saved[key] || provided[key] || {} }),
+        ? {[key]: {...saved[key], ...provided[key]}}
+        : {[key]: saved[key] || provided[key] || {}})
     }),
     {}
   );
@@ -93,9 +102,13 @@ function decorate(target, savedInitialState = {}) {
       let nextState = this(state, action);
 
       // for each entry in the staten
-      Object.keys(nextState).forEach((id) => {
+      Object.keys(nextState).forEach(id => {
         // update child states
-        nextState = _updateProperty(nextState, id, customReducer(nextState[id], _actionFor(id, action)));
+        nextState = _updateProperty(
+          nextState,
+          id,
+          customReducer(nextState[id], _actionFor(id, action))
+        );
       });
 
       return nextState;

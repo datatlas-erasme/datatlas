@@ -1,11 +1,11 @@
-import { ActionTypes } from '@kepler.gl/actions';
-import { handleActions } from 'redux-actions';
-import { defaultInteractionConfig, visStateUpdaters } from '@kepler.gl/reducers';
+import {ActionTypes} from '@kepler.gl/actions';
+import {handleActions} from 'redux-actions';
+import {defaultInteractionConfig, visStateUpdaters} from '@kepler.gl/reducers';
 
-import { loadFilesUpdater, loadNextFileUpdater, nextFileBatchUpdater } from './vis-state-updaters';
-import { INITIAL_VIS_STATE as KEPLER_INITIAL_VIS_STATE } from '@kepler.gl/reducers/dist/vis-state-updaters';
-import { VisState, getDefaultFiltersConfig } from '@datatlas/models';
-import { schemaManager } from '../../../kepler';
+import {loadFilesUpdater, loadNextFileUpdater, nextFileBatchUpdater} from './vis-state-updaters';
+import {INITIAL_VIS_STATE as KEPLER_INITIAL_VIS_STATE} from '@kepler.gl/reducers/dist/vis-state-updaters';
+import {VisState, getDefaultFiltersConfig} from '@datatlas/models';
+import {schemaManager} from '../../../kepler';
 
 export const INITIAL_VIS_STATE: VisState = {
   ...KEPLER_INITIAL_VIS_STATE,
@@ -15,14 +15,14 @@ export const INITIAL_VIS_STATE: VisState = {
     draft: true,
     contributorsIds: [],
     title: '',
-    ownerId: 0,
+    ownerId: 0
   },
   interactionConfig: {
     ...defaultInteractionConfig,
-    filters: getDefaultFiltersConfig(),
+    filters: getDefaultFiltersConfig()
   },
   filters: [],
-  schema: schemaManager,
+  schema: schemaManager
 };
 
 /**
@@ -61,7 +61,8 @@ const actionHandler = {
   [ActionTypes.RESET_MAP_CONFIG]: visStateUpdaters.resetMapConfigUpdater,
   [ActionTypes.SET_FILTER]: visStateUpdaters.setFilterUpdater,
   [ActionTypes.SET_FILTER_ANIMATION_TIME]: visStateUpdaters.setFilterAnimationTimeUpdater,
-  [ActionTypes.SET_FILTER_ANIMATION_TIME_CONFIG]: visStateUpdaters.setFilterAnimationTimeConfigUpdater,
+  [ActionTypes.SET_FILTER_ANIMATION_TIME_CONFIG]:
+    visStateUpdaters.setFilterAnimationTimeConfigUpdater,
   [ActionTypes.SET_FILTER_ANIMATION_WINDOW]: visStateUpdaters.setFilterAnimationWindowUpdater,
   [ActionTypes.SET_FILTER_PLOT]: visStateUpdaters.setFilterPlotUpdater,
   [ActionTypes.SET_MAP_INFO]: visStateUpdaters.setMapInfoUpdater,
@@ -92,11 +93,12 @@ const actionHandler = {
   [ActionTypes.SET_COLUMN_DISPLAY_FORMAT]: visStateUpdaters.setColumnDisplayFormatUpdater,
   [ActionTypes.NEXT_FILE_BATCH]: nextFileBatchUpdater,
   [ActionTypes.PROCESS_FILE_CONTENT]: visStateUpdaters.processFileContentUpdater,
-  [ActionTypes.SET_LAYER_ANIMATION_TIME_CONFIG]: visStateUpdaters.setLayerAnimationTimeConfigUpdater,
+  [ActionTypes.SET_LAYER_ANIMATION_TIME_CONFIG]:
+    visStateUpdaters.setLayerAnimationTimeConfigUpdater,
   [ActionTypes.ADD_EFFECT]: visStateUpdaters.addEffectUpdater,
   [ActionTypes.REORDER_EFFECT]: visStateUpdaters.reorderEffectUpdater,
   [ActionTypes.REMOVE_EFFECT]: visStateUpdaters.removeEffectUpdater,
-  [ActionTypes.UPDATE_EFFECT]: visStateUpdaters.updateEffectUpdater,
+  [ActionTypes.UPDATE_EFFECT]: visStateUpdaters.updateEffectUpdater
 };
 
 export const visStateReducerFactory = (initialState = {}) =>
@@ -104,5 +106,5 @@ export const visStateReducerFactory = (initialState = {}) =>
   handleActions(actionHandler, {
     ...INITIAL_VIS_STATE,
     ...initialState,
-    initialState,
+    initialState
   });

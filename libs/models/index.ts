@@ -1,6 +1,7 @@
 export * from './auth';
 export * from './filter';
 export * from './kepler';
+export * from './table';
 export * from './user';
 export * from './ColorFactory';
 export * from './Dataset';
