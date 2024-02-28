@@ -1,6 +1,6 @@
 # Datatlas
 
-🌍 __DatAtlas__ is a geospatial data vizualization tool ✨ based on __Kepler.gl__ and developed by [__Erasme__](https://www.erasme.org), the open innovation lab of the of __Lyon__ 🇫🇷 metropolitan area.
+🌍 __DatAtlas__ is a geospatial data vizualization tool ✨ based on __Kepler.gl__ and developed by [__Erasme__](https://www.erasme.org), the open innovation lab of the __Lyon__ 🇫🇷 metropolitan area.
 
 __DatAtlas__ allows to create and share custom interactive maps from various datasource:
 1. Name your map and choose your favorite map style 💅
