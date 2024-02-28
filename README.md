@@ -1,21 +1,46 @@
 # Datatlas
 
+🌍 __DatAtlas__ is a geospatial data vizualization tool ✨ based on __Kepler.gl__ and developed by [__Erasme__](https://www.erasme.org), the open innovation lab of the of __Lyon__ 🇫🇷 metropolitan area.
+
+__DatAtlas__ allows to create and share custom interactive maps from various datasource:
+1. Name your map and choose your favorite map style 💅
+2. Import datasources from files or URLS in `GeoJson`, `csv`, etc.
+3. Customize the UI for your visitors ✨
+4. Publish and share your map with the world! 🌍 
+
+![A 3D map of the industries around Lyon and Saint-Etienne. It represents the number of industry on a territory using clusters displayed as 3D stacked histograms. This map was created with DatAtlas.](https://user-images.githubusercontent.com/33604381/183027634-6bb76d0f-cb53-412c-93cb-2af5acb290e4.png)
+
+## Under the hood
+
+__DatAtlas__ is a custom __Kepler.gl__ frontend with a __Nestjs__ API allowing to save and share your maps via a URL.
+
+__Kepler.gl__ is an open-source, data-agnostic, high-performance app for visual exploration of large-scale geolocation data sets. It's built on top of [Mapbox GL JS](https://github.com/mapbox/mapbox-gl-js) and [DECK.gl](https://deck.gl/).
+It can render __millions__ of points representing thousands of trips and perform spatial aggregations on the fly.
+
+__DatAtlas__ fix some of __Kepler.gl__ issues to allow multiple maps to work flawlessly in a single app.
+
+It also brings documentation on some hidden customization features and shed some light on some of the complex patterns used in the __Kepler.gl__ codebase.
+
+> *Support our contributions to the __Kepler.gl__ codebase!*
+> https://github.com/keplergl/kepler.gl/issues?q=is%3Aopen+author%3Alutangar
+
 ## Getting started
 
-### Locally
-
-```
+```sh
 npm install
 cp .env.example .env
-```
-
-### Using **Docker**
-
-```
-cp .env.example .env
 docker compose up
-nx run-many --target=serve
+npx nx serve backend
+npx nx serve frontend
 ```
+
+> Or both:
+> ```sh
+> npx nx run-many --target=serve
+> ```
+
+It opens a new tab at http://localhost:3000/. 
+The app will automatically reload if you change any of the source files.
 
 > **Note**: you must manually configure `pgadmin` :
 >
@@ -29,38 +54,37 @@ nx run-many --target=serve
 >
 > https://towardsdatascience.com/how-to-run-postgresql-and-pgadmin-using-docker-3a6a8ae918b5
 
-**Setup app `.env` :**
+### Frontend
 
-> See **app** [./apps/frontend/README.md](./apps/frontend/README.md).
+> See **app** [./apps/frontend/README.md](./apps/frontend/README.md)
+
+### Backend 
+
+> See **API** [./apps/backend/README.md](./apps/backend/README.md)
 
 ## Development
 
+> Visit the [Nx Documentation](https://nx.dev) to learn more.
+
 ### Code quality
 
-Run `prettier` on whole repository:
+Run both `prettier` and `eslint`:
 
-```
-nx format:write
-```
-
-Run `lint` on whole repository
-
-```
-nx run-many --target=lint
+```sh
+npx nx format:write --base=origin/dev && npx nx run-many --target=lint --base=origin/dev
 ```
 
-### Update dependencies
+### Bulk dependencies updates
 
-For example update `nestjs` :
+To update `nestjs` and keep in sync all side packages:
 
-```shell
+```sh
 npx npm-check-updates --filter "@nestjs/*" -u
 ```
 
-Or to update `mikro-orm` :
-
-```
-npx npm-check-updates --filter "@mikro-orm/*" -u
+Or to update `mikro-orm` and friends:
+```sh
+npx npm-check-updates --filter "@mikro-orm/*" -
 ```
 
 ### Database migrations
@@ -74,63 +98,25 @@ npm run mikro-orm migration:up
 
 Run a single test file:
 
-```
+```sh
 npx nx run backend-e2e:e2e --spec apps/backend-e2e/src/e2e/user.cy.ts
 ```
 
-https://github.com/cypress-io/cypress/issues/2610#issuecomment-1319738814
+> See https://github.com/cypress-io/cypress/issues/2610#issuecomment-1319738814
 
-Output test results to a log file:
+Output test results to a log file for debugging purpose:
 
-```
+```sh
 npx nx run backend-e2e:e2e --spec apps/backend-e2e/src/e2e/user.cy.ts &> cypress.log
 ```
 
-#### Cypress
+> See __Cypress__ documentation :
+> https://github.com/nrwl/nx/tree/master/packages/cypress/docs
 
-https://github.com/nrwl/nx/tree/master/packages/cypress/docs
+## Credits
 
-### Backend
+__DatAtlas__ was created by [__Erasme__](https://www.erasme.org), the open innovation lab of Lyon 🇫🇷 metropolitan area. It's a part of the larger [__DatAgora__](https://www.erasme.org/DatAgora) initiative.
 
-```
-nx serve backend
-```
+This project was supported by the [__France Relance__](https://www.economie.gouv.fr/plan-de-relance) economic recovery plan.
 
-> Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-#### Swagger
-
-You can reach swagger and see all the API routes at http://localhost:3333/api/
-
-Please note that most routes require an authentication. Reach it out via this route `/api/auth/login` and
-sending this body :
-
-```json
-{
-  "email": "your_email",
-  "password": "your-password"
-}
-```
-
-Those credentials are the one you should have put in your `.env` file.
-
-## Design
-
-**Figma** sketch :
-`https://www.figma.com/proto/lVX7Lycox3AGixBhhbhQsQ/DatAtlas`
-
-> _Made by [SiaPartners](https://www.sia-partners.com/)._
-
-## nx
-
-<a href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
-
-✨ **This workspace has been generated by [Nx, a Smart, fast and extensible build system.](https://nx.dev)** ✨
-
-### Understand this workspace
-
-Run `nx graph` to see a diagram of the dependencies of the projects.
-
-### Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+[**Figma** sketch](https://www.figma.com/proto/lVX7Lycox3AGixBhhbhQsQ/DatAtlas) was made by [SiaPartners](https://www.sia-partners.com/).
