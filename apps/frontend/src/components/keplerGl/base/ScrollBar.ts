@@ -1,26 +1,26 @@
-import { css } from 'styled-components';
+import {css} from 'styled-components';
 
 export const SidePanelScrollBar = css`
   ::-webkit-scrollbar {
-    height: ${({ theme }) => theme.sidePanelScrollBarHeight}px;
-    width: ${({ theme }) => theme.sidePanelScrollBarWidth}px;
+    height: ${({theme}) => theme.sidePanelScrollBarHeight}px;
+    width: ${({theme}) => theme.sidePanelScrollBarWidth}px;
   }
 
   ::-webkit-scrollbar-corner {
-    background: ${({ theme }) => theme.sidePanelBg};
+    background: ${({theme}) => theme.sidePanelBg};
   }
 
   ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.sidePanelBg};
+    background: ${({theme}) => theme.sidePanelBg};
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: ${({ theme }) => theme.panelBackgroundHover};
-    border: 3px solid ${({ theme }) => theme.sidePanelBg};
+    background: ${({theme}) => theme.panelBackgroundHover};
+    border: 3px solid ${({theme}) => theme.sidePanelBg};
 
     :hover {
-      background: ${({ theme }) => theme.labelColor};
+      background: ${({theme}) => theme.labelColor};
       cursor: pointer;
     }
   }
@@ -32,19 +32,19 @@ export const PanelDropdownScrollBar = css`
   }
 
   ::-webkit-scrollbar-corner {
-    background: ${({ theme }) => theme.panelBackground};
+    background: ${({theme}) => theme.panelBackground};
   }
 
   ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.panelBackground};
+    background: ${({theme}) => theme.panelBackground};
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: ${({ theme }) => theme.panelBackgroundHover};
-    border: 3px solid ${({ theme }) => theme.panelBackground};
+    background: ${({theme}) => theme.panelBackgroundHover};
+    border: 3px solid ${({theme}) => theme.panelBackground};
     :hover {
-      background: ${({ theme }) => theme.labelColor};
+      background: ${({theme}) => theme.labelColor};
       cursor: pointer;
     }
   }
@@ -56,25 +56,25 @@ export const ScrollBar = css`
   }
 
   ::-webkit-scrollbar-corner {
-    background: ${({ theme }) => theme.panelBackground};
+    background: ${({theme}) => theme.panelBackground};
   }
 
   ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.panelBackground};
+    background: ${({theme}) => theme.panelBackground};
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: ${({ theme }) => theme.labelColor};
-    border: 3px solid ${({ theme }) => theme.panelBackground}
+    background: ${({theme}) => theme.labelColor};
+    border: 3px solid ${({theme}) => theme.panelBackground}
 
     :vertical:hover {
-      background: ${({ theme }) => theme.textColorHl};
+      background: ${({theme}) => theme.textColorHl};
       cursor: pointer;
     }
 
     :horizontal:hover {
-      background: ${({ theme }) => theme.textColorHl};
+      background: ${({theme}) => theme.textColorHl};
       cursor: pointer;
     }
   }
@@ -89,19 +89,19 @@ export const ModalScrollBar = css`
     background: white;
   }
   ::-webkit-scrollbar-track:horizontal {
-    background: ${({ theme }) => theme.textColorHl};
+    background: ${({theme}) => theme.textColorHl};
   }
   ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.scrollbarThumbColorLT};
+    background: ${({theme}) => theme.scrollbarThumbColorLT};
     border: 4px solid white;
   }
 
   ::-webkit-scrollbar-corner {
-    background: ${({ theme }) => theme.textColorHl};
+    background: ${({theme}) => theme.textColorHl};
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: ${({ theme }) => theme.scrollbarThumbColorHoverLT};
+    background: ${({theme}) => theme.scrollbarThumbColorHoverLT};
   }
 
   ::-webkit-scrollbar-thumb:vertical {
@@ -110,6 +110,6 @@ export const ModalScrollBar = css`
 
   ::-webkit-scrollbar-thumb:horizontal {
     border-radius: 9px;
-    border: 4px solid ${({ theme }) => theme.textColorHl};
+    border: 4px solid ${({theme}) => theme.textColorHl};
   }
 `;
