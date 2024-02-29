@@ -6,6 +6,7 @@ import {
   InlineInput,
   LayerLabelEditorProps,
   LayerPanelHeaderFactory as KeplerLayerPanelHeaderFactory,
+  LayerPanelHeaderActionSectionFactory as KeplerLayerPanelHeaderActionSectionFactory,
   LayerPanelHeaderProps as KeplerLayerPanelHeaderProps,
   LayerTitleSectionProps,
   PanelHeaderActionFactory,
@@ -229,14 +230,6 @@ export function LayerPanelHeaderActionSectionFactory(
               IconComponent={actionIcons.remove}
             />
           ) : null}
-          <PanelHeaderAction
-            className="layer__duplicate"
-            id={layerId}
-            tooltip={'tooltip.duplicateLayer'}
-            onClick={onDuplicateLayer}
-            IconComponent={actionIcons.duplicate}
-            disabled={!allowDuplicate}
-          />
         </StyledPanelHeaderHiddenActions>
         {isValid ? (
           <PanelHeaderAction
@@ -278,6 +271,11 @@ export function LayerPanelHeaderActionSectionFactory(
   };
 
   return LayerPanelHeaderActionSection;
+}
+
+export function replaceLayerPanelHeaderActionSection(): [Factory, Factory] {
+  // @ts-ignore
+  return [KeplerLayerPanelHeaderActionSectionFactory, LayerPanelHeaderActionSectionFactory];
 }
 
 const defaultActionIcons = {
