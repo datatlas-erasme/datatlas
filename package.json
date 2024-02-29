@@ -94,7 +94,9 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.1",
+    "@loaders.gl/arrow": "^4.1.2",
     "@loaders.gl/core": "^4.1.1",
+    "@loaders.gl/csv": "^4.1.2",
     "@loaders.gl/json": "^4.1.1",
     "@mikro-orm/cli": "^5.9.4",
     "@mikro-orm/core": "^5.9.4",

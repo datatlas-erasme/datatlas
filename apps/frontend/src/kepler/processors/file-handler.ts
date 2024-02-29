@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/consistent-type-assertions, @typescript-eslint/consistent-type-assertions */
 import { Loader, parseInBatches } from '@loaders.gl/core';
 import { _JSONPath, JSONLoader } from '@loaders.gl/json';
+import { CSVLoader } from '@loaders.gl/csv';
+import { ArrowLoader } from '@loaders.gl/arrow';
 import { FileCacheItem, isArrowTable, makeProgressIterator } from '@kepler.gl/processors';
 
 const BATCH_TYPE = {
@@ -78,7 +80,7 @@ export async function readFileInBatches({
   loaders: Loader[];
   loadOptions: any;
 }): Promise<AsyncGenerator> {
-  loaders = [JSONLoader, ...loaders];
+  loaders = [JSONLoader, CSVLoader, ArrowLoader, ...loaders];
   loadOptions = {
     csv: CSV_LOADER_OPTIONS,
     arrow: ARROW_LOADER_OPTIONS,
