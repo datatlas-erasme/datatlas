@@ -22,7 +22,7 @@ export const PublishButton = ({ readOnly }: KeplerGLBasicProps) => {
     forward(updateMapInfo({ draft: !draft }));
   };
 
-  if (readOnly) {
+  if (readOnly || typeof draft === 'undefined') {
     return null;
   }
 

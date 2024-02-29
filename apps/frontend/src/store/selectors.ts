@@ -3,6 +3,7 @@ import { VisState, ProjectInterface, DatatlasGlInstances } from '@datatlas/model
 import { RootState } from './reducers';
 import { getUser, getProjects } from './api';
 import { projectFactory } from '../kepler';
+import { b } from 'msw/lib/SetupApi-f4099ef3';
 
 export const toKeplerId = (id: string | number) => String(id).toLocaleUpperCase();
 
@@ -26,7 +27,11 @@ export const selectFileFormatNamesByInstanceId = createSelector(selectInstanceVi
 
 export const selectFilters = createSelector(selectInstanceVisState, (visState) => visState?.filters || []);
 
-export const selectIsDraft = createSelector(selectInstanceMapInfo, (mapInfo) => mapInfo?.draft || true);
+export const selectIsDraft = (state: RootState, instanceId: string) => {
+  const mapInfo = selectInstanceMapInfo(state, instanceId);
+
+  return mapInfo?.draft;
+};
 
 export const selectFiltersConfig = createSelector(
   selectInstanceVisState,
