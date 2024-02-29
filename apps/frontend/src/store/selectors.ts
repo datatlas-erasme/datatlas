@@ -26,7 +26,11 @@ export const selectFileFormatNamesByInstanceId = createSelector(selectInstanceVi
 
 export const selectFilters = createSelector(selectInstanceVisState, (visState) => visState?.filters || []);
 
-export const selectIsDraft = createSelector(selectInstanceMapInfo, (mapInfo) => mapInfo?.draft || true);
+export const selectIsDraft = (state: RootState, instanceId: string) => {
+  const mapInfo = selectInstanceMapInfo(state, instanceId);
+
+  return mapInfo?.draft;
+};
 
 export const selectFiltersConfig = createSelector(
   selectInstanceVisState,
