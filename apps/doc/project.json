@@ -4,12 +4,6 @@
   "projectType": "application",
   "sourceRoot": "apps/doc/src",
   "targets": {
-    "build": {
-      "executor": "@nx-plus/docusaurus:browser",
-      "options": {
-        "outputPath": "dist/apps/doc"
-      }
-    },
     "serve": {
       "executor": "@nx-plus/docusaurus:dev-server",
       "options": {

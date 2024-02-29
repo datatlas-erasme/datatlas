@@ -1,5 +1,5 @@
 // This is a light version checkbox
-import { css } from 'styled-components';
+import {css} from 'styled-components';
 
 type SwitchableProps = {
   checked: boolean;
@@ -9,10 +9,13 @@ export const CheckboxBox = css<SwitchableProps>`
   position: absolute;
   top: 0;
   left: 0;
-  width: ${({ theme }) => theme.checkboxWidth}px;
-  height: ${({ theme }) => theme.checkboxHeight}px;
-  background: ${(props) => (props.checked ? props.theme.checkboxBoxBgdChecked : props.theme.checkboxBoxBgd)};
-  border: 1px solid ${(props) => (props.checked ? props.theme.checkboxBoxBgdChecked : props.theme.checkboxBorderColor)};
+  width: ${({theme}) => theme.checkboxWidth}px;
+  height: ${({theme}) => theme.checkboxHeight}px;
+  background: ${props =>
+    props.checked ? props.theme.checkboxBoxBgdChecked : props.theme.checkboxBoxBgd};
+  border: 1px solid
+    ${props =>
+      props.checked ? props.theme.checkboxBoxBgdChecked : props.theme.checkboxBorderColor};
   border-radius: 2px;
   content: '';
 `;
@@ -27,7 +30,7 @@ export const CheckboxCheck = css<SwitchableProps>`
   transform: rotate(-45deg);
   display: block;
   position: absolute;
-  opacity: ${(props) => (props.checked ? 1 : 0)};
+  opacity: ${props => (props.checked ? 1 : 0)};
   content: '';
 `;
 
@@ -40,14 +43,14 @@ export const InputCheckbox = css`
   vertical-align: middle;
   cursor: pointer;
   font-size: 12px;
-  color: ${({ theme }) => theme.labelColor};
-  margin-left: -${({ theme }) => theme.switchLabelMargin}px;
+  color: ${({theme}) => theme.labelColor};
+  margin-left: -${({theme}) => theme.switchLabelMargin}px;
 
   :before {
-    ${({ theme }) => theme.checkboxBox};
+    ${({theme}) => theme.checkboxBox};
   }
 
   :after {
-    ${({ theme }) => theme.checkboxCheck};
+    ${({theme}) => theme.checkboxCheck};
   }
 `;
