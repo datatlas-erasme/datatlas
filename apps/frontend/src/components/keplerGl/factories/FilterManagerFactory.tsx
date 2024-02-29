@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, {ChangeEventHandler, MouseEventHandler, useCallback, useMemo} from 'react';
+import React, {ChangeEventHandler, MouseEventHandler, useMemo} from 'react';
 import {
   FilterManagerFactory as KeplerFilterManagerFactory,
   FilterManagerProps as KeplerFilterManagerProps,

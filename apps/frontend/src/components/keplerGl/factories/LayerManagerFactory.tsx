@@ -1,17 +1,20 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import styled from 'styled-components';
 import {FormattedMessage} from 'react-intl';
 import {
   AddDataButtonFactory,
-  LayerListFactory,
   SidePanelSection,
-  LayerManagerFactory as KeplerLayerManagerFactory
+  LayerManagerFactory as KeplerLayerManagerFactory,
+  LayerPanelFactory as KeplerLayerPanelFactory
 } from '@kepler.gl/components';
 import {Factory} from '@kepler.gl/components/dist/injector';
 import {Warning} from '@kepler.gl/components/dist/common/icons';
 import {HintText} from '../base';
 import {themeColors} from '../../../style/constants';
 import {LayerManagerProps} from '../types/LayerManagerProps';
+import {SortableLayerListFactory} from '../side-panel/layer/SortableLayerList';
+import {LayerTypeOptionInterface, PanelComponentPropsInterface} from '../types';
+import {UiStateActionHandlers, VisStateActionHandlers} from './FilterManagerFactory';
 
 const StyledSidePanelSection = styled(SidePanelSection)`
   display: flex;
@@ -30,11 +33,38 @@ const StyledSidePanelSection = styled(SidePanelSection)`
   }
 `;
 
-LayerManagerFactory.deps = [LayerListFactory, AddDataButtonFactory];
+export type LayerActionsInterface = Pick<
+  VisStateActionHandlers,
+  | 'layerColorUIChange'
+  | 'layerConfigChange'
+  | 'layerVisualChannelConfigChange'
+  | 'layerTypeChange'
+  | 'layerVisConfigChange'
+  | 'layerTextLabelChange'
+  | 'removeLayer'
+  | 'duplicateLayer'
+  | 'removeDataset'
+  | 'showDatasetTable'
+  | 'layerSetIsValid'
+> & {
+  openModal: UiStateActionHandlers['toggleModal'];
+};
+
+export interface PanelPropsInterface {
+  datasets: PanelComponentPropsInterface['datasets'];
+  layerTypeOptions: LayerTypeOptionInterface[];
+}
+
+LayerManagerFactory.deps = [
+  SortableLayerListFactory,
+  AddDataButtonFactory,
+  KeplerLayerPanelFactory
+];
 
 function LayerManagerFactory(
-  LayerList: ReturnType<typeof LayerListFactory>,
-  AddDataButton: ReturnType<typeof AddDataButtonFactory>
+  SortableLayerList: ReturnType<typeof SortableLayerListFactory>,
+  AddDataButton: ReturnType<typeof AddDataButtonFactory>,
+  LayerPanel: ReturnType<typeof KeplerLayerPanelFactory>
 ) {
   return ({
     datasets,
@@ -46,6 +76,36 @@ function LayerManagerFactory(
     showAddDataModal
   }: LayerManagerProps) => {
     const defaultDataset = Object.keys(datasets)[0];
+
+    const layerTypeOptions = useMemo(
+      () =>
+        Object.keys(layerClasses).map(key => {
+          const layer = new layerClasses[key]({dataId: ''});
+          return {
+            id: key,
+            label: layer.name,
+            icon: layer.layerIcon,
+            requireData: layer.requireData
+          };
+        }),
+      [layerClasses]
+    );
+
+    const layerActions: LayerActionsInterface = {
+      layerColorUIChange: visStateActions.layerColorUIChange,
+      layerConfigChange: visStateActions.layerConfigChange,
+      layerVisualChannelConfigChange: visStateActions.layerVisualChannelConfigChange,
+      layerTypeChange: visStateActions.layerTypeChange,
+      layerVisConfigChange: visStateActions.layerVisConfigChange,
+      layerTextLabelChange: visStateActions.layerTextLabelChange,
+      removeLayer: visStateActions.removeLayer,
+      duplicateLayer: visStateActions.duplicateLayer,
+      showDatasetTable: visStateActions.showDatasetTable,
+      removeDataset: visStateActions.removeDataset,
+      layerSetIsValid: visStateActions.layerSetIsValid,
+      openModal: uiStateActions.toggleModal
+    };
+
     return (
       <div className="layer-manager">
         <StyledSidePanelSection>
@@ -55,13 +115,23 @@ function LayerManagerFactory(
             <FormattedMessage id={'layerManager.dataWeight'} />
           </HintText>
         </StyledSidePanelSection>
-        <LayerList
+        <SortableLayerList
           layers={layers}
-          datasets={datasets}
           layerOrder={layerOrder}
+          datasets={datasets}
+          layerClasses={layerClasses}
           uiStateActions={uiStateActions}
           visStateActions={visStateActions}
-          layerClasses={layerClasses}
+          renderLayerListItem={(layer, layerIdx: number) => (
+            <LayerPanel
+              {...layerActions}
+              key={layer.id}
+              idx={layerIdx}
+              layer={layer}
+              layerTypeOptions={layerTypeOptions}
+              datasets={datasets}
+            />
+          )}
         />
       </div>
     );

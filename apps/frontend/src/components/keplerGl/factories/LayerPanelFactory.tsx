@@ -83,8 +83,8 @@ function LayerPanelFactory(
     const _removeLayer = e => {
       e?.stopPropagation();
       // We might want to remove layer as well.
-      props.removeLayer(props.idx.toString());
-      props.removeDataset(layer.id);
+      props.removeLayer(layer.id);
+      props.removeDataset(layer.config.dataId);
     };
 
     const _duplicateLayer = e => {
@@ -94,7 +94,7 @@ function LayerPanelFactory(
 
     const _showDatasetTable = e => {
       e?.stopPropagation();
-      props.showDatasetTable(layer.id);
+      props.showDatasetTable(layer.config.dataId);
     };
 
     const {layer, datasets, isDraggable, layerTypeOptions, listeners} = props;
