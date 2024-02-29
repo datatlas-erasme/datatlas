@@ -16,6 +16,7 @@ import {getDefaultLocale} from '../../../i18n/utils';
 import {getProject, getProjects} from '../../api';
 import {keplerMapFactory, KeplerMapFactory} from '../../../kepler';
 import {toKeplerId} from '../../selectors';
+import {INITIAL_MAP_STYLE} from './map-style-updaters';
 
 export const registerMap = (id: string, mint = true) =>
   registerEntry({
@@ -34,7 +35,7 @@ export const UPDATE_READ_STATE = 'UPDATE_READ_STATE';
 export const updateReadState = createAction<boolean>(UPDATE_READ_STATE);
 
 export const keplerReducer: Reducer<DatatlasGlInstances> = keplerGlReducer
-  .initialState({visState: INITIAL_VIS_STATE})
+  .initialState({visState: INITIAL_VIS_STATE, mapStyle: INITIAL_MAP_STYLE})
   .plugin({
     // If you want to use an existing "updater" function, make sur to pass the right state slice as argument.
     // Kepler lenses might be helpful for this.

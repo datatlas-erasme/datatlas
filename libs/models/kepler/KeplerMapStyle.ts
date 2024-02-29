@@ -1,5 +1,6 @@
 import { BaseMapStyle, SavedCustomMapStyle, SavedMapStyle as KeplerSavedMapStyle } from '@kepler.gl/types';
 import { hexToRgb } from '@kepler.gl/utils';
+import { DEFAULT_MAP_STYLES } from '@kepler.gl/constants';
 
 export class SavedMapStyle implements KeplerSavedMapStyle {
   public static readonly DEFAULT_MAP_STYLES: BaseMapStyle[] = [
@@ -17,6 +18,7 @@ export class SavedMapStyle implements KeplerSavedMapStyle {
       icon: 'https://openmaptiles.data.grandlyon.com/styles/vector/11/1050/729.png',
       layerGroups: [],
     },
+    ...DEFAULT_MAP_STYLES,
   ];
 
   mapStyles = {};
@@ -50,7 +52,7 @@ export class SavedMapStyle implements KeplerSavedMapStyle {
   }
 
   static enhanceMapStyles(mapStyles: SavedCustomMapStyle = {}, accessToken?: string): SavedCustomMapStyle {
-    const defaultMapStylesMap = SavedMapStyle.getDefaultMapStylesMap();
+    const defaultMapStylesMap = SavedMapStyle.getDefaultMapStyles();
     return Object.values(mapStyles).reduce((mapStyles: SavedCustomMapStyle, mapStyle: SavedCustomMapStyle[string]) => {
       return {
         [mapStyle.id]: Object.assign({ accessToken, custom: false }, defaultMapStylesMap[mapStyle.id], mapStyle),
@@ -72,7 +74,7 @@ export class SavedMapStyle implements KeplerSavedMapStyle {
     );
   }
 
-  static getDefaultMapStylesMap() {
+  static getDefaultMapStyles() {
     return SavedMapStyle.DEFAULT_MAP_STYLES.reduce(
       (accu: SavedCustomMapStyle, curr: BaseMapStyle) => ({
         ...accu,
