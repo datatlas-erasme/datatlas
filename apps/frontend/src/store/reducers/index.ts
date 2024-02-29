@@ -1,3 +1,5 @@
+import type { TypedUseSelectorHook } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { combineReducers } from '@reduxjs/toolkit';
 import { reducer as userReducer, initialState as userInitialState } from './user';
 import { reducer as keplerReducer } from './keplerGl';
@@ -12,6 +14,7 @@ export const reducer = combineReducers({
 });
 
 export type RootState = ReturnType<typeof reducer>;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const initialState: Partial<RootState> = {
   user: userInitialState,

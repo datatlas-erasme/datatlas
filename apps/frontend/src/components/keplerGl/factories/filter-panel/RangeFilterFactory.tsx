@@ -1,16 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useCallback } from 'react';
-import KeplerRangeFilterFactory from 'kepler.gl/dist/components/filters/range-filter';
+import React, {useCallback} from 'react';
+import {RangeFilterFactory as KeplerRangeFilterFactory} from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import styled from 'styled-components';
 
 export function RangeFilterFactory(RangeSlider) {
-  return styled(({ idx, filter, setFilter, layer, className, style }) => {
-    const handleSetFilter = useCallback((value) => setFilter(idx, 'value', value), [idx, setFilter]);
+  return styled(({idx, filter, setFilter, layer, className, style}) => {
+    const handleSetFilter = useCallback(value => setFilter(idx, 'value', value), [idx, setFilter]);
 
     return (
       <div
         className={`range-slider__container ${className}`}
-        style={{ backgroundColor: `rgba(${layer.config.color}, 0.75)`, ...style }}
+        style={{backgroundColor: `rgba(${layer.config.color}, 0.75)`, ...style}}
       >
         <RangeSlider
           range={filter.domain}
@@ -62,6 +63,7 @@ export function RangeFilterFactory(RangeSlider) {
 
 RangeFilterFactory.deps = KeplerRangeFilterFactory.deps;
 
-export function provideRangerFilter() {
+export function provideRangerFilter(): [Factory, Factory] {
+  // @ts-ignore
   return [RangeFilterFactory, RangeFilterFactory];
 }

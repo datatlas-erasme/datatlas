@@ -4,7 +4,7 @@ import { Button, ButtonPropsInterface } from './Button';
 import { Loader } from '../Loader';
 
 export interface StyledFormBtnProps extends ButtonPropsInterface {
-  loading: boolean;
+  loading?: boolean;
 }
 
 export const StyledFormBtn = styled(({ loading, children, ...props }: StyledFormBtnProps) => {

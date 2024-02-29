@@ -1,8 +1,13 @@
-import { UIEventHandler } from 'react';
-import { Filter, Layer, Datasets } from 'kepler.gl';
-import { mapStateActions, mapStyleActions, uiStateActions, visStateActions } from 'kepler.gl/actions';
-import { BaseMapStyle } from 'kepler.gl/src/reducers/map-style-updaters';
-import { InteractionConfig } from 'kepler.gl/src/reducers/vis-state-updaters';
+import {UIEventHandler} from 'react';
+import {Filter, InteractionConfig, BaseMapStyle} from '@kepler.gl/types';
+import {Layer} from '@kepler.gl/layers';
+import {
+  MapStateActions,
+  MapStyleActions,
+  UIStateActions,
+  VisStateActions
+} from '@kepler.gl/actions';
+import {Datasets} from '@kepler.gl/table';
 
 /**
  * Describe the props injected by default in each "panel component" (~managers) :
@@ -19,13 +24,13 @@ export interface PanelComponentPropsInterface {
   layerOrder: number[];
   layerBlending: string;
   mapStyle: BaseMapStyle;
-  mapStyleActions: mapStyleActions;
-  mapStateActions: mapStateActions;
+  mapStyleActions: typeof MapStyleActions;
+  mapStateActions: typeof MapStateActions;
   interactionConfig: InteractionConfig;
   removeDataset: UIEventHandler;
   showDatasetTable: UIEventHandler;
   showAddDataModal: UIEventHandler;
   showAddMapStyleModal: UIEventHandler;
-  uiStateActions: uiStateActions;
-  visStateActions: visStateActions;
+  uiStateActions: typeof UIStateActions;
+  visStateActions: typeof VisStateActions;
 }

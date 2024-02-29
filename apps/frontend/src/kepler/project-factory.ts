@@ -1,31 +1,30 @@
 import {
-  DatatlasSavedMapInterface,
+  DatatlasGlState,
+  enhanceGlState,
   LoadingProjectInterface,
   Project,
   ProjectInterface,
   PublicUserInterface,
+  SavedMap,
 } from '@datatlas/models';
 import { UpdateProjectRequestInterface } from '@datatlas/dtos';
-import { KeplerGlSchema } from 'kepler.gl/schemas';
-import { KeplerGlState } from 'kepler.gl/reducers';
+import { KeplerGLSchema } from '@kepler.gl/schemas/dist/schema-manager';
 import { schemaManager } from './schema-manager';
 
 export class ProjectFactory {
-  schemaManager: KeplerGlSchema;
+  schemaManager: KeplerGLSchema;
 
-  constructor(schemaManager: KeplerGlSchema) {
+  constructor(schemaManager: KeplerGLSchema) {
     this.schemaManager = schemaManager;
   }
 
   public createProjectFromKeplerInstance(
     id: string,
-    keplerGlState: KeplerGlState,
+    keplerGlState: DatatlasGlState,
     contributors: PublicUserInterface[],
     owner?: PublicUserInterface
   ): LoadingProjectInterface {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const savedMap = this.schemaManager.save(keplerGlState) as DatatlasSavedMapInterface;
+    const savedMap = this.schemaManager.save(enhanceGlState(keplerGlState)) as unknown as SavedMap;
     return {
       draft: true,
       ...this.createPartialProjectFromKeplerSavedMap(savedMap),
@@ -37,9 +36,9 @@ export class ProjectFactory {
 
   public createUpdateProjectRequestFromKeplerInstance(
     id: string,
-    keplerGlState: KeplerGlState
+    keplerGlState: DatatlasGlState
   ): UpdateProjectRequestInterface {
-    const savedMap = this.schemaManager.save(keplerGlState) as DatatlasSavedMapInterface;
+    const savedMap = this.schemaManager.save(enhanceGlState(keplerGlState)) as unknown as SavedMap;
 
     return {
       draft: true,
@@ -50,7 +49,7 @@ export class ProjectFactory {
   }
 
   public createPartialProjectFromKeplerSavedMap(
-    savedMap: DatatlasSavedMapInterface
+    savedMap: SavedMap
   ): Omit<ProjectInterface, 'owner' | 'id' | 'draft' | 'contributors' | 'copyEnabled'> {
     return Project.createPartialProjectFromKeplerSavedMap(savedMap);
   }

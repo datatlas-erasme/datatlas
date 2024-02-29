@@ -1,29 +1,49 @@
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import styled from 'styled-components';
-import { PanelToggleFactory as KeplerPanelToggleFactory } from 'kepler.gl/components';
+import {
+  PanelTabFactory,
+  PanelToggleFactory as KeplerPanelToggleFactory
+} from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
+import {PanelItem} from '@kepler.gl/components/dist/side-panel/panel-tab';
+import {toggleSidePanel, ActionHandler} from '@kepler.gl/actions';
+
+type PanelToggleProps = {
+  panels: PanelItem[];
+  activePanel: string | null;
+  togglePanel: ActionHandler<typeof toggleSidePanel>;
+};
 
 const PanelHeaderBottom = styled.div.attrs({
-  className: 'side-side-panel__header__bottom',
+  className: 'side-side-panel__header__bottom'
 })`
-  background-color: ${(props) => props.theme.sidePanelHeaderBg};
-  border-bottom: 1px solid ${(props) => props.theme.sidePanelHeaderBorder};
+  background-color: ${props => props.theme.sidePanelHeaderBg};
+  border-bottom: 1px solid ${props => props.theme.sidePanelHeaderBorder};
   display: flex;
   min-height: 80px;
 `;
 
-function PanelToggleFactory(PanelTab) {
-  const PanelToggle = ({ activePanel, panels, togglePanel }) => {
+PanelToggleFactory.deps = KeplerPanelToggleFactory.deps;
+
+function PanelToggleFactory(PanelTab: ReturnType<typeof PanelTabFactory>) {
+  const PanelToggle: React.FC<PanelToggleProps> = ({activePanel, panels, togglePanel}) => {
     const onClick = useCallback(
-      (panel) => {
+      panel => {
         const callback = panel.onClick || togglePanel;
         callback(panel.id);
       },
       [togglePanel]
     );
+
     return (
       <PanelHeaderBottom>
-        {panels.map((panel) => (
-          <PanelTab key={panel.id} panel={panel} isActive={activePanel === panel.id} onClick={() => onClick(panel)} />
+        {panels.map(panel => (
+          <PanelTab
+            key={panel.id}
+            panel={panel}
+            isActive={activePanel === panel.id}
+            onClick={() => onClick(panel)}
+          />
         ))}
       </PanelHeaderBottom>
     );
@@ -32,8 +52,7 @@ function PanelToggleFactory(PanelTab) {
   return PanelToggle;
 }
 
-PanelToggleFactory.deps = KeplerPanelToggleFactory.deps;
-
-export function replacePanelToggleFactory() {
+export function replacePanelToggleFactory(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerPanelToggleFactory, PanelToggleFactory];
 }

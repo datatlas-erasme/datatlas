@@ -65,7 +65,7 @@ export default {
     fillColor: 'Couleur de remplissage',
     outline: 'Contour',
     weight: 'Poids',
-    propertyBasedOn: '{propriété} basé sur',
+    propertyBasedOn: '{property} basé sur',
     coverage: 'Couverture',
     stroke: 'Contour',
     strokeWidth: 'Largeur du contour',
@@ -158,7 +158,7 @@ export default {
     '3dBuildingColor': 'Couleur des bâtiments 3D',
   },
   layerConfiguration: {
-    defaultDescription: 'Calculer {propriété} en fonction du champ sélectionné',
+    defaultDescription: 'Calculer {property} en fonction du champ sélectionné',
     howTo: 'Comment faire',
   },
   filterManager: {

@@ -24,3 +24,7 @@ Each _tab_ in the side panel is associated with a `*ManagerFactory` :
 > - `layers[0].config.dataId`
 > - `filters[0].dataId`
 > - `datasets[dataId].id`
+
+# Code style
+
+Code style is kept as close as possible as the one from **Kepler.gl**. That's why you'll find local `.prettierrc` and `.eslintrc` files.

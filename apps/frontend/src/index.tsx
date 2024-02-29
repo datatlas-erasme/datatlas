@@ -10,7 +10,6 @@ import { store, persistor } from './store';
 import { LoginPage, SandboxMapPage, ProjectPage, ProjectsPage, ErrorPage } from './pages';
 import { Loader } from './components/Loader';
 import { AppLayout } from './components/layouts';
-import { ComponentsPage } from './pages/ComponentsPage';
 import { GlobalStyle } from './style/GlobalStyle';
 import { theme } from './style/theme';
 import LegalMentions from './pages/LegalMentionsPage';
@@ -40,11 +39,6 @@ const router = createBrowserRouter([
   {
     path: '/legalmentions',
     element: <LegalMentions />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/components',
-    element: <ComponentsPage />,
     errorElement: <ErrorPage />,
   },
   {

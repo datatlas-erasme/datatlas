@@ -1,20 +1,23 @@
-import React, { PropsWithChildren, ReactNode, UIEventHandler, useState } from 'react';
+import React, {PropsWithChildren, ReactNode, useState} from 'react';
 import classnames from 'classnames';
 import styled from 'styled-components';
-import { DragHandle } from 'kepler.gl/dist/components/side-panel/layer-panel/layer-panel-header';
-import { VertDots } from 'kepler.gl/dist/components/common/icons';
-import { StyledPanelHeader } from 'kepler.gl/dist/components/common/styled-components';
+import {
+  DragHandle,
+  LayerPanelHeaderProps as KeplerLayerPanelHeaderProps,
+  StyledPanelHeader
+} from '@kepler.gl/components';
+import {VertDots} from '@kepler.gl/components/dist/common/icons';
 
 const StyledLayerPanelHeader = styled(StyledPanelHeader)`
-  height: ${({ theme }) => theme.layerPanelHeaderHeight}px;
-  background-color: ${({ theme }) => theme.panelBackground};
+  height: ${({theme}) => theme.layerPanelHeaderHeight}px;
+  background-color: ${({theme}) => theme.panelBackground};
 
   .layer__remove-layer {
     opacity: 0;
   }
   :hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.sidePanelHeaderBg};
+    background-color: ${({theme}) => theme.sidePanelHeaderBg};
 
     .layer__drag-handle {
       opacity: 1;
@@ -25,55 +28,59 @@ const StyledLayerPanelHeader = styled(StyledPanelHeader)`
     }
   }
   :active {
-    background-color: ${({ theme }) => theme.sidePanelHeaderBg};
+    background-color: ${({theme}) => theme.sidePanelHeaderBg};
   }
 `;
 
 const HeaderLabelSection = styled.div`
   display: flex;
-  color: ${({ theme }) => theme.textColor};
+  color: ${({theme}) => theme.textColor};
 `;
 
 const HeaderActionSection = styled.div`
   display: flex;
 `;
 
-export interface LayerPanelHeaderPropsInterface extends PropsWithChildren {
-  layerTitleSection: ReactNode;
-  isActive: boolean;
-  isDragNDropEnabled: boolean;
-  labelRCGColorValues: number[];
-  onToggleEnableConfig: UIEventHandler;
-}
+export type LayerPanelHeaderPropsInterface = Pick<
+  KeplerLayerPanelHeaderProps,
+  | 'isConfigActive'
+  | 'isDragNDropEnabled'
+  | 'labelRCGColorValues'
+  | 'onToggleEnableConfig'
+  | 'listeners'
+> &
+  PropsWithChildren & {layerTitleSection: ReactNode};
 
 export const LayerPanelHeader = ({
-  isActive,
+  isConfigActive,
   isDragNDropEnabled,
   labelRCGColorValues,
   onToggleEnableConfig,
   children,
   layerTitleSection,
+  listeners
 }: LayerPanelHeaderPropsInterface) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isOpen, setOpen] = useState(false);
-  const toggleLayerConfigurator = (e) => {
+  const toggleLayerConfigurator = e => {
     setOpen(!isOpen);
     onToggleEnableConfig(e);
   };
   return (
     <StyledLayerPanelHeader
       className={classnames('layer-panel__header', {
-        'sort--handle': !isActive,
+        'sort--handle': !isConfigActive
       })}
-      active={isActive}
+      active={isConfigActive}
       labelRCGColorValues={labelRCGColorValues}
       onClick={toggleLayerConfigurator}
     >
       <HeaderLabelSection className="layer-panel__header__content">
-        {isDragNDropEnabled && (
-          <DragHandle className="layer__drag-handle">
+        {isDragNDropEnabled ? (
+          <DragHandle className="layer__drag-handle" listeners={listeners}>
             <VertDots height="20px" />
           </DragHandle>
+        ) : (
+          <div className="layer__drag-handle__placeholder" />
         )}
         {layerTitleSection}
       </HeaderLabelSection>

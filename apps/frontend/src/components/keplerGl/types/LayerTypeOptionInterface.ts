@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import {ReactNode} from 'react';
 
 export interface LayerTypeOptionInterface {
   id: string;

@@ -1,5 +1,6 @@
-import { DIMENSIONS } from 'kepler.gl/dist/constants/default-settings';
-import { theme as keplerTheme } from 'kepler.gl/dist/styles/base';
+import { ThemeProps } from 'styled-components';
+import { DIMENSIONS } from '@kepler.gl/constants';
+import { theme as keplerTheme } from '@kepler.gl/styles';
 import {
   Input,
   InputLT,
@@ -75,7 +76,6 @@ import {
   exportIntraSectionMargin,
 } from './constants';
 import { MapMenuScrollBar } from '../components/map-menu/MapMenuScrollbar';
-import { ThemeProps } from 'styled-components';
 
 export const theme = {
   ...DIMENSIONS,

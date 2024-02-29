@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import { enhanceReduxMiddleware } from 'kepler.gl';
+import { taskMiddleware } from 'react-palm/tasks';
 import { reducer as rootReducer } from './reducers';
 import { initialState } from './reducers';
 import { api } from './api';
@@ -23,23 +23,25 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
+  // @ts-ignore
   preloadedState: initialState,
+  // @ts-ignore
   middleware: (getDefaultMiddleware) =>
-    [
-      ...getDefaultMiddleware({
-        serializableCheck: false,
-        immutableCheck: false,
-      }),
-      process.env.NODE_ENV === 'development' &&
-        createLogger({
-          diff: false, // diff might cause unexpected errors and mess with hot reload
-          predicate: (getState, { type }) => !actionsBlacklist.includes(type),
-          collapsed: (getState, action, logEntry) => !(logEntry && logEntry.error),
-        }),
+    getDefaultMiddleware({
+      serializableCheck: false,
+      immutableCheck: false,
+    }).concat(
+      process.env.NODE_ENV === 'development'
+        ? createLogger({
+            diff: false, // diff might cause unexpected errors and mess with hot reload
+            predicate: (getState, { type }) => !actionsBlacklist.includes(type),
+            collapsed: (getState, action, logEntry) => !(logEntry && logEntry.error),
+          })
+        : [],
       api.middleware,
-      ...enhanceReduxMiddleware([]),
       listenerMiddleware.middleware,
-    ].filter((truthy) => truthy),
+      taskMiddleware
+    ),
   devTools: process.env.NODE_ENV === 'development',
 });
 

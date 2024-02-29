@@ -1,22 +1,27 @@
 import React from 'react';
-import KeplerPanelTabFactory, { StyledPanelTab } from 'kepler.gl/dist/components/side-panel/panel-tab';
-import { Tooltip } from 'kepler.gl/dist/components/common/styled-components';
-import { FormattedMessage } from 'react-intl';
+import {
+  PanelTabFactory as KeplerPanelTabFactory,
+  PanelTabProps,
+  Tooltip
+} from '@kepler.gl/components';
+import {StyledPanelTab as KeplerStyledPanelTab} from '@kepler.gl/components/dist/side-panel/panel-tab';
+import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 
-const DatatlasPanelTab = styled(StyledPanelTab)`
+const StyledPanelTab = styled(KeplerStyledPanelTab)`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  font-size: ${({ theme }) => theme.fontSize};
-  border-right: ${({ theme }) => theme.panelBorderLT};
-  padding: ${({ theme }) => theme.panelToggleBottomPadding}px;
+  font-size: ${({theme}) => theme.fontSize};
+  border-right: ${({theme}) => theme.panelBorderLT};
+  padding: ${({theme}) => theme.panelToggleBottomPadding}px;
   text-align: center;
 `;
 
-function PanelTabFactory() {
-  return ({ isActive, onClick, panel }) => (
-    <DatatlasPanelTab data-tip data-for={`${panel.id}-nav`} active={isActive} onClick={onClick}>
+export function PanelTabFactory() {
+  const PanelTab: React.FC<PanelTabProps> = ({isActive, onClick, panel}) => (
+    <StyledPanelTab data-tip data-for={`${panel.id}-nav`} active={isActive} onClick={onClick}>
       <panel.iconComponent height="20px" />
       <FormattedMessage id={panel.label || panel.id} />
       <Tooltip id={`${panel.id}-nav`} effect="solid" delayShow={500} place="bottom">
@@ -24,10 +29,13 @@ function PanelTabFactory() {
           <FormattedMessage id={panel.label || panel.id} />
         </span>
       </Tooltip>
-    </DatatlasPanelTab>
+    </StyledPanelTab>
   );
+
+  return PanelTab;
 }
 
-export function replacePanelTab() {
+export function replacePanelTab(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerPanelTabFactory, PanelTabFactory];
 }

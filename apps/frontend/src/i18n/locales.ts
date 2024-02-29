@@ -1,5 +1,5 @@
 //  We may choose to import other Kepler locales and make them available :
-//  import { LOCALES as KEPLER_LOCALES } from 'kepler.gl/dist/localization/locales';
+//  import { LOCALES as KEPLER_LOCALES } from '@kepler.gl/localization';
 
 export const LOCALES = {
   en: 'English',

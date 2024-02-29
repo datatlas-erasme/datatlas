@@ -1,11 +1,13 @@
-import { PanelHeaderFactory as KeplerPanelHeaderFactory } from 'kepler.gl/components';
+import {PanelHeaderFactory as KeplerPanelHeaderFactory} from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 
-const PanelHeaderFactory = () => {
+PanelHeaderFactory.deps = [];
+
+function PanelHeaderFactory() {
   return () => null;
-};
+}
 
-PanelHeaderFactory.deps = KeplerPanelHeaderFactory.deps;
-
-export function replacePanelHeader() {
+export function replacePanelHeader(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerPanelHeaderFactory, PanelHeaderFactory];
 }

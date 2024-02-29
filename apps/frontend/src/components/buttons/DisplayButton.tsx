@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, ReactElement, ReactNode, useState } from 'react';
 import styled from 'styled-components';
-import { ArrowDown, ArrowRight } from 'kepler.gl/dist/components/common/icons';
+import { ArrowDown, ArrowRight } from '@kepler.gl/components/dist/common/icons';
 
 interface DisplayButtonInterface {
   children: ReactNode;

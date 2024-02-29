@@ -3,16 +3,15 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { useSelector } from 'react-redux';
 import styled, { ThemeProps } from 'styled-components';
-import { addDataToMap } from 'kepler.gl/actions';
+import { addDataToMap } from '@kepler.gl/actions';
 import { DatasetFactory, DatasetInterface } from '@datatlas/models';
 import { DatatlasTheme } from '../../style/theme';
 import { isValidHttpURL, handleServerError } from '../../utils';
 import { useForward } from '../../hooks';
 import { markdownComponents } from '../markdown';
-import { GUIDES_FILE_FORMAT_DOC } from 'kepler.gl/dist/constants/user-guides';
-import { RootState } from '../../store/reducers';
+import { GUIDES_FILE_FORMAT_DOC } from '@kepler.gl/constants';
+import { useAppSelector } from '../../store/reducers';
 import { selectFileFormatNamesByInstanceId } from '../../store/selectors';
 
 const InputForm = styled.form`
@@ -91,7 +90,7 @@ export function LoadRemoteDatasetForm() {
 
   // @todo We should overwrite the ModalFactory and inject `fileFormatNames` there instead.
   const { id } = useParams();
-  const fileFormatNames = useSelector((state: RootState) => selectFileFormatNamesByInstanceId(state, id));
+  const fileFormatNames = useAppSelector((state) => selectFileFormatNamesByInstanceId(state, id));
 
   const onSubmit = async () => {
     try {

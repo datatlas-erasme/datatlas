@@ -2,9 +2,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { REHYDRATE } from 'redux-persist';
 import { GetUserDto, LoginResponse, ProjectDto, UpdateProjectRequestInterface } from '@datatlas/dtos';
-import { CreateProjectFormData, LoginFormData } from '../models';
+import { CreateProjectFormData, LoginFormData, ProjectDtoFactory } from '../models';
 import { loggedIn } from './reducers/user';
-import { KeplerMapStyle, Project } from '@datatlas/models';
+import { SavedMapStyle, Project } from '@datatlas/models';
 import { selectAccessToken } from './selectors';
 
 const prepareHeaders = (headers, { getState }) => {
@@ -107,7 +107,7 @@ export const api = createApi({
             ...data,
             config: {
               ...data.config,
-              mapStyle: new KeplerMapStyle({
+              mapStyle: new SavedMapStyle({
                 mapboxApiAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
                 styleType: data.mapStyleId,
               }),
@@ -122,14 +122,13 @@ export const api = createApi({
           const projectDto = {
             ...data,
             // @ts-ignore
-            owner: data?.owner?.id,
+            owner: data?.ownerId,
           };
-
           // Force update of the `getProjects` cache entry.
           dispatch(
             api.util.updateQueryData('getProjects', undefined, (projects) => {
               projects.push(projectDto);
-              projects.sort(Project.getSortingFunction());
+              projects.map(ProjectDtoFactory.fromJson).sort(Project.getSortingFunction());
             })
           );
         },
