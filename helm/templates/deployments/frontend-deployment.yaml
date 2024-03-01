@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.frontend.name | default "frontend" }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    workload.user.cattle.io/workloadselector: apps.deployment-{{ .Release.Namespace }}-frontend
+spec:
+  replicas: {{ .Values.frontend.replicas | default 1 }}
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-{{ .Release.Namespace }}-frontend
+  strategy:
+    type: {{ .Values.frontend.strategy.type | default "Recreate" }}
+  template:
+    metadata:
+      labels:
+        workload.user.cattle.io/workloadselector: apps.deployment-{{ .Release.Namespace }}-frontend
+    spec:
+      containers:
+      - name: {{ .Values.frontend.container.name | default "frontend" }}
+        image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default "dev" }}"
+        imagePullPolicy: {{ .Values.frontend.image.pullPolicy | default "Always" }}
+        env:
+          {{- range $key, $value := .Values.frontend.env }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}

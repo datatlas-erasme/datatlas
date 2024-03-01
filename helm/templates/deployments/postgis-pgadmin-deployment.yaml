@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgis-pgadmin
+  namespace: {{ .Release.Namespace }}
+  labels:
+    workload.user.cattle.io/workloadselector: apps.deployment-{{ .Release.Namespace }}-postgis-pgadmin
+spec:
+  replicas: {{ .Values.postgisPgadmin.replicaCount }}
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: apps.deployment-{{ .Release.Namespace }}-postgis-pgadmin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        workload.user.cattle.io/workloadselector: apps.deployment-{{ .Release.Namespace }}-postgis-pgadmin
+    spec:
+      containers:
+        - name: postgis
+          image: "{{ .Values.postgisPgadmin.postgis.image }}"
+          env:
+            - name: POSTGRES_DB
+              value: "{{ .Values.postgisPgadmin.postgis.env.POSTGRES_DB }}"
+            - name: POSTGRES_USER
+              value: "{{ .Values.postgisPgadmin.postgis.env.POSTGRES_USER }}"
+            - name: POSTGRES_PASS
+              value: "{{ .Values.postgisPgadmin.postgis.env.POSTGRES_PASS }}"
+          volumeMounts:
+            {{- range .Values.postgisPgadmin.postgis.volumeMounts }}
+            - mountPath: {{ .mountPath }}
+              name: {{ $.Values.postgisPgadmin.volume.name }}
+              subPath: {{ .subPath }}
+            {{- end }}
+        - name: pgadmin
+          image: "{{ .Values.postgisPgadmin.pgadmin.image }}"
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              value: "{{ .Values.postgisPgadmin.pgadmin.env.PGADMIN_DEFAULT_EMAIL }}"
+            - name: PGADMIN_DEFAULT_PASSWORD
+              value: "{{ .Values.postgisPgadmin.pgadmin.env.PGADMIN_DEFAULT_PASSWORD }}"
+          volumeMounts:
+            {{- range .Values.postgisPgadmin.pgadmin.volumeMounts }}
+            - mountPath: {{ .mountPath }}
+              name: {{ $.Values.postgisPgadmin.volume.name }}
+              subPath: {{ .subPath }}
+            {{- end }}
+        - name: debian
+          image: "{{ .Values.postgisPgadmin.debian.image }}"
+          command: {{ .Values.postgisPgadmin.debian.command | toYaml | nindent 12 }}
+          volumeMounts:
+            {{- range .Values.postgisPgadmin.debian.volumeMounts }}
+            - mountPath: {{ .mountPath }}
+              name: {{ $.Values.postgisPgadmin.volume.name }}
+            {{- end }}
+      volumes:
+        - name: {{ .Values.postgisPgadmin.volume.name }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.postgisPgadmin.volume.persistentVolumeClaim.claimName }}
