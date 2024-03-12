@@ -58,3 +58,26 @@ spec:
         - name: {{ .Values.postgisPgadmin.volume.name }}
           persistentVolumeClaim:
             claimName: {{ .Values.postgisPgadmin.volume.persistentVolumeClaim.claimName }}
+        - name: dump-volume
+          persistentVolumeClaim:
+            claimName: dump-pvc # This should match the PVC where your dump file is stored.
+      initContainers:
+        - name: restore-backup
+          image: "{{ .Values.postgisPgadmin.postgis.image }}"
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              if [ -f "{{ .Values.postgisPgadmin.initRestore.dumpFile }}" ]; then
+                echo "Restoring database from dump...";
+                pg_restore -U {{ .Values.postgisPgadmin.postgis.env.POSTGRES_USER }} -h localhost -d {{ .Values.postgisPgadmin.postgis.env.POSTGRES_DB }} "{{ .Values.postgisPgadmin.initRestore.dumpFile }}";
+              else
+                echo "Dump file not found, skipping restore.";
+              fi
+          env:
+            - name: PGUSER
+              value: "{{ .Values.postgisPgadmin.postgis.env.POSTGRES_USER }}"
+            - name: PGPASSWORD
+              value: "{{ .Values.postgisPgadmin.postgis.env.POSTGRES_PASS }}"
+          volumeMounts:
+            - name: dump-volume
+              mountPath: "{{ .Values.postgisPgadmin.initRestore.dumpVolumeMountPath }}"

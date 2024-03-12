@@ -47,3 +47,4 @@ Thumbs.db
 
 # Helm Chart
 helm/override.values.yaml
+*.sql

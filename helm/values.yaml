@@ -61,6 +61,9 @@ postgisPgadmin:
         subPath: postgis
   pgadmin:
     image: dpage/pgadmin4
+    initRestore:
+      enabled: false
+      dumpFile: "./dump/dumpfile.sql"
     env:
       PGADMIN_DEFAULT_EMAIL: my@email.com
       PGADMIN_DEFAULT_PASSWORD: mypassword
@@ -73,9 +76,9 @@ postgisPgadmin:
     volumeMounts:
       - mountPath: /var/lib/pgadmin
   volume:
-    name: datatlas-dev
+    name: datatlas-postgres
     persistentVolumeClaim:
-      claimName: datatlas-dev
+      claimName: datatlas-postgres
 
   postgisService:
     type: ClusterIP
@@ -89,7 +92,7 @@ postgisPgadmin:
 
 pvc:
   datatlasDev:
-    name: datatlas-dev
+    name: datatlas-postgres
     accessModes:
       - ReadWriteOnce
     resources:

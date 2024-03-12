@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dump-pvc
+  annotations:
+    # Include any necessary annotations
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  # Uncomment and modify the following line if you need to specify a StorageClass
+  storageClassName: "standard"
+  # Adjust the storageClassName according to your cluster's storage provisioner
