@@ -1,0 +1,101 @@
+backend:
+  container:
+    name: frontend-container 
+  strategy:
+    type: Recreate 
+  image:
+    repository: erasme/datatlas-backend
+    tag: dev
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 3333
+    targetPort: 3333
+  env:
+    POSTGRES_USER: docker
+    POSTGRES_PASSWORD: mypassword
+    POSTGRES_DATABASE: datatlas
+    POSTGRES_HOST: postgis
+    POSTGRES_PORT: "5432"
+    PASSWORD_SALT: mypassword
+    ADMIN_EMAIL: admin@example.org
+    ADMIN_PASSWORD: admin
+    DUMMY_EDITOR_EMAIL: editor@example.org
+    DUMMY_EDITOR_PASSWORD: editor
+    PAYLOAD_SIZE_LIMIT: 25mb
+
+frontend:
+  container:
+    name: frontend-container 
+  strategy:
+    type: Recreate 
+  image:
+    repository: erasme/datatlas-frontend
+    tag: dev
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
+  env:
+    REACT_APP_DEFAULT_LOCALE: fr
+    REACT_APP_MAPBOX_ACCESS_TOKEN: mapxbox-token
+    REACT_APP_API_BASE_URL: https://mybackend/api
+    REACT_APP_MATOMO_SITE_ID: "172"
+    REACT_APP_MATOMO_TRACKER_URL: "//trackinginfo/"
+    REACT_APP_CONTACT_EMAIL: my@email.com
+    REACT_APP_MAX_TOOLIP_FIELDS: "3"
+
+postgisPgadmin:
+  strategy:
+    type: Recreate
+  replicaCount: 1
+  postgis:
+    image: kartoza/postgis:15-3.3
+    env:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: docker
+      POSTGRES_PASS: mypassword
+    volumeMounts:
+      - mountPath: /var/lib/postgresql
+        subPath: postgis
+  pgadmin:
+    image: dpage/pgadmin4
+    env:
+      PGADMIN_DEFAULT_EMAIL: my@email.com
+      PGADMIN_DEFAULT_PASSWORD: mypassword
+    volumeMounts:
+      - mountPath: /var/lib/pgadmin
+        subPath: pgadmin
+  debian:
+    image: debian
+    command: ["tail", "-f", "/dev/null"]
+    volumeMounts:
+      - mountPath: /var/lib/pgadmin
+  volume:
+    name: datatlas-dev
+    persistentVolumeClaim:
+      claimName: datatlas-dev
+
+  postgisService:
+    type: ClusterIP
+    port: 5432
+    targetPort: 5432
+  
+  pgadminService:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+
+pvc:
+  datatlasDev:
+    name: datatlas-dev
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 2Gi
+    # Uncomment and modify the following line if you need to specify a StorageClass
+    storageClassName: "scw-bssd"
+    #storageClassName: "local-path"
+

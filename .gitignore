@@ -43,3 +43,7 @@ Thumbs.db
 # Generated Docusaurus files
 .docusaurus/
 .cache-loader/
+
+
+# Helm Chart
+helm/values.yaml

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+name: {{ .Values.frontend.name | default "frontend" }}
+metadata:
+  name: {{ .Values.frontend.name | default "frontend" }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  clusterIP: None
+  type: {{ .Values.frontend.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.frontend.service.port }}
+      targetPort: {{ .Values.frontend.service.targetPort }}
+      protocol: TCP
+  selector:
+    workload.user.cattle.io/workloadselector: apps.deployment-{{ .Release.Namespace }}-frontend
+  strategy:
+    type: {{ .Values.frontend.strategy.type | default "Recreate" }}
