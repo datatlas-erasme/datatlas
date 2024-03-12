@@ -120,7 +120,9 @@ npx nx run backend-e2e:e2e --spec apps/backend-e2e/src/e2e/user.cy.ts &> cypress
 ### Kubernetes
 You can deploy the datatlas stack on a kubernetes cluster using the provided helm chart.
 
-Update the `helm/values.yaml` file to match your environment and run the following command:
+Copy the `helm/example.values.yaml` file to values.yaml and edit it to fit your needs.
+
+Then run the following command to deploy the stack:
 
 ```sh
 helm install datatlas ./helm --create-namespace --namespace datatlas 

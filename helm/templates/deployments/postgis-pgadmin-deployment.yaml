@@ -17,6 +17,15 @@ spec:
       labels:
         workload.user.cattle.io/workloadselector: apps.deployment-{{ .Release.Namespace }}-postgis-pgadmin
     spec:
+      initContainers:
+        - name: debian-setup
+          image: "{{ .Values.postgisPgadmin.debian.image }}"
+          command: ["sh", "-c", "chown -R 5050:5050 /var/lib/pgadmin"]
+          volumeMounts:
+            {{- range .Values.postgisPgadmin.debian.volumeMounts }}
+            - mountPath: {{ .mountPath }}
+              name: {{ $.Values.postgisPgadmin.volume.name }}
+            {{- end }}
       containers:
         - name: postgis
           image: "{{ .Values.postgisPgadmin.postgis.image }}"
@@ -45,14 +54,6 @@ spec:
             - mountPath: {{ .mountPath }}
               name: {{ $.Values.postgisPgadmin.volume.name }}
               subPath: {{ .subPath }}
-            {{- end }}
-        - name: debian
-          image: "{{ .Values.postgisPgadmin.debian.image }}"
-          command: {{ .Values.postgisPgadmin.debian.command | toYaml | nindent 12 }}
-          volumeMounts:
-            {{- range .Values.postgisPgadmin.debian.volumeMounts }}
-            - mountPath: {{ .mountPath }}
-              name: {{ $.Values.postgisPgadmin.volume.name }}
             {{- end }}
       volumes:
         - name: {{ .Values.postgisPgadmin.volume.name }}
