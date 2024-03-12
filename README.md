@@ -115,6 +115,17 @@ npx nx run backend-e2e:e2e --spec apps/backend-e2e/src/e2e/user.cy.ts &> cypress
 > See **Cypress** documentation :
 > https://github.com/nrwl/nx/tree/master/packages/cypress/docs
 
+## Deployment
+
+### Kubernetes
+You can deploy the datatlas stack on a kubernetes cluster using the provided helm chart.
+
+Update the `helm/values.yaml` file to match your environment and run the following command:
+
+```sh
+helm install datatlas ./helm --create-namespace --namespace datatlas 
+```
+
 ## Credits
 
 **DatAtlas** was created by [**Erasme**](https://www.erasme.org), the open innovation lab of Lyon 🇫🇷 metropolitan area. It's a part of the larger [**DatAgora**](https://www.erasme.org/DatAgora) initiative.
