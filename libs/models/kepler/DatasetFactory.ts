@@ -1,5 +1,7 @@
 import { ProtoDataset } from '@kepler.gl/types';
 import { ParsedField } from '@kepler.gl/schemas';
+import '@dnd-kit/modifiers';
+import '@dnd-kit/sortable';
 import { processGeojson } from '@kepler.gl/processors';
 import { ColorFactory } from '../ColorFactory';
 
