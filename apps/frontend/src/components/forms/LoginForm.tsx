@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Input } from 'kepler.gl/dist/components/common/styled-components';
+import { Input } from '@kepler.gl/components';
 import { useLoginMutation } from '../../store/api';
 import { StyledLabel } from './StyledLabel';
 import { StyledFormBtn } from '../buttons';

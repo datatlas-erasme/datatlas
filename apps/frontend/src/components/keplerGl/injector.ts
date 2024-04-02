@@ -1,14 +1,13 @@
-import { appInjector as keplerAppInjector } from 'kepler.gl';
-import { provideRecipesToInjector } from 'kepler.gl/dist/components';
+import {appInjector as keplerAppInjector, provideRecipesToInjector} from '@kepler.gl/components';
 import {
   replaceFileUpload,
   replaceLoadDataModal,
   replaceLayerManager,
+  replaceLayerPanelHeaderActionSection,
   replaceLayerPanelHeader,
   replaceLayerPanel,
   replaceLocalePanel,
   replaceFilterManager,
-  replaceLayerConfigurator,
   replaceInteractionManager,
   replaceKeplerGL,
   replacePanelHeader,
@@ -24,9 +23,10 @@ import {
   provideMultiSelectFilter,
   replaceModalDialog,
   replaceMapManager,
+  replaceMapPopoverFactory,
+  replaceLayerHoverInfoFactory
 } from './factories';
-import { replaceLayerHoverInfoFactory } from './factories/map/LayerHoverInfo';
-import { replaceMapPopoverFactory } from './factories/map/MapPopoverFactory';
+import {provideSortableLayerListFactory} from './side-panel/layer/SortableLayerList';
 
 // ⚠ Order matters ⚠
 export const appInjector = provideRecipesToInjector(
@@ -42,12 +42,12 @@ export const appInjector = provideRecipesToInjector(
     replaceMapManager(),
     replaceLoadDataModal(),
     replaceFileUpload(),
-    replaceLayerPanel(),
     replaceLayerPanelHeader(),
+    replaceLayerPanel(),
+    replaceLayerPanelHeaderActionSection(),
     replaceMapControl(),
     replaceLocalePanel(),
     replaceFilterManager(),
-    replaceLayerConfigurator(),
     replaceInteractionManager(),
     replaceInteractionPanel(),
     replaceTooltipConfig(),
@@ -56,6 +56,7 @@ export const appInjector = provideRecipesToInjector(
     replaceFilterPanel(),
     provideRangerFilter(),
     provideMultiSelectFilter(),
+    provideSortableLayerListFactory()
   ],
   keplerAppInjector
 );

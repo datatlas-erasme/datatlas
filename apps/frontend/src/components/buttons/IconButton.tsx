@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, ReactElement } from 'react';
-import { MapControlButton } from 'kepler.gl/dist/components/common/styled-components';
+import { MapControlButton } from '@kepler.gl/components';
 import styled from 'styled-components';
 
 interface IconButtonInterface {

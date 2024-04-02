@@ -1,5 +1,5 @@
 import { Filter, SetFilter } from '@datatlas/models';
-import { Layer } from 'kepler.gl/src';
+import { Layer } from '@kepler.gl/layers';
 import React from 'react';
 import { createFilterComponent } from '../keplerGl/factories';
 

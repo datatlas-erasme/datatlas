@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { selectCurrentUserId } from '../../store/selectors';
+import { useAppSelector } from '../../store/reducers';
 import { getUser } from '../../store/api';
 import { Loader } from '../Loader';
 
 export const AuthenticatedGuard = ({ children }: PropsWithChildren) => {
-  const currentUserId = useSelector(selectCurrentUserId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   if (!currentUserId) {
     return <Navigate to="/login" />;
   }

@@ -1,10 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
-import { ChickletButton } from 'kepler.gl/dist/components/common/item-selector/chickleted-input';
-import { DatatlasTheme } from './theme';
+import { ChickletButton } from '@kepler.gl/components';
 
-export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
+export const GlobalStyle = createGlobalStyle`
   * {
-    box-sizing: ${({ theme }) => theme.boxSizing};
     margin: 0;
     padding: 0;
     font-family: ${({ theme }) => theme.fontFamily};
@@ -74,9 +72,5 @@ export const GlobalStyle = createGlobalStyle<DatatlasTheme>`
   .side-side-panel__header__bottom {
     padding: 0;
     border-bottom: ${({ theme }) => theme.panelBorderLT};
-  }
-
-  .attrition-logo a.mapboxgl-ctrl-logo {
-    display: none;
   }
 `;

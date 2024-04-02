@@ -2,14 +2,15 @@ import React, { LiHTMLAttributes, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import classNames from 'classnames';
-import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
-import type { Layer } from 'kepler.gl/src';
+import { Datasets } from '@kepler.gl/table';
+import type { Layer } from '@kepler.gl/layers';
+import { ActionHandler, layerConfigChange } from '@kepler.gl/actions';
 import { Filter, SetFilter } from '@datatlas/models';
 import { FilterField } from '../keplerGl/factories';
 import { MenuIcon } from './MenuIcon';
 import { FilterFactory } from './FilterFactory';
-import { LayerConfigChange, MenuSectionHeading } from './MapMenu';
-import { grayscale, rgbToHsl, toCss } from '../../utils/color';
+import { MenuSectionHeading } from './MapMenu';
+import { grayscale, rgbToHsl, toCss } from '../../utils';
 
 const ToggleVisibilityMenuIcon = styled(({ visible, ...props }) => (
   <MenuIcon {...props}>{visible ? 'OUI' : 'NON'}</MenuIcon>
@@ -45,6 +46,7 @@ const DatasetMenuHeading = styled(MenuSectionHeading)<Pick<DatasetMenuProps, 'la
 `;
 
 interface DatasetMenuProps extends LiHTMLAttributes<HTMLLIElement> {
+  idx: number;
   datasets: Datasets;
   fields?: FilterField[];
   filters: Filter[];
@@ -53,10 +55,11 @@ interface DatasetMenuProps extends LiHTMLAttributes<HTMLLIElement> {
   setUnfolded?: () => void;
   reversedIndex: number[]; // An array of filters index in reverse order.
   setFilter: SetFilter;
-  layerConfigChange: LayerConfigChange;
+  layerConfigChange: ActionHandler<typeof layerConfigChange>;
 }
 
 export const DatasetMenu = ({
+  idx,
   datasets,
   filters,
   unfolded,
@@ -90,7 +93,7 @@ export const DatasetMenu = ({
           as="button"
           className="dataset-menu__show-dataset"
           onClick={toggleLayerVisibility}
-          tabIndex={layer.idx}
+          tabIndex={idx}
         >
           <span>
             <FormattedMessage id={'map_menu.dataset.show_dataset'} defaultMessage={'Show dataset'} />

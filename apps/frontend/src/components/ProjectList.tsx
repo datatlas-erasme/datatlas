@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
-import { deleteEntry } from 'kepler.gl/actions';
+import { deleteEntry } from '@kepler.gl/actions';
 import { ProjectListItem } from './ProjectListItem';
 import { Loader } from './Loader';
 import { LoadingProjectInterface, ProjectInterface } from '@datatlas/models';

@@ -1,6 +1,6 @@
 import { createTransform } from 'redux-persist';
-import { KeplerGlState } from 'kepler.gl/reducers';
-import { createDataContainer } from 'kepler.gl/dist/utils';
+import { KeplerGlState } from '@kepler.gl/reducers';
+import { createDataContainer } from '@kepler.gl/utils';
 
 export const DataContainerTransform = createTransform(
   (inboundState: KeplerGlState) => inboundState,
@@ -21,7 +21,7 @@ export const DataContainerTransform = createTransform(
         },
       };
       return inboundState;
-    }, {});
+    }, {}) as KeplerGlState;
   },
   { whitelist: ['keplerGl'] }
 );

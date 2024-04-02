@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { skipToken } from '@reduxjs/toolkit/dist/query/react';
-import Navbar from '../../components/nav/Navbar';
-import Footer from '../../components/footer/Footer';
+import { useAppSelector } from '../../store/reducers';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { Navbar } from '../nav/Navbar';
+import { Footer } from '../footer/Footer';
 import { selectCurrentUserId } from '../../store/selectors';
 import { getUser } from '../../store/api';
 import { useOutletContext } from 'react-router';
@@ -21,7 +21,7 @@ export type ContextType = {
 };
 
 export const AppLayout = () => {
-  const currentUserId = useSelector(selectCurrentUserId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const { data: user, isError: isUserError, error: userError } = getUser.useQuery(currentUserId ?? skipToken);
   if (isUserError) {
     console.error(userError);

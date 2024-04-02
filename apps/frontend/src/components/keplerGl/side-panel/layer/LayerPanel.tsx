@@ -1,7 +1,13 @@
-import React, { ComponentProps, CSSProperties, PropsWithChildren, ReactNode, UIEventHandler } from 'react';
+import React, {
+  ComponentProps,
+  CSSProperties,
+  PropsWithChildren,
+  ReactNode,
+  UIEventHandler
+} from 'react';
 import styled from 'styled-components';
 
-export const PanelWrapper = styled.div<{ active: boolean } & ComponentProps<'div'>>`
+export const PanelWrapper = styled.div<{active: boolean} & ComponentProps<'div'>>`
   font-size: 12px;
   border-radius: 1px;
   margin-bottom: 8px;
@@ -28,7 +34,7 @@ export const LayerPanel = ({
   onMouseDown,
   className,
   children,
-  header,
+  header
 }: LayerPanelPropsInterface) => {
   return (
     <PanelWrapper

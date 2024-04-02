@@ -1,4 +1,4 @@
-import { css } from 'styled-components';
+import {css} from 'styled-components';
 
 export const ChickletedInputContainer = css`
   cursor: pointer;
@@ -16,13 +16,13 @@ export const ChickletedInputContainer = css`
 `;
 
 export const ChickletedInput = css`
-  ${({ theme }) => theme.input} ${({ theme }) => theme.chickletedInputContainer};
+  ${({theme}) => theme.input} ${({theme}) => theme.chickletedInputContainer};
 `;
 
 export const ChickletedInputLT = css`
-  ${({ theme }) => theme.inputLT} ${({ theme }) => theme.chickletedInputContainer};
+  ${({theme}) => theme.inputLT} ${({theme}) => theme.chickletedInputContainer};
 `;
 
 export const SecondaryChickletedInput = css`
-  ${({ theme }) => theme.secondaryInput} ${({ theme }) => theme.chickletedInputContainer};
+  ${({theme}) => theme.secondaryInput} ${({theme}) => theme.chickletedInputContainer};
 `;

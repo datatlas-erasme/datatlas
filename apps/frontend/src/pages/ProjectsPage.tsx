@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../store/reducers';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 import { ProjectList } from '../components/ProjectList';
@@ -43,8 +43,8 @@ const HeaderProjects = styled.div`
 
 export const ProjectsPage = () => {
   const { isLoading, isFetching, isSuccess, isError, error } = useGetProjectsQuery();
-  const myProjects = useSelector(selectMyProjects);
-  const communityProjects = useSelector(selectCommunityProjects);
+  const myProjects = useAppSelector(selectMyProjects);
+  const communityProjects = useAppSelector(selectCommunityProjects);
 
   return (
     <React.StrictMode>

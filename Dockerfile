@@ -45,6 +45,7 @@ COPY --from=builder /build/dist/apps/$COPY_PATH/* ./dist
 
 WORKDIR /app/dist
 RUN npm install --force
+RUN rm -rf node_modules/@reduxjs/
 
 # Start the server using the production build
 CMD [ "node", "main.js" ]

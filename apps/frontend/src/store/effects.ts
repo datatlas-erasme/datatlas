@@ -1,11 +1,11 @@
 import { AnyAction, isAnyOf } from '@reduxjs/toolkit';
-import { deleteEntry } from 'kepler.gl/actions';
-import ActionTypes from 'kepler.gl/dist/constants/action-types';
-import { setLocale as setMapLocale } from 'kepler.gl/dist/actions/ui-state-actions';
+import { ActionTypes } from '@kepler.gl/actions';
+import { deleteEntry } from '@kepler.gl/actions/dist/identity-actions';
+import { setLocale as setMapLocale } from '@kepler.gl/actions/dist/ui-state-actions';
 import { startAppListening } from './listenerMiddleware';
 import { setLocale } from './reducers/locale';
 import { UPDATE_MAP_INFO } from './reducers/keplerGl';
-import { selectKeplerInstanceById, selectLoggedIn } from './selectors';
+import { selectInstance, selectLoggedIn } from './selectors';
 import { deleteProject, updateProject } from './api';
 import { projectFactory } from '../kepler';
 
@@ -53,7 +53,7 @@ startAppListening({
 
     if (isAKeplerWrappedAction(action)) {
       const id = action.payload.meta._id_;
-      const keplerInstance = selectKeplerInstanceById(state, action.payload.meta._id_);
+      const keplerInstance = selectInstance(state, action.payload.meta._id_);
 
       if (!keplerInstance) {
         throw new Error(`Couldn't find a project with id ${id}`);
@@ -70,8 +70,10 @@ startAppListening({
 });
 
 startAppListening({
-  type: '@@kepler.gl/DELETE_ENTRY',
-  effect: async ({ payload }: ReturnType<deleteEntry>, { dispatch, getState }) => {
+  // @ts-ignore
+  type: ActionTypes.DELETE_ENTRY,
+  // @ts-ignore
+  effect: async ({ payload }: ReturnType<typeof deleteEntry>, { dispatch, getState }) => {
     const state = getState();
     if (!selectLoggedIn(state)) {
       return;
@@ -84,13 +86,15 @@ startAppListening({
 });
 
 startAppListening({
+  // @ts-ignore
   type: ActionTypes.SET_LOCALE,
+  // @ts-ignore
   effect: async (
     {
       payload: {
         payload: { locale },
       },
-    }: ReturnType<setMapLocale>,
+    }: { payload: ReturnType<typeof setMapLocale> },
     { dispatch }
   ) => {
     dispatch(setLocale(locale));

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../store/reducers';
 import { Navigate } from 'react-router-dom';
 import { HomeLayout } from '../components/layouts';
 import { LoginForm } from '../components/forms';
@@ -85,7 +85,7 @@ const LoginFormWrapper = styled.div`
 export const LoginPage = () => {
   const [displayAbout, setDisplayAbout] = useState(false);
   const bgColorRef = useRef<HTMLDivElement>(null);
-  const currentUserId = useSelector(selectCurrentUserId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   if (currentUserId) {
     return <Navigate to="/" />;
   }

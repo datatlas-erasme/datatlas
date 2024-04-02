@@ -1,5 +1,5 @@
-export * from './CompareType';
 export * from './DatasetFactory';
+export * from './DatatlasGlState';
 export * from './DatatlasGlVisState';
 export * from './KeplerMapConfig';
 export * from './KeplerMapState';

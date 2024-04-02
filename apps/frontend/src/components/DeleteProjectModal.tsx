@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'styled-components';
 import { LoadingProjectInterface, ProjectInterface } from '@datatlas/models';
-import KeyEvent from 'kepler.gl/dist/constants/keyevent';
+import { KeyEvent } from '@kepler.gl/constants';
 import { StyledModal } from './Modal';
 import { useOnKeyEffect } from '../hooks/useOnKeyEffect';
 

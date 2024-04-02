@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { Input } from 'kepler.gl/dist/components/common/styled-components';
+import { Input } from '@kepler.gl/components';
 import { MapInfoInterface } from '@datatlas/models';
 import styled from 'styled-components';
 import { FormError, FormRow, ServerErrorMessage, StyledLabel } from './';

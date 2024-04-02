@@ -1,6 +1,6 @@
-import { DataVizColors } from 'kepler.gl/dist/constants';
-import { RGBColor } from 'kepler.gl/reducers';
-import { hexToRgb } from 'kepler.gl/dist/utils';
+import { RGBColor } from '@kepler.gl/types';
+import { DataVizColors } from '@kepler.gl/constants';
+import { hexToRgb } from '@kepler.gl/utils';
 
 export class ColorFactory {
   public static createRandomRGBArray(): RGBColor {

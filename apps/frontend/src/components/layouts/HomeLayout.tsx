@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import Footer from '../../components/footer/Footer';
+import { Footer } from '../../components/footer/Footer';
 
 export type LayoutProps = PropsWithChildren<object>;
 

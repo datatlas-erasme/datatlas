@@ -1,20 +1,20 @@
-import { KeplerMapState } from './KeplerMapState';
-import { KeplerMapStyle } from './KeplerMapStyle';
-import { KeplerVisState } from './KeplerVisState';
-import { SavedConfigV1 } from 'kepler.gl/schemas';
+import { SavedConfigV1 } from '@kepler.gl/schemas';
+import { SavedMapState } from './KeplerMapState';
+import { SavedMapStyle } from './KeplerMapStyle';
+import { SavedVisState } from './KeplerVisState';
 
-export type SavedMapConfig = SavedConfigV1['config'];
+export type KeplerSavedMapConfig = SavedConfigV1['config'];
 
-export class KeplerMapConfig implements SavedMapConfig {
-  mapState: KeplerMapState = new KeplerMapState();
-  mapStyle: KeplerMapStyle = new KeplerMapStyle();
-  visState: KeplerVisState = new KeplerVisState();
+export class SavedMapConfig implements KeplerSavedMapConfig {
+  mapState: SavedMapState = new SavedMapState();
+  mapStyle: SavedMapStyle = new SavedMapStyle();
+  visState: SavedVisState = new SavedVisState();
 
   constructor({ visState, ...properties }: Partial<SavedMapConfig> = {}) {
     Object.assign(this, properties);
 
     if (visState) {
-      this.visState = KeplerVisState.removeInvalidFilters(visState);
+      this.visState = SavedVisState.removeInvalidFilters(visState);
     }
   }
 }

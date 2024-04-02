@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { MapInfoInterface } from '@datatlas/models';
+import { LoadingProjectInterface, MapInfoInterface } from '@datatlas/models';
 import styled from 'styled-components';
 import { FormError, ServerErrorMessage, StyledLabel } from './';
 import { StyledFormBtn } from '../buttons';
@@ -21,10 +21,10 @@ const FormContainer = styled.form`
 `;
 
 interface EditDescriptionFormProps {
-  description?: string;
+  project?: LoadingProjectInterface;
 }
 
-export function EditDescriptionForm({ description }: EditDescriptionFormProps) {
+export function EditDescriptionForm({ project }: EditDescriptionFormProps) {
   const forward = useForward();
   const {
     register,
@@ -50,8 +50,8 @@ export function EditDescriptionForm({ description }: EditDescriptionFormProps) {
       </StyledLabel>
       <MarkdownTextArea
         id="description"
-        defaultValue={description || ''}
-        readonly={!description}
+        defaultValue={project?.description || ''}
+        readOnly={!project}
         rows={8}
         {...register('description', { required: true })}
       />

@@ -1,5 +1,4 @@
-import { isObject } from 'kepler.gl/dist/utils/utils';
-import { flattenMessages } from 'kepler.gl/dist/utils/locale-utils';
+import { flattenMessages, isObject } from '@kepler.gl/utils';
 
 export const mergeMessages = (defaultMessages, userMessages) => {
   if (!isObject(userMessages) || !isObject(userMessages.en)) {

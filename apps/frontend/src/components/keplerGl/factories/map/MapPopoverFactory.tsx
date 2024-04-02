@@ -1,10 +1,13 @@
 // Try to keep imports in same order for a more readable diff.
-import React, { useEffect, useState } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import React, {useEffect, useState} from 'react';
+import styled, {ThemeProvider} from 'styled-components';
 import classNames from 'classnames';
-import KeplerMapPopoverFactory from 'kepler.gl/dist/components/map/map-popover';
-import LayerHoverInfoFactory from 'kepler.gl/dist/components/map/layer-hover-info';
-import CoordinateInfoFactory from 'kepler.gl/dist/components/map/coordinate-info';
+import {
+  MapPopoverFactory as KeplerMapPopoverFactory,
+  LayerHoverInfoFactory,
+  CoordinateInfoFactory
+} from '@kepler.gl/components';
+import {Factory} from '@kepler.gl/components/dist/injector';
 import {
   useFloating,
   autoUpdate,
@@ -16,11 +19,11 @@ import {
   useInteractions,
   useClientPoint,
   FloatingContext,
-  FloatingFocusManager,
+  FloatingFocusManager
 } from '@floating-ui/react';
-import { darkTheme } from '../../../../style/theme';
-import { LayerHoverInfoProps } from './LayerHoverInfo';
-import { useIsMobile } from '../../../../hooks';
+import {darkTheme} from '../../../../style/theme';
+import {LayerHoverInfoProps} from './LayerHoverInfo';
+import {useIsMobile} from '../../../../hooks';
 
 const MAX_WIDTH = 500;
 const MAX_HEIGHT = 600;
@@ -43,25 +46,25 @@ const StyledMapPopover = styled.div`
   }
 `;
 
-const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: number }>`
+const PopoverContent = styled.div<{expandable: boolean; maxTooltipFields: number}>`
   display: flex;
   flex-direction: column;
   padding: 22px;
   & > * + * {
     margin-top: 6px;
   }
-  ${(props) => props.theme.scrollBar};
-  border-radius: ${(props) => props.theme.primaryBtnRadius};
-  font-family: ${(props) => props.theme.fontFamily};
+  ${props => props.theme.scrollBar};
+  border-radius: ${props => props.theme.primaryBtnRadius};
+  font-family: ${props => props.theme.fontFamily};
   font-size: 11px;
   font-weight: 500;
-  background-color: ${(props) => props.theme.panelBackground};
-  color: ${(props) => props.theme.textColor};
+  background-color: ${props => props.theme.panelBackground};
+  color: ${props => props.theme.textColor};
   overflow-x: auto;
-  box-shadow: ${(props) => props.theme.panelBoxShadow};
+  box-shadow: ${props => props.theme.panelBoxShadow};
 
   :hover {
-    background-color: ${(props) => `${props.theme.panelBackground}`};
+    background-color: ${props => `${props.theme.panelBackground}`};
   }
 
   .map-popover__layer-info,
@@ -72,7 +75,7 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
   }
 
   .map-popover__actions {
-    display: ${({ expandable }) => (expandable ? 'flex' : 'none')};
+    display: ${({expandable}) => (expandable ? 'flex' : 'none')};
   }
 
   .map-popover__layer-info {
@@ -136,26 +139,26 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
 
     // This doesn't work as you would expect.
     // It targets the 5 first elements no matters what's in the not selector content.
-    .row:nth-of-type(-n + ${({ maxTooltipFields }) => maxTooltipFields + 1}) {
+    .row:nth-of-type(-n + ${({maxTooltipFields}) => maxTooltipFields + 1}) {
     }
 
     .row:not(.aggregated):nth-child(1) .row__name,
     .row.image-container,
     .row.empty,
-    .row:nth-child(n + ${({ maxTooltipFields }) => maxTooltipFields + 1}) {
+    .row:nth-child(n + ${({maxTooltipFields}) => maxTooltipFields + 1}) {
       display: none;
     }
 
     .row__name,
     .row__value {
-      color: ${(props) => props.theme.textColorHl};
+      color: ${props => props.theme.textColorHl};
       font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
       font-size: 16px;
       line-height: 1.4;
     }
 
     .row__name {
-      color: ${(props) => props.theme.textColor};
+      color: ${props => props.theme.textColor};
     }
 
     .row__value {
@@ -199,7 +202,8 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
       }
 
       .row.image-container,
-      .map-popover__content .row:not(.empty):nth-child(n + ${({ maxTooltipFields }) => maxTooltipFields + 1}) {
+      .map-popover__content
+        .row:not(.empty):nth-child(n + ${({maxTooltipFields}) => maxTooltipFields + 1}) {
         display: flex;
       }
 
@@ -223,12 +227,18 @@ interface UseMapPointOptions {
   enabled: boolean;
 }
 
-const useMapPoint = (context: FloatingContext, { container, x, y, size = 0, enabled = true }: UseMapPointOptions) => {
-  const bounds = container && container.getBoundingClientRect ? container.getBoundingClientRect() : { left: 0, top: 0 };
+const useMapPoint = (
+  context: FloatingContext,
+  {container, x, y, size = 0, enabled = true}: UseMapPointOptions
+) => {
+  const bounds =
+    container && container.getBoundingClientRect
+      ? container.getBoundingClientRect()
+      : {left: 0, top: 0};
   const left = bounds.left + (enabled ? x : 0) - size / 2;
   const top = bounds.top + (enabled ? y : 0) - size / 2;
 
-  return useClientPoint(context, { x: left, y: top });
+  return useClientPoint(context, {x: left, y: top});
 };
 
 interface MapPopoverProps {
@@ -246,30 +256,43 @@ interface MapPopoverProps {
 }
 
 function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
-  const MapPopover = ({ x, y, frozen, coordinate, layerHoverProp, zoom, container }: MapPopoverProps) => {
+  const MapPopover = ({
+    x,
+    y,
+    frozen,
+    coordinate,
+    layerHoverProp,
+    zoom,
+    container
+  }: MapPopoverProps) => {
     const maxTooltipFields = parseInt(process.env.REACT_APP_MAX_TOOLIP_FIELDS || '3', 10);
     const [expanded, setExpanded] = useState<boolean>(false);
     const [expandable, setExpandable] = useState<boolean>(false);
     const [isMobile] = useIsMobile();
-    const { refs, floatingStyles, context } = useFloating({
+    const {refs, floatingStyles, context} = useFloating({
       open: true,
       placement: expanded || isMobile ? 'top-start' : 'left-end',
       whileElementsMounted: autoUpdate,
       middleware: [
         expanded
-          ? offset(({ rects }) => ({
+          ? offset(({rects}) => ({
               alignmentAxis: 0,
-              mainAxis: -rects.floating.height,
+              mainAxis: -rects.floating.height
             }))
-          : offset(isMobile ? 13 : 30),
-      ],
+          : offset(isMobile ? 13 : 30)
+      ]
     });
-    const hover = useHover(context, { move: false });
+    const hover = useHover(context, {move: false});
     const focus = useFocus(context);
     const dismiss = useDismiss(context);
-    const role = useRole(context, { role: 'tooltip' });
-    const clientPoint = useMapPoint(context, { container, x: isMobile ? 0 : x, y, enabled: !expanded });
-    const { getFloatingProps } = useInteractions([hover, focus, dismiss, role, clientPoint]);
+    const role = useRole(context, {role: 'tooltip'});
+    const clientPoint = useMapPoint(context, {
+      container,
+      x: isMobile ? 0 : x,
+      y,
+      enabled: !expanded
+    });
+    const {getFloatingProps} = useInteractions([hover, focus, dismiss, role, clientPoint]);
 
     useEffect(() => {
       context.update();
@@ -288,7 +311,7 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
             className={classNames([
               'map-popover-container',
               expanded && 'expanded',
-              (expanded || isMobile) && 'full-width',
+              (expanded || isMobile) && 'full-width'
             ])}
             ref={refs.setFloating}
             style={floatingStyles}
@@ -319,6 +342,7 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
 
 MapPopoverFactory.deps = [LayerHoverInfoFactory, CoordinateInfoFactory];
 
-export function replaceMapPopoverFactory() {
+export function replaceMapPopoverFactory(): [Factory, Factory] {
+  // @ts-ignore
   return [KeplerMapPopoverFactory, MapPopoverFactory];
 }

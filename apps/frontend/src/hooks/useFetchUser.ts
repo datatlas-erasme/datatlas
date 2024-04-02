@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux';
-import { skipToken } from '@reduxjs/toolkit/dist/query/react';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { useAppSelector } from '../store/reducers';
 import { selectCurrentUserId } from '../store/selectors';
 import { getUser } from '../store/api';
 
 export function useFetchUser() {
-  const currentUserId = useSelector(selectCurrentUserId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   return getUser.useQuery(currentUserId ?? skipToken);
 }

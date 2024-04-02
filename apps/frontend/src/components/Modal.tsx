@@ -3,10 +3,10 @@
 import React from 'react';
 import styled, { FlattenSimpleInterpolation } from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import { Delete } from 'kepler.gl/dist/components/common/icons';
-import { Button } from 'kepler.gl/dist/components/common/styled-components';
-import { ModalTitle } from 'kepler.gl/dist/components/common/modal';
-import { media } from 'kepler.gl/dist/styles/media-breakpoints';
+import { Delete } from '@kepler.gl/components/dist/common/icons';
+import { Button } from '@kepler.gl/components';
+import { ModalTitle } from '@kepler.gl/components';
+import { media } from '@kepler.gl/styles';
 import { DatatlasThemeProps } from '../style/theme';
 import Modal from 'react-modal';
 

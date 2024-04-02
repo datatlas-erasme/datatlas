@@ -61,7 +61,7 @@ const LogoContainer = styled.div`
   }
 `;
 
-const Footer = () => (
+export const Footer = () => (
   <FooterContainer>
     <div>
       <LogoContainer>
@@ -104,5 +104,3 @@ const Footer = () => (
     </div>
   </FooterContainer>
 );
-
-export default Footer;

@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { PropsWithChildren } from 'react';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
-import type { PreloadedState } from '@reduxjs/toolkit';
+
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { initialState, reducer, RootState } from '../store/reducers';
@@ -11,7 +10,7 @@ import { api } from '../store/api';
 import { DatatlasIntlProvider } from '../components/i18n/DatatlasIntlProvider';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  preloadedState?: PreloadedState<RootState>;
+  preloadedState?: Partial<RootState>;
   store?: EnhancedStore<RootState>;
 }
 

@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../store';
-import { wrapTo } from 'kepler.gl/actions';
+import { wrapTo } from '@kepler.gl/actions';
 
 export function useForward() {
   const { id } = useParams();

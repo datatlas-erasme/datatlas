@@ -1,17 +1,16 @@
-import type { SavedMapStyle } from 'kepler.gl/src/schemas/schema-manager';
-import { KeplerMapState, KeplerMapStyle, KeplerVisState, SavedMapConfig } from '@datatlas/models';
+import { SavedMapConfig, SavedMapState, SavedMapStyle, SavedVisState } from '@datatlas/models';
 import { IsOptional } from 'class-validator';
 import { Exclude } from 'class-transformer';
 
 export class ConfigDto implements SavedMapConfig {
   @IsOptional()
-  mapState: KeplerMapState = new KeplerMapState();
+  mapState: SavedMapState = new SavedMapState();
   @IsOptional()
   @Exclude()
-  mapStyle: SavedMapStyle = new KeplerMapStyle();
+  mapStyle: SavedMapStyle = new SavedMapStyle();
   @IsOptional()
   @Exclude()
-  visState: KeplerVisState = new KeplerVisState();
+  visState: SavedVisState = new SavedVisState();
 
   constructor(configDto?: Partial<ConfigDto>) {
     Object.assign(this, configDto);

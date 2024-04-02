@@ -1,6 +1,6 @@
-import { SavedMapState } from 'kepler.gl/schemas/schema-manager';
+import { SavedMapState as KeplerMapState } from '@kepler.gl/schemas';
 
-export class KeplerMapState implements SavedMapState {
+export class SavedMapState implements KeplerMapState {
   bearing = 0;
   dragRotate = false;
   isSplit = false;

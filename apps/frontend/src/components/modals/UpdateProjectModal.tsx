@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { css } from 'styled-components';
 import { LoadingProjectInterface } from '@datatlas/models';
-import document from 'global/document';
-import KeyEvent from 'kepler.gl/dist/constants/keyevent';
+import { KeyEvent } from '@kepler.gl/constants';
 import { StyledModal } from '../Modal';
 import { InviteContributorsForm } from '../forms/InviteContributorsForm';
 import { useGetUsersQuery } from '../../store/api';
+import { useOnKeyEffect } from '../../hooks/useOnKeyEffect';
 
 const updateProjectModalCss = css`
   width: 33vw;
@@ -20,20 +20,7 @@ interface UpdateProjectModalProps {
 }
 
 export const UpdateProjectModal = ({ project, open, setOpen }: UpdateProjectModalProps) => {
-  useEffect(() => {
-    const onKeyUp = (e: KeyEvent) => {
-      const keyCode = e.keyCode;
-      if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
-        setOpen(false);
-      }
-    };
-
-    document.addEventListener('keyup', onKeyUp);
-
-    return () => {
-      document.removeEventListener('keyup', onKeyUp);
-    };
-  }, [setOpen]);
+  useOnKeyEffect<boolean>(KeyEvent.DOM_VK_ESCAPE, setOpen, false);
 
   const handleCloseModal = () => {
     setOpen(false);

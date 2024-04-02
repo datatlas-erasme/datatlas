@@ -9,6 +9,8 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
+        "webpackConfig": "apps/backend/webpack.config.js",
+        "isolatedConfig": true,
         "target": "node",
         "compiler": "tsc",
         "outputPath": "dist/apps/backend",

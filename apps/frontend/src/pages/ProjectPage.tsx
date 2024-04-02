@@ -1,9 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../store/reducers';
 import styled from 'styled-components';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-import { LoadingProjectInterface } from '@datatlas/models';
 import KeplerMap from '../components/KeplerMap';
 import { getUser, useGetProjectQuery } from '../store/api';
 import { Loader } from '../components/Loader';
@@ -11,7 +10,6 @@ import { selectCurrentUserId, selectProjectById } from '../store/selectors';
 import { ErrorComponent } from '../components/ErrorComponent';
 import { useProjectModalState } from '../components/layouts';
 import { UpdateProjectModal } from '../components/modals/UpdateProjectModal';
-import { RootState } from '../store/reducers';
 
 const MapContainer = styled.div`
   position: relative;
@@ -28,7 +26,7 @@ export const ProjectPage = () => {
 
   const { projectModalOpen, setProjectModalOpen } = useProjectModalState();
 
-  const currentUserId = useSelector(selectCurrentUserId);
+  const currentUserId = useAppSelector(selectCurrentUserId);
   const {
     isLoading: isUserLoading,
     isFetching: isUserFetching,
@@ -48,7 +46,7 @@ export const ProjectPage = () => {
   } = useGetProjectQuery(+id ?? skipToken);
   const isLoading = isUserLoading || isUserFetching || isProjectLoading || isProjectFetching;
   // selectProjectsWithContributors
-  const project = useSelector<RootState, LoadingProjectInterface | undefined>((state) => selectProjectById(state, id));
+  const project = useAppSelector((state) => selectProjectById(state, id));
 
   if (isLoading) {
     return (

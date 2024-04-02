@@ -1,10 +1,10 @@
-import { generateFakeProjectDto } from '@datatlas/dtos/generators';
-import { addProjectToKeplerState } from './index';
+import {generateFakeProjectDto} from '@datatlas/dtos/generators';
+import {addProjectToKeplerState} from './index';
 
 describe('addProjectToState', () => {
   it('add a project as new KeplerState slice in the state', () => {
     const id = 1;
-    const projectDto = generateFakeProjectDto({ id });
+    const projectDto = generateFakeProjectDto({id});
     const state = addProjectToKeplerState({}, projectDto);
 
     expect(state).not.toBe({});
@@ -16,9 +16,12 @@ describe('addProjectToState', () => {
   });
 
   it('may be used with an array of projects', () => {
-    const state = [generateFakeProjectDto(), generateFakeProjectDto()].reduce((previousState, projectDto) => {
-      return addProjectToKeplerState(previousState, projectDto);
-    }, {});
+    const state = [generateFakeProjectDto(), generateFakeProjectDto()].reduce(
+      (previousState, projectDto) => {
+        return addProjectToKeplerState(previousState, projectDto);
+      },
+      {}
+    );
     expect(Object.keys(state).length).toBe(2);
   });
 });

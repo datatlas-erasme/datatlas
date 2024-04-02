@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
-import { Datasets } from 'kepler.gl/src/reducers/vis-state-updaters';
-import { KeplerTable, Layer } from 'kepler.gl/src';
+import { KeplerTable, Datasets } from '@kepler.gl/table';
+import { Layer, LayerBaseConfig } from '@kepler.gl/layers';
 import { Filter, FiltersConfigInterface, SetFilter } from '@datatlas/models';
 import { MenuIcon } from './MenuIcon';
 import { DatasetMenu } from './DatasetMenu';
@@ -10,15 +10,13 @@ import { MultiSelectFilterOption } from './MultiSelectFillter';
 
 export const ToggleMenuIcon = ({ open, ...props }) => <MenuIcon {...props}>{open ? '⨯' : '☰'}</MenuIcon>;
 
-export type LayerConfigChange = (oldLayer: Layer, newConfig: Partial<Layer>) => void;
-
 interface MenuProps extends React.HTMLAttributes<HTMLUListElement> {
   datasets: Datasets;
   filtersConfig?: FiltersConfigInterface;
   filters: Filter[];
   layers: Layer[];
   setFilter: SetFilter;
-  layerConfigChange: LayerConfigChange;
+  layerConfigChange: (oldLayer: Layer, newConfig: Partial<LayerBaseConfig>) => void;
 }
 
 export const MenuSectionHeading = styled.div`
@@ -33,7 +31,7 @@ export const MapMenu = styled(
     const [open, setOpen] = useState<boolean>(false);
     const [unfoldedDataset, setUnfoldedDataset] = useState<KeplerTable['id'] | null>(null);
 
-    const reversedIndexGroupedByLayerIdx = useMemo(() => {
+    const reversedIndexGroupedByLayerIdx: Record<number, number[]> = useMemo(() => {
       return layers.reduce(
         (filtersGroupedByLayerIdx, layer, layerIdx) => ({
           ...filtersGroupedByLayerIdx,
@@ -63,6 +61,7 @@ export const MapMenu = styled(
             <ul>
               {Object.keys(reversedIndexGroupedByLayerIdx).map((layerIdx) => (
                 <DatasetMenu
+                  idx={parseInt(layerIdx)}
                   datasets={datasets}
                   reversedIndex={reversedIndexGroupedByLayerIdx[layerIdx]}
                   filters={filters}

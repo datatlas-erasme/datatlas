@@ -2,10 +2,8 @@ import React from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
-import { Clock } from 'kepler.gl/dist/components/common/icons';
-import { useSelector } from 'react-redux';
-import { skipToken } from '@reduxjs/toolkit/dist/query/react';
-import { LoadingProjectInterface, Project } from '@datatlas/models';
+import { skipToken } from '@reduxjs/toolkit/query/react';
+import { Project } from '@datatlas/models';
 import { StyledBadgeOutline } from '../badges';
 import { AccountIcon, EditorsIcon, HelpIcon, WheelIcon } from '../icon';
 import { DatatlasLogo, HomeIcon } from '../logos';
@@ -14,7 +12,8 @@ import { useGetProjectQuery } from '../../store/api';
 import { logout } from '../../store/reducers/user';
 import { selectCurrentUser, selectLoggedIn, selectProjectById } from '../../store/selectors';
 import { useFetchUser } from '../../hooks';
-import { RootState } from '../../store/reducers';
+import { useAppSelector } from '../../store/reducers';
+import { Clock } from '@kepler.gl/components/dist/common/icons';
 
 const NavContainer = styled.nav`
   display: flex;
@@ -95,16 +94,20 @@ interface NavbarProps {
   handleClickContributors: () => void;
 }
 
-const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false, handleClickContributors }: NavbarProps) => {
+export const Navbar = ({
+  helpButtonEnabled = false,
+  settingsButtonEnabled = false,
+  handleClickContributors,
+}: NavbarProps) => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
 
   useGetProjectQuery(id ? +id : skipToken);
-  const project = useSelector<RootState, LoadingProjectInterface | undefined>((state) => selectProjectById(state, id));
+  const project = useAppSelector((state) => selectProjectById(state, id));
   useFetchUser();
-  const loggedIn = useSelector(selectLoggedIn);
-  const user = useSelector(selectCurrentUser);
+  const loggedIn = useAppSelector(selectLoggedIn);
+  const user = useAppSelector(selectCurrentUser);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -186,5 +189,3 @@ const Navbar = ({ helpButtonEnabled = false, settingsButtonEnabled = false, hand
     </NavContainer>
   );
 };
-
-export default Navbar;

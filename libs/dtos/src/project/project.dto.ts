@@ -17,7 +17,7 @@ export class ProjectDto implements Partial<Omit<ProjectInterface, 'owner' | 'con
   config: ConfigDto;
   version = 'v1' as const;
 
-  constructor(project: ProjectDto) {
-    Object.assign(this, project);
+  constructor(projectDto: ProjectDto) {
+    Object.assign(this, projectDto);
   }
 }
