@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin
+  namespace: {{ .Release.Namespace }}
+spec:
+  clusterIP: None
+  type: {{ .Values.postgisPgadmin.pgadminService.type }}
+  ports:
+    - name: http
+      port: {{ .Values.postgisPgadmin.pgadminService.port }}
+      targetPort: {{ .Values.postgisPgadmin.pgadminService.targetPort }}
+      protocol: TCP
+  selector:
+    workload.user.cattle.io/workloadselector: apps.deployment-{{ .Release.Namespace }}-postgis-pgadmin
+  strategy:
+    type: {{ .Values.frontend.strategy.type | default "Recreate" }}

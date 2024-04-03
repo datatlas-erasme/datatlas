@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.pvc.datatlasDev.name }}
+spec:
+  accessModes: {{ toYaml .Values.pvc.datatlasDev.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.datatlasDev.resources.requests.storage }}
+  # Uncomment the following line if you're specifying a StorageClass
+  storageClassName: {{ .Values.pvc.datatlasDev.storageClassName | quote }}
