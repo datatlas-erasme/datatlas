@@ -35,7 +35,7 @@ export default {
   'filterManager.filter.make_public.tooltip': 'Affiche ce filtre aux visiteurs',
   'map_menu.title': 'Calques de données',
   'map_menu.dataset.infos': 'Infos jeu de données & glosssaire',
-  'map_menu.dataset.show_dataset': 'Afficher le calques',
+  'map_menu.dataset.show_dataset': 'Afficher le calque',
   'map_control.publish': 'Publier',
   'map_control.unpublish': 'Dépublier',
   'modal.title.updateProject': 'Gérer les contributeurs',
