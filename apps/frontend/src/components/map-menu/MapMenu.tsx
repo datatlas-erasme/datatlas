@@ -127,34 +127,37 @@ export const MapMenu = styled(
   }
 
   ${MenuSectionHeading} {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     display: flex;
     padding: 23px 21px 21px 23px;
     h2,
     h3 {
       font-family: 'Roboto', Verdana, 'Helvetica Neue', Helvetica, sans-serif;
-      font-size: 24px;
+      font-size: 16px;
       font-weight: 400;
-      text-transform: capitalize;
+      text-transform: none;
       line-height: 130%;
     }
   }
 
   button${MenuSectionHeading} {
     :hover {
-      color: rgba(255, 255, 255, 0.9);
-      background-color: #202020;
+      color: rgba(0, 0, 0, 0.9);
+      background-color: #bdbdbd;
     }
 
     :active {
-      color: rgba(255, 255, 255, 0.8);
-      background-color: #383838;
+      color: rgba(0, 0, 0, 0.8);
+      background-color: #bdbdbd;
     }
   }
 
   li.map-menu__list-item-container > ${MenuSectionHeading}, li.map-menu__list-item-container > ul > li {
-    background-color: #0c0c0c;
+    background-color: rgb(255, 255, 255);
     border-radius: 7px;
     margin-bottom: 7px;
+    color: rgb(0, 0, 0);
   }
 
   ${MenuSectionHeading}, ${MultiSelectFilterOption} {
@@ -162,7 +165,7 @@ export const MapMenu = styled(
   }
 
   ul .unfolded ${MenuSectionHeading}, ${MultiSelectFilterOption} {
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid black;
   }
 
   ul li ${MenuSectionHeading}:last-child {

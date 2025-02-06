@@ -18,7 +18,7 @@ import {
   FloatingContext,
   FloatingFocusManager,
 } from '@floating-ui/react';
-import { darkTheme } from '../../../../style/theme';
+import { darkTheme, lightTheme } from '../../../../style/theme';
 import { LayerHoverInfoProps } from './LayerHoverInfo';
 import { useIsMobile } from '../../../../hooks';
 
@@ -73,6 +73,34 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
 
   .map-popover__actions {
     display: ${({ expandable }) => (expandable ? 'flex' : 'none')};
+    .button {
+      background-color: #ff0032;
+      font-size: 16px;
+      border: 1px solid #ff0032;
+      text-transform: none;
+      border-radius: 16px;
+      letter-spacing: 0px;
+      padding: 7px 20px;
+      color: #ffffff;
+      line-height: 19px;
+      font-weight: 600;
+
+      :hover {
+        background-color: #ffffff;
+        border: 1px solid #ff0032;
+        color: #ff0032;
+      }
+
+      :focus {
+        color: #ff0032;
+        background-color: #ffffff;
+      }
+
+      :active {
+        color: #ffffff;
+        background-color: #ff0032;
+      }
+    }
   }
 
   .map-popover__layer-info {
@@ -118,7 +146,7 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
 
     .row:not(.aggregated):nth-child(1) .row__value,
     .row .row__value h3 {
-      font-size: 32px;
+      font-size: 24px;
       text-transform: uppercase;
       padding-bottom: 13px;
       font-weight: 700;
@@ -191,7 +219,12 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
     .map-popover__layer-info {
       .map-popover__topbar {
         display: flex;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgb(255, 255, 255);
+
+        .button {
+          color: rgb(0, 0, 0);
+          align-items: center;
+        }
       }
 
       .map-popover__content .row.empty {
@@ -282,7 +315,7 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
     }, [layerHoverProp.fieldsToShow, maxTooltipFields]);
 
     return (
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={lightTheme}>
         <FloatingFocusManager context={context} modal={frozen}>
           <StyledMapPopover
             className={classNames([

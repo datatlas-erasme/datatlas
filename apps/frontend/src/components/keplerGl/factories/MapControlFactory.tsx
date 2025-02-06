@@ -16,7 +16,7 @@ import { useForward } from '../../../hooks';
 import { selectFilters, selectFiltersConfig } from '../../../store/selectors';
 import { FiltersConfigInterface } from '@datatlas/models';
 import { PublishButton } from '../../buttons/PublishButton';
-import { darkTheme } from '../../../style/theme';
+import { darkTheme, lightTheme } from '../../../style/theme';
 
 const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
   right: 0;
@@ -72,7 +72,7 @@ function MapControlFactory(_, Toggle3dButton) {
     const filtersConfig = useSelector<RootState, FiltersConfigInterface>((state) => selectFiltersConfig(state, id));
 
     return (
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={lightTheme}>
         <StyledMapControl className="map-control" top={top} role="menubar">
           <MapMenu
             role="toolbar"

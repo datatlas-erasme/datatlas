@@ -16,7 +16,7 @@ const ToggleVisibilityMenuIcon = styled(({ visible, ...props }) => (
 ))`
   width: 52px;
   padding: 3px 7px 3px 7px;
-  border: 1px solid white;
+  border: 1px solid black;
   border-radius: 17px;
   background-color: ${({ visible }) => (visible ? 'white' : 'black')};
   color: ${({ visible }) => (visible ? 'black' : 'white')};
