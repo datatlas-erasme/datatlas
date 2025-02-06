@@ -18,7 +18,7 @@ import {
   FloatingContext,
   FloatingFocusManager,
 } from '@floating-ui/react';
-import { darkTheme, lightTheme } from '../../../../style/theme';
+import { lightTheme } from '../../../../style/theme';
 import { LayerHoverInfoProps } from './LayerHoverInfo';
 import { useIsMobile } from '../../../../hooks';
 

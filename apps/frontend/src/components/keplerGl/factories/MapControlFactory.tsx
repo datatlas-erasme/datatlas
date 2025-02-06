@@ -16,7 +16,7 @@ import { useForward } from '../../../hooks';
 import { selectFilters, selectFiltersConfig } from '../../../store/selectors';
 import { FiltersConfigInterface } from '@datatlas/models';
 import { PublishButton } from '../../buttons/PublishButton';
-import { darkTheme, lightTheme } from '../../../style/theme';
+import { lightTheme } from '../../../style/theme';
 
 const StyledMapControl = styled.div<Pick<MapControlProps, 'theme' | 'top'>>`
   right: 0;
