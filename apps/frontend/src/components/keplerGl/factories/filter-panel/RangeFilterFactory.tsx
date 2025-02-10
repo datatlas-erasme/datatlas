@@ -26,7 +26,7 @@ export function RangeFilterFactory(RangeSlider) {
     );
   })`
     .kg-range-slider .kg-range-slider__plot .histogram-bars rect {
-      fill: rgba(255, 255, 255, 0.5);
+      fill: rgba(0, 0, 0, 0.5);
     }
 
     .kg-range-slider .kg-range-slider__brush .selection {
@@ -35,23 +35,23 @@ export function RangeFilterFactory(RangeSlider) {
     }
 
     .kg-range-slider .kg-range-slider__slider .kg-range-slider {
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgba(0, 0, 0, 0.5);
     }
 
     .kg-range-slider .kg-range-slider__slider .kg-range-slider__bar {
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(0, 0, 0, 0.9);
     }
 
     .kg-range-slider .kg-range-slider__brush .handle--custom {
-      fill: rgba(255, 255, 255, 0.8);
+      fill: rgba(0, 0, 0, 0.8);
     }
     .kg-range-slider .kg-range-slider__slider .kg-range-slider__handle {
-      background-color: rgba(255, 255, 255, 0.8);
-      border-color: rgba(255, 255, 255, 0.5);
+      background-color: rgba(0, 0, 0, 0.8);
+      border-color: rgba(0, 0, 0, 0.5);
     }
 
     .kg-range-slider .kg-range-slider__slider .kg-range-slider__handle:hover {
-      background-color: rgba(255, 255, 255, 1);
+      background-color: rgba(0, 0, 0, 1);
     }
 
     .kg-range-slider .range-slider__input-group .kg-range-slider__input {
