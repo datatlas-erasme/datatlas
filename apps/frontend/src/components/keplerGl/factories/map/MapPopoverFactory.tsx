@@ -34,12 +34,16 @@ const StyledMapPopover = styled.div`
   z-index: 1000;
 
   &.full-width {
+    width: calc(50% - 26px);
+  }
+
+  &.full-width-mobile {
     width: calc(100% - 26px);
   }
 
   &.expanded {
-    height: 100%;
     max-height: 100%;
+    word-break: break-word;
   }
 `;
 
@@ -199,8 +203,6 @@ const PopoverContent = styled.div<{ expandable: boolean; maxTooltipFields: numbe
   }
 
   &.expanded {
-    width: 100%;
-    height: 100%;
     max-width: 100%;
     max-height: 100%;
     padding: 32px;
@@ -321,7 +323,8 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
             className={classNames([
               'map-popover-container',
               expanded && 'expanded',
-              (expanded || isMobile) && 'full-width',
+              expanded && !isMobile && 'full-width',
+              expanded && isMobile && 'full-width-mobile',
             ])}
             ref={refs.setFloating}
             style={floatingStyles}
