@@ -269,3 +269,12 @@ export const darkTheme = {
   // floatingBtnBorderHover: '',
   // floatingBtnBorder: '',
 };
+
+export const lightTheme = {
+  ...keplerTheme,
+  ...theme,
+  primaryBtnRadius: '7px',
+  primaryBtnBgd: '#07509f',
+  primaryBtnBorder: '#005a9f',
+  primaryBtnBgdHover: '#5AB6EB',
+};

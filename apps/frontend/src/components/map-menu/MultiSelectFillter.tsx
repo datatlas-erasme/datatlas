@@ -4,7 +4,7 @@ import { grayscale, rgbToHsl, toCss } from '../../utils/color';
 
 export const MultiSelectFilterOption = styled(({ hslCssColor, selected, ...props }) => <button {...props} />)`
   display: inline;
-  color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.5})`};
+  color: ${({ selected }) => `rgba(0, 0, 0, ${selected ? 1 : 0.5})`};
   background-color: ${({ hslCssColor }) => `hsl(${hslCssColor}, 0.60)`};
   transition: background, color 0.3s ease;
   text-overflow: ellipsis;
@@ -13,12 +13,12 @@ export const MultiSelectFilterOption = styled(({ hslCssColor, selected, ...props
   overflow: hidden;
 
   :hover {
-    color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.9})`};
+    color: ${({ selected }) => `rgba(0, 0, 0, ${selected ? 1 : 0.9})`};
     background-color: ${({ hslCssColor }) => `hsl(${hslCssColor}, 0.35)`};
   }
 
   :active {
-    color: ${({ selected }) => `rgba(255, 255, 255, ${selected ? 1 : 0.8})`};
+    color: ${({ selected }) => `rgba(0, 0, 0, ${selected ? 1 : 0.8})`};
     background-color: ${({ hslCssColor }) => `hsl(${hslCssColor}, 0.20)`};
   }
 `;
