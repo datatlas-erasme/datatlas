@@ -169,7 +169,7 @@ export const MapMenu = styled(
   }
 
   ul li ${MenuSectionHeading}:last-child {
-    border-bottom: 0;
+    display: none;
   }
 
   ul li ${MenuSectionHeading} + .range-slider__container {
