@@ -9,7 +9,7 @@ import { FilterField } from '../keplerGl/factories';
 import { MenuIcon } from './MenuIcon';
 import { FilterFactory } from './FilterFactory';
 import { LayerConfigChange, MenuSectionHeading } from './MapMenu';
-import { grayscale, rgbToHsl, toCss } from '../../utils/color';
+import { rgbToHsl, toCss } from '../../utils/color';
 
 const ToggleVisibilityMenuIcon = styled(({ visible, ...props }) => (
   <MenuIcon {...props}>{visible ? 'OUI' : 'NON'}</MenuIcon>
@@ -76,7 +76,7 @@ export const DatasetMenu = ({
   };
 
   const hslLayerColor = rgbToHsl(layer.config.color);
-  const hslColor = !layer.config.isVisible ? grayscale(hslLayerColor) : hslLayerColor;
+  const hslColor = !layer.config.isVisible ? rgbToHsl([230, 230, 230]) : hslLayerColor;
   const hslCssColor = toCss(hslColor);
 
   return (

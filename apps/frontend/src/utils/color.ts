@@ -40,5 +40,4 @@ export function rgbToHsl([r, g, b]: [r: number, g: number, b: number]): [number,
   return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
 }
 
-export const grayscale = ([h, s, l]: [h: number, s: number, l: number]): [number, number, number] => [0, 0, l / 2];
 export const toCss = ([h, s, l]: [h: number, s: number, l: number]) => `${h}, ${s}%, ${l}%`;
