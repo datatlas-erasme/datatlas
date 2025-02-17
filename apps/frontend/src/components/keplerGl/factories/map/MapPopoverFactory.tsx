@@ -318,35 +318,37 @@ function MapPopoverFactory(LayerHoverInfo, CoordinateInfo) {
 
     return (
       <ThemeProvider theme={lightTheme}>
-        <FloatingFocusManager context={context} modal={frozen}>
-          <StyledMapPopover
-            className={classNames([
-              'map-popover-container',
-              expanded && 'expanded',
-              expanded && !isMobile && 'full-width',
-              expanded && isMobile && 'full-width-mobile',
-            ])}
-            ref={refs.setFloating}
-            style={floatingStyles}
-            {...getFloatingProps()}
-          >
-            <PopoverContent
-              className={classNames(['map-popover', expanded && 'expanded'])}
-              expandable={expandable}
-              maxTooltipFields={maxTooltipFields}
+        {layerHoverProp.fieldsToShow.length > 0 && (
+          <FloatingFocusManager context={context} modal={frozen}>
+            <StyledMapPopover
+              className={classNames([
+                'map-popover-container',
+                expanded && 'expanded',
+                expanded && !isMobile && 'full-width',
+                expanded && isMobile && 'full-width-mobile',
+              ])}
+              ref={refs.setFloating}
+              style={floatingStyles}
+              {...getFloatingProps()}
             >
-              {Array.isArray(coordinate) && <CoordinateInfo coordinate={coordinate} zoom={zoom} />}
-              {layerHoverProp && (
-                <LayerHoverInfo
-                  {...layerHoverProp}
-                  expanded={expanded}
-                  setExpanded={setExpanded}
-                  setExpandable={setExpandable}
-                />
-              )}
-            </PopoverContent>
-          </StyledMapPopover>
-        </FloatingFocusManager>
+              <PopoverContent
+                className={classNames(['map-popover', expanded && 'expanded'])}
+                expandable={expandable}
+                maxTooltipFields={maxTooltipFields}
+              >
+                {Array.isArray(coordinate) && <CoordinateInfo coordinate={coordinate} zoom={zoom} />}
+                {layerHoverProp && (
+                  <LayerHoverInfo
+                    {...layerHoverProp}
+                    expanded={expanded}
+                    setExpanded={setExpanded}
+                    setExpandable={setExpandable}
+                  />
+                )}
+              </PopoverContent>
+            </StyledMapPopover>
+          </FloatingFocusManager>
+        )}
       </ThemeProvider>
     );
   };
