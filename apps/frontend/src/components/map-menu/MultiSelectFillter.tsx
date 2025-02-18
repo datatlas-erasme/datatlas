@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { grayscale, rgbToHsl, toCss } from '../../utils/color';
+import { rgbToHsl, toCss } from '../../utils/color';
 
 export const MultiSelectFilterOption = styled(({ hslCssColor, selected, ...props }) => <button {...props} />)`
   display: inline;
@@ -40,7 +40,7 @@ export const MultiSelectFilter = styled(({ idx, filter, setFilter, layer, ...pro
   );
 
   const hslLayerColor = rgbToHsl(layer.config.color);
-  const hslColor = !layer.config.isVisible ? grayscale(hslLayerColor) : hslLayerColor;
+  const hslColor = !layer.config.isVisible ? rgbToHsl([230, 230, 230]) : hslLayerColor;
   const hslCssColor = toCss(hslColor);
 
   return (
