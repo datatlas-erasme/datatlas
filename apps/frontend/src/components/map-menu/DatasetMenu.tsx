@@ -89,9 +89,7 @@ export const DatasetMenu = ({
     <li {...props} className={classNames(['dataset-menu', unfolded ? 'unfolded' : ''])}>
       <DatasetMenuHeading as="button" onClick={setUnfolded} role="button" layer={layer}>
         <h2>{layer.config.label}</h2>
-        <MenuIcon
-          style={iconStyle}
-        />
+        <MenuIcon style={iconStyle} />
       </DatasetMenuHeading>
       <FoldableItem unfolded={unfolded}>
         <MenuSectionHeading
