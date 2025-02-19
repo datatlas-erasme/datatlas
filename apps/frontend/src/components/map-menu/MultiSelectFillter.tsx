@@ -40,7 +40,7 @@ export const MultiSelectFilter = styled(({ idx, filter, setFilter, layer, ...pro
   );
 
   const hslLayerColor = rgbToHsl(layer.config.color);
-  const hslColor = !layer.config.isVisible ? rgbToHsl([230, 230, 230]) : hslLayerColor;
+  const hslColor = !layer.config.isVisible ? rgbToHsl([160, 160, 160]) : hslLayerColor;
   const hslCssColor = toCss(hslColor);
 
   return (

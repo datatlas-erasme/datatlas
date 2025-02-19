@@ -18,8 +18,8 @@ const ToggleVisibilityMenuIcon = styled(({ visible, ...props }) => (
   padding: 3px 7px 3px 7px;
   border: 1px solid black;
   border-radius: 17px;
-  background-color: ${({ visible }) => (visible ? 'white' : 'rgb(230, 230, 230)')};
-  color: 'black';
+  background-color: ${({ visible }) => (visible ? 'white' : 'black')};
+  color: ${({ visible }) => (visible ? 'black' : 'white')};
   font-size: 10px;
 `;
 
@@ -76,14 +76,22 @@ export const DatasetMenu = ({
   };
 
   const hslLayerColor = rgbToHsl(layer.config.color);
-  const hslColor = !layer.config.isVisible ? rgbToHsl([230, 230, 230]) : hslLayerColor;
+  const hslColor = !layer.config.isVisible ? rgbToHsl([160, 160, 160]) : hslLayerColor;
   const hslCssColor = toCss(hslColor);
+
+  const iconStyle = {
+    backgroundColor: layer.config.isVisible ? `hsl(${hslCssColor})` : 'transparent',
+    height: 13,
+    width: 13,
+  };
 
   return (
     <li {...props} className={classNames(['dataset-menu', unfolded ? 'unfolded' : ''])}>
       <DatasetMenuHeading as="button" onClick={setUnfolded} role="button" layer={layer}>
         <h2>{layer.config.label}</h2>
-        <MenuIcon style={{ backgroundColor: `hsl(${hslCssColor})`, height: 13, width: 13 }} />
+        <MenuIcon
+          style={iconStyle}
+        />
       </DatasetMenuHeading>
       <FoldableItem unfolded={unfolded}>
         <MenuSectionHeading
