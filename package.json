@@ -99,7 +99,7 @@
     "@docusaurus/core": "^2.1.0",
     "@docusaurus/preset-classic": "^2.1.0",
     "@docusaurus/theme-common": "^2.2.0",
-    "@docusaurus/theme-mermaid": "^2.2.0",
+    "@docusaurus/theme-mermaid": "^3.5.2",
     "@floating-ui/react": "^0.26.1",
     "@mdx-js/react": "^1.6.22",
     "@mikro-orm/cli": "^5.9.4",
